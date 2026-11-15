@@ -220,6 +220,10 @@ $notepad-trail: #a4c98c;
     opacity: 0.4;
   }
 
+  .notepad-job.drop-before {
+    box-shadow: 0 -3px 0 #567b35;
+  }
+
   .notepad-job {
     display: flex;
     flex-wrap: wrap;

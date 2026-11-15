@@ -57,7 +57,7 @@
                 %p.planting-grower-more.small.mb-0
                   = link_to t('plantings.show.view_all_plantings', owner: @planting.owner), member_plantings_path(@planting.owner)
             .d-flex.align-items-center.gap-2
-              - if @planting.short_code.present?
+              - if planting_code_visible?(@planting) && @planting.short_code.present?
                 %span.badge.text-bg-secondary.planting-short-code= @planting.short_code
               - if @planting.failed?
                 %span.badge.text-bg-danger= t('plantings.facts.failed')
@@ -100,6 +100,8 @@
               #{strip_tags markdownify(@planting.description)}
 
         %section#photos= render 'plantings/photos', photos: @photos, planting: @planting
+
+        %section#observations.observations= render 'plantings/observations', planting: @planting, observations: @observations
 
         = render 'frost/section', frost: @frost if @frost
 

@@ -8,10 +8,10 @@ import CropChip from './CropChip';
 // harvest and the rest, the same for annuals and perennials. Someone who can't
 // change the planting has no menu, so for them it stays a plain link to it.
 export default function PlantingChip({planting, defaultIconUrl, highlighted, handlers}) {
-  const {id, url, crop, actions} = planting;
+  const {id, url, crop, label = crop.name, actions} = planting;
 
   if (!actions || actions.length === 0) {
-    return <CropChip url={url} crop={crop} defaultIconUrl={defaultIconUrl} highlighted={highlighted} />;
+    return <CropChip url={url} crop={crop} label={label} defaultIconUrl={defaultIconUrl} highlighted={highlighted} />;
   }
 
   return (
@@ -22,10 +22,10 @@ export default function PlantingChip({planting, defaultIconUrl, highlighted, han
       label={(
         <>
           <img className="crop-icon" src={crop.icon_url || defaultIconUrl} alt="" />
-          <span className="crop-chip-name" title={crop.name}>{crop.name}</span>
+          <span className="crop-chip-name" title={label}>{label}</span>
         </>
       )}
-      ariaLabel={`Actions for ${crop.name}`}
+      ariaLabel={`Actions for ${label}`}
       className={`chip crop-chip chip-menu-toggle dropdown-toggle${highlighted ? ' planting-just-added' : ''}`}
       menuClassName="dropdown-menu-start planting-menu"
       onSelect={selectPlantingAction(planting, handlers)}

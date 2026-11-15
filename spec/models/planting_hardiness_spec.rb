@@ -38,4 +38,36 @@ describe Planting, '#hardiness_found' do
 
     it { is_expected.to be_nil }
   end
+
+  context 'when the crop does not know but its parent does' do
+    let(:seed) { nil }
+    let(:crop) { build(:crop, hardiness: 'unknown', parent: build(:crop, hardiness: 'half_hardy')) }
+
+    it { is_expected.to eq [:parent_crop, 'half_hardy'] }
+  end
+
+  context 'when only a grandparent crop knows' do
+    let(:seed) { nil }
+    let(:crop) do
+      build(:crop, hardiness: 'unknown', parent: build(:crop, hardiness: 'unknown', parent: build(:crop, hardiness: 'tender')))
+    end
+
+    it { is_expected.to eq [:parent_crop, 'tender'] }
+  end
+
+  context 'when the crop and its parent both know' do
+    let(:seed) { nil }
+    let(:crop) { build(:crop, hardiness: 'hardy', parent: build(:crop, hardiness: 'tender')) }
+
+    it 'goes by the crop, not its parent' do
+      expect(found).to eq [:crop, 'hardy']
+    end
+  end
+
+  context 'when nobody up the line knows' do
+    let(:seed) { nil }
+    let(:crop) { build(:crop, hardiness: 'unknown', parent: build(:crop, hardiness: 'unknown')) }
+
+    it { is_expected.to be_nil }
+  end
 end

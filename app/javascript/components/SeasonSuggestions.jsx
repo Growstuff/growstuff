@@ -88,9 +88,6 @@ export default function SeasonSuggestions({seasons, open: firstOpen, initial = {
   );
 }
 
-// The icon that stands for each season, so they can be told apart at a glance.
-const SEASON_ICONS = {spring: 'fa-seedling', summer: 'fa-sun', autumn: 'fa-leaf', winter: 'fa-snowflake'};
-
 function Season({season, expanded, onToggle, labels, children}) {
   const panel = `season-${season.name}`;
   const classes = ['accordion-item', `season-item--${season.name}`, season.current && 'season-item--current'];
@@ -106,7 +103,7 @@ function Season({season, expanded, onToggle, labels, children}) {
         >
           <span className="season-summary">
             <span className="season-summary-name">
-              <i className={`fas ${SEASON_ICONS[season.name]} season-icon me-2`} aria-hidden="true" />
+              <i className={`fas fa-${season.icon} season-icon me-2`} aria-hidden="true" />
               {season.title}
               {season.current && <span className="badge text-bg-light align-middle ms-1">{labels.now}</span>}
               <small className="season-summary-months">{season.months}</small>

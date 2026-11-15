@@ -96,6 +96,23 @@ module PredictHarvest
       end
     end
 
+    # The growing degree days this planting has had, from the day it was planted to its last day of weather so far,
+    # or nil for a perennial, which isn't grown to a harvest by heat, or when it has no planting date, no place
+    # for the weather, no temperatures were collected for its days, or it hasn't been planted yet. A cold season adds
+    # up to a low number, but missing weather isn't zero.
+    def heat_so_far
+      return if crop.perennial || planted_at.blank? || !weather_located? || planned?
+
+      readings = weather_cell_readings.select(*WeatherReading::CHARTED).between(planted_at, weather_last_day)
+                                      .select { |reading| reading.temp_max_c && reading.temp_min_c }
+      GrowingDegreeDays.new(base: heat_base).total(readings).round if readings.any?
+    end
+
+    # The growing degree days the crop needs to a first harvest: the figure a wrangler set, else EcoCrop's, else nil.
+    def heat_needed
+      (crop.growing_degree_days_figure || crop.ecocrop_heat_data&.first_harvest_degree_days)&.round
+    end
+
     private
 
     def harvests_with_dates
@@ -112,6 +129,11 @@ module PredictHarvest
     # usually grown here, and the median days are the better guide.
     def outlives_median_lifespan?(date)
       date.present? && finish_predicted_at.present? && date.to_date > finish_predicted_at.to_date
+    end
+
+    # The temperature below which this crop barely grows.
+    def heat_base
+      crop.ecocrop_heat_data&.tmin || CropDuration::DEFAULT_BASE
     end
 
     # When the heat this crop needs for a first harvest has been felt in the garden's weather, so far

@@ -1,0 +1,7 @@
+-# A small question mark beside a fact card's title that says more on a tap or a hover. Content with a link in it
+-# (links: true) opens on a click instead and stays open, as a hover popover closes before a link can be reached.
+- links = local_assigns[:links]
+%button.btn.btn-link.p-0.ms-1{ class: local_assigns[:css], type: 'button', 'aria-label': label,
+  data: { 'bs-toggle': 'popover', 'bs-trigger': links ? 'click' : 'hover focus', 'bs-placement': 'top',
+  'bs-html': links ? 'true' : nil, 'bs-title': title, 'bs-content': content } }
+  = icon 'far', 'circle-question'

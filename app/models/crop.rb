@@ -161,6 +161,14 @@ class Crop < ApplicationRecord
     @ecocrop_heat_data = data&.heat_data? ? data : parent&.ecocrop_heat_data
   end
 
+  # How much frost this crop takes and which crop says so, as [crop, level]: its own say if it has one, else its
+  # parent's, and so on up, so a variety of tomato follows tomato. Nil when none of them knows.
+  def hardiness_found
+    return [self, hardiness] if Hardiness::LEVELS.include?(hardiness)
+
+    parent&.hardiness_found
+  end
+
   # What a crop wrangler has set by hand, or blank when the packets decide.
   def hardiness_by_hand
     hardiness if hardiness_source == 'manual'

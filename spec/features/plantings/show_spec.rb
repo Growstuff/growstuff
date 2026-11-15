@@ -22,7 +22,7 @@ describe "Display a planting", :js do
     context 'Annual no predictions' do
       let(:planting) { create(:annual_planting) }
 
-      it { expect(page).to have_no_text 'Finish expected' }
+      it { expect(page).to have_no_css '.planting-timeline-event', text: 'Finished' }
     end
 
     context 'Annual with predicted finish' do
@@ -30,20 +30,23 @@ describe "Display a planting", :js do
 
       it { expect(page).to have_text '28%' }
       it { expect(page).to have_text 'day 14 of 50' }
-      it { expect(page).to have_text "Planted #{I18n.l(2.weeks.ago.to_date)}" }
-      it { expect(page).to have_text 'Finish expected' }
+      it { expect(page).to have_css '.planting-timeline-event', text: I18n.l(2.weeks.ago.to_date) }
+      it { expect(page).to have_css '.planting-timeline-event--expected .planting-timeline-name', text: 'Finished' }
     end
 
     context 'Annual finished' do
       let(:planting) { create(:annual_planting, planted_at: 100.days.ago, finished: true, finished_at: 1.day.ago) }
 
-      it { expect(page).to have_text "Planted #{I18n.l(planting.planted_at)}" }
+      it { expect(page).to have_css '.planting-timeline-event', text: I18n.l(planting.planted_at) }
     end
 
     context 'Planting with harvests' do
       let(:planting) { create(:harvest_with_planting).planting }
 
-      it { expect(page).to have_text 'Harvest started' }
+      it do
+        expect(page).to have_css '.planting-timeline-event:not(.planting-timeline-event--expected) .planting-timeline-name',
+                                 text: 'First harvest'
+      end
     end
 
     context 'Planting with harvest predictable' do
@@ -63,7 +66,7 @@ describe "Display a planting", :js do
         create(:annual_planting, planted_at: 200.days.ago, crop:)
       end
 
-      it { expect(page).to have_text 'First harvest expected' }
+      it { expect(page).to have_css '.planting-timeline-event--expected .planting-timeline-name', text: 'First harvest' }
     end
 
     context 'with quantity' do

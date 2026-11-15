@@ -1,5 +1,7 @@
 ---
 fr:
+  likes:
+    description_html: '%{member} a aimé %{item}'
   shared:
     flash_messages:
       close: Fermer
@@ -143,6 +145,14 @@ fr:
         disabled: "%{feature} est maintenant désactivé."
         enabled: "%{feature} est maintenant activé."
   authentications:
+    connected:
+      connected_title: Flickr connecté
+      not_connected_title: Flickr non connecté
+      connected_heading: Flickr est connecté
+      connected_help: Vous pouvez fermer cette fenêtre et continuer à choisir une photo.
+      not_connected_heading: Flickr n’a pas été connecté
+      not_connected_help: Vous pouvez fermer cette fenêtre et réessayer.
+      close_window: Fermer cette fenêtre
     sign_in:
       bluesky:
         terms_of_service: "Conditions d'utilisation"
@@ -900,16 +910,12 @@ fr:
       title: Nouveau jardin
     about:
       collaborators: collaborateurs
-      fetch_wikidata: Récupérer les informations de Wikidata
       heading: À propos de ce jardin
       leave: Quitter le jardin
       leave_confirm: Voulez-vous vraiment quitter cette page ?
       location: Emplacement
       manage: Gérer
       owner: Responsable
-      temperature_unknown: vous ne saviez pas
-      temperatures_html: 'Températures locales de %{source} : %{hottest} le plus chaud, %{coldest} le plus froid.'
-      wikidata_missing: Les informations de Wikidata sont manquantes pour cet emplacement.
       you: "(vous)"
     actions:
       add_photo: Ajouter une photo depuis Flickr
@@ -2694,6 +2700,20 @@ fr:
       seeds_saved: Graines récoltées
       sown_from_expired: Semé à partir de graines périmées (à planter avant %{year})
       unknown: inconnu
+      heat: "Degrés-jours"
+      heat_help_html: "Ce ne sont pas des jours du calendrier. Un degré-jour de croissance, c’est la chaleur utile d’une journée : de combien de degrés la température moyenne du jour a dépassé la température minimale à laquelle cette culture pousse. Une journée froide n’en ajoute aucun, donc une culture met plus de jours en automne qu’en été. %{link}."
+      heat_help_label: "Que sont les degrés-jours de croissance ?"
+      heat_help_link: "En savoir plus sur Wikipédia"
+      heat_help_title: "Degrés-jours de croissance"
+      heat_needed_unknown: "jusqu’à présent ; on ne sait pas combien il en faut"
+      heat_of_needed: "sur environ %{needed} nécessaires"
+      short_code_help: "Écrivez ce code sur l’étiquette ou le marqueur de votre plante pour retrouver cette plante précise ici plus tard, même parmi beaucoup d’autres de la même culture."
+      short_code_help_label: "À quoi sert le code court ?"
+      sun_semi_shade: "mi-ombre"
+      sun_shade: "ombre"
+      sun_sun: "plein soleil"
+      variety: "Variété"
+      variety_from_packet: "du sachet de graines"
     form:
       save: Enregistrer
       optional: facultatif
@@ -2813,6 +2833,16 @@ fr:
       harvest_started: Récolte commencée le %{date}
       legend: (Un emoji = 1 semaine)
       planted: Planté %{date}
+      events:
+        failed: "Échoué"
+        finished: "Terminé"
+        first_harvest: "Première récolte"
+        last_harvest: "Dernière récolte"
+        planted: "Planté"
+        sown: "Semé"
+        transplanted: "Déplacé vers %{garden}"
+      expected: "prévu"
+      today: "Aujourd’hui"
     transplant:
       cancel: Annuler
       close: Fermer
@@ -2996,9 +3026,10 @@ fr:
       scientific_name_label: "Nom scientifique :"
   seasons:
     autumn: L'automne
-    spring: Ressort
+    spring: Printemps
     summer: Été
     winter: L'hiver
+    in_place: "%{season} à %{place}"
   seeds:
     ui:
       request_prompt_html: "%{sign_in} ou %{sign_up} pour demander des graines."

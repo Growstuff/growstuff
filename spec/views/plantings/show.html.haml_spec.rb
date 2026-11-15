@@ -17,6 +17,7 @@ describe "plantings/show" do
     assign(:photos, planting.photos.paginate(page: 1))
     assign(:harvests, planting.harvests)
     assign(:child_seeds, planting.child_seeds)
+    assign(:observations, planting.observations)
     assign(:neighbours, planting.nearby_same_crop)
     controller.stub(:current_user) { member }
   end

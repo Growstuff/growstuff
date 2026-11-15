@@ -9,6 +9,58 @@ describe JobsController, '#update' do
 
   before { sign_in member }
 
+  context 'when ordering jobs within a day' do
+    let(:day) { Time.zone.today }
+    let(:first_job) { create(:job, owner: member, due_date: day) }
+    let(:last_job) { create(:job, owner: member, due_date: day) }
+
+    before do
+      first_job
+      last_job
+      patch job_path(job), params: { job: { due_date: day }, before_id: last_job.id }, headers:
+    end
+
+    it 'persists the chosen place between jobs' do
+      expect(Job.where(id: [first_job.id, job.id, last_job.id]).order(:position).pluck(:id))
+        .to eq [first_job.id, job.id, last_job.id]
+    end
+
+    it 'returns the saved order in the notepad' do
+      expect(Capybara.string(response.body).all('.notepad-group-today .notepad-job').map { |row| row['data-id'].to_i })
+        .to eq [first_job.id, job.id, last_job.id]
+    end
+
+    it 'keeps the order on a fresh page load' do
+      get member_jobs_path(member)
+      expect(Capybara.string(response.body).all('.notepad-group-today .notepad-job').map { |row| row['data-id'].to_i })
+        .to eq [first_job.id, job.id, last_job.id]
+    end
+  end
+
+  context 'when dropping a job at the end of an undated list' do
+    let(:other) { create(:job, owner: member, due_date: nil) }
+
+    it 'places it after existing jobs' do
+      other
+      patch job_path(job), params: { job: { due_date: '' }, before_id: '' }, headers: headers
+      expect(Job.where(id: [job.id, other.id]).order(:position).pluck(:id)).to eq [other.id, job.id]
+    end
+  end
+
+  context 'when the drop refers to another member’s private job' do
+    let(:other) { create(:job, due_date: Time.zone.today) }
+
+    it 'rejects the move' do
+      patch job_path(job), params: { job: { due_date: other.due_date }, before_id: other.id }, headers: headers
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+
+    it 'does not change the original date' do
+      patch job_path(job), params: { job: { due_date: other.due_date }, before_id: other.id }, headers: headers
+      expect(job.reload.due_date).to be_nil
+    end
+  end
+
   context 'when moving a job to a day from the notepad' do
     before { patch job_path(job), params: { job: { due_date: '2026-10-24' } }, headers: }
 

@@ -1,5 +1,7 @@
 ---
 es:
+  likes:
+    description_html: 'A %{member} le gustó %{item}'
   shared:
     flash_messages:
       close: Cerrar
@@ -143,6 +145,14 @@ es:
         disabled: "%{feature} ahora está apagado."
         enabled: "%{feature} ya está activado."
   authentications:
+    connected:
+      connected_title: Flickr conectado
+      not_connected_title: Flickr no conectado
+      connected_heading: Flickr está conectado
+      connected_help: Puedes cerrar esta ventana y seguir eligiendo una foto.
+      not_connected_heading: No se ha conectado Flickr
+      not_connected_help: Puedes cerrar esta ventana e intentarlo de nuevo.
+      close_window: Cerrar esta ventana
     sign_in:
       bluesky:
         terms_of_service: "Términos de servicio"
@@ -899,16 +909,12 @@ es:
       title: Nuevo huerto
     about:
       collaborators: Colaboradores
-      fetch_wikidata: Obtener información de Wikidata
       heading: Sobre este jardín
       leave: salir del jardin
       leave_confirm: "¿Estás seguro de que quieres abandonar este jardín?"
       location: Ubicación
       manage: Administrar
       owner: Dueño
-      temperature_unknown: no conocido
-      temperatures_html: 'Temperaturas locales a partir de %{source}: más caliente %{hottest}, más fría %{coldest}.'
-      wikidata_missing: Falta información de Wikidata para esta ubicación.
       you: "(tú)"
     actions:
       add_photo: Añadir foto de Flickr
@@ -2689,6 +2695,20 @@ es:
       seeds_saved: Semillas guardadas
       sown_from_expired: Sembrado de semillas caducadas (plantar antes de %{year})
       unknown: desconocido
+      heat: "Grados día"
+      heat_help_html: "No son días de calendario. Un grado día de crecimiento es el calor útil de un día: cuántos grados estuvo la temperatura media del día por encima de la temperatura mínima a la que crece este cultivo. Un día frío no suma nada, así que un cultivo tarda más días en otoño que en verano. %{link}."
+      heat_help_label: "¿Qué son los grados día de crecimiento?"
+      heat_help_link: "Más información en Wikipedia"
+      heat_help_title: "Grados día de crecimiento"
+      heat_needed_unknown: "hasta ahora; no se sabe cuántos necesita"
+      heat_of_needed: "de unos %{needed} necesarios"
+      short_code_help: "Escribe este código en la etiqueta o el marcador de tu planta y podrás encontrar aquí esta planta exacta más adelante, incluso entre muchas del mismo cultivo."
+      short_code_help_label: "¿Para qué sirve el código corto?"
+      sun_semi_shade: "semisombra"
+      sun_shade: "sombra"
+      sun_sun: "pleno sol"
+      variety: "Variedad"
+      variety_from_packet: "del paquete de semillas"
     form:
       save: Guardar
       optional: opcional
@@ -2808,6 +2828,16 @@ es:
       harvest_started: Cosecha iniciada %{date}
       legend: (Un emoji = 1 semana)
       planted: Plantado %{date}
+      events:
+        failed: "Fallido"
+        finished: "Finalizado"
+        first_harvest: "Primera cosecha"
+        last_harvest: "Última cosecha"
+        planted: "Plantado"
+        sown: "Sembrado"
+        transplanted: "Trasladado a %{garden}"
+      expected: "previsto"
+      today: "Hoy"
     transplant:
       cancel: Cancelar
       close: Cerrar
@@ -2994,6 +3024,7 @@ es:
     spring: Primavera
     summer: Verano
     winter: Invierno
+    in_place: "%{season} en %{place}"
   seeds:
     ui:
       request_prompt_html: "%{sign_in} o %{sign_up} para solicitar semillas."

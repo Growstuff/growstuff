@@ -32,7 +32,8 @@ module SuggestionsHelper
 
   def season_island_row(season, nearest)
     {
-      name: season.name, title: t("seasons.#{season.name}"), current: season.current, hasData: season.mean.present?,
+      name: season.name, title: t("seasons.#{season.name}"), icon: SeasonsHelper::SEASON_ICONS.fetch(season.name.to_sym),
+      current: season.current, hasData: season.mean.present?,
       months: season_island_months(season), mean: season.mean && island_degrees(season.mean),
       url: suggestions_season_path(season.name, **nearest_position(nearest)),
       figures: season_island_figures(season)
