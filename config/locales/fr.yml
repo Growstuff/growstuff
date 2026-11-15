@@ -3056,6 +3056,8 @@ fr:
       trade_label: Échange
       variety: Variété
       batch_number: Numéro de lot
+      brand: Marque
+      barcode: Code-barres
       maturity_min: Jours jusqu’à maturité (min.)
       maturity_max: Jours jusqu’à maturité (max.)
       row_spacing_cm: Espacement des rangs (cm)

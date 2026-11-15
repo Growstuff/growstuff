@@ -3051,6 +3051,8 @@ es:
       trade_label: Intercambio
       variety: Variedad
       batch_number: Número de lote
+      brand: Marca
+      barcode: Código de barras
       maturity_min: Días hasta la madurez (mín.)
       maturity_max: Días hasta la madurez (máx.)
       row_spacing_cm: Distancia entre filas (cm)
