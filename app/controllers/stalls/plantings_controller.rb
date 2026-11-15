@@ -10,6 +10,9 @@ module Stalls
     before_action :authenticate_member!
 
     STATUSES = %w(given offered).freeze
+    RECIPIENT_FIELDS = %i(recipient_member_id recipient_name recipient_kind recipient).freeze
+    # What the form shows again, if it can't be saved.
+    FORM_FIELDS = (RECIPIENT_FIELDS + %i(given_on)).freeze
 
     def new
       @seedlings = giveable.to_a
@@ -51,7 +54,7 @@ module Stalls
 
     # Who it went to: a member they picked, or a name, and how that person signs in, if they know.
     def recipient_params
-      fields = params.permit(:recipient_member_id, :recipient_name, :recipient_kind, :recipient).to_h.symbolize_keys
+      fields = params.slice(*RECIPIENT_FIELDS).permit(*RECIPIENT_FIELDS).to_h.symbolize_keys
       fields.delete(:recipient_kind) if fields[:recipient].blank?
       member = StallRecipients.new(current_member).pickable.find_by(id: fields.delete(:recipient_member_id))
       fields.transform_values(&:presence).merge(recipient_member: member)
@@ -61,7 +64,7 @@ module Stalls
       @seedlings = giveable.to_a
       @selected = params[:planting_ids].to_a.index_with { |id| params.dig(:quantities, id).presence&.to_i }
       @status = params[:status].presence_in(STATUSES)
-      @values = params.permit(:recipient_name, :recipient_kind, :recipient, :given_on, :recipient_member_id).to_h
+      @values = params.slice(*FORM_FIELDS).permit(*FORM_FIELDS).to_h
       @recipients = StallRecipients.new(current_member)
       @errors = [message]
       render :new, status: :unprocessable_content

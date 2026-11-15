@@ -11,7 +11,11 @@ describe Stalls::PlantingsController, flipper: :garden_stall do
   let(:params) { { planting_ids: [seedling.id], status: 'given', recipient_name: 'Sam', given_on: '2026-11-14' } }
   let(:stall_planting) { owner.stall.stall_plantings.reload.first }
 
-  before { sign_in owner }
+  before do
+    sign_in owner
+    # As in development: the form posts more than any one action permits, and that must not be an error.
+    allow(ActionController::Parameters).to receive(:action_on_unpermitted_parameters).and_return(:raise)
+  end
 
   # What the form island was given.
   def island_props
