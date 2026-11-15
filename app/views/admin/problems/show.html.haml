@@ -1,0 +1,41 @@
+- content_for :title, @problem.title
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item= link_to 'Problems', admin_problems_path
+  %li.breadcrumb-item.active= @problem.title
+
+.card.mb-3
+  .card-body
+    %h1= @problem.title
+    %p
+      %strong Type:
+      = @problem.problem_type
+    %p
+      %strong Description:
+      = @problem.description
+
+    - if @problem.scientific_names.any?
+      %h3 Scientific Names
+      %ul
+        - @problem.scientific_names.each do |sn|
+          %li
+            = sn.name
+            - if sn.gbif_key.present?
+              (GBIF: #{sn.gbif_key})
+            - if sn.wikidata_id.present?
+              (Wikidata: #{sn.wikidata_id})
+
+    - if @problem.alternate_names.any?
+      %h3 Alternate Names
+      %ul
+        - @problem.alternate_names.each do |an|
+          %li
+            = an.name
+            - if an.language.present?
+              (#{an.language})
+
+.mt-3
+  - if can? :edit, @problem
+    = link_to 'Edit', edit_admin_problem_path(@problem), class: 'btn btn-primary'
+  = link_to 'Back', admin_problems_path, class: 'btn btn-secondary'
