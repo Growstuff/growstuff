@@ -1,6 +1,6 @@
-= render 'devise/shared/card', title: 'Forgot your password?' do
+= render 'devise/shared/card', title: t('devise_views.forgot_password') do
   = bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
     = render 'devise/shared/error_messages', resource: resource
-    %p Enter your email address and we'll send you a link to choose a new password.
-    = f.email_field :login, label: 'Email', autocomplete: 'email', autofocus: true
-    = f.submit 'Send me reset password instructions', class: 'btn btn-success w-100'
+    %p= t('devise_views.password_help')
+    = f.email_field :login, label: t('devise_views.email'), autocomplete: 'email', autofocus: true
+    = f.submit t('devise_views.send_reset'), class: 'btn btn-success w-100'

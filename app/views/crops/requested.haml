@@ -1,7 +1,7 @@
 - content_for :title, t('crops.requested.title')
 - content_for :subtitle, t('crops.requested.subtitle', crops_size: @crops.size)
 
-%p Crops you have requested
+%p= t('crops.requested.heading')
 
 .pagination
   = will_paginate @requested

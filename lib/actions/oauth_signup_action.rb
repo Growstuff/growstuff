@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Growstuff::OauthSignupAction
+  class InvalidAuthorization < StandardError; end
+
   #
   # Inspects the omniauth information
   # and determines if we have an existing member
@@ -18,7 +20,7 @@ class Growstuff::OauthSignupAction
   end
 
   def existing_member(auth)
-    by_authentication = Authentication.where(provider: auth.provider, uid: auth.uid).select(:member_id)
+    by_authentication = Authentication.where(provider: auth.provider, uid: uid_for(auth)).select(:member_id)
     # Never match on a blank email: that would hand someone else's account to anyone without one.
     Member.kept.find_by(id: by_authentication) ||
       (Member.kept.find_by(email: auth.info.email) if auth.info.email.present?)
@@ -53,16 +55,26 @@ class Growstuff::OauthSignupAction
     authentication = member.authentications
       .create_with(
         name:,
-        token:  auth['credentials']['token'],
-        secret: auth['credentials']['secret']
+        token:  (auth.dig('credentials', 'token') unless auth['provider'] == 'mastodon'),
+        secret: (auth.dig('credentials', 'secret') unless auth['provider'] == 'mastodon')
       )
       .find_or_create_by(
         provider:  auth['provider'],
-        uid:       auth['uid'],
+        uid:       uid_for(auth),
         member_id: member.id
       )
     authentication.update(name:) if authentication.persisted? && authentication.name != name
     authentication
+  end
+
+  # What identifies this account to us.
+  #
+  # Mastodon's uid is a number that is only unique on one server: user 111 on one
+  # server is not user 111 on another. So we add the server's domain.
+  def uid_for(auth)
+    return auth['uid'] unless auth['provider'] == 'mastodon'
+
+    "#{auth['uid']}@#{mastodon_domain(auth)}"
   end
 
   def member_created?
@@ -92,8 +104,22 @@ class Growstuff::OauthSignupAction
     case auth['provider']
     when 'flickr'
       auth['info']['name']
+    when 'mastodon'
+      "@#{auth.dig('info', 'nickname') || auth.dig('info', 'name')}@#{mastodon_domain(auth)}"
     else
       auth['info']['name']
     end
+  end
+
+  private
+
+  # The server the account lives on, from the address of its profile page.
+  def mastodon_domain(auth)
+    host = URI.parse(auth.dig('info', 'urls', 'Profile').to_s).host
+    raise InvalidAuthorization, 'Mastodon did not say which server the account is on' if host.blank?
+
+    host.downcase
+  rescue URI::InvalidURIError
+    raise InvalidAuthorization, 'Mastodon gave a profile address we could not read'
   end
 end

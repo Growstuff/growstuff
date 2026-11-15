@@ -1,0 +1,346 @@
+// The rainfall and temperature sections of a place's page: a banner, columns for each month, a few figures and a table.
+// The colours of each measure: the usual figure's fill and edge, and this year's. Rain is blue and green, the air is peach and
+// burnt orange, and the soil is sand and brown.
+$climate-rain-usual: #c9d0de;
+$climate-air-usual: #f9dcc0;
+$climate-air-edge: #b45309;
+$climate-air-year: #c2410c;
+$climate-soil-usual: #e8dcc8;
+$climate-soil-edge: #6b4423;
+$climate-soil-year: #6b4423;
+
+.climate-section {
+  .climate-section-badge {
+    @include figure-badge;
+  }
+
+  // The card, its green bar and the bar's title are the record page's own section styling: see _record_page.scss.
+  .climate-section-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  h3 {
+    @include figure-heading;
+  }
+
+  .climate-verdict {
+    @include figure-banner;
+  }
+
+  .climate-verdict-icon {
+    @include figure-banner-icon($blue);
+  }
+
+  // The temperature is warm: a tinted banner and an amber-brown icon.
+  .climate-verdict--air {
+    background: #fff8e1;
+  }
+
+  .climate-verdict--air .climate-verdict-icon {
+    background: $climate-air-edge;
+  }
+
+  .climate-verdict-title {
+    @include figure-banner-title;
+  }
+
+  .climate-verdict-body {
+    @include figure-banner-body;
+  }
+
+  // The chart: columns for each month on lines every few units, the usual figure behind this year's.
+  .climate-chart {
+    padding: 1.25rem 0 0 3.25rem;
+    position: relative;
+  }
+
+  .climate-plot {
+    border-bottom: 1px solid $gray-600;
+    height: 220px;
+    position: relative;
+  }
+
+  .climate-gridline {
+    border-top: 1px solid rgba($brown, 0.2);
+    left: 0;
+    position: absolute;
+    right: 0;
+  }
+
+  .climate-gridlabel {
+    color: $brown;
+    font-size: 0.8rem;
+    left: -3.25rem;
+    margin-bottom: 2px;
+    position: absolute;
+  }
+
+  .climate-columns {
+    bottom: 0;
+    display: flex;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .climate-column {
+    flex: 1;
+    position: relative;
+  }
+
+  .climate-bar {
+    box-sizing: border-box;
+    position: absolute;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+
+  // Each measure sets its three colours, and the bars and the legend keys use them.
+  .climate-figure {
+    --climate-usual: #{$climate-rain-usual};
+    --climate-edge: #{$blue};
+    --climate-year: #{$green};
+  }
+
+  .climate-figure--air {
+    --climate-usual: #{$climate-air-usual};
+    --climate-edge: #{$climate-air-edge};
+    --climate-year: #{$climate-air-year};
+  }
+
+  .climate-figure--soil {
+    --climate-usual: #{$climate-soil-usual};
+    --climate-edge: #{$climate-soil-edge};
+    --climate-year: #{$climate-soil-year};
+  }
+
+  .climate-bar--usual {
+    background: var(--climate-usual);
+    border: 1px solid var(--climate-edge);
+    left: 14%;
+    width: 72%;
+  }
+
+  .climate-bar--year {
+    background: var(--climate-year);
+    left: 32%;
+    width: 36%;
+  }
+
+  .climate-months {
+    display: flex;
+  }
+
+  .climate-month {
+    color: $brown;
+    flex: 1;
+    font-size: 0.8rem;
+    padding-top: 0.35rem;
+    text-align: center;
+  }
+
+  .climate-month-short {
+    display: none;
+  }
+
+  .climate-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    list-style: none;
+    margin: 0.9rem 0 0;
+    padding: 0;
+  }
+
+  .climate-key {
+    box-sizing: border-box;
+    display: inline-block;
+    height: 14px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+    width: 22px;
+  }
+
+  .climate-key--usual {
+    background: var(--climate-usual);
+    border: 1px solid var(--climate-edge);
+  }
+
+  .climate-key--year {
+    background: var(--climate-year);
+  }
+
+  .climate-cards {
+    @include figure-grid;
+  }
+
+  .climate-card {
+    @include figure-card;
+  }
+
+  .climate-card-label {
+    @include figure-card-label;
+  }
+
+  .climate-card-value {
+    @include figure-card-value;
+  }
+
+  .climate-card-note {
+    @include figure-card-note;
+  }
+
+  .climate-footnote {
+    color: $brown;
+    font-size: 0.875rem;
+    margin: -0.5rem 0 0;
+  }
+
+  .climate-details {
+    border: $figure-line;
+    border-radius: $card-radius;
+    padding: 0 1rem;
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      padding: 0.9rem 0;
+    }
+  }
+
+  .climate-table {
+    overflow-x: auto;
+    padding-bottom: 1rem;
+
+    table {
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 0.35rem 0.75rem;
+      text-align: left;
+    }
+
+    thead th {
+      color: $brown;
+    }
+  }
+
+  .climate-about {
+    color: $brown;
+    line-height: 1.5;
+    margin: 0 0 0.5rem;
+  }
+
+  .climate-credit {
+    border-top: $figure-line;
+    color: $brown;
+    margin: 0;
+    padding-top: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .climate-month-long {
+      display: none;
+    }
+
+    .climate-month-short {
+      display: inline;
+    }
+  }
+}
+
+// The front page's invitation to see the weather at your place.
+.weather-invitation {
+  margin-bottom: 1.5rem;
+
+  .weather-invitation-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .weather-invitation-intro {
+    align-items: flex-start;
+    display: flex;
+    font-size: 1rem;
+    gap: 0.75rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .weather-invitation-cards {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+
+  .weather-invitation-card {
+    border: $figure-line;
+    border-radius: $card-radius;
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .weather-invitation-icon {
+    align-items: center;
+    background: #757575;
+    border-radius: 50%;
+    color: $white;
+    display: flex;
+    flex: none;
+    height: 2.25rem;
+    justify-content: center;
+    width: 2.25rem;
+
+    svg {
+      height: 1.25rem;
+      width: 1.25rem;
+    }
+  }
+
+  .weather-invitation-icon--frost {
+    background: $green;
+  }
+
+  .weather-invitation-icon--rain {
+    background: $blue;
+  }
+
+  .weather-invitation-icon--air {
+    background: $climate-air-edge;
+  }
+
+  .weather-invitation-label {
+    color: $brown;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .weather-invitation-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-top: 0.1rem;
+  }
+
+  .weather-invitation-note {
+    color: $brown;
+    margin-top: 0.1rem;
+  }
+
+  .weather-invitation-actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+  }
+}

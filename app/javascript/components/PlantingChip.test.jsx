@@ -10,6 +10,12 @@ const planting = {id: 1, url: '/plantings/1', crop, actions};
 
 describe('PlantingChip', () => {
   describe('with actions', () => {
+    it('exposes the full crop name in a title', () => {
+      const name = 'A very long crop name that exceeds the available pill width';
+      render(<PlantingChip planting={{...planting, crop: {...crop, name}}} defaultIconUrl="/d.png" handlers={{}} />);
+      expect(screen.getByTitle(name)).toHaveTextContent(name);
+    });
+
     it('is a menu for the planting', () => {
       render(<PlantingChip planting={planting} defaultIconUrl="/d.png" handlers={{}} />);
       expect(screen.getByRole('button', {name: 'Actions for Tomato'})).toBeInTheDocument();
@@ -30,6 +36,18 @@ describe('PlantingChip', () => {
     it('marks a highlighted chip', () => {
       render(<PlantingChip planting={planting} defaultIconUrl="/d.png" highlighted handlers={{}} />);
       expect(screen.getByRole('button')).toHaveClass('planting-just-added');
+    });
+  });
+
+  describe('with a label from the server', () => {
+    it('says the label, with a menu', () => {
+      render(<PlantingChip planting={{...planting, label: 'Tomato (Brandywine)'}} defaultIconUrl="/d.png" handlers={{}} />);
+      expect(screen.getByRole('button', {name: 'Actions for Tomato (Brandywine)'})).toHaveTextContent('Tomato (Brandywine)');
+    });
+
+    it('says the label, without a menu', () => {
+      render(<PlantingChip planting={{...planting, label: 'Tomato (Brandywine)', actions: []}} defaultIconUrl="/d.png" handlers={{}} />);
+      expect(screen.getByTitle('Tomato (Brandywine)')).toHaveTextContent('Tomato (Brandywine)');
     });
   });
 

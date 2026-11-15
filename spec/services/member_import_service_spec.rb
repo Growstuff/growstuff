@@ -94,8 +94,6 @@ describe MemberImportService, type: :service do
     end
 
     it 'imports gardens with their location and details, without geocoding' do
-      expect(WikidataService).not_to receive(:find_wikidata_id)
-
       stats = described_class.new(**options).call
 
       garden = Garden.find_by!(slug: 'shiny-back-garden')

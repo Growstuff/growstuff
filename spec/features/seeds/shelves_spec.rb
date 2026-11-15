@@ -115,6 +115,44 @@ describe "seed shelves", :js do
     end
   end
 
+  describe "variety on the cards" do
+    before do
+      create(:seed, owner:, crop: tomato, variety: 'Moneymaker')
+      visit member_seeds_path(owner)
+    end
+
+    it { expect(page).to have_css('.seed-packet-variety', text: 'Moneymaker') }
+  end
+
+  describe "grouped by gardener" do
+    let(:friend) { create(:member, login_name: 'Fiona') }
+
+    before do
+      create(:seed, owner: friend, crop: tomato, tradable_to: 'locally')
+      create(:seed, owner:, crop: cabbage, tradable_to: 'locally')
+      visit seeds_path(group: 'gardener')
+    end
+
+    it { expect(page).to have_css('.seed-shelf-bar h3 a', text: 'Fiona') }
+    it { expect(page).to have_css('.seed-shelf-bar h3 a', text: owner.login_name) }
+  end
+
+  describe "grouped by use by" do
+    before do
+      create(:seed, owner:, crop: tomato, plant_before: Date.new(2031, 12, 31))
+      create(:seed, owner:, crop: cabbage, plant_before: Date.new(2029, 12, 31))
+      create(:seed, owner:, crop: create(:crop), plant_before: nil)
+      visit member_seeds_path(owner, group: 'use_by')
+    end
+
+    it { expect(page).to have_css('.seed-shelf-bar h3', text: '2029') }
+    it { expect(page).to have_css('.seed-shelf-bar h3', text: 'No use-by date') }
+
+    it "puts the soonest year first and packets without a date last" do
+      expect(page.all('.seed-shelf-bar h3').map(&:text).join(' ')).to match(/2029.*2031.*No use-by date/)
+    end
+  end
+
   describe "packet details" do
     before do
       create(:seed, owner:, crop: tomato, source: 'my own seed saving', heirloom: 'heirloom', saved_at: Date.new(2025, 3, 4))

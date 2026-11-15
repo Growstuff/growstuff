@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class MembersController < ApplicationController
+  before_action :authenticate_member!, only: :finish_signup
   load_and_authorize_resource except: %i(finish_signup unsubscribe view_follows view_followers show)
   skip_authorize_resource only: %i(nearby unsubscribe finish_signup)
   respond_to :html, :json, :rss
@@ -15,30 +16,14 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member        = Member.confirmed.kept.find_by!(slug: params[:slug])
-    @flickr_auth   = @member.auth('flickr')
-    @posts         = @member.posts
+    @member         = Member.confirmed.kept.find_by!(slug: params[:slug])
+    @flickr_auth    = @member.auth('flickr')
+    @mastodon_auths = @member.authentications.where(provider: 'mastodon')
+    @posts          = @member.posts
 
     @activity = TimelineService.member_query(@member).limit(30)
 
-    @late = []
-    @super_late = []
-    @harvesting = []
-    @others = []
-
-    @member.plantings.active.annual.each do |planting|
-      if planting.finish_is_predicatable?
-        if planting.super_late?
-          @super_late << planting
-        elsif planting.late?
-          @late << planting
-        elsif planting.harvest_time?
-          @harvesting << planting
-        else
-          @others << planting
-        end
-      end
-    end
+    @late, @super_late, @harvesting, @others = @member.plantings_by_progress.values_at(:late, :super_late, :harvesting, :others)
 
     @harvests = Harvest.where(owner_id: @member.id)
       .recent
@@ -80,7 +65,10 @@ class MembersController < ApplicationController
     @member = current_member
     return unless request.patch? && params[:member]
 
-    if @member.update(member_params)
+    signup_params = member_params
+    signup_params[:tos_agreement] ||= false unless @member.tos_agreement?
+
+    if @member.update(signup_params)
       @member.update_spam_score!
       @member.skip_reconfirmation!
       bypass_sign_in(@member)

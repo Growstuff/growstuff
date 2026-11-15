@@ -47,4 +47,20 @@ describe NotifierMailer, type: :mailer do
       expect(mail.body.encoded).to match "Unsubscribe from harvest reminders"
     end
   end
+
+  context "when member has set a preferred locale" do
+    let(:member) { create(:member, locale: 'de') }
+    let(:crop) { create(:crop, median_days_to_first_harvest: 20) }
+    let!(:planting) { create(:planting, owner: member, crop: crop, planted_at: 15.days.ago) }
+
+    it "renders the subject in the member's language" do
+      expect(mail.subject).to include("Kommende Ernten in Ihrem Garten")
+    end
+
+    it "renders the body in the member's language" do
+      expect(mail.body.encoded).to include("Hallo #{member.login_name},")
+      expect(mail.body.encoded).to include("Anstehende Ernten in Ihrem Garten")
+      expect(mail.body.encoded).to include("Ernteerinnerungen abbestellen")
+    end
+  end
 end

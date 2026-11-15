@@ -105,6 +105,24 @@ describe 'layouts/_header.html.haml', type: "view" do
       end
     end
 
+    context "without a location" do
+      it "has no link to the weather at their place" do
+        assert_select("a[href^='/places/']", count: 0)
+      end
+    end
+
+    context "with a location" do
+      before do
+        @member.update_columns(location: 'Wellington') # rubocop:disable Rails/SkipsModelValidations
+        allow(view).to receive(:current_member).and_return(@member)
+        render
+      end
+
+      it "links to the weather at their place" do
+        assert_select("a[href='#{place_path('Wellington')}']")
+      end
+    end
+
     context "when on the member's own pages" do
       before do
         allow(view.request).to receive(:path).and_return("/members/#{@member.slug}/activities")

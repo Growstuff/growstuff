@@ -1,7 +1,6 @@
-= content_for :title, "Editing comment"
+= content_for :title, t('.title')
 
 %p
-  Editing comment on
-  = link_to @comment.commentable.subject, @comment.commentable
+  = t('.subject_html', subject: link_to(@comment.commentable.subject, @comment.commentable))
 
 = render 'form', locals: { comment: @comment, commentable: @comment.commentable }

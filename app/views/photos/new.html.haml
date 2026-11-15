@@ -1,35 +1,38 @@
-- content_for :title, "New Photo"
+- content_for :title, t('.title')
 
-%h1 New Photo
-%h2 Choose photo for #{link_to @item, @item} from Flickr, or contribute to unique crops to <a href="https://inaturalist.org/" target="_blank">iNaturalist</a> or <a href="https://identify.plantnet.org/" target="_blank">Pl@ntNet</a> via the app.
+%h1= t('.title')
+%h2
+  :ruby
+    item = link_to(@item, @item)
+    inaturalist = link_to('iNaturalist', 'https://inaturalist.org/', target: '_blank', rel: 'noopener')
+    plantnet = link_to('Pl@ntNet', 'https://identify.plantnet.org/', target: '_blank', rel: 'noopener')
+  = t('.sources_html', item: item, inaturalist: inaturalist, plantnet: plantnet)
 
 - if @please_reconnect_flickr
-  %h2.alert Please reconnect your flickr account
+  %h2.alert= t('.reconnect_heading')
 
-  %p the token has expired or been revoked.
+  %p= t('.token_expired')
 
   = button_to '/members/auth/flickr', class: "btn btn-lg" do
     = icon 'fab', 'flickr'
-    Reconnect Flickr
+    = t('.reconnect')
 
 
 - elsif @flickr_auth
   %p
-    Connected to Flickr as
-    = succeed "." do
-      = link_to @flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"
-    Please select a photo from your recent uploads.
+    = t('.connected_html', account: link_to(@flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"))
+    = t('.select_photo')
 
 
   %p
     = bootstrap_form_tag(url: new_photo_path, method: :get, layout: :inline) do |f|
       - if @sets && !@sets.empty?
-        = f.select :set, options_for_select(@sets, @current_set), label: "Choose a photo album", include_blank: true
-      = f.text_field :tag, value: @current_tag, label: "or search by tag"
+        = f.select :set, options_for_select(@sets, @current_set), label: t('.album'), include_blank: true
+      = f.text_field :tag, value: @current_tag, label: t('.tag')
       = hidden_field_tag :type, @type
       = hidden_field_tag :id, @id
       = hidden_field_tag :label, @label if @label.present?
-      = f.submit "Search", class: "btn btn-success"
+      = f.submit t('.search'), class: "btn btn-success"
 
   - if @sets && @current_set
     %h2= @sets.key(@current_set)
@@ -49,9 +52,9 @@
   .row.pagination
     .col-md-12= will_paginate @photos
 - else
-  %h2.alert You must connect your account to Flickr to add photos.
+  %h2.alert= t('.connect_required')
 
   %p
     = button_to '/members/auth/flickr', class: :btn do
       = icon 'fab', 'flickr'
-      connect to Flickr
+      = t('.connect')

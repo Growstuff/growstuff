@@ -2,38 +2,38 @@
 - if data
   %section.crop-nutrition
     .section-header
-      %h2 Nutritional data
+      %h2= t('.title')
     %div
-      %p.text-muted.small A summary of nutritional data per 100g for #{data.food_name}.
+      %p.text-muted.small= t('.summary', food_name: data.food_name)
       %table.table.table-sm.table-borderless
         %tbody
           - if data.energy_with_dietary_fibre_equated_kj.to_f > 0
             %tr
-              %th Energy
+              %th= t('.energy')
               %td= "#{data.energy_with_dietary_fibre_equated_kj.to_f.round(1)} kJ"
           - if data.protein_g.to_f > 0
             %tr
-              %th Protein
+              %th= t('.protein')
               %td= "#{data.protein_g.to_f.round(1)} g"
           - if data.fat_total_g.to_f > 0
             %tr
-              %th Fat, total
+              %th= t('.fat_total')
               %td= "#{data.fat_total_g.to_f.round(1)} g"
           - if data.available_carbohydrate_with_sugar_alcohols_g.to_f > 0
             %tr
-              %th Carbohydrate
+              %th= t('.carbohydrate')
               %td= "#{data.available_carbohydrate_with_sugar_alcohols_g.to_f.round(1)} g"
           - if data.total_sugars_g.to_f > 0
             %tr
-              %th - Sugars
+              %th= t('.sugars')
               %td= "#{data.total_sugars_g.to_f.round(1)} g"
           - if data.total_dietary_fibre_g.to_f > 0
             %tr
-              %th Fibre
+              %th= t('.fibre')
               %td= "#{data.total_dietary_fibre_g.to_f.round(1)} g"
           - if data.sodium_na_mg.to_f > 0
             %tr
-              %th Sodium
+              %th= t('.sodium')
               %td= "#{data.sodium_na_mg.to_f.round(1)} mg"
     .card-footer
-      = link_to "See more", "https://www.foodstandards.gov.au/science-data/food-nutrient-databases/afcd/search/food/#{data.public_food_key}", target: "_blank", rel: "noopener noreferrer"
+      = link_to t('.see_more'), "https://www.foodstandards.gov.au/science-data/food-nutrient-databases/afcd/search/food/#{data.public_food_key}", target: "_blank", rel: "noopener noreferrer"

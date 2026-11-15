@@ -42,6 +42,12 @@ describe Notification do
     expect(ActionMailer::Base.deliveries.last&.to).to eq [@notification2.recipient.email]
   end
 
+  it "preserves the topic on the inbox message" do
+    notification
+
+    expect(Mailboxer::Message.last.notified_object).to eq notification.notifiable
+  end
+
   it "replaces missing subjects with (no subject)" do
     notification = create(:notification, subject: nil)
     expect(notification.subject).to eq "(no subject)"

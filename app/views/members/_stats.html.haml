@@ -1,9 +1,9 @@
 .card-body
-  %h3 
-    Stats
+  %h3
+    = t('.heading')
   .label.d-md-none{type: "button", :data => { :bs_toggle => "collapse", :bs_target => "#stats-collapse"}}
     %a
-      Show/Hide
+      = t('.toggle')
 
 .collapse.d-md-block#stats-collapse
   %ul.list-group.list-group-flush
@@ -24,10 +24,10 @@
         = link_to localize_plural(member.posts, Post), member_posts_path(member)
     - if member.jobs.present?
       %li.list-group-item
-        = link_to localize_plural(member.plantings, Job), member_jobs_path(member)
+        = link_to localize_plural(member.jobs, Job), member_jobs_path(member)
     - if member.followed.present?
       %li.list-group-item
         = link_to localize_plural(member.followed, Follow), member_follows_path(member)
     - if member.followers.present?
       %li.list-group-item
-        = link_to pluralize(member.followers.size, "follower"), member_followers_path(member)
+        = link_to t('.followers', count: member.followers.size), member_followers_path(member)

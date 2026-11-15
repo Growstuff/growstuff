@@ -49,9 +49,7 @@ Rails.application.configure do
 
   config.cache_store = if ENV["USE_MEMCACHED"] == "true" && memcached_servers.any?
                          [:mem_cache_store, memcached_servers,
-                          { username:             ENV.fetch("MEMCACHIER_USERNAME", nil),
-                            password:             ENV.fetch("MEMCACHIER_PASSWORD", nil),
-                            failover:             true,
+                          { failover:             true,
                             socket_timeout:       0.5,
                             socket_failure_delay: 0.2,
                             down_retry_delay:     60 }]

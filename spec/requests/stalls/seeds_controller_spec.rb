@@ -108,7 +108,7 @@ describe Stalls::SeedsController, flipper: :garden_stall do
       before { post stall_seeds_path, params: { seed: { variety: 'Nantes' } } }
 
       it 'asks again' do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'says the crop is missing' do

@@ -1,0 +1,16 @@
+-# Offered once a seed has changed crop and things grown from it are still of the old one.
+- content_for :title, t('.title', crop: @seed.crop.name)
+
+.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
+  .card-header
+    %h1.h2-responsive.text-center= yield :title
+  .card-body
+    %p= t('.intro', from: @change.from_crop.name, to: @seed.crop.name)
+    - { plantings: @change.plantings, harvests: @change.harvests, seeds: @change.seeds }.each do |kind, records|
+      - next if records.empty?
+      %h2.h5= t(".#{kind}", count: records.size)
+      %ul
+        - records.each do |record|
+          %li= link_to record.to_s, record
+    = button_to t('.confirm'), seed_crop_change_path(@seed, from: @change.from_crop.id), method: :patch, class: 'btn btn-primary'
+    = link_to t('.decline'), seed_path(@seed), class: 'btn btn-secondary mt-2'

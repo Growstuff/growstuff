@@ -6,12 +6,12 @@
       .modal-content
         = form_tag transplant_planting_path(planting), method: :post do
           .modal-header
-            %h4#transplant-modal-title.modal-title Transplant #{planting.display_name}
-            %button.btn-close{ "aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button" }
+            %h4#transplant-modal-title.modal-title= t('.title', crop: planting.display_name)
+            %button.btn-close{ "aria-label" => t('.close'), "data-bs-dismiss" => "modal", type: "button" }
           -# Same body class as the React dialogs, so it reads at the same size.
           .modal-body.plant-dialog-body
-            = label_tag :garden_id, 'Move this planting to:', class: 'form-label'
+            = label_tag :garden_id, t('.move_to'), class: 'form-label'
             = select_tag :garden_id, options_from_collection_for_select(transplantable_gardens_by_owner(planting), :id, :name), class: 'form-select'
           .modal-footer
-            %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" } Cancel
-            = submit_tag 'Transplant', class: 'btn btn-primary'
+            %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" }= t('.cancel')
+            = submit_tag t('.submit'), class: 'btn btn-primary'

@@ -7,17 +7,18 @@
 = render 'plantings/meta', planting: @planting, title: planting_title
 
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Plantings', plantings_path
+  %li.breadcrumb-item= link_to t('.plantings'), plantings_path
   %li.breadcrumb-item= link_to @planting.owner, member_plantings_path(@planting.owner)
   %li.breadcrumb-item.active{'aria-current' => 'page'}= @planting.display_name
 
-- if @planting.parent_seed.nil? && @matching_seeds && @matching_seeds.any? && @planting.owner == current_member
-  .alert.alert-info{role: "alert"}
-    = bootstrap_form_for(@planting) do |f|
-      Is this from one of these seeds?
-      - @matching_seeds.each do |seed|
-        = f.radio_button :parent_seed_id, seed.id, label: seed
-      = f.submit "save", class: 'btn btn-sm btn-primary'
+- if can?(:edit, @planting)
+  - crop_was = Crop.find_by(id: params[:crop_was]) unless params[:crop_was] == @planting.crop_id.to_s
+  - if crop_was
+    .origin-undo{role: 'status'}
+      = image_tag crop_icon_url(@planting.crop), alt: '', width: 32, height: 32 if crop_icon_url(@planting.crop)
+      %p= t('plantings.origin.crop_changed', crop: @planting.crop.name, was: crop_was.name)
+      = button_to t('plantings.origin.undo'), planting_path(@planting), method: :patch, params: { planting: { crop_id: crop_was.id } },
+        class: 'origin-btn'
 
 = render 'plantings/transplant', planting: @planting
 
@@ -29,7 +30,7 @@
         -# the placeholder says nothing worth the space.
         - if @planting.default_photo
           = link_to planting_photos_path(@planting), class: 'record-hero-photo' do
-            = image_tag planting_image_path(@planting), alt: "#{@planting.display_name} grown by #{@planting.owner}"
+            = image_tag planting_image_path(@planting), alt: t('.grower_photo', planting: @planting.display_name, owner: @planting.owner)
         .jumbotron
           .d-flex.justify-content-between.align-items-start
             -# The grower leads the hero. Somebody grew this; their face belongs
@@ -43,11 +44,9 @@
                     %strong= t('plantings.show.heading', crop: @planting.display_name.titleize)
                   = render 'likes/likes', object: @planting
                 %p.lead.planting-subtitle
-                  grown by
-                  %strong.record-grower-name= link_to @planting.owner, @planting.owner
+                  = t('.grown_by_html', owner: content_tag(:strong, link_to(@planting.owner, @planting.owner), class: 'record-grower-name'))
                   %span.text-muted
-                    in
-                    = link_to @planting.garden, @planting.garden
+                    = t('.in_garden_html', garden: link_to(@planting.garden, @planting.garden))
                     -# Where it grows is one of the first things worth knowing
                     -# about a planting: it decides the seasons and harvest times.
                     - if @planting.garden.location.present?
@@ -58,24 +57,39 @@
                 %p.planting-grower-more.small.mb-0
                   = link_to t('plantings.show.view_all_plantings', owner: @planting.owner), member_plantings_path(@planting.owner)
             .d-flex.align-items-center.gap-2
+              - if planting_code_visible?(@planting) && @planting.short_code.present?
+                %span.badge.text-bg-secondary.planting-short-code= @planting.short_code
               - if @planting.failed?
-                %span.badge.text-bg-danger Failed
+                %span.badge.text-bg-danger= t('plantings.facts.failed')
               - elsif @planting.finished?
-                %span.badge.text-bg-success Finished
+                %span.badge.text-bg-success= t('plantings.facts.done')
               = render 'plantings/actions', planting: @planting
 
           = render 'timeline', planting: @planting
-          - case @weather_status
-          - when :charts
-            .planting-weather#weather
-              = render 'plantings/weather', planting: @planting, readings: @weather, expected: @expected_weather
-          - when :needs_location
-            = render 'plantings/weather_location_prompt', garden: @planting.garden
-          - when :pending
-            %p.small.text-muted= t('plantings.show.weather_pending')
           = render 'harvest_months', planting: @planting
 
         %section.planting-facts= render 'facts', planting: @planting
+        -# The dialog the "Grown from" fact opens to ask how the planting was started.
+        = react_component 'PlantingOrigin', planting_origin_props(@planting) if can?(:edit, @planting)
+
+        -# The weather it grew through is a section of its own below the facts. Only the charts are the #weather that specs and links go to.
+        - if @weather_status
+          %section.planting-weather{id: ('weather' if @weather_status == :charts)}
+            .section-header
+              %h2
+                - place = weather_place(@planting.garden)
+                = place ? t('plantings.show.weather_in', place:) : t('plantings.show.weather')
+                %span.badge.text-bg-light.align-middle.ms-2= t('plantings.show.weather_new')
+            - case @weather_status
+            - when :charts
+              = render 'plantings/weather', planting: @planting, readings: @weather, expected: @expected_weather
+            - when :needs_location
+              = render 'plantings/weather_location_prompt', garden: @planting.garden
+            - when :pending
+              .card.weather-pending
+                .card-body.text-center
+                  = icon 'fas', 'cloud-sun', class: 'fa-2x text-muted'
+                  %p.mb-0.mt-2= t('plantings.show.weather_pending')
 
         - if @planting.description.present?
           = cute_icon
@@ -86,6 +100,10 @@
               #{strip_tags markdownify(@planting.description)}
 
         %section#photos= render 'plantings/photos', photos: @photos, planting: @planting
+
+        %section#observations.observations= render 'plantings/observations', planting: @planting, observations: @observations
+
+        = render 'frost/section', frost: @frost if @frost
 
         %section#harvests.harvests
           = render 'plantings/harvests', planting: @planting, harvests: @harvests
@@ -101,11 +119,11 @@
             - if can?(:edit, @planting) && can?(:create, Job)
               = link_to new_job_path(garden_id: @planting.garden_id, planting_id: @planting.id), class: 'btn btn-sm section-add' do
                 = icon 'fas', 'plus'
-                add
+                = t('.add')
           - if @cultivate_soil_link
             .alert.alert-info
-              This was the last planting recently in this bed. Would you like to cultivate the soil soon?
-              = link_to 'Cultivate soil', @cultivate_soil_link, class: 'btn btn-secondary btn-sm ms-2'
+              = t('.cultivate_prompt')
+              = link_to t('.cultivate'), @cultivate_soil_link, class: 'btn btn-secondary btn-sm ms-2'
           - if @current_jobs&.size&.positive?
             .index-cards
               - @current_jobs.each do |job|

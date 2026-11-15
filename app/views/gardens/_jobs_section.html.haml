@@ -1,5 +1,7 @@
 -# The garden's jobs: the member's own notepad, or the public list for everyone else.
-- if @notepad
+- if @archived_jobs
+  %section= render 'gardens/archived_jobs', jobs: @archived_jobs, total: @archived_jobs_total
+- elsif @notepad
   -# Not a section: the notepad is its own bordered block, with its own green bar.
   .garden-notepad
     = render 'jobs/notepad', owner: current_member, garden: @garden, groups: @notepad.groups, autofocus: false

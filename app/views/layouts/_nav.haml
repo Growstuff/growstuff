@@ -5,23 +5,22 @@
       - mine = url_for([current_member, model])
       - everyones = url_for(model)
       = link_to mine, class: 'nav-link tab', aria: { current: ('page' if current_page?(mine) && params[:drafts].blank?) } do
-        My #{model.model_name.human.pluralize}
+        = t('.my_records', records: model.model_name.human(count: 2))
       - if model == Post
         - drafts = member_posts_path(current_member, drafts: 1)
         = link_to drafts, class: 'nav-link tab', aria: { current: ('page' if params[:drafts].present?) } do
           = t('.my_drafts')
       = link_to everyones, class: 'nav-link tab', aria: { current: ('page' if current_page?(everyones)) } do
-        Everyone's #{model.model_name.human.pluralize}
+        = t('.everyone_records', records: model.model_name.human(count: 2))
       - if can?(:create, model)
         = link_to url_for([model, action: :new]), class: 'btn' do
-          Add a #{model.model_name.human}
+          = t('.add_record', record: model.model_name.human)
       - if model == Planting
         = link_to suggestions_path, class: 'btn' do
           = t('.suggest_something')
   - else
-    = render 'shared/signin_signup', to: "record your #{model.to_s.pluralize.downcase}"
+    = render 'shared/signin_signup', to: t('.record_purpose', records: model.model_name.human(count: 2).downcase)
 
 %hr/
 %p.sidebar-inset
-  #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're
-  harvesting from your home garden and see how productive it is.
+  = t('.description', site_name: ENV['GROWSTUFF_SITE_NAME'])

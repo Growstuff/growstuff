@@ -60,6 +60,10 @@ Rails.application.configure do
 
   config.host = 'localhost:3000'
   if ENV['CODESPACE_NAME']
+    # Codespaces can rewrite Origin to https://localhost:3000 while preserving
+    # the public forwarded host. Keep CSRF token validation, but don't compare
+    # those two origins in this development-only proxy environment.
+    config.action_controller.forgery_protection_origin_check = false
     config.host = "#{ENV['CODESPACE_NAME']}-3000.app.github.dev:443"
     config.hosts << ".preview.app.github.dev"
     config.hosts << ".app.github.dev"

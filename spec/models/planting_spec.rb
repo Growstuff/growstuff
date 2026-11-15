@@ -8,6 +8,40 @@ describe Planting do
   let(:garden)       { create(:garden, owner: garden_owner, name: 'Springfield Community Garden') }
   let(:planting)     { create(:planting, crop:, garden:, owner: garden.owner) }
 
+  describe 'short code assignment' do
+    it 'assigns a code when creating a planting' do
+      expect(planting.reload.short_code).to match(/\A[2-9A-HJ-NP-Z]{4}\z/)
+    end
+
+    context 'with a missing short code' do
+      before do
+        planting.update_column(:short_code, nil) # rubocop:disable Rails/SkipsModelValidations
+        allow(described_class).to receive(:generate_short_code).with(planting.owner).and_return('AB23')
+      end
+
+      it 'assigns a code when saving an existing planting' do
+        planting.save!
+
+        expect(planting.reload.short_code).to eq('AB23')
+      end
+
+      it 'assigns a code when saving without validation' do
+        planting.save!(validate: false)
+
+        expect(planting.reload.short_code).to eq('AB23')
+      end
+    end
+
+    context 'with an existing short code' do
+      it 'preserves the code when saving' do
+        original_code = planting.short_code
+        planting.save!
+
+        expect(planting.reload.short_code).to eq(original_code)
+      end
+    end
+  end
+
   describe 'planting lifespan predictions' do
     context 'no predications data yet' do
       describe 'planting planted, not finished' do
@@ -419,6 +453,10 @@ describe Planting do
       end
     end
 
+    it 'accepts volunteer as a planted_from value' do
+      expect(build(:planting, planted_from: 'volunteer')).to be_valid
+    end
+
     it 'refuses invalid planted_from values' do
       @planting = build(:planting, planted_from: 'not valid')
       @planting.should_not be_valid
@@ -497,65 +535,6 @@ describe Planting do
       end
     end
   end
-
-  context 'interesting plantings' do
-    describe 'picks up interesting plantings' do
-      before do
-        # plantings have members created implicitly for them
-        # each member is different, hence these are all interesting
-        @planting1 = create(:planting, :with_photo, planted_at: 5.days.ago)
-        @planting2 = create(:planting, :with_photo, planted_at: 4.days.ago)
-        @planting3 = create(:planting, :with_photo, planted_at: 3.days.ago)
-        @planting4 = create(:planting, :with_photo, planted_at: 2.days.ago)
-      end
-
-      it { expect(described_class.interesting).to eq([@planting4, @planting3, @planting2, @planting1]) }
-    end
-
-    context "default arguments" do
-      it 'ignores plantings without photos' do
-        # first, an interesting planting
-        @planting = create(:planting)
-        @planting.photos << create(:photo, owner: @planting.owner)
-        @planting.save
-
-        # this one doesn't have a photo
-        @no_photo_planting = create(:planting)
-
-        expect(described_class.interesting).to include @planting
-        expect(described_class.interesting).not_to include @no_photo_planting
-      end
-
-      it 'ignores plantings with the same owner' do
-        # this planting is older
-        @planting1 = create(:planting, created_at: 1.day.ago)
-        @planting1.photos << create(:photo, owner_id: @planting1.owner_id)
-        @planting1.save
-
-        # this one is newer, and has the same owner, through the garden
-        @planting2 = create(:planting,
-                            created_at: 1.minute.ago,
-                            garden:     @planting1.garden,
-                            owner:      @planting1.owner)
-        @planting2.photos << create(:photo, owner: @planting2.owner)
-        @planting2.save
-
-        # result: the newer one is interesting, the older one isn't
-        expect(described_class.interesting).to include @planting2
-        expect(described_class.interesting).not_to include @planting1
-      end
-    end
-
-    context "with howmany argument" do
-      it "only returns the number asked for" do
-        @plantings = create_list(:planting, 10)
-        @plantings.each do |p|
-          p.photos << create(:photo, owner: p.owner)
-        end
-        expect(described_class.interesting.limit(3).count).to eq 3
-      end
-    end
-  end # interesting plantings
 
   context "finished" do
     it 'has finished fields' do
@@ -864,6 +843,86 @@ describe Planting do
     end
   end
 
+  describe '#variety' do
+    it 'is the variety of its parent seed' do
+      planting = build(:planting, parent_seed: build(:seed, variety: 'Brandywine'))
+      expect(planting.variety).to eq 'Brandywine'
+    end
+
+    it 'is nil when the parent seed names no variety' do
+      planting = build(:planting, parent_seed: build(:seed, variety: ''))
+      expect(planting.variety).to be_nil
+    end
+
+    it 'is nil without a parent seed' do
+      expect(build(:planting, parent_seed: nil).variety).to be_nil
+    end
+  end
+
+  describe '#with_variety' do
+    it 'puts the variety in brackets after the name' do
+      planting = build(:planting, parent_seed: build(:seed, variety: 'Brandywine'))
+      expect(planting.with_variety('tomato')).to eq 'tomato (Brandywine)'
+    end
+
+    it 'is just the name without a variety' do
+      expect(build(:planting, parent_seed: nil).with_variety('tomato')).to eq 'tomato'
+    end
+  end
+
+  describe '#heat_so_far and #heat_needed' do
+    let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
+    let(:crop) { create(:crop, growing_degree_days: 600) }
+    let(:planting) do
+      create(:planting, crop:, garden:, owner: garden.owner, planted_at: Date.new(2026, 10, 1),
+                        finished: true, finished_at: Date.new(2026, 10, 3))
+    end
+
+    before do
+      (Date.new(2026, 9, 30)..Date.new(2026, 10, 5)).each { |date| create(:weather_reading, date:, temp_max_c: 20.0, temp_min_c: 10.0) }
+    end
+
+    it 'adds up the heat above the default base from planting to its last day' do
+      expect(planting.heat_so_far).to eq 15
+    end
+
+    it 'needs the heat the crop is set to' do
+      expect(planting.heat_needed).to eq 600
+    end
+
+    context 'when the crop has no figure' do
+      let(:crop) { create(:crop, growing_degree_days: nil) }
+
+      it 'does not know the heat needed' do
+        expect(planting.heat_needed).to be_nil
+      end
+    end
+
+    context 'when no weather was collected for its days' do
+      before { WeatherReading.delete_all }
+
+      it 'has no heat so far, rather than none' do
+        expect(planting.heat_so_far).to be_nil
+      end
+    end
+
+    context 'when the crop is a perennial' do
+      let(:crop) { create(:crop, growing_degree_days: 600, perennial: true) }
+
+      it 'has no heat so far' do
+        expect(planting.heat_so_far).to be_nil
+      end
+    end
+
+    context 'when the garden has no location' do
+      before { garden.update_columns(latitude: nil, longitude: nil) } # rubocop:disable Rails/SkipsModelValidations
+
+      it 'does not know the heat so far' do
+        expect(planting.heat_so_far).to be_nil
+      end
+    end
+  end
+
   describe '#weather_readings' do
     subject(:readings) { planting.weather_readings }
 
@@ -927,6 +986,96 @@ describe Planting do
     it 'is the due day for a failed planting that is past it' do
       planting = build(:planting, crop: create(:crop, median_lifespan: 10), planted_at: today - 20, failed: true)
       expect(planting.weather_last_day(today)).to eq today - 10
+    end
+  end
+
+  describe '#weather_due_on' do
+    subject(:due) { build(:planting, crop:, planted_at: Date.new(2026, 11, 22)).weather_due_on }
+
+    context 'with a crop lifespan' do
+      let(:crop) { create(:crop, median_lifespan: 100, median_days_to_last_harvest: 50) }
+
+      it('uses it') { expect(due).to eq Date.new(2026, 11, 22) + 100 }
+    end
+
+    context 'without a lifespan, for an annual with a median to its last harvest' do
+      let(:crop) { create(:crop, perennial: false, median_days_to_last_harvest: 123) }
+
+      it('uses the last harvest') { expect(due).to eq Date.new(2026, 11, 22) + 123 }
+    end
+
+    context 'without either, with EcoCrop data' do
+      let(:crop) { create(:crop, ecocrop_record: create(:ecocrop_data, gmin: 160, gmax: 240)) }
+
+      it('uses the middle of its crop cycle') { expect(due).to eq Date.new(2026, 11, 22) + 200 }
+    end
+
+    context 'with an EcoCrop cycle of 0 days' do
+      let(:crop) { create(:crop, ecocrop_record: create(:ecocrop_data, gmin: 0, gmax: 0)) }
+
+      it('is nil') { expect(due).to be_nil }
+    end
+
+    context 'without anything to go on' do
+      let(:crop) { create(:crop) }
+
+      it('is nil') { expect(due).to be_nil }
+    end
+  end
+
+  describe '#abandoned?' do
+    let(:today) { Date.new(2026, 11, 11) }
+    let(:crop) { create(:crop, median_lifespan: 100) }
+
+    def abandoned(planted_at:, **attributes)
+      build(:planting, crop:, planted_at:, **attributes).abandoned?(today)
+    end
+
+    it 'is true a year and a day past when it was due' do
+      expect(abandoned(planted_at: today - 100 - 366)).to be true
+    end
+
+    it 'is false exactly a year past when it was due' do
+      expect(abandoned(planted_at: today - 100 - 365)).to be false
+    end
+
+    it 'is false while it is still within its time' do
+      expect(abandoned(planted_at: today - 50)).to be false
+    end
+
+    it 'is false once it is marked finished' do
+      expect(abandoned(planted_at: today - 1000, finished: true, finished_at: today - 800)).to be false
+    end
+
+    it 'is false for a failed planting' do
+      expect(abandoned(planted_at: today - 1000, failed: true)).to be false
+    end
+
+    context 'when we cannot say when it was due' do
+      let(:crop) { create(:crop) }
+
+      it('is false') { expect(abandoned(planted_at: today - 3000)).to be false }
+    end
+
+    describe 'what it means for the weather' do
+      let(:planting) { build(:planting, crop:, planted_at: today - 1000) }
+
+      it 'ends the weather on the day it was due' do
+        expect(planting.weather_last_day(today)).to eq planted_at_plus_lifespan(planting)
+      end
+
+      it 'shows its own life, not the last year to date' do
+        expect(planting.weather_first_day(today)).to eq planting.planted_at
+      end
+
+      it 'expects no more weather' do
+        planting.garden.update_columns(latitude: -41.29, longitude: 174.78) # rubocop:disable Rails/SkipsModelValidations
+        expect(planting.expected_weather_readings(after: nil)).to be_empty
+      end
+
+      def planted_at_plus_lifespan(planting)
+        planting.planted_at + 100
+      end
     end
   end
 

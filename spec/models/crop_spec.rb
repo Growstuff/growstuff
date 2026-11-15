@@ -335,62 +335,6 @@ describe Crop do
     end
   end
 
-  context 'interesting' do
-    subject { described_class.interesting }
-
-    # first, a couple of candidate crops
-    let(:first_crop) { create(:crop) }
-    let(:second_crop) { create(:crop) }
-
-    let(:first_crop_planting) { first_crop.plantings.first }
-    let(:second_crop_planting) { second_crop.plantings.first }
-
-    let(:member) { create(:member, login_name: 'pikachu') }
-
-    describe 'lists interesting crops' do
-      before do
-        # they need 3+ plantings each to be interesting
-        create_list(:planting, 3, crop: first_crop, owner: member)
-        create_list(:planting, 3, crop: second_crop, owner: member)
-        # crops need 3+ photos to be interesting
-        first_crop_planting.photos = create_list :photo, 3, owner: member
-        second_crop_planting.photos = create_list :photo, 3, owner: member
-      end
-
-      it { is_expected.to include first_crop }
-      it { is_expected.to include second_crop }
-      it { expect(subject.size).to eq 2 }
-    end
-
-    describe 'crops without plantings are not interesting' do
-      before do
-        # only first_crop has plantings
-        create_list(:planting, 3, crop: first_crop, owner: member)
-        # ... and photos
-        first_crop_planting.photos = create_list(:photo, 3, owner: member)
-      end
-
-      it { is_expected.to include first_crop }
-      it { is_expected.not_to include second_crop }
-      it { expect(subject.size).to eq 1 }
-    end
-
-    describe 'crops without photos are not interesting' do
-      before do
-        # both crops have plantings
-        create_list(:planting, 3, crop: first_crop, owner: member)
-        create_list(:planting, 3, crop: second_crop, owner: member)
-
-        # but only first_crop has photos
-        first_crop_planting.photos = create_list(:photo, 3, owner: member)
-      end
-
-      it { is_expected.to include first_crop }
-      it { is_expected.not_to include second_crop }
-      it { expect(subject.size).to eq 1 }
-    end
-  end
-
   context "harvests" do
     let!(:crop)    { create(:crop) }
     let!(:harvest) { create(:harvest, crop:) }
@@ -708,6 +652,65 @@ describe Crop do
     end
   end
 
+  describe 'including its varieties' do
+    subject(:crop) { create(:tomato) }
+
+    let(:variety) { create(:crop, name: 'heirloom tomato', parent: crop) }
+    let(:sub_variety) { create(:crop, name: 'striped tomato', parent: variety) }
+    let(:other_crop) { create(:crop, name: 'carrot') }
+
+    describe '#self_and_descendant_ids' do
+      before { sub_variety }
+
+      it { expect(crop.self_and_descendant_ids).to contain_exactly(crop.id, variety.id, sub_variety.id) }
+      it { expect(sub_variety.self_and_descendant_ids).to eq [sub_variety.id] }
+    end
+
+    describe '#plantings_with_varieties' do
+      let!(:own) { create(:planting, crop:) }
+      let!(:of_variety) { create(:planting, crop: sub_variety) }
+      let!(:of_other) { create(:planting, crop: other_crop) }
+
+      it { expect(crop.plantings_with_varieties).to contain_exactly(own, of_variety) }
+      it { expect(sub_variety.plantings_with_varieties).to contain_exactly(of_variety) }
+    end
+
+    describe '#photos_with_varieties' do
+      let(:own_planting) { create(:planting, crop:) }
+      let(:variety_harvest) { create(:harvest, crop: sub_variety) }
+      let(:other_planting) { create(:planting, crop: other_crop) }
+      let(:own_photo) { create(:photo, owner: own_planting.owner) }
+      let(:variety_photo) { create(:photo, owner: variety_harvest.owner) }
+      let(:other_photo) { create(:photo, owner: other_planting.owner) }
+
+      before do
+        own_planting.photos << own_photo
+        variety_harvest.photos << variety_photo
+        other_planting.photos << other_photo
+      end
+
+      it { expect(crop.photos_with_varieties).to contain_exactly(own_photo, variety_photo) }
+      it { expect(sub_variety.photos_with_varieties).to contain_exactly(variety_photo) }
+
+      context 'with a photo on both the crop and its variety' do
+        let(:variety_planting) { create(:planting, crop: variety, owner: own_planting.owner) }
+
+        before { variety_planting.photos << own_photo }
+
+        it { expect(crop.photos_with_varieties.where(id: own_photo.id).count).to eq 1 }
+      end
+
+      context 'with a photo of a seed packet of a variety' do
+        let(:seed) { create(:seed, crop: variety) }
+        let(:packet_photo) { create(:photo, owner: seed.owner) }
+
+        before { seed.photo_associations.create!(photo: packet_photo, label: 'back') }
+
+        it { expect(crop.photos_with_varieties).not_to include(packet_photo) }
+      end
+    end
+  end
+
   describe 'facts from seed packets' do
     subject(:crop) { create(:tomato) }
 
@@ -937,5 +940,88 @@ describe Crop do
 
     it { expect(parent.published_job_templates).to contain_exactly(published) }
     it { expect(variety.published_job_templates).to contain_exactly(published) }
+  end
+
+  describe 'harvest style' do
+    let(:parent) { create(:crop, harvest_style: nil) }
+    let(:crop) { create(:crop, parent:, harvest_style: nil) }
+
+    it 'is unknown to begin with' do
+      expect(crop.harvest_style).to be_nil
+    end
+
+    it 'can be single' do
+      expect(build(:crop, harvest_style: 'single')).to be_valid
+    end
+
+    it 'can be repeated' do
+      expect(build(:crop, harvest_style: 'repeated')).to be_valid
+    end
+
+    it 'cannot be anything else' do
+      expect(build(:crop, harvest_style: 'weekly')).not_to be_valid
+    end
+
+    describe '#effective_harvest_style' do
+      subject { crop.effective_harvest_style }
+
+      context 'when the crop has one' do
+        let(:crop) { create(:crop, parent:, harvest_style: 'repeated') }
+
+        before { parent.update!(harvest_style: 'single') }
+
+        it { is_expected.to eq 'repeated' }
+      end
+
+      context 'when only the parent has one' do
+        before { parent.update!(harvest_style: 'single') }
+
+        it { is_expected.to eq 'single' }
+      end
+
+      context 'when neither has one' do
+        it { is_expected.to be_nil }
+      end
+    end
+  end
+
+  describe '#ecocrop_data' do
+    let(:record) { create(:ecocrop_data) }
+    let(:parent) { create(:crop, ecocrop_record: record) }
+
+    context 'with its own record' do
+      let(:own) { create(:ecocrop_data) }
+
+      it 'uses its own over its parent\'s' do
+        expect(create(:crop, parent:, ecocrop_record: own).ecocrop_data).to eq own
+      end
+    end
+
+    context 'without a record' do
+      it('reads its parent\'s') { expect(create(:crop, parent:).ecocrop_data).to eq record }
+      it('is nil with no parent either') { expect(create(:crop).ecocrop_data).to be_nil }
+    end
+  end
+
+  describe '#growing_degree_days_figure' do
+    subject(:figure) { build(:crop, growing_degree_days:).growing_degree_days_figure }
+
+    context 'with a figure' do
+      let(:growing_degree_days) { 650 }
+
+      it('is the figure') { expect(figure).to eq 650 }
+    end
+
+    context 'with a figure of 0' do
+      let(:growing_degree_days) { 0 }
+
+      it('is nil') { expect(figure).to be_nil }
+    end
+
+    context 'without a figure' do
+      let(:growing_degree_days) { nil }
+
+      it('is nil') { expect(figure).to be_nil }
+    end
   end
 end

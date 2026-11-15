@@ -1,0 +1,8 @@
+-# How much frost this planting takes, and whose word that is. Nothing at all when nobody knows.
+- source, level = planting.hardiness_found
+- if level
+  .card.fact-card.plantinghardiness
+    %h3= t('.title')
+    %strong= t("hardiness.levels.#{level}.name")
+    %span= t("hardiness.levels.#{level}.meaning")
+    %small.text-muted{ class: "plantinghardiness--#{source}" }= t(".sources.#{source}")

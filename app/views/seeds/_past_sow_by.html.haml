@@ -3,11 +3,11 @@
 - if params[:past] == '1'
   .seed-tip
     %div
-      %b Showing packets past their sow-by date.
-    = link_to 'Show all', url_for(past: nil, page: nil)
+      %b= t('.showing')
+    = link_to t('.show_all'), seed_view_path(past: nil)
 - else
   .seed-tip
     %div
-      %b= "#{pluralize @past_count, 'packet'} #{@past_count == 1 ? 'is' : 'are'} past their sow-by date."
-      Old seed often still grows. Sow a few thickly to find out.
-    = link_to "Show me #{@past_count == 1 ? 'that one' : "those #{@past_count}"}", url_for(past: 1, page: nil)
+      %b= t('.count', count: @past_count)
+      = t('.hint')
+    = link_to t('.show_those', count: @past_count), seed_view_path(past: 1)

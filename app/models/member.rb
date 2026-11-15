@@ -3,6 +3,8 @@
 class Member < ApplicationRecord
   include Discard::Model
 
+  include Flipper::Identifier
+
   acts_as_messageable # messages can be sent to this model
   include Geocodable
   include MemberFlickr
@@ -15,12 +17,15 @@ class Member < ApplicationRecord
   # Relationships
   has_many :posts, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
   has_many :comments, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
+  has_many :observations, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
   has_many :forums, foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
   has_many :gardens, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_one :stall, dependent: :destroy
   has_many :claims, dependent: :destroy
   # Where they raise seedlings before planting them out.
   has_one :nursery, -> { nurseries }, class_name: 'Garden', foreign_key: 'owner_id', dependent: nil, inverse_of: :owner
+  has_many :garden_collaborators, dependent: :destroy
+  has_many :collaborating_gardens, through: :garden_collaborators, source: :garden
   has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :seeds, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :harvests, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
@@ -91,7 +96,6 @@ class Member < ApplicationRecord
   scope :located, -> { where.not(location: '').where.not(latitude: nil).where.not(longitude: nil) }
   scope :recently_signed_in, -> { reorder(updated_at: :desc) }
   scope :recently_joined, -> { reorder(confirmed_at: :desc) }
-  scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
   scope :has_plantings, -> { joins(:plantings).group("members.id") }
   scope :with_email, -> { where.not(email: nil) }
   scope :wants_reminders, -> { with_email.where(send_planting_reminder: true) }
@@ -137,6 +141,14 @@ class Member < ApplicationRecord
 
   # Whether they've said they don't want a nursery, so we stop asking. Having
   # one trumps it.
+  # The member's active annual plantings with a predictable finish, grouped by
+  # how they are getting on: { super_late:, late:, harvesting:, others: }.
+  def plantings_by_progress
+    grouped = plantings.active.annual.select(&:finish_is_predicatable?).group_by(&:progress_state)
+    { super_late: grouped.fetch(:super_late, []), late: grouped.fetch(:late, []),
+      harvesting: grouped.fetch(:harvesting, []), others: grouped.fetch(:growing, []) }
+  end
+
   def nursery_declined?
     settings['nursery_declined'] == true && nursery.nil?
   end
@@ -147,6 +159,20 @@ class Member < ApplicationRecord
 
   def accept_nursery!
     update_column(:settings, settings.except('nursery_declined')) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  AVAILABLE_LOCALES = %w[en de es fr ja zh].freeze
+
+  def locale
+    settings['locale'].presence
+  end
+
+  def locale=(val)
+    if val.blank?
+      self.settings = (settings || {}).except('locale')
+    elsif AVAILABLE_LOCALES.include?(val.to_s)
+      self.settings = (settings || {}).merge('locale' => val.to_s)
+    end
   end
 
   RESERVED_LOGIN_NAMES = %w(growstuff admin moderator staff nearby).freeze
@@ -179,11 +205,14 @@ class Member < ApplicationRecord
   validates :other_url, format: { with: %r{\Ahttps?://}, message: :url_format }, allow_blank: true
   validates :instagram_handle, :facebook_handle, :bluesky_handle,
             format: { without: %r{\Ahttps?://|/}, message: :handle_format }, allow_blank: true
+  validates :locale, inclusion: { in: AVAILABLE_LOCALES }, allow_blank: true
 
   #
   # Triggers
   after_validation :geocode
   after_validation :empty_unwanted_geocodes
+  # Ask for the climate of the place they have said they are, to be fetched before others.
+  after_save :request_climate, if: -> { saved_change_to_latitude? || saved_change_to_longitude? }
 
   # Give each new member a default garden
   # we use find_or_create to avoid accidentally creating a second one,
@@ -311,6 +340,10 @@ class Member < ApplicationRecord
     location.present? && latitude.present? && longitude.present?
   end
 
+  def request_climate
+    ClimateRequest.record(Place.new(latitude, longitude)) if located?
+  end
+
   def auth(provider)
     authentications.find_by(provider:)
   end
@@ -348,7 +381,11 @@ class Member < ApplicationRecord
     latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
     return Member.none unless latitude && longitude
 
-    relation = Member.located.near([latitude, longitude], 1000)
+    nearest_to_point(latitude, longitude, limit)
+  end
+
+  def self.nearest_to_point(latitude, longitude, limit = 50)
+    relation = Member.kept.located.near([latitude, longitude], 1000)
     limit ? relation.limit(limit) : relation
   end
 
@@ -358,6 +395,11 @@ class Member < ApplicationRecord
 
   def get_follow(member)
     follows.find_by(followed_id: member.id) if already_following?(member)
+  end
+
+  def accessible_gardens
+    collab_ids = GardenCollaborator.where(member_id: id).select(:garden_id)
+    Garden.where(owner_id: id).or(Garden.where(id: collab_ids))
   end
 
   def already_blocking?(member)
@@ -377,7 +419,7 @@ class Member < ApplicationRecord
   def update_spam_score!
     score = UserBehaviourDetectionService.score_for(self)
     update_column(:spam_score, score) # rubocop:disable Rails/SkipsModelValidations
-    ban! if score >= UserBehaviourDetectionService::MAX_SCORE
+    ban! if score >= UserBehaviourDetectionService::BAN_THRESHOLD
   end
 
   def has_activity?

@@ -1,9 +1,7 @@
 = bootstrap_form_for(@crop) do |f|
   - if @crop.errors.any?
     #error_explanation.alert.alert-warning{role: "alert"}
-      %h3
-        = pluralize(@crop.errors.size, "error")
-        prohibited this crop from being saved:
+      %h3= t('.errors', count: @crop.errors.size)
       %ul
         - @crop.errors.full_messages.each do |msg|
           %li= msg
@@ -19,7 +17,7 @@
     .card-footer
       .text-end
         - if @crop.approved?
-          = f.submit 'Save'
+          = f.submit t('.save')
         - else
-          = f.submit 'Reject', class: 'btn btn-danger', name: 'reject'
-          = f.submit 'Approve and save', class: 'btn btn-success', name: 'approve'
+          = f.submit t('.reject'), class: 'btn btn-danger', name: 'reject'
+          = f.submit t('.approve_and_save'), class: 'btn btn-success', name: 'approve'

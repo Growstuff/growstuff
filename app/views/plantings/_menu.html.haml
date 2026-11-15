@@ -2,11 +2,12 @@
 -# add photo, the state changes, then delete last under a divider.
 - if can?(:edit, planting)
   - slug = planting.slug
-  = actions_menu('planting', id: planting.id, label: "Actions for #{planting.display_name}", align: :start) do
+  = actions_menu('planting', id: planting.id, label: t('.actions', planting: planting.display_name), align: :start) do
     - if local_assigns[:view]
       = menu_link_to :view, t('buttons.view'), planting_path(slug:)
     = menu_link_to :edit, t('buttons.edit'), edit_planting_path(slug:)
     = menu_add_photo_link(planting)
+    = menu_link_to :observation, t('buttons.add_observation'), planting_path(slug:, anchor: 'observations')
     - if planting.active
       - if can?(:create, Harvest)
         = menu_link_to :harvest, t('buttons.record_harvest'), new_planting_harvest_path(planting_slug: slug)

@@ -1,0 +1,23 @@
+-# What the photo may be used for, and how to credit it.
+- code = photo_licence_code(photo)
+- name = photo_credit_name(photo)
+%section.photo-panel
+  %h2.photo-panel-head= t('.heading')
+  .photo-panel-body
+    .photo-licence-name
+      - if code
+        %span.photo-licence-code= code
+      %strong
+        - if photo.license_url.present?
+          = link_to photo.license_name, photo.license_url
+        - else
+          = photo.license_name
+    %p.mb-0= t(".summary.#{photo_licence_kind(photo)}", name: name)
+    - if code
+      .photo-credit-box
+        %strong.photo-credit-label= t('.credit_label')
+        %span= safe_join([photo_credit_line(photo), ', ', link_to(code, photo.license_url)])
+        %button.btn.btn-outline-primary{ type: 'button', data: { copy_text: photo_credit_text(photo), copied: t('.copied') } }= t('.copy_credit')
+      = link_to photo.license_url do
+        = t('.read_licence')
+        = icon 'fas', 'arrow-up-right-from-square'

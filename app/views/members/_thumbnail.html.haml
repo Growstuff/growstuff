@@ -13,9 +13,7 @@
       %hr/
       %p
         %small
-          Joined
-          = distance_of_time_in_words(member.created_at, Time.zone.now)
-          ago.
+          = t('.joined', time: distance_of_time_in_words(member.created_at, Time.zone.now))
       %p
         %ul.nav.md-pills.nav-justified.pills-pink.small
           %li.nav-item= link_to localize_plural(member.plantings, Planting), member_plantings_path(member)

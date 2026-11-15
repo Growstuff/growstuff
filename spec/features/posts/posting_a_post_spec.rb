@@ -15,6 +15,17 @@ describe 'Post a post' do
       expect(page).to have_content "Posted by"
     end
 
+    context 'with advanced options' do
+      it 'hides the language selector initially' do
+        expect(page).to have_no_select('post_language')
+      end
+
+      it 'reveals the language selector when expanded' do
+        find('.post-advanced-options summary').click
+        expect(page).to have_select('post_language')
+      end
+    end
+
     context "linking to a crop" do
       let!(:crop) { create(:crop, name: 'pumpkin') }
 

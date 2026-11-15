@@ -2,13 +2,13 @@
   .modal-dialog{role: "document"}
     .modal-content
       .modal-header.text-center
-        %h4.modal-title.w-100.fw-bold Record #{harvest.crop.name} harvest
-        %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
+        %h4.modal-title.w-100.fw-bold= t('.title', crop: harvest.crop.name)
+        %button.btn-close{"aria-label" => t('.close'), "data-bs-dismiss" => "modal", type: "button"}
       .modal-body
-        %p Select which plant part you have havested
+        %p= t('.select_plant_part')
 
         - if harvest.crop.plant_parts.any?
-          %h5 Recommended plant parts to harvest:
+          %h5= t('.recommended_plant_parts')
           .index-cards
             - harvest.crop.plant_parts.order(:name).each do |plant_part|
               .card
@@ -18,7 +18,7 @@
                     %h3= plant_part.name
 
           %hr/
-        %h6 All Plant parts
+        %h6= t('.all_plant_parts')
         %nav.nav
           - PlantPart.all.order(:name).each do |plant_part|
             = link_to new_harvest_path(harvest: {planting_id: harvest.planting_id, crop_id: harvest.crop_id, plant_part_id: plant_part.id}), class: 'nav-link border' do
@@ -29,4 +29,4 @@
 
 %a.btn#modalHarvestButton{"data-bs-target" => "#modelHarvestForm", "data-bs-toggle" => "modal", href: ""}
   = harvest_icon
-  Record harvest
+  = t('.record_harvest')

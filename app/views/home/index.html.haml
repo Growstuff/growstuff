@@ -1,12 +1,12 @@
 - content_for :title do
   = ENV['GROWSTUFF_SITE_NAME']
 - content_for :meta_description do
-  Growstuff is a community of food gardeners. Let's learn to grow food together.
+  = t('home.community_description')
 
 - if member_signed_in?
   - content_for :scripts do
     = javascript_include_tag 'react_islands', defer: true
-  = render 'home/dashboard/ideas'
+  = render 'home/dashboard/jobs_banner', dashboard: @dashboard
   - if current_member.setup_todo? && @dashboard.stage != :new
     = render 'home/setup_todo'
   = render "home/dashboard/#{@dashboard.stage}", dashboard: @dashboard

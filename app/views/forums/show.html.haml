@@ -12,26 +12,24 @@
 %p#notice= notice
 
 %p.forum-meta
-  This forum is run by
-  = link_to @forum.owner, @forum.owner
+  = t('.moderator_html', moderator: link_to(@forum.owner, @forum.owner))
 
 %div
   :markdown
     #{ strip_tags markdownify(@forum.description) }
 
 - if can? :edit, @forum
-  = link_to "Edit", edit_forum_path(@forum), class: 'btn btn-outline-secondary btn-sm'
+  = link_to t('.edit'), edit_forum_path(@forum), class: 'btn btn-outline-secondary btn-sm'
 - if can? :delete, @forum
-  = link_to 'Delete', @forum, method: :delete, data: { confirm: 'Are you sure?' }
+  = link_to t('.delete'), @forum, method: :delete, data: { confirm: t('.confirm_delete') }
 
 %h2
-  Posts
-  = link_to "Post something", new_post_path(forum_id: @forum.id), class: 'btn btn-primary'
+  = t('.posts')
+  = link_to t('.post_something'), new_post_path(forum_id: @forum.id), class: 'btn btn-primary'
 
 - if @forum.posts.empty?
-  No posts yet.
+  = t('.empty')
 - else
   = render partial: "posts/summary", locals: { posts: @forum.posts }
-
 
 

@@ -22,7 +22,7 @@
           .mb-3
             = f.label :language, t('.language'), class: 'form-label'
             -# The same list the full form offers, and a language is required.
-            = f.select :language, I18nData.languages.map { |code, name| [name.split(";").first, code] }, { selected: alternate_name.language || 'en' }, class: 'form-select'
+            = f.select :language, I18nData.languages.map { |code, name| [name.split(";").first, code] }, { include_blank: true, selected: alternate_name_language(alternate_name) }, class: 'form-select', required: true
         .modal-footer
           %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" }= t('.cancel')
           = f.submit t('.save'), class: 'btn btn-primary'

@@ -6,6 +6,10 @@ class Photo < ApplicationRecord
 
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop Job).freeze
 
+  # What Flickr says about a photo that may change: the picture, the licence and the date.
+  # The title is ours, and stays.
+  FLICKR_REFRESHED = %i(thumbnail_url fullsize_url link_url license_name license_url date_taken).freeze
+
   has_many :photo_associations, dependent: :delete_all, inverse_of: :photo
   has_many :comments, as: :commentable, dependent: :destroy
 
@@ -36,6 +40,15 @@ class Photo < ApplicationRecord
   scope :by_crop, ->(crop) { joins(:photo_associations).where(photo_associations: { crop: }) }
   scope :by_model, lambda { |model_name|
     joins(:photo_associations).where(photo_associations: { photographable_type: model_name.to_s })
+  }
+
+  # Photos for the part of a crop's page about plantings, harvests, seeds, or the plant
+  # itself: those of one of them, and those added to the crop and labelled as showing one.
+  scope :shown_as, lambda { |model_name|
+    kind = model_name.to_s
+    associations = PhotoAssociation.where(photographable_type: 'Crop', label: kind == 'Crop' ? nil : kind.downcase)
+    associations = associations.or(PhotoAssociation.where(photographable_type: kind)) unless kind == 'Crop'
+    where(id: associations.select(:photo_id))
   }
 
   # Photos of a label, such as the front or back of a seed packet, that have not been read yet, which is what the
@@ -81,12 +94,21 @@ class Photo < ApplicationRecord
     end
   end
 
+  # Reads the photo again from Flickr's public API, so no member's Flickr account is needed.
+  # A photo by someone not on Growstuff keeps its photographer up to date too. A photo that
+  # is no longer public there raises FlickrPublicPhoto::Rejected.
+  def refresh_from_flickr!
+    fresh = FlickrPublicPhoto.new("https://www.flickr.com/photos/flickr/#{source_id}").attributes(creative_commons: false)
+    fields = author_name.present? ? FLICKR_REFRESHED + %i(author_name author_url) : FLICKR_REFRESHED
+    update!(fresh.slice(*fields))
+  end
+
   def set_flickr_metadata!
     update(flickr_metadata)
   end
 
   def to_s
-    "#{title} by #{owner.login_name}"
+    "#{title} by #{author_name.presence || owner.login_name}"
   end
 
   def subject

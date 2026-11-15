@@ -9,7 +9,7 @@
   .record-hero-photo-frame
     = link_to seed_path(seed), class: 'record-hero-photo' do
       = image_tag(hero_photo.source == 'flickr' ? hero_photo.fullsize_url : hero_photo.thumbnail_url,
-                  alt: "#{seed.crop.name} seeds saved by #{seed.owner}")
+                  alt: t('seeds.ui.image_alt', crop: seed.crop.name, owner: seed.owner))
     -# Where the packet came from, as a ribbon on the photo, and the grower's way to change it.
     = seed_source_control(seed)
 .jumbotron
@@ -20,10 +20,9 @@
         .record-title
           %h1.display-3
             = crop_icon(seed.crop)
-            %strong= t('seeds.show.heading', crop: seed.crop.name.titleize)
+            %strong= t('seeds.ui.crop_seeds', crop: seed.crop.name.titleize)
         %p.lead.mb-0
-          saved by
-          %strong.record-grower-name= link_to seed.owner, seed.owner
+          = t('seeds.ui.saved_by_html', owner: content_tag(:strong, link_to(seed.owner, seed.owner), class: 'record-grower-name'))
           %span.text-muted
             &middot;
             = I18n.l seed.created_at.to_date
@@ -38,7 +37,7 @@
           -# With no photo to hang the ribbon on, the source is a badge among the others.
           = seed_source_control(seed, ribbon: false) unless hero_photo
         - if seed.parent_planting
-          = render 'shared/record_parent', planting: seed.parent_planting, verb: 'saved from'
+          = render 'shared/record_parent', planting: seed.parent_planting, verb: t('seeds.ui.saved_from')
     = render 'seeds/actions', seed: seed
 
   -# Asking for a swap is what a visitor comes to this page to do, so it sits
@@ -46,7 +45,7 @@
   .seed-request
     - if current_member
       - if seed.tradable && current_member != seed.owner
-        - ask = { recipient_id: seed.owner.id, subject: "Interested in your #{seed.crop} seeds" }
-        = link_to "Request seeds", new_message_path(ask), class: 'btn btn-primary'
+        - ask = { recipient_id: seed.owner.id, subject: t('seeds.ui.request_subject', crop: seed.crop) }
+        = link_to t('seeds.ui.request_seeds'), new_message_path(ask), class: 'btn btn-primary'
     - else
-      = render 'shared/signin_signup', to: 'request seeds'
+      = t('seeds.ui.request_prompt_html', sign_in: link_to(t('seeds.ui.sign_in'), new_member_session_path, class: 'text-success', data: { auth_dialog: 'sign_in' }), sign_up: link_to(t('seeds.ui.sign_up'), new_member_registration_path, class: 'text-info', data: { auth_dialog: 'sign_up' }))

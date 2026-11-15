@@ -14,7 +14,10 @@ class Notification < ApplicationRecord
   after_create :send_message
 
   def send_message
-    sender.send_message(recipient, body, subject) if recipient.send_notification_email
+    return unless recipient.send_notification_email
+
+    receipt = sender.send_message(recipient, body, subject)
+    receipt.notification.update(notified_object: notifiable) if receipt.persisted?
   end
 
   private

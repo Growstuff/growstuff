@@ -20,8 +20,10 @@ class Planting < ApplicationRecord
   WEATHER_FINISHED_DAYS = 30
   # The weather shown, and collected, goes back no further than this from the last day, however long ago it was planted.
   WEATHER_WINDOW_DAYS = 365
+  # A planting nobody has said finished is abandoned once it is this many days past when it should have.
+  ABANDONED_AFTER_DAYS = 365
   PLANTED_FROM_VALUES = [
-    'seed', 'seedling', 'cutting', 'root division', 'runner',
+    'seed', 'seedling', 'cutting', 'volunteer', 'root division', 'runner',
     'bulb', 'root/tuber', 'bare root plant', 'advanced plant',
     'graft', 'layering'
   ].freeze
@@ -33,12 +35,14 @@ class Planting < ApplicationRecord
   has_many :histories, -> { order(:ended_on, :id) }, class_name: 'PlantingHistory', dependent: :destroy, inverse_of: :planting
   has_many :harvests, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many :observations, dependent: :destroy
   # One per individual plant, for placing on the garden's layout grid. Made the
   # first time the garden's layout is used (Garden#prepare_layout), not for every
   # planting, as most plantings never go on a layout.
   has_many :plants, dependent: :destroy
 
   # Once a planting is on a layout, keep its plants in step with its quantity.
+  before_save :follow_parent_seed_variety, if: :parent_seed_id_changed?
   before_create :remember_seed_plant_before
   after_update :sync_plants, if: -> { saved_change_to_quantity? && plants.exists? }
 
@@ -48,7 +52,7 @@ class Planting < ApplicationRecord
   scope :weather_tracked, lambda { |today = Time.zone.today|
     where.not(failed: true).where(planted_at: ..today)
       .where('plantings.finished IS NOT TRUE OR plantings.finished_at >= ?', today - WEATHER_FINISHED_DAYS)
-      .joins(:garden).merge(Garden.where.not(latitude: nil).where.not(longitude: nil).where(nursery: false))
+      .joins(:garden).merge(Garden.located_for_weather)
   }
 
   #
@@ -60,6 +64,8 @@ class Planting < ApplicationRecord
                          foreign_key: 'parent_planting_id',
                          inverse_of:  :parent_planting,
                          dependent:   :nullify
+  has_one :seedling, class_name: 'PlantingSeedling', dependent: :destroy, inverse_of: :planting
+  accepts_nested_attributes_for :seedling, update_only: true
 
   ##
   ## Scopes
@@ -73,7 +79,6 @@ class Planting < ApplicationRecord
   scope :failed, -> { where(failed: true) }
   scope :annual, -> { joins(:crop).where(crops: { perennial: false }) }
   scope :perennial, -> { joins(:crop).where(crops: { perennial: true }) }
-  scope :interesting, -> { has_photos.one_per_owner.order(planted_at: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :has_harvests, -> { where('plantings.harvests_count > 0') }
   scope :one_per_owner, lambda {
@@ -91,7 +96,7 @@ class Planting < ApplicationRecord
   delegate :slug, :name, to: :garden, prefix: true
 
   delegate :annual?, :perennial?, :svg_icon, to: :crop
-  delegate :location, :longitude, :latitude, to: :garden
+  delegate :location, :longitude, :latitude, :weather_located?, :weather_cell, :frost_danger, to: :garden
 
   ##
   ## Validations
@@ -104,15 +109,37 @@ class Planting < ApplicationRecord
   validates :quantity, allow_nil: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 0
   }
+  validates :hardiness, inclusion: { in: Hardiness::VALUES }
   validates :sunniness, allow_blank: true, inclusion: {
     in: SUNNINESS_VALUES, message: :not_a_valid_sunniness
   }
+  normalizes :planted_from, with: ->(value) { value.presence }
   validates :planted_from, allow_blank: true, inclusion: {
     in: PLANTED_FROM_VALUES, message: :not_a_valid_planting_method
   }
   validates :overall_rating, allow_blank: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5
   }
+  validates :short_code, length: { is: 4 }, format: { with: /\A[2-9A-HJ-NP-Z]{4}\z/ },
+                         uniqueness: { scope: :owner_id, allow_nil: true }
+
+  SHORT_CODE_CHARS = %w[2 3 4 5 6 7 8 9 A B C D E F G H J K L M N P Q R S T U V W X Y Z].freeze
+
+  before_validation :assign_short_code
+  before_save :assign_short_code
+
+  def self.random_short_code
+    Array.new(4) { SHORT_CODE_CHARS.sample }.join
+  end
+
+  def self.generate_short_code(owner = nil)
+    loop do
+      code = random_short_code
+      next if owner && where(owner_id: owner.id, short_code: code).exists?
+
+      break code
+    end
+  end
 
   def subject
     to_s
@@ -186,6 +213,13 @@ class Planting < ApplicationRecord
     self
   end
 
+  # The stay in a garden that keeps plants safe from frost (a nursery, a greenhouse, indoors) the planting began in, as the
+  # PlantingHistory that says where and until when, or nil when it didn't begin in one.
+  def frost_safe_stay
+    first = histories.first
+    first if first&.garden&.frost_safe?
+  end
+
   # Sown after the year its seed packet said to plant it by.
   def sown_from_expired_seeds?
     seed_plant_before.present? && planted_at.present? && planted_at > seed_plant_before
@@ -200,8 +234,29 @@ class Planting < ApplicationRecord
     garden.nursery?
   end
 
+  # The variety its parent seed says it is, such as Brandywine, or nil when there is no parent seed or it names none.
+  def variety
+    parent_seed&.variety.presence
+  end
+
+  # A name for it with its variety in brackets after, when it has one: "tomato (Brandywine)".
+  def with_variety(name)
+    variety ? "#{name} (#{variety})" : name
+  end
+
   def weather_located?
     latitude.present? && longitude.present?
+  end
+
+  # How much frost the planting takes, and whose word that is: [source, level], with the source :planting, :seed, :crop
+  # or :parent_crop. The planting's own say comes first, then its seed's, then its crop's, then its crop's parents'.
+  # Nil when none of them knows.
+  def hardiness_found
+    own = { planting: hardiness, seed: parent_seed&.hardiness }.find { |_source, level| Hardiness::LEVELS.include?(level) }
+    return own if own
+
+    found, level = crop.hardiness_found
+    [found == crop ? :crop : :parent_crop, level] if found
   end
 
   # The weather isn't here yet but will be: this is a planting the daily update collects weather for.
@@ -209,9 +264,22 @@ class Planting < ApplicationRecord
     self.class.weather_tracked.exists?(id)
   end
 
-  # The day this planting is due, from its crop's expected lifespan, or nil when we don't know it.
+  # The day this planting is due, from its crop's expected lifespan, or failing that how long its crop's plantings run
+  # to their last harvest, or the middle of EcoCrop's crop cycle: whatever we know, so the weather can be shown that
+  # far ahead. Nil when we know none of them.
   def weather_due_on
-    planted_at + expected_lifespan.to_i if planted_at.present? && expected_lifespan.present?
+    days = weather_horizon_days
+    planted_at + days.to_i if planted_at.present? && days
+  end
+
+  # Left behind: not finished or failed, and more than a year past its due day, so nobody is looking after it and nobody
+  # said it was over. It is treated as having finished on its due day, for its weather and frost. False when we can't say
+  # when it was due, because then we can't tell a long-lived planting from an abandoned one. See ADR 4.
+  def abandoned?(today = Time.zone.today)
+    return false if finished? || failed?
+
+    due = weather_due_on
+    due.present? && due + ABANDONED_AFTER_DAYS < today
   end
 
   # The weather this planting grew through, day by day: the readings for its garden's grid cell, for the last year of
@@ -223,9 +291,10 @@ class Planting < ApplicationRecord
   end
 
   # The last day of weather so far: today for a planting still growing, the day it finished for one that has, and for one
-  # that failed, the day it was due if that has passed, as we stop following a failed planting.
+  # that failed or was abandoned, the day it was due if that has passed, as we stop following them.
   def weather_last_day(today = Time.zone.today)
     return [finished_at, today].min if finished_at
+    return weather_due_on if abandoned?(today)
 
     failed? ? [weather_due_on, today].compact.min : today
   end
@@ -242,15 +311,14 @@ class Planting < ApplicationRecord
 
   # For a planting still growing: the weather the rest of its life will probably bring, as the readings
   # for the same days a year earlier, moved forward a year. A prediction, not an observation. `after` is the
-  # newest day already observed, when the caller has it.
-  def expected_weather_readings(after: weather_readings.maximum(:date))
-    due = weather_due_on
-    return [] if finished? || failed? || due.nil? || !weather_located?
+  # newest day already observed, when the caller has it, and `through` the last day to expect, by default the day it is due.
+  def expected_weather_readings(after: weather_readings.maximum(:date), through: weather_due_on)
+    return [] if finished? || failed? || abandoned? || through.nil? || !weather_located?
 
     from = (after || (weather_first_day - 1)) + 1
-    return [] if from > due
+    return [] if from > through
 
-    weather_cell_readings.select(*WeatherReading::CHARTED).between(from.prev_year, due.prev_year).order(:date).map do |reading|
+    weather_cell_readings.select(*WeatherReading::CHARTED).between(from.prev_year, through.prev_year).order(:date).map do |reading|
       reading.tap do
         reading.date = reading.date.next_year
         reading.readonly!
@@ -284,13 +352,31 @@ class Planting < ApplicationRecord
 
   private
 
+  # How many days the planting is expected to last, for working out when it is due.
+  def weather_horizon_days
+    return @weather_horizon_days if defined?(@weather_horizon_days)
+
+    last_harvest = crop.median_days_to_last_harvest if crop.annual?
+    @weather_horizon_days = [expected_lifespan, last_harvest, ecocrop_cycle_days].find { |days| days&.positive? }
+  end
+
+  # The middle of the crop cycle EcoCrop gives, in days.
+  def ecocrop_cycle_days
+    data = crop.ecocrop_data
+    ((data.gmin + data.gmax) / 2.0).round if data&.gmin&.positive? && data.gmax&.positive?
+  end
+
   # Daily weather for the grid cell this planting's garden is in.
   def weather_cell_readings
-    WeatherReading.at(*WeatherReading.grid_point(latitude, longitude))
+    WeatherReading.at(*weather_cell)
   end
 
   # Copied from the packet when the planting is made, as the packet may be
   # edited or thrown away later.
+  def assign_short_code
+    self.short_code ||= self.class.generate_short_code(owner)
+  end
+
   def remember_seed_plant_before
     self.seed_plant_before ||= parent_seed&.plant_before
   end
@@ -304,6 +390,11 @@ class Planting < ApplicationRecord
     return unless planted_at && finished_at # only check if we have both
 
     errors.add(:finished_at, :finished_after_planted) unless planted_at < finished_at
+  end
+
+  # A packet of a variety (Brandywine) makes this a planting of that variety, not of the crop it was filed under (Tomato).
+  def follow_parent_seed_variety
+    self.crop = parent_seed.crop if parent_seed&.crop&.parent_id == crop_id
   end
 
   def owner_must_match_garden_owner

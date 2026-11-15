@@ -146,6 +146,12 @@ RSpec.describe UserBehaviourDetectionService, type: :service do
     end
   end
 
+  describe 'BAN_THRESHOLD' do
+    it 'is set to 75' do
+      expect(described_class::BAN_THRESHOLD).to eq(75)
+    end
+  end
+
   describe '.score_for' do
     it 'delegates to instance score' do
       expect(described_class.score_for(member)).to eq(0)

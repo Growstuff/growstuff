@@ -5,28 +5,7 @@ module GardensHelper
   # from the person looking, whichever of those are known.
   def garden_details(garden)
     location = link_to(garden.location, place_path(garden.location)) if garden.location.present?
-    safe_join([location, garden.garden_type&.name, garden_area(garden), garden_distance(garden)].compact, ' · ')
-  end
-
-  # How big the garden is, such as "24 square metres", when it has been measured.
-  def garden_area(garden)
-    return if garden.area.blank?
-
-    pluralize(number_with_precision(garden.area, precision: 2, strip_insignificant_zeros: true), garden.area_unit)
-  end
-
-  # A temperature as degrees, or that it is not known.
-  def temperature_text(celsius)
-    celsius.present? ? "#{celsius.round(1)}°C" : t('gardens.about.temperature_unknown')
-  end
-
-  # The garden's hottest and coldest, as the sentence that credits Wikidata.
-  def garden_temperatures(garden)
-    url = "https://www.wikidata.org/wiki/#{garden.location_wikidata_id}"
-    source = link_to('Wikidata', url, target: '_blank', rel: 'noopener noreferrer')
-    hottest = temperature_text(garden.highest_temp_c)
-    coldest = temperature_text(garden.lowest_temp_c)
-    t('gardens.about.temperatures_html', source:, hottest:, coldest:)
+    safe_join([location, garden.garden_type&.name, garden.area_text, garden_distance(garden)].compact, ' · ')
   end
 
   # What the GardenPlanter island needs to open the planting dialog for a garden.
@@ -43,13 +22,14 @@ module GardensHelper
   # use for crops that have none of their own.
   def garden_cards_props(gardens, owner: nil)
     {
-      gardens:          GardenCardSerializer.collection(gardens, ability: card_ability, show_owner: owner.blank?),
-      default_icon_url: image_path('icons/planting.svg'),
-      spade_icon_url:   image_path('spade-marker.svg'),
-      harvest_icon_url: image_path('icons/harvest.svg'),
-      seed_icon_url:    image_path('icons/seeds.svg'),
-      photo_icon_url:   image_path('icons/photo.svg'),
-      finish_icon_url:  image_path('icons/finish.svg')
+      gardens:           GardenCardSerializer.collection(gardens, ability: card_ability, show_owner: owner.blank?),
+      default_icon_url:  image_path('icons/planting.svg'),
+      spade_icon_url:    image_path('spade-marker.svg'),
+      harvest_icon_url:  image_path('icons/harvest.svg'),
+      seed_icon_url:     image_path('icons/seeds.svg'),
+      photo_icon_url:    image_path('icons/photo.svg'),
+      finish_icon_url:   image_path('icons/finish.svg'),
+      observation_kinds: observation_kind_options
     }
   end
 
@@ -75,7 +55,7 @@ module GardensHelper
   def nursery_seedlings(nursery)
     return [] unless nursery
 
-    nursery.plantings.current.includes({ crop: :parent }, :photos).order(planted_at: :desc, id: :desc).to_a
+    nursery.plantings.current.includes({ crop: :parent }, :parent_seed, :alternate_name, :photos).order(planted_at: :desc, id: :desc).to_a
   end
 
   # What has been sown, as [[day, got as seedlings], plantings] pairs, newest
@@ -119,11 +99,12 @@ module GardensHelper
   def nursery_chip_props(seedling, gardens:)
     chip = PlantingChipSerializer.new(seedling, ability: card_ability).as_json.merge(slug: seedling.slug)
     {
-      planting:         nursery_chip_with_transplant(chip, seedling, gardens),
-      gardens:          gardens,
-      default_icon_url: image_path('icons/planting.svg'),
-      photo_icon_url:   image_path('icons/photo.svg'),
-      detail:           ("\u00d7 #{seedling.quantity}" if seedling.quantity)
+      planting:          nursery_chip_with_transplant(chip, seedling, gardens),
+      gardens:           gardens,
+      default_icon_url:  image_path('icons/planting.svg'),
+      photo_icon_url:    image_path('icons/photo.svg'),
+      observation_kinds: observation_kind_options,
+      detail:            ("\u00d7 #{seedling.quantity}" if seedling.quantity)
     }
   end
 
@@ -173,29 +154,6 @@ module GardensHelper
       truncate(garden.description, length: 130, separator: ' ', omission: '... ') do
         link_to "Read more", garden_path(garden)
       end
-    end
-  end
-
-  # TODO: Not used?
-  def display_garden_name(garden)
-    truncate(garden.name, length: 50, separator: ' ', omission: '... ')
-  end
-
-  # TODO: Only used by specs?
-  def display_garden_plantings(plantings)
-    if plantings.blank?
-      "None"
-    else
-      output = '<ul class="plantings">'
-      plantings.each do |planting|
-        output += "<li>"
-        output += planting.quantity.nil? ? "0 " : "#{planting.quantity} "
-        output += link_to planting.display_name, planting.crop
-        output += ", planted on #{planting.planted_at}</li>"
-      end
-      output += '</ul>'
-      output.html_safe
-
     end
   end
 end

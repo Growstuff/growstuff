@@ -3,36 +3,6 @@
 require 'rails_helper'
 
 describe SeedsHelper do
-  describe "seed description" do
-    it "is missing" do
-      seed = create(:seed,
-                    description: nil)
-      result = helper.display_seed_description(seed)
-      expect(result).to eq ""
-    end
-
-    it "is less than 130 characters long" do
-      seed = create(:seed,
-                    description: 'a' * 20)
-      result = helper.display_seed_description(seed)
-      expect(result).to eq 'a' * 20
-    end
-
-    it "is 130 characters long" do
-      seed = create(:seed,
-                    description: 'a' * 130)
-      result = helper.display_seed_description(seed)
-      expect(result).to eq 'a' * 130
-    end
-
-    it "is more than 130 characters long" do
-      seed = create(:seed,
-                    description: 'a' * 140)
-      result = helper.display_seed_description(seed)
-      expect(result).to eq ('a' * 126) + '...' + ' ' + link_to("Read more", seed_path(seed))
-    end
-  end
-
   describe '#seed_source_label' do
     it { expect(helper.seed_source_label('my own seed saving')).to eq 'own saving' }
     it { expect(helper.seed_source_label('seed bank or similar institution')).to eq 'seed bank' }
@@ -187,33 +157,16 @@ describe SeedsHelper do
     end
   end
 
-  describe '#seed_filter_chips' do
-    before { allow(helper).to receive(:current_member).and_return(viewer) }
+  describe '#seed_variety' do
+    it { expect(helper.seed_variety([build(:seed, variety: 'Moneymaker')])).to eq 'Moneymaker' }
+    it { expect(helper.seed_variety([build(:seed, variety: 'Roma'), build(:seed, variety: 'Roma')])).to eq 'Roma' }
+    it { expect(helper.seed_variety([build(:seed, variety: 'Roma'), build(:seed, variety: 'Oxheart')])).to eq 'Roma and Oxheart' }
+    it { expect(helper.seed_variety([build(:seed, variety: ''), build(:seed, variety: nil)])).to be_nil }
+  end
 
-    let(:viewer) { create(:london_member) }
-
-    context 'with the member\'s own seeds' do
-      let(:chips) { helper.seed_filter_chips(everyone: false) }
-      let(:labels) { ['All', 'My own saving', 'Bought', 'Traded from a person', 'Heirloom only', 'Shared with others'] }
-
-      it { expect(chips.map(&:first)).to eq labels }
-      it { expect(chips.first.last).to eq(from: nil, tradeable_to: nil) }
-      it { expect(chips.assoc('Bought').last).to eq(from: 'bought') }
-    end
-
-    context 'with everyone\'s seeds' do
-      let(:chips) { helper.seed_filter_chips(everyone: true) }
-
-      it { expect(chips.map(&:first)).to eq ['Anywhere', 'Within 50 km', 'Within 10 km', 'Heirloom only', 'Saved by the gardener'] }
-      it { expect(chips.assoc('Within 10 km').last).to eq(within: 10) }
-    end
-
-    context 'with everyone\'s seeds when signed out' do
-      let(:viewer) { nil }
-      let(:chips) { helper.seed_filter_chips(everyone: true) }
-
-      it { expect(chips.map(&:first)).to eq ['Anywhere', 'Heirloom only', 'Saved by the gardener'] }
-    end
+  describe '#seed_shelf_title' do
+    it { expect(helper.seed_shelf_title('year saved')).to eq 'Year saved' }
+    it { expect(helper.seed_shelf_title(create(:member, login_name: 'Fiona'))).to have_link('Fiona') }
   end
 
   describe '#seed_library_props' do
@@ -231,11 +184,12 @@ describe SeedsHelper do
       assign(:in_stock_count, 0)
       assign(:finished_count, 0)
       allow(helper).to receive(:current_member).and_return(nil)
+      allow(helper).to receive(:render).with('seeds/scope').and_return('<nav>scope</nav>')
       allow(helper).to receive(:render).with('seeds/tabs').and_return('<ul>tabs</ul>')
       allow(helper).to receive(:render).with('seeds/results').and_return('<p>results</p>')
     end
 
-    it { expect(props[:groups].map(&:first)).to eq %w(crop source year heirloom) }
+    it { expect(props[:groups].map(&:first)).to eq %w(crop source year use_by heirloom) }
     it { expect(props[:tabs]).to eq '<ul>tabs</ul>' }
     it { expect(props[:html]).to eq '<p>results</p>' }
     it { expect(props[:placeholder]).to eq 'Search seeds by crop' }

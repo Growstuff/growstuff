@@ -33,13 +33,46 @@ describe JobsNotepad do
       expect(job.garden.association(:garden_collaborators)).to be_loaded
     end
 
-    it 'has only the member\'s jobs for it' do
+    it 'has the member\'s jobs for it' do
       expect(names).to eq ['Net the berries']
     end
 
-    it 'leaves out other members\' jobs for it, though they are in it' do
-      create(:job, garden: berries, name: 'A collaborator\'s job')
+    it 'includes a collaborator\'s job in the garden' do
+      collaborator = create(:member)
+      create(:garden_collaborator, garden: berries, member: collaborator)
+      create(:job, owner: collaborator, garden: berries, name: 'A collaborator\'s job', due_date: Time.zone.today)
+      expect(names).to contain_exactly('Net the berries', 'A collaborator\'s job')
+    end
+
+    it 'leaves out jobs for other gardens' do
+      other_garden = create(:garden, owner: member)
+      create(:job, owner: member, garden: other_garden, name: 'Water the plot', due_date: Time.zone.today)
       expect(names).to eq ['Net the berries']
+    end
+  end
+
+  context 'when the member is a garden collaborator' do
+    let(:community_garden) { create(:garden) }
+    let!(:collab_job) { create(:job, garden: community_garden, name: 'Weed community plot', due_date: Time.zone.today) }
+
+    before do
+      create(:garden_collaborator, garden: community_garden, member:)
+    end
+
+    it 'includes jobs for the collaborated garden' do
+      expect(names).to include('Weed community plot')
+    end
+
+    it 'includes jobs for plantings in the collaborated garden' do
+      planting = create(:planting, garden: community_garden, owner: community_garden.owner)
+      create(:job, owner: community_garden.owner, jobbable: planting, name: 'Stake shared tomatoes', due_date: Time.zone.today)
+      expect(names).to include('Stake shared tomatoes')
+    end
+
+    it 'leaves out jobs from unrelated gardens' do
+      unrelated_garden = create(:garden)
+      create(:job, garden: unrelated_garden, name: 'Unrelated job', due_date: Time.zone.today)
+      expect(names).not_to include('Unrelated job')
     end
   end
 

@@ -22,11 +22,16 @@ describe "Planting reminder email" do
     before { member.update_columns(planting_reminder_sent_at: 1.year.ago) }
 
     it "says there are new features to tell them about" do
-      expect(mail_body).to have_content "We have 4 new features to tell you about"
+      expect(mail_body).to have_content "We have 11 new features to tell you about"
     end
 
     it "tells them about the features" do
       expect(mail_body).to have_link "Seed library", href: seeds_url
+    end
+
+    it "sends them to the frost danger for their own place" do
+      member.update_columns(location: 'Wellington, New Zealand')
+      expect(mail_body).to have_link "Frost danger", href: place_url('Wellington, New Zealand')
     end
   end
 
@@ -149,6 +154,20 @@ describe "Planting reminder email" do
       it { expect(mail_body).to have_link recent_planting.crop.name, href: planting_url(recent_planting) }
       it { expect(mail_body).to have_link older_planting.crop.name, href: planting_url(older_planting) }
       it { expect(mail_body).to have_content "Harvested anything lately?" }
+    end
+  end
+
+  context "when member has set a preferred locale" do
+    let(:member) { create(:member, locale: 'es') }
+
+    it "renders the subject in the member's language" do
+      expect(mail.subject).to include("Tu informe de progreso de")
+    end
+
+    it "renders the body in the member's language" do
+      expect(mail_body).to have_content "Hola #{member.login_name},"
+      expect(mail_body).to have_content "Tu informe semanal de progreso"
+      expect(mail_body).to have_content "Darse de baja de los recordatorios de siembra"
     end
   end
 end

@@ -74,7 +74,7 @@ describe 'Recording a harvest as JSON' do
     it 'returns the validation errors as 422 and records nothing' do
       expect { record_harvest(plant_part_id: nil) }.not_to(change(Harvest, :count))
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.parsed_body['errors']).to have_key('plant_part')
     end
 
@@ -83,7 +83,7 @@ describe 'Recording a harvest as JSON' do
 
       expect { record_harvest(target: someone_elses) }.not_to(change(Harvest, :count))
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.parsed_body['errors']).to have_key('owner')
     end
   end

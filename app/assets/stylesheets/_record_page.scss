@@ -14,6 +14,13 @@
     margin-bottom: $section-gap;
   }
 
+  // The site's own `section` rule gives every section a little top margin. The first one in a column starts the column,
+  // so it goes without, and sits level with the panel beside it.
+  > .row > [class^="col-"] > section:first-child,
+  > .row > [class*=" col-"] > section:first-child {
+    margin-top: 0;
+  }
+
   // Override nested card styling for now.
   .comment {
     border: 1px solid lightgray;
@@ -287,6 +294,40 @@
     overflow-wrap: break-word;
     word-break: normal;
     hyphens: auto;
+  }
+
+  // The edit pencil of a fact card is fixed in the card's top right corner, whatever the title says, and is a big round
+  // target (44px) for someone who can't aim a mouse or a finger well. The title keeps clear of it.
+  .facts .fact-card {
+    .edit-link {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: inherit;
+    }
+
+    .edit-link .editable {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 50%;
+
+      &:hover,
+      &:focus-visible {
+        background: rgba(0, 0, 0, 0.08);
+      }
+
+      .menu-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    }
+
+    &:has(.edit-link) h3 {
+      padding-inline: 2rem;
+    }
   }
 
   // The unit or aside under a value — "seeds", "days", the location.

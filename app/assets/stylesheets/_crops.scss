@@ -48,27 +48,6 @@
   }
 }
 
-.planting {
-  .crop-card {
-    height: 100%;
-    margin: 0.1em;
-    min-height: 300px;
-  }
-
-  .img-thumbnail {
-    width: 100%;
-  }
-}
-
-.crop-photos {
-  margin-left: 3em;
-}
-
-.crops-search-form {
-  background-color: $white;
-  padding: 1em;
-}
-
 .crop-hierarchy {
   list-style-type: disc;
 }
@@ -88,6 +67,47 @@
 
 .crop-hero-photo {
   max-height: 300px;
+}
+
+.crop-post-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.crop-post {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 0;
+
+  & + & {
+    border-top: 1px solid var(--bs-border-color);
+  }
+}
+
+.crop-post-thumbnail {
+  flex: 0 0 auto;
+
+  img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: $card-radius;
+  }
+}
+
+.crop-post-content {
+  flex: 1 1 12rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.crop-post-action {
+  margin-left: auto;
+  align-self: flex-end;
 }
 
 @include media-breakpoint-down(sm) {
@@ -232,7 +252,8 @@
 // Annual or perennial is the point of the lifespan card, so it is the biggest thing in it.
 .lifespan-word {
   display: block;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  white-space: nowrap;
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 0.25rem;
@@ -258,6 +279,26 @@
   }
 }
 
+// An EcoCrop card: the icon for what it is on top, then its figures. The ranges run longer than
+// the other facts' figures ("500–1000 mm/year"), so they are set smaller to stay on one line, and
+// a card with two ranges draws a line between them.
+.ecocrop-fact {
+  .ecocrop-fact-icon {
+    color: $ink-muted;
+    margin-bottom: 0.5rem;
+  }
+
+  strong {
+    font-size: 1.5rem;
+    text-wrap: balance;
+  }
+
+  .crop-sow-hemisphere + .crop-sow-hemisphere {
+    border-top: 1px solid rgba(65, 63, 59, 0.15);
+    padding-top: 0.5rem;
+  }
+}
+
 // The median of members' seed packets, under the figure a wrangler set, or on its own:
 // quieter than the figure, and marked with the seeds icon so it reads as data from the packets.
 .crop-fact-median {
@@ -274,4 +315,78 @@
     height: 16px;
     width: 16px;
   }
+}
+
+// The common names to copy, in the EcoCrop dialogs: in columns where there are many.
+.ecocrop-names-list {
+  column-width: 12rem;
+  max-height: 14rem;
+  overflow-y: auto;
+}
+
+// The filters above the crop list: headings over each control, toggle buttons that fill when on, and a footer with the
+// status on the left and the Filter button, which shows only without JavaScript, on the right.
+.crop-filters {
+  .crop-filter-heading {
+    display: block;
+    margin-bottom: .4rem;
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: $gray-700;
+  }
+
+  .crop-filter-toggles .btn {
+    box-shadow: none;
+    border: 1px solid $primary;
+    background: $white;
+    color: $primary;
+  }
+
+  .btn-check:checked + .btn {
+    background: $primary;
+    color: $white;
+  }
+
+  .crop-filter-checks {
+    padding-top: .75rem;
+    border-top: 1px solid $gray-300;
+  }
+
+  .crop-filters-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: .5rem;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  .crop-filter-status:empty {
+    display: none;
+  }
+}
+
+// The crop chosen to see the varieties of, as a chip with a button to remove it.
+.crop-filters .crop-filter-chosen {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .25rem .5rem .25rem 1rem;
+  border: 2px solid $primary;
+  border-radius: 2rem;
+  background: $white;
+  color: $primary;
+  font-size: 1.25rem;
+}
+
+.crop-filters .crop-filter-chosen-remove {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
 }

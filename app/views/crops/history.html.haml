@@ -1,12 +1,12 @@
-- content_for :title, "Edit history of #{@crop.name}"
+- content_for :title, t('.title', crop: @crop.name)
 
-%h1 Edit history of #{@crop.name}
+%h1= t('.title', crop: @crop.name)
 
 %p
-  = link_to "Back to #{@crop.name}", @crop
+  = link_to t('.back', crop: @crop.name), @crop
 
 - if @versions.empty?
-  %p.text-muted This crop has no recorded edits.
+  %p.text-muted= t('.empty')
 - else
   .card
     %ul.list-group.list-group-flush
@@ -15,13 +15,12 @@
 
         %li.list-group-item
           .d-flex.w-100.justify-content-between
-            %h2.h5.mb-1.edit-event= version.event.humanize
-            %small #{time_ago_in_words(version.created_at)} ago
+            %h2.h5.mb-1.edit-event= t(".events.#{version.event}", default: version.event.humanize)
+            %small= t('.time_ago', time: time_ago_in_words(version.created_at))
           - member = @version_members[version.whodunnit.to_i]
           - if member
             %p.mb-1
-              Made by
-              = link_to member.login_name, member
+              = t('.made_by_html', member: link_to(member.login_name, member))
           = render 'shared/version_changeset', version: version
 
   = will_paginate @versions

@@ -2,9 +2,9 @@
 -# always has; if the comment can't be saved, the new-comment page shows why.
 #new-comment.new-comment
   = bootstrap_form_for(Comment.new(commentable:)) do |f|
-    = f.text_area :body, rows: 4, required: true, label: 'Add a comment'
+    = f.text_area :body, rows: 4, required: true, label: t('.add_comment')
     %span.form-text= render 'shared/markdown_help'
     = f.hidden_field :commentable_id
     = f.hidden_field :commentable_type
     .text-end
-      = f.submit 'Post comment', class: 'btn btn-primary'
+      = f.submit t('.post_comment'), class: 'btn btn-primary'

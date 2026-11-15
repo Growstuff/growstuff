@@ -108,8 +108,8 @@ describe "seed filters", :js do
       it { expect(page).to have_css('.seed-chip.active', text: 'My own saving') }
     end
 
-    context "when choosing bought" do
-      before { visit member_seeds_path(owner, from: 'bought') }
+    context "when choosing retail outlet" do
+      before { visit member_seeds_path(owner, from: 'retail') }
 
       it { expect(page).to have_css('.seed-shelf-bar h3', text: 'cabbage') }
       it { expect(page).to have_no_css('.seed-shelf-bar h3', text: 'tomato') }
@@ -126,7 +126,7 @@ describe "seed filters", :js do
       context "when showing everything" do
         before { visit member_seeds_path(owner) }
 
-        it { expect(page).to have_css('.seed-tip', text: '1 packet is past their sow-by date') }
+        it { expect(page).to have_css('.seed-tip', text: '1 packet is past its sow-by date') }
         it { expect(page).to have_link('Show me that one', href: member_seeds_path(owner, past: 1)) }
       end
 

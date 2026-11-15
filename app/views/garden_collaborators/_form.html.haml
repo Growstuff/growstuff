@@ -2,17 +2,16 @@
   = bootstrap_form_for(@garden_collaborator.new_record? ? [@garden, @garden_collaborator] : garden_garden_collaborator_path(@garden, @garden_collaborator)) do |f|
     .card-body
       - if @garden_collaborator.errors.any?
-        #error_explanation.alert.alert-warning{:role => "alert"}
+        #error_explanation.alert.alert-warning{ role: 'alert' }
           %h4.alert-heading
-            = pluralize(@garden_collaborator.errors.size, "error")
-            prohibited this garden collaborator from being saved
+            = t('.errors', count: @garden_collaborator.errors.size)
           %ul
             - @garden_collaborator.errors.full_messages.each do |msg|
               %li= msg
 
       .alert.alert-info
-        Ask your friend, family member or community garden member for their growstuff username to add them as a collaborator on your garden.
+        = t('.guidance')
       = f.text_field :member_slug, maxlength: 255, required: true
       .row
     .card-footer
-      .text-end= f.submit 'Save Collaboator'
+      .text-end= f.submit t('.save')

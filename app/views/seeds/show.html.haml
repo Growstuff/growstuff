@@ -1,5 +1,5 @@
-- seed_title = "#{@seed.owner}'s #{@seed.crop} seeds"
-- seed_blurb = "Seeds for #{@seed.crop.name}, shared by #{@seed.owner}."
+- seed_title = t('seeds.ui.record_title', owner: @seed.owner, crop: @seed.crop)
+- seed_blurb = t('seeds.ui.record_description', crop: @seed.crop.name, owner: @seed.owner)
 = render 'shared/record_meta',
          title:       seed_title,
          description: @seed.description.presence || seed_blurb,
@@ -17,12 +17,12 @@
 -# such trail, so it falls back to the owner's seeds.
 - content_for :breadcrumbs do
   - if @seed.parent_planting.present?
-    %li.breadcrumb-item= link_to 'Plantings', plantings_path
+    %li.breadcrumb-item= link_to t('seeds.ui.plantings'), plantings_path
     %li.breadcrumb-item= link_to @seed.parent_planting.display_name, @seed.parent_planting
   - else
-    %li.breadcrumb-item= link_to 'Seeds', seeds_path
+    %li.breadcrumb-item= link_to t('seeds.ui.seeds'), seeds_path
     %li.breadcrumb-item= link_to @seed.owner, member_seeds_path(@seed.owner)
-  %li.breadcrumb-item.active Seeds
+  %li.breadcrumb-item.active= t('seeds.ui.seeds')
 
 .seed-show.record-page
   .row
@@ -36,14 +36,14 @@
         = cute_icon
         %section#notes.seed--description
           .section-header
-            %h2 Notes
+            %h2= t('seeds.ui.notes')
             -# "edit", not "+ add": there is one note, not a list to add to.
             - if can?(:edit, @seed)
               - notes_edit = { href: '#', "data-display" => '.seed-notes-body',
                                "data-form" => "##{editable_form_id(@seed, :description)}" }
               %a.btn.btn-sm.section-add.editable{ notes_edit }
                 = menu_icon(:edit)
-                edit
+                = t('seeds.ui.edit')
           -# The trigger lives in the heading bar above, so the partial renders
           -# the form alone.
           = render 'shared/editable/form',
@@ -54,35 +54,35 @@
               :markdown
                 #{strip_tags markdownify(@seed.description)}
             - else
-              %p.text-muted.mb-0 No notes yet.
+              %p.text-muted.mb-0= t('seeds.ui.no_notes')
 
         %section.seed-descendants
           .section-header
-            %h2 Plants grown from these seeds
+            %h2= t('seeds.ui.descendants_heading')
             - if can?(:create, Planting) && can?(:update, @seed) && @seed.active
               = link_to new_planting_path(seed_id: @seed), class: 'btn btn-sm section-add' do
                 = icon 'fas', 'plus'
-                add
+                = t('seeds.ui.add')
           = render 'seeds/descendants', seed: @seed
 
         %section#photos
           .section-header
-            %h2 Photos
+            %h2= t('seeds.ui.photos')
             - if can?(:edit, @seed) && can?(:create, Photo)
               - add_photo = new_photo_path(id: @seed.id, type: 'seed')
               = link_to add_photo, class: 'btn btn-sm section-add', data: photo_dialog_data(@seed) do
                 = icon 'fas', 'plus'
-                add
+                = t('seeds.ui.add')
           - if @photos.any?
             = render 'photos/gallery', photos: @photos, item: @seed
             = will_paginate @photos
           - else
             -# One line. The "+ add" on the heading bar is the invitation.
-            %p.text-muted.mb-0 No photos yet.
+            %p.text-muted.mb-0= t('seeds.ui.no_photos')
 
     .col-md-4.col-12
       %section.seed-crop
         .section-header
-          %h2 Crop
+          %h2= t('seeds.ui.crop')
         = render 'plantings/crop', crop: @seed.crop
       = render 'crops/nutritional_data', crop: @seed.crop

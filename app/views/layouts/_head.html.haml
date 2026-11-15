@@ -7,11 +7,11 @@
     = tag("meta", property: "og:image", content: image_url('og-card.png'))
     = tag("meta", property: "og:image:width", content: "1200")
     = tag("meta", property: "og:image:height", content: "630")
-    = tag("meta", property: "og:image:alt", content: "Growstuff, a community of food gardeners: a pear with a sunflower, a snail, a ladybird, a watering can and a cat.")
+    = tag("meta", property: "og:image:alt", content: t('.social_image_alt'))
     = tag("meta", property: "og:title",
           content: (content_for?(:title) ? yield(:title) + " - " : "") + ENV['GROWSTUFF_SITE_NAME'])
     = tag("meta", property: "og:description",
-          content: (content_for?(:meta_description) ? og_description(yield(:meta_description)) : "Growstuff is a community of food gardeners. Let's learn to grow food together. All our data is open data."))
+          content: (content_for?(:meta_description) ? og_description(yield(:meta_description)) : t('.description')))
     = tag("meta", property: "og:type", content: "website")
     = tag("meta", property: "og:url", content: request.original_url)
     = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
@@ -20,23 +20,23 @@
   - if content_for?(:member_rss_login_name) && content_for(:member_rss_slug)
     = auto_discovery_link_tag(:rss,
       { controller: "/members", action: 'show', format: "rss", id: yield(:member_rss_slug) },
-      title: "#{ENV['GROWSTUFF_SITE_NAME']}- #{yield(:member_rss_login_name)}'s posts")
+      title: t('.member_feed', site_name: ENV['GROWSTUFF_SITE_NAME'], member: yield(:member_rss_login_name)))
   = auto_discovery_link_tag(:rss,
                             { controller: "/posts", format: "rss" },
-                            title: "#{ENV['GROWSTUFF_SITE_NAME']} - Recent posts from all members")
+                            title: t('.posts_feed', site_name: ENV['GROWSTUFF_SITE_NAME']))
   = auto_discovery_link_tag(:rss,
                             { controller: "/crops", format: "rss" },
-                            title: "#{ENV['GROWSTUFF_SITE_NAME']} - Recently added crops")
+                            title: t('.crops_feed', site_name: ENV['GROWSTUFF_SITE_NAME']))
   = auto_discovery_link_tag(:rss,
                             { controller: "/plantings", format: "rss" },
-                            title: "#{ENV['GROWSTUFF_SITE_NAME']} - Recent plantings from all members")
+                            title: t('.plantings_feed', site_name: ENV['GROWSTUFF_SITE_NAME']))
 
   %title
     = content_for?(:title) ? yield(:title) + " - #{ENV['GROWSTUFF_SITE_NAME']} " : ENV['GROWSTUFF_SITE_NAME']
   - if content_for?(:meta_description)
     %meta{name: "description", content: yield(:meta_description)}
   - else
-    %meta{name: "description", content: "Growstuff is a community of food gardeners. Let's learn to grow food together. All our data is open data."}
+    %meta{name: "description", content: t('.description')}
   = csrf_meta_tags
   = stylesheet_link_tag "application", media: "all"
 

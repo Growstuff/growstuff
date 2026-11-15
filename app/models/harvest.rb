@@ -48,10 +48,10 @@ class Harvest < ApplicationRecord
   belongs_to :crop, counter_cache: true
   belongs_to :plant_part, counter_cache: true
   belongs_to :planting, optional: true, counter_cache: true
+  has_many :comments, as: :commentable, dependent: :destroy
 
   ##
   ## Scopes
-  scope :interesting, -> { has_photos.one_per_owner }
   scope :recent, -> { order(created_at: :desc) }
   scope :one_per_owner, lambda {
     joins("JOIN members m ON (m.id=harvests.owner_id)
@@ -106,6 +106,14 @@ class Harvest < ApplicationRecord
     self.unit = nil if quantity.blank?
     self.weight_quantity = nil if weight_quantity&.zero?
     self.weight_unit = nil if weight_quantity.blank?
+  end
+
+  def subject
+    to_s
+  end
+
+  def author
+    owner
   end
 
   def harvest_slug

@@ -33,72 +33,6 @@ describe GardensHelper do
     end
   end
 
-  describe "garden plantings" do
-    it "is missing" do
-      result = helper.display_garden_plantings(nil)
-      expect(result).to eq "None"
-    end
-
-    it "has 1 planting" do
-      crop = create(:crop)
-      plantings = [create(:planting, quantity: 10, crop:)]
-      result = helper.display_garden_plantings(plantings)
-
-      output = '<ul class="plantings"><li>'
-      output += "10 " + link_to(crop.name, crop)
-      output += ", planted on #{plantings.first.planted_at}"
-      output += "</li></ul>"
-      expect(result).to eq output
-    end
-
-    it "has 2 plantings" do
-      plantings = []
-
-      crop1 = create(:crop)
-      plantings << create(:planting, quantity: 10, crop: crop1)
-
-      crop2 = create(:crop)
-      plantings << create(:planting, quantity: 10, crop: crop2)
-
-      result = helper.display_garden_plantings(plantings.first(2))
-
-      output = '<ul class="plantings"><li>'
-      output += "10 " + link_to(crop1.name, crop1)
-      output += ", planted on #{plantings.first.planted_at}"
-      output += "</li>"
-      output += "<li>"
-      output += "10 " + link_to(crop2.name, crop2)
-      output += ", planted on #{plantings.first.planted_at}"
-      output += "</li></ul>"
-      expect(result).to eq output
-    end
-
-    it "has 3 plantings" do
-      plantings = []
-
-      crop1 = create(:crop)
-      plantings << create(:planting, quantity: 10, crop: crop1)
-
-      crop2 = create(:crop)
-      plantings << create(:planting, quantity: 10, crop: crop2)
-
-      crop3 = create(:crop)
-      plantings << create(:planting, quantity: 10, crop: crop3)
-
-      result = helper.display_garden_plantings(plantings.first(2))
-
-      output = '<ul class="plantings"><li>'
-      output += "10 " + link_to(crop1.name, crop1)
-      output += ", planted on #{plantings.first.planted_at}"
-      output += "</li>"
-      output += "<li>"
-      output += "10 " + link_to(crop2.name, crop2)
-      output += ", planted on #{plantings.first.planted_at}"
-      output += "</li></ul>"
-      expect(result).to eq output
-    end
-  end
-
   describe '#garden_distance' do
     subject(:distance) { helper.garden_distance(garden) }
 
@@ -153,28 +87,6 @@ describe GardensHelper do
       zed = create(:garden_type, name: 'Zed')
       ant = create(:garden_type, name: 'Ant')
       expect(helper.garden_type_options).to eq [['Ant', ant.id], ['Zed', zed.id]]
-    end
-  end
-
-  describe '#temperature_text' do
-    it 'rounds to a tenth of a degree' do
-      expect(helper.temperature_text(31.44)).to eq '31.4°C'
-    end
-
-    it 'says when it is not known' do
-      expect(helper.temperature_text(nil)).to eq 'not known'
-    end
-  end
-
-  describe '#garden_temperatures' do
-    let(:garden) { build_stubbed(:garden, location_wikidata_id: 'Q1', highest_temp_c: 31.4, lowest_temp_c: nil) }
-
-    it 'says the hottest and coldest, crediting Wikidata' do
-      expect(helper.garden_temperatures(garden)).to include('hottest 31.4°C, coldest not known')
-    end
-
-    it 'links to the Wikidata entry' do
-      expect(helper.garden_temperatures(garden)).to include('href="https://www.wikidata.org/wiki/Q1"')
     end
   end
 

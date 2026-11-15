@@ -1,0 +1,16 @@
+-# How long the crop takes to a first harvest if sown now, from the best figure we hold, and why a location would help.
+- facts = crop_duration_facts(crop, current_member)
+- if facts
+  %section.crop-time-to-harvest
+    .section-header
+      %h2= t('.title')
+    - if facts[:days]
+      %p.mb-1= t('.about_html', days: content_tag(:strong, facts[:days]))
+      %p.text-muted.small= t(".source.#{facts[:source]}")
+    - if facts[:hint]
+      %p.text-muted.small
+        = t(".hint.#{facts[:hint]}")
+        - if facts[:hint] == :sign_in
+          = link_to t('.sign_in'), new_member_session_path
+        - elsif facts[:hint] == :set_location
+          = link_to t('.set_location'), edit_member_registration_path

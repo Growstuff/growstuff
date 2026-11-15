@@ -84,7 +84,7 @@ describe 'Saving seeds as JSON' do
     it 'returns the validation errors as 422 and saves nothing' do
       expect { save_seeds(tradable_to: 'the moon') }.not_to(change(Seed, :count))
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.parsed_body['errors']).to have_key('tradable_to')
     end
   end

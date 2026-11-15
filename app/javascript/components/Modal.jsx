@@ -29,7 +29,7 @@ export function closeOpenOffcanvases(trigger) {
 // back to where it was when it closes. Rendered into document.body, so it
 // sits in front of the page whatever stacking context its caller is in (the
 // sticky sidebar on the garden layout page, for one).
-export default function Modal({title, titleId, onClose, size = 'lg', children}) {
+export default function Modal({title, titleId, onClose, size = 'lg', eyebrow, className, children}) {
   const contentRef = useRef(null);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export default function Modal({title, titleId, onClose, size = 'lg', children}) 
   return createPortal(
     <>
       <div
-        className="modal fade show d-block"
+        className={`modal fade show d-block${className ? ` ${className}` : ''}`}
         tabIndex="-1"
         role="dialog"
         aria-modal="true"
@@ -87,7 +87,10 @@ export default function Modal({title, titleId, onClose, size = 'lg', children}) 
         <div className={size ? `modal-dialog modal-${size}` : 'modal-dialog'}>
           <div className="modal-content" ref={contentRef} tabIndex="-1">
             <div className="modal-header">
-              <h2 className="modal-title h5" id={titleId}>{title}</h2>
+              <div>
+                {eyebrow && <span className="modal-eyebrow d-block">{eyebrow}</span>}
+                <h2 className="modal-title h5" id={titleId}>{title}</h2>
+              </div>
               <button type="button" className="btn-close" aria-label="Close" onClick={onClose} />
             </div>
             {children}

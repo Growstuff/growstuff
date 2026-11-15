@@ -25,10 +25,10 @@ class PlantingsController < DataController
     # drops every harvest that has no photo.
     @harvests = @planting.harvests.includes(:owner, :crop, :plant_part).recent
     @child_seeds = @planting.child_seeds.includes(:owner, :crop)
+    @observations = @planting.observations.includes(:author).newest_first
     @current_jobs = @planting.jobs.active.includes(:owner).order(created_at: :desc)
     @finished_jobs = @planting.jobs.finished.includes(:owner).order(created_at: :desc)
     load_weather
-    @matching_seeds = matching_seeds
     @crop = @planting.crop
 
     @neighbours = @planting.nearby_same_crop
@@ -121,11 +121,12 @@ class PlantingsController < DataController
 
   # Behind the planting_weather feature switch, and not for seedlings still in the nursery, so we do none of the work for them.
   def load_weather
-    return unless Feature.enabled?(:planting_weather) && !@planting.in_nursery?
+    return unless Feature.enabled?(:planting_weather, current_member) && !@planting.in_nursery?
 
     @weather = @planting.weather_readings.select(*WeatherReading::CHARTED).to_a
     @expected_weather = @planting.expected_weather_readings(after: @weather.last&.date)
     @weather_status = weather_status
+    @frost = PlantingFrost.for(@planting, readings: @weather)
   end
 
   # What the page says about weather: the charts, a request for a location from whoever can give one, or that it is on its way.
@@ -179,7 +180,7 @@ class PlantingsController < DataController
     params.require(:planting).permit(
       :crop_id, :alternate_name_id, :description, :garden_id, :planted_at,
       :parent_seed_id,
-      :quantity, :sunniness, :planted_from, :finished,
+      :quantity, :sunniness, :planted_from, :hardiness, :finished,
       :finished_at, :failed, :overall_rating
     )
   end
@@ -197,12 +198,6 @@ class PlantingsController < DataController
       .order(created_at: :desc)
       .includes(:crop, :owner, :garden)
       .paginate(page: params[:page])
-  end
-
-  def matching_seeds
-    @matching_seeds ||= Seed.where(crop: @planting.crop, owner: @planting.owner)
-      .where('(finished_at IS NULL OR finished_at >= ?)', @planting.planted_at)
-      .where('(saved_at IS NULL OR saved_at <= ?)', @planting.planted_at)
   end
 
   def specifics

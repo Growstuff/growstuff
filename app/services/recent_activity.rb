@@ -8,16 +8,17 @@ class RecentActivity
   def self.events(member_ids, following: false)
     return [] if member_ids.empty?
 
-    events = Planting.where(owner_id: member_ids).includes(:owner, :crop).order(planted_at: :desc).limit(10).map do |planting|
-      Event.new(member: planting.owner, verb: 'planted', subject: planting.crop, at: planting.planted_at, following:)
-    end
-    events += Harvest.where(owner_id: member_ids).includes(:owner, :crop).order(harvested_at: :desc).limit(10).map do |harvest|
-      Event.new(member: harvest.owner, verb: 'harvested', subject: harvest.crop, at: harvest.harvested_at, following:)
-    end
-    seeds = Seed.current.tradable.where(owner_id: member_ids).includes(:owner, :crop).order(created_at: :desc).limit(5)
-    events += seeds.map do |seed|
-      Event.new(member: seed.owner, verb: 'has seeds to trade:', subject: seed.crop, at: seed.created_at, following:)
-    end
+    events = events_from(Planting.where(owner_id: member_ids), 'planted', :planted_at, 10, following)
+    events += events_from(Harvest.where(owner_id: member_ids), 'harvested', :harvested_at, 10, following)
+    events += events_from(Seed.current.tradable.where(owner_id: member_ids), 'has seeds to trade:', :created_at, 5, following)
     events.compact.sort_by { |event| event.at || Time.zone.at(0) }.reverse
   end
+
+  # The newest few of the records, each as an event at the time in the column.
+  def self.events_from(records, verb, column, limit, following)
+    records.includes(:owner, :crop).order(column => :desc).limit(limit).map do |record|
+      Event.new(member: record.owner, verb:, subject: record.crop, at: record[column], following:)
+    end
+  end
+  private_class_method :events_from
 end

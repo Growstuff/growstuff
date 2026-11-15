@@ -21,4 +21,32 @@ describe "crop search" do
     visit search_crops_path
     expect(page).to have_css "form#crop-search"
   end
+
+  context "when not signed in" do
+    it "does not show an add new crop button" do
+      visit search_crops_path(term: "nonexistent")
+      expect(page).to have_no_link "Add New Crop"
+      expect(page).to have_no_link "adding a new crop"
+    end
+  end
+
+  context "when signed in as a member" do
+    include_context 'signed in member'
+
+    it "shows the add new crop button and link" do
+      visit search_crops_path(term: "nonexistent")
+      expect(page).to have_link "Add New Crop", href: new_crop_path
+      expect(page).to have_link "adding a new crop", href: new_crop_path
+    end
+  end
+
+  context "when signed in as a crop wrangler" do
+    include_context 'signed in crop wrangler'
+
+    it "shows the add new crop button and link" do
+      visit search_crops_path(term: "nonexistent")
+      expect(page).to have_link "Add New Crop", href: new_crop_path
+      expect(page).to have_link "adding a new crop", href: new_crop_path
+    end
+  end
 end
