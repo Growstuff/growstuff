@@ -199,6 +199,8 @@ class GbifService
       end
 
       photo.update!(author_name: media_author(media), license_name: media_license_name(media), license_url: media["license"])
+    rescue Faraday::ResourceNotFound
+      next
     end
   end
 
