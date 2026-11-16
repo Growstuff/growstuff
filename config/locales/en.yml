@@ -307,7 +307,6 @@ en:
       github:
         title: Sign in with GitHub
         continue: Continue with GitHub
-        permission_note: We only ask for your public GitHub identity, not access to your repositories or email.
         agree_to_terms: I agree to the
         agree_to_tos_html: I agree to the %{tos_link}
         terms_of_service: Terms of Service

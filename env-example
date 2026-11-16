@@ -10,8 +10,8 @@
 # include:
 #   mapbox_map_id
 
-# To use it, copy env-example.yml or application.yml.example to application.yml (which is
-# .gitignored) and fill in the appropriate values.
+# To use it, copy env-example to .env (which is .gitignored) and fill in the
+# appropriate values. Restart the app after changing credentials.
 
 # Settings in this file will be available to you as ENV['WHATEVER']
 
@@ -53,5 +53,7 @@ RECAPTCHA_SECRET_KEY="6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 # Turns on "Continue with Bluesky". Generate one with: bundle exec rake atproto:generate_key
 # GROWSTUFF_ATPROTO_PRIVATE_KEY=
 
+# Turns on GitHub sign-in when both credentials are present. See README.md for
+# OAuth App registration and Docker Compose setup. Never commit the secret.
 # GROWSTUFF_GITHUB_CLIENT_ID=""
 # GROWSTUFF_GITHUB_CLIENT_SECRET=""

@@ -69,7 +69,7 @@ export default function SignUpModal({urls, recaptchaSiteKey, siteName, onClose, 
           </div>
           {recaptchaSiteKey ? <p className="form-text fs-6 mt-3 mb-0">If you have accessibility issues with the captcha, please contact us via the links in the footer and we will help.</p> : null}
         </div>
-        <AuthFooter busy={saving} label="Sign up" busyLabel="Joining…" prompt="Already a member?" switchLabel="Sign in" switchHref={urls.sign_in_page} onSwitch={onSwitch} onBluesky={onBluesky} onMastodon={onMastodon} onGithub={onGithub} githubLabel={githubLabel} />
+        <AuthFooter busy={saving} label="Sign up" busyLabel="Joining…" prompt="Already a member?" switchLabel="Sign in" switchHref={urls.sign_in_page} onSwitch={onSwitch} onBluesky={onBluesky} onMastodon={onMastodon} onGithub={onGithub ? () => onGithub(values.tos_agreement) : undefined} githubLabel={githubLabel} />
       </form>
     </Modal>
   );

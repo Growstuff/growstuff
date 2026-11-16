@@ -116,6 +116,43 @@ describe 'Signing in with GitHub' do
   end
 
   describe 'entry points' do
+    context 'with environment configuration' do
+      before do
+        allow(OmniAuth::Strategies::GrowstuffGithub).to receive(:enabled?).and_call_original
+        allow(ENV).to receive(:[]).and_call_original
+        allow(ENV).to receive(:[]).with('GROWSTUFF_GITHUB_CLIENT_ID').and_return('client-id')
+        allow(ENV).to receive(:[]).with('GROWSTUFF_GITHUB_CLIENT_SECRET').and_return(secret)
+      end
+
+      context 'with both credentials' do
+        let(:secret) { 'client-secret' }
+
+        it 'offers GitHub on the home page' do
+          get root_path
+          expect(response.parsed_body.at_css('[data-auth-dialog="github"]')).to be_present
+        end
+
+        it 'offers the GitHub sign in form' do
+          get new_member_session_path
+          expect(response.parsed_body.at_css('form[action="/members/auth/github"][method="post"]')).to be_present
+        end
+      end
+
+      context 'without a secret' do
+        let(:secret) { nil }
+
+        it 'hides GitHub on the home page' do
+          get root_path
+          expect(response.parsed_body.at_css('[data-auth-dialog="github"]')).to be_nil
+        end
+
+        it 'hides the GitHub sign in form' do
+          get new_member_session_path
+          expect(response.parsed_body.at_css('form[action="/members/auth/github"]')).to be_nil
+        end
+      end
+    end
+
     it 'offers GitHub on the home page' do
       get root_path
       expect(response.parsed_body.at_css('[data-auth-dialog="github"]')).to be_present
