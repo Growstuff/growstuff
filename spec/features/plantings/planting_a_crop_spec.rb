@@ -225,7 +225,7 @@ describe "Planting a crop", :js do
       end
       expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "Finished"
-      expect(page).to have_content "2014-08-30"
+      expect(page).to have_css '.planting-timeline-event time[datetime="2014-08-30"]'
       expect(page).to have_content "4 of 5"
 
       # shouldn't be on the page
