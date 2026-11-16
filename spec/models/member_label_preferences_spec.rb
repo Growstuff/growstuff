@@ -29,6 +29,15 @@ describe Member do
     end
   end
 
+  context 'with a narrow tape label' do
+    let(:width) { '40' }
+    let(:height) { '12' }
+
+    it 'accepts a 40 × 12 mm label' do
+      expect(member).to be_valid
+    end
+  end
+
   context 'without a height' do
     let(:height) { '' }
 
@@ -46,7 +55,7 @@ describe Member do
   end
 
   context 'with an invalid dimension' do
-    ['abc', 'NaN', 'Infinity', '19.9', '300.1', '-1'].each do |value|
+    ['abc', 'NaN', 'Infinity', '11.9', '300.1', '-1'].each do |value|
       context "when the width is #{value}" do
         let(:width) { value }
 

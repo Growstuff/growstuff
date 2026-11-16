@@ -27,6 +27,14 @@ describe RegistrationsController, '#update' do
     end
   end
 
+  context 'with a narrow tape label' do
+    let(:dimensions) { { label_width_mm: '40', label_height_mm: '12' } }
+
+    it 'saves the compact label preference' do
+      expect(member.reload.settings.slice('label_width_mm', 'label_height_mm')).to eq(dimensions.stringify_keys)
+    end
+  end
+
   context 'when clearing a preference' do
     let(:member) { create(:member, label_width_mm: '62', label_height_mm: '29') }
     let(:dimensions) { { label_width_mm: '', label_height_mm: '' } }

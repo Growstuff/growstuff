@@ -22,4 +22,8 @@ describe RegistrationsController, '#edit', flipper: :print_labels do
   it 'offers common label sizes' do
     expect(page).to have_css('[data-label-size-preset] option[value="62x29"]', visible: :all)
   end
+
+  it 'offers a 40 × 12 mm tape label' do
+    expect(page).to have_css('[data-label-size-preset] option[value="40x12"]', visible: :all)
+  end
 end

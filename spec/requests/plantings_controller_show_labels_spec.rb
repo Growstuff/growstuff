@@ -66,12 +66,63 @@ describe PlantingsController, '#show', flipper: :print_labels do
     it 'loads the PDF bundle' do
       expect(page).to have_css('script[src*="print_label"]', visible: :all)
     end
+
+    it 'provides an accessible inline image preview' do
+      expect(page).to have_css('form[data-print-label] img[data-label-preview][alt]', visible: :all)
+    end
   end
 
   context 'when the owner is signed in' do
     before { sign_in planting.owner }
 
     it_behaves_like 'a printable planting label'
+
+    it 'omits the planting code when the feature is disabled' do
+      get planting_path(planting)
+      expect(page.find('form[data-print-label]')['data-short-code']).to be_nil
+    end
+  end
+
+  context 'with planting codes enabled', flipper: %i(print_labels planting_codes) do
+    shared_examples 'a label with a planting code' do
+      it 'passes the planting code to the PDF generator' do
+        get planting_path(planting)
+        expect(page.find('form[data-print-label]')['data-short-code']).to eq(planting.short_code)
+      end
+    end
+
+    context 'when signed in as the owner' do
+      before { sign_in planting.owner }
+
+      it_behaves_like 'a label with a planting code'
+    end
+
+    context 'when signed in as a collaborator' do
+      before { sign_in create(:garden_collaborator, garden: planting.garden).member }
+
+      it_behaves_like 'a label with a planting code'
+    end
+
+    context 'when signed in as another member' do
+      before { sign_in create(:member) }
+
+      it 'does not expose the code in the label data' do
+        get planting_path(planting)
+        expect(page.find('form[data-print-label]')['data-short-code']).to be_nil
+      end
+    end
+  end
+
+  context 'with planting codes enabled only for the owner' do
+    before do
+      Flipper.enable_actor(:planting_codes, planting.owner)
+      sign_in planting.owner
+    end
+
+    it 'passes the planting code to the PDF generator' do
+      get planting_path(planting)
+      expect(page.find('form[data-print-label]')['data-short-code']).to eq(planting.short_code)
+    end
   end
 
   context 'when another member is signed in' do

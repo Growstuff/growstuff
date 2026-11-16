@@ -3,11 +3,11 @@
   - if collapsible
     %summary.small= t('.heading')
   :ruby
-    number_options = { type: 'number', min: 20, max: 300, step: 0.1, required: true }
+    number_options = { type: 'number', min: 12, max: 300, step: 0.1, required: true }
     width = current_member&.label_width_mm.presence || 50
     height = current_member&.label_height_mm.presence || 30
   %form.mt-2{ data: { print_label: true, name: name, url: url, filename: filename,
-                     date: date, error: t('.error'), size_error: t('.size_error') } }
+                     date: date, short_code: local_assigns[:short_code], error: t('.error'), size_error: t('.size_error') } }
     .d-flex.flex-wrap.align-items-end.gap-2
       %div
         %label.small{ for: 'print-label-width' }= t('.width')
@@ -18,5 +18,6 @@
       %button.btn.btn-sm.btn-outline-secondary{ type: 'submit' }= t('.download')
     %p.small.text-muted.mt-1.mb-0= t('.hint')
     %p.small.text-danger.mb-0{ role: 'alert', hidden: true }
+    %img.img-fluid.border.rounded.mt-3{ data: { label_preview: true }, alt: t('.preview_alt', name: name), hidden: true }
 - content_for :scripts do
   = javascript_include_tag 'print_label', defer: true

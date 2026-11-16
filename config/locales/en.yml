@@ -8,6 +8,7 @@ en:
       width: Width (mm)
       height: Height (mm)
       download: Download PDF
+      preview_alt: Label preview for %{name}
       hint: Print at actual size (100%), or import the PDF into your label printer app.
       error: The label could not be generated. Please try again.
       size_error: Increase the label dimensions to keep the QR code and text readable.

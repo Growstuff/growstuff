@@ -166,7 +166,7 @@ class Member < ApplicationRecord
   store_accessor :settings, :label_width_mm, :label_height_mm
 
   validates :label_width_mm, :label_height_mm,
-            numericality: { greater_than_or_equal_to: 20, less_than_or_equal_to: 300 }, allow_blank: true
+            numericality: { greater_than_or_equal_to: 12, less_than_or_equal_to: 300 }, allow_blank: true
   validates :label_width_mm, presence: true, if: -> { label_height_mm.present? }
   validates :label_height_mm, presence: true, if: -> { label_width_mm.present? }
 
