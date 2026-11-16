@@ -825,6 +825,14 @@ describe Planting do
         expect(moved).to have_attributes(quantity: 4, garden:, source_planting: planting)
       end
 
+      it 'saves the transplanted planting' do
+        expect(moved).to be_persisted
+      end
+
+      it 'assigns a new short code' do
+        expect(moved.short_code).not_to eq planting.short_code
+      end
+
       it 'leaves the remainder in the nursery' do
         moved
         expect(planting.reload).to have_attributes(quantity: 2, garden: nursery)
@@ -839,7 +847,8 @@ describe Planting do
       end
 
       it 'links the original to the transplanted planting' do
-        expect(planting.transplanted_plantings).to include moved
+        moved
+        expect(planting.reload.transplanted_plantings).to include moved
       end
 
       it 'does not duplicate harvest counts' do
