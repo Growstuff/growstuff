@@ -1,5 +1,4 @@
 = form_with url: member_github_omniauth_authorize_path, class: 'mb-3', data: { turbo: false } do |f|
-  .form-text.mb-2= t('.permission_note')
   - if local_assigns.fetch(:tos, true)
     .form-check.mb-2
       = f.check_box :tos_agreement, { class: 'form-check-input', required: true }, '1', nil
