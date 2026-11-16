@@ -4,12 +4,25 @@
 module WeatherChartFrameHelper
   WEATHER_CHART_WIDTH = 600
   WEATHER_CHART_HEIGHT = 120 # also the charts' height in _plantings.scss
+  WEATHER_MIN_BAR_WIDTH = 0.6
 
   private
 
   # How wide one day is on the chart axis.
   def weather_step(days)
     WEATHER_CHART_WIDTH.to_f / days
+  end
+
+  # A bar for each day's value, from the block, placed by date: its height is its share of `top`. Days with none get no bar.
+  def weather_bars(readings, from:, step:, top:, css: nil)
+    safe_join(readings.filter_map do |reading|
+      value = yield(reading)
+      next unless value&.positive?
+
+      height = (value / top * WEATHER_CHART_HEIGHT).round(1)
+      tag.rect(class: css, x: ((reading.date - from) * step).round(2), y: WEATHER_CHART_HEIGHT - height,
+               width: [step, WEATHER_MIN_BAR_WIDTH].max.round(2), height:)
+    end)
   end
 
   # A line down the middle of today's column, or nil when there is no today to show.

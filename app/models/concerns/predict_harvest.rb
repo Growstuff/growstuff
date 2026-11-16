@@ -113,6 +113,11 @@ module PredictHarvest
       (crop.growing_degree_days_figure || crop.ecocrop_heat_data&.first_harvest_degree_days)&.round
     end
 
+    # The temperature below which this crop barely grows.
+    def heat_base
+      crop.ecocrop_heat_data&.tmin || CropDuration::DEFAULT_BASE
+    end
+
     private
 
     def harvests_with_dates
@@ -129,11 +134,6 @@ module PredictHarvest
     # usually grown here, and the median days are the better guide.
     def outlives_median_lifespan?(date)
       date.present? && finish_predicted_at.present? && date.to_date > finish_predicted_at.to_date
-    end
-
-    # The temperature below which this crop barely grows.
-    def heat_base
-      crop.ecocrop_heat_data&.tmin || CropDuration::DEFAULT_BASE
     end
 
     # When the heat this crop needs for a first harvest has been felt in the garden's weather, so far

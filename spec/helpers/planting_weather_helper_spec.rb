@@ -423,4 +423,86 @@ describe PlantingWeatherHelper do
     it { expect(chart).to have_css '.weather-axis span:first-child', text: '7 mm' }
     it { expect(chart).to have_css '.weather-axis span:last-child', text: '0 mm' }
   end
+
+  describe '#weather_heat_chart' do
+    subject(:chart) do
+      Capybara.string(helper.weather_heat_chart(readings, degree_days: GrowingDegreeDays.new(base: 10), needed:,
+                                                          from: Date.new(2026, 10, 1), days: 10, now: Date.new(2026, 10, 3)))
+    end
+
+    let(:needed) { 20 }
+    let(:readings) do
+      [build(:weather_reading, date: Date.new(2026, 10, 1), temp_max_c: 20, temp_min_c: 10),
+       build(:weather_reading, date: Date.new(2026, 10, 2), temp_max_c: 8, temp_min_c: 2)]
+    end
+
+    it 'starts the line at nothing and adds each day' do
+      expect(chart).to have_css 'polyline.weather-heat[points="0.0,120.0 30.0,90.0 90.0,90.0"]'
+    end
+
+    it { expect(chart).to have_css 'line.weather-target-line[y1="0.0"]' }
+    it { expect(chart).to have_css '.weather-axis span:first-child', text: '100%' }
+    it { expect(chart).to have_css '.weather-now-label', text: 'Latest, Oct 02: 5 degree days' }
+
+    it { expect(chart).to have_no_css '.weather-ready-label' }
+
+    context 'when the days to come add up to what the crop needs' do
+      subject(:chart) do
+        Capybara.string(helper.weather_heat_chart(readings, degree_days: GrowingDegreeDays.new(base: 10), needed:,
+                                                            from: Date.new(2026, 10, 1), days: 10, expected:))
+      end
+
+      let(:expected) { [build(:weather_reading, date: Date.new(2026, 10, 3), temp_max_c: 40, temp_min_c: 30)] }
+
+      it { expect(chart).to have_css '.weather-ready-label', text: 'Enough heat around Oct 03' }
+      it { expect(chart).to have_css '.weather-axis span:first-child', text: '100%' }
+      it { expect(chart).to have_css 'polyline.weather-heat.weather-expected' }
+    end
+
+    context 'when the weather so far has added up to what the crop needs' do
+      let(:needed) { 4 }
+
+      it { expect(chart).to have_css '.weather-ready-label', text: 'Enough heat on Oct 01' }
+      it { expect(chart).to have_css '.weather-axis span:first-child', text: '200%' }
+    end
+
+    context 'without a figure for the heat needed' do
+      let(:needed) { nil }
+
+      it { expect(chart).to have_no_css 'line.weather-target-line' }
+      it { expect(chart).to have_css '.weather-axis span:first-child', text: '5' }
+    end
+  end
+
+  describe '#weather_heat_headline' do
+    it 'gives the share of the heat so far' do
+      expect(helper.weather_heat_headline(5, 20, nil)).to start_with '25% of the heat it needs so far.'
+    end
+
+    it 'says when it should be enough' do
+      expect(helper.weather_heat_headline(5, 20, [Date.new(2026, 12, 3), :expected])).to end_with 'around Dec 03.'
+    end
+
+    it 'says when it is expected to finish, if the heat still falls short by then' do
+      expect(helper.weather_heat_headline(5, 20, nil,
+                                          through: Date.new(2026, 12, 3))).to end_with 'by Dec 03, when it is expected to finish.'
+    end
+
+    it 'says it fell short, for a planting that is over' do
+      expect(helper.weather_heat_headline(5, 20, nil, ended: true)).to end_with 'before it finished.'
+    end
+
+    it 'says it has not had enough yet, for one still growing with no weather expected' do
+      expect(helper.weather_heat_headline(5, 20, nil)).to end_with 'has not had enough heat yet.'
+    end
+
+    it 'is nil without the heat needed' do
+      expect(helper.weather_heat_headline(5, nil, nil)).to be_nil
+    end
+  end
+
+  describe '#weather_heat_figure' do
+    it { expect(helper.weather_heat_figure(1200, 2500)).to eq '1,200 of about 2,500' }
+    it { expect(helper.weather_heat_figure(1200, nil)).to eq '1,200' }
+  end
 end

@@ -29,6 +29,20 @@ describe 'plantings/_weather' do
     expect(render_weather).to have_css '.weather-note'
   end
 
+  context 'with a crop that has growing degree days' do
+    let(:crop) { create(:crop, median_lifespan: 100, growing_degree_days: 300) }
+
+    before { create(:weather_reading, latitude: garden.weather_cell[0], longitude: garden.weather_cell[1], date: today - 5) }
+
+    it 'shows the progress chart' do
+      expect(render_weather).to have_css '.weather-progress'
+    end
+
+    it 'shows the heat so far against what is needed' do
+      expect(render_weather).to have_css '.weather-figure dd', text: 'of about 300'
+    end
+  end
+
   it 'works the notes out once for the same readings' do
     expect(view).to receive(:weather_climate_notes).once.and_call_original
     2.times { render_weather }

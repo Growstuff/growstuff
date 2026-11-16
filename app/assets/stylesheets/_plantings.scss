@@ -552,12 +552,66 @@
     fill: $blue;
   }
 
+  // The heat added up day by day, and the heat the crop needs.
+  .weather-progress polyline {
+    fill: none;
+    stroke: $green;
+    stroke-width: 2.5;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .weather-target-line {
+    stroke: $green;
+    stroke-dasharray: 4 3;
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .weather-heat-headline {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  // Where the heat reaches what the crop needs: a dot on the dashed line, and the day under it, below the "Latest" label.
+  .weather-ready-dot {
+    background: $green;
+    border: 2px solid $white;
+    border-radius: 50%;
+    height: 0.9rem;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 0.9rem;
+  }
+
+  .weather-ready-label {
+    background: rgba($white, 0.85);
+    border-radius: 3px;
+    color: $green;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0 0.25rem;
+    position: absolute;
+    top: 1.4rem;
+    white-space: nowrap;
+
+    &--before {
+      transform: translateX(-100%);
+    }
+  }
+
   // A prediction, from the same days last year: dotted, and paler. Lines are dots; bars are hollow with a dotted outline.
   .weather-expected {
     opacity: 0.7;
   }
 
   .weather-temperature polyline.weather-expected {
+    stroke-dasharray: 0.5 6;
+    stroke-linecap: round;
+    stroke-width: 3;
+  }
+
+  .weather-progress polyline.weather-expected {
     stroke-dasharray: 0.5 6;
     stroke-linecap: round;
     stroke-width: 3;

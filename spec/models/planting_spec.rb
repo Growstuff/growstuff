@@ -1040,6 +1040,16 @@ describe Planting do
       expect(build(:planting, planted_at: today - 20, finished: true, finished_at: today - 5).weather_last_day(today)).to eq today - 5
     end
 
+    it 'is the due day for a planting marked finished without a finishing day' do
+      planting = build(:planting, crop: create(:crop, median_lifespan: 10), planted_at: today - 20, finished: true)
+      expect(planting.weather_last_day(today)).to eq today - 10
+    end
+
+    it 'is today for a planting marked finished before its due day, without a finishing day' do
+      planting = build(:planting, crop: create(:crop, median_lifespan: 30), planted_at: today - 20, finished: true)
+      expect(planting.weather_last_day(today)).to eq today
+    end
+
     it 'is the due day for a failed planting that is past it' do
       planting = build(:planting, crop: create(:crop, median_lifespan: 10), planted_at: today - 20, failed: true)
       expect(planting.weather_last_day(today)).to eq today - 10

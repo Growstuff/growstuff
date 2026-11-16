@@ -4217,6 +4217,19 @@ en:
         one: "%{count} day"
         other: "%{count} days"
       weather_expected_note: The dotted lines and bars are expected weather, last year's data for the same days moved forward a year. They are not observed.
+      weather_heat: Growing degree days
+      weather_heat_chart: Progress in growing degree days
+      weather_heat_chart_needed: Heat so far, as a share of the %{needed} growing degree days it needs
+      weather_heat_chart_alt: Growing degree days added up over %{count} days, reaching %{total}.
+      weather_heat_enough_expected: Going by last year's weather, it should have enough heat around %{date}.
+      weather_heat_enough_reached: It has had enough heat since %{date}.
+      weather_heat_not_enough_ended: It did not have enough heat before it finished.
+      weather_heat_not_enough_expected: Going by last year's weather, it won't have enough heat by %{date}, when it is expected to finish.
+      weather_heat_not_enough_yet: It has not had enough heat yet.
+      weather_heat_percent: "%{percent}% of the heat it needs so far."
+      weather_heat_ready_expected: Enough heat around %{date}
+      weather_heat_ready_reached: Enough heat on %{date}
+      weather_heat_value: "%{count} of about %{needed}"
       weather_hottest: Hottest day
       weather_in: Weather in %{place}
       weather_location_intro: We use this to show the temperature and rainfall the plantings here have been through. Your garden's city or region is public, like the rest of the garden.
@@ -4252,6 +4265,7 @@ en:
       weather_note_past_too_cold: Too cold for %{crop} so far
       weather_note_past_too_hot: Too hot for %{crop} so far
       weather_note_past_survives: From %{from} to %{to}, the weather stayed within the range %{crop} grows in.
+      weather_now_heat: 'Latest, %{date}: %{heat} degree days'
       weather_now_rain: 'Latest, %{date}: %{rain}'
       weather_now_temperature: 'Latest, %{date}: %{high} / %{low}'
       weather_optimal_range: Grows best %{range}

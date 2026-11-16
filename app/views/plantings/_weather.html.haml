@@ -6,6 +6,8 @@
   now = weather_now(planting, days)
   frost = planting.frost_danger
   ranges = weather_temperature_ranges(planting.crop)
+  heat_so_far = planting.heat_so_far
+  degree_days = GrowingDegreeDays.new(base: planting.heat_base) if heat_so_far
 .weather-charts
   %figure
     %figcaption= t('plantings.show.weather_temperature_chart')
@@ -15,6 +17,16 @@
       - if notes
         .weather-notes= notes
     = weather_temperature_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:, frost:, ranges:)
+  - if degree_days
+    - needed = planting.heat_needed
+    %figure
+      %figcaption= needed ? t('plantings.show.weather_heat_chart_needed', needed: number_with_delimiter(needed)) : t('plantings.show.weather_heat_chart')
+      - ended = planting.finished? || planting.failed? || planting.abandoned?
+      - ready = weather_heat_ready(degree_days, needed, readings, expected)
+      - headline = weather_heat_headline(heat_so_far, needed, ready, through: expected.last&.date, ended:)
+      - if headline
+        %p.weather-heat-headline= headline
+      = weather_heat_chart(readings, degree_days:, needed:, from: planting.weather_first_day, days:, seasons:, expected:, now:)
   %figure
     %figcaption= t('plantings.show.weather_rain_chart')
     = weather_rain_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:)
@@ -25,7 +37,7 @@
   %p.weather-abandoned-note.small.text-muted= t('plantings.show.weather_abandoned_note', date: l(planting.weather_last_day, format: :long))
 - if readings.any?
   %dl.weather-summary
-    - weather_summary(readings, ranges:).each do |key, value|
+    - weather_summary(readings, ranges:, heat: (weather_heat_figure(heat_so_far, planting.heat_needed) if heat_so_far)).each do |key, value|
       .weather-figure
         %dt= t("plantings.show.weather_#{key}")
         %dd= value

@@ -33,6 +33,8 @@ We can say when a planting should have finished. `Planting#weather_due_on` is it
 - The frost section judges it as a finished planting that ended on its due day.
 - The weather section says that nobody marked it finished and that the weather shown ends on its due day.
 
+**A planting marked finished without a finishing day is treated the same way**, so its weather and the growing degree days it has had stop on its due day, or on today if that is still ahead, and not run on to today.
+
 **Nothing is changed on the planting itself**, and it still counts as growing everywhere else (the progress bar, lists, jobs and so on). Those would need their own decision.
 
 ## Consequences

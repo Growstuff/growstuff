@@ -322,12 +322,13 @@ class Planting < ApplicationRecord
   end
 
   # The last day of weather so far: today for a planting still growing, the day it finished for one that has, and for one
-  # that failed or was abandoned, the day it was due if that has passed, as we stop following them.
+  # that failed, was abandoned, or was marked finished without saying when, the day it was due if that has passed, as we
+  # stop following them.
   def weather_last_day(today = Time.zone.today)
     return [finished_at, today].min if finished_at
     return weather_due_on if abandoned?(today)
 
-    failed? ? [weather_due_on, today].compact.min : today
+    failed? || finished? ? [weather_due_on, today].compact.min : today
   end
 
   # The first day of weather to show: the day it was planted, or a year before the last day, for one planted longer ago.

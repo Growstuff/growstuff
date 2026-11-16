@@ -5,12 +5,11 @@ module PlantingWeatherHelper
   include SeasonsHelper
   include WeatherChartFrameHelper
   include WeatherRangeBandsHelper
-
-  WEATHER_MIN_BAR_WIDTH = 0.6
+  include WeatherHeatChartHelper
 
   # The headline figures for a run of weather readings, as text, leaving out any we have no data for. With the crop's
   # temperature `ranges` (see `weather_temperature_ranges`), how many days were in its best range.
-  def weather_summary(readings, ranges: nil)
+  def weather_summary(readings, ranges: nil, heat: nil)
     rain = readings.filter_map(&:rainfall_mm)
     hottest = readings.filter_map(&:temp_max_c).max
     coldest = readings.filter_map(&:temp_min_c).min
@@ -21,6 +20,7 @@ module PlantingWeatherHelper
       coldest:   (weather_degrees(coldest) if coldest),
       soil_temp: (weather_degrees(soil.sum / soil.size) if soil.any?),
       best_days: weather_best_days(readings, ranges),
+      heat:      heat,
       days:      readings.size
     }.compact
   end
@@ -68,8 +68,8 @@ module PlantingWeatherHelper
   def weather_rain_chart(readings, from:, days:, seasons: [], expected: [], now: nil) # rubocop:disable Metrics/ParameterLists
     top = [(readings + expected).filter_map(&:rainfall_mm).max.to_f.ceil, 1].max
     step = weather_step(days)
-    bars = safe_join([weather_rain_bars(readings, from:, step:, top:),
-                      weather_rain_bars(expected, from:, step:, top:, css: 'weather-expected')])
+    bars = safe_join([weather_bars(readings, from:, step:, top:, &:rainfall_mm),
+                      weather_bars(expected, from:, step:, top:, css: 'weather-expected', &:rainfall_mm)])
     latest = readings.last
     if latest
       label = t('plantings.show.weather_now_rain', date: l(latest.date, format: :short),
@@ -129,16 +129,6 @@ module PlantingWeatherHelper
   # Every high and low in a run of readings.
   def weather_temperatures(readings)
     readings.flat_map { |reading| [reading.temp_max_c, reading.temp_min_c] }.compact
-  end
-
-  def weather_rain_bars(readings, from:, step:, top:, css: nil)
-    safe_join(readings.filter_map do |reading|
-      next unless reading.rainfall_mm&.positive?
-
-      height = (reading.rainfall_mm / top * WEATHER_CHART_HEIGHT).round(1)
-      tag.rect(class: css, x: ((reading.date - from) * step).round(2), y: WEATHER_CHART_HEIGHT - height,
-               width: [step, WEATHER_MIN_BAR_WIDTH].max.round(2), height:)
-    end)
   end
 
   def weather_temperature_lines(readings, from:, scale:, css: nil)
