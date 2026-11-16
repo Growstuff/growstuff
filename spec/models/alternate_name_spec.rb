@@ -21,6 +21,38 @@ describe AlternateName do
     expect(crop.alternate_names).to include an2
   end
 
+  describe 'language normalization' do
+    it 'saves uppercase language codes in lowercase' do
+      alternate_name = create(:alternate_name, language: 'EN')
+
+      expect(alternate_name.reload.language).to eq 'en'
+    end
+
+    it 'normalizes language codes when updated' do
+      an.update!(language: 'FR')
+
+      expect(an.reload.language).to eq 'fr'
+    end
+
+    it 'rejects missing language codes' do
+      alternate_name = build(:alternate_name, language: nil)
+
+      expect(alternate_name).not_to be_valid
+    end
+
+    it 'preserves regional language codes' do
+      alternate_name = create(:alternate_name, language: 'pt-BR')
+
+      expect(alternate_name.reload.language).to eq 'pt-BR'
+    end
+
+    it 'preserves three-letter language codes' do
+      alternate_name = create(:alternate_name, language: 'ENG')
+
+      expect(alternate_name.reload.language).to eq 'ENG'
+    end
+  end
+
   describe 'relationships' do
     let(:alternate_name) { create(:alternate_name, crop:, creator: member) }
     let(:crop)   { create(:crop)   }
