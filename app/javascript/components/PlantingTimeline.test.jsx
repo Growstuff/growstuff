@@ -25,6 +25,21 @@ describe('PlantingTimeline', () => {
     expect(screen.getAllByRole('listitem')[2]).toHaveStyle({left: '60%'});
   });
 
+  it('uses short dates for the labels', () => {
+    const {container} = render(<PlantingTimeline timeline={timeline} />);
+    expect(container.querySelector('.planting-timeline-date').textContent).not.toContain('2025');
+  });
+
+  it('keeps the full date in the time element', () => {
+    const {container} = render(<PlantingTimeline timeline={timeline} />);
+    expect(container.querySelector('time')).toHaveAttribute('datetime', timeline.events[0].date);
+  });
+
+  it('separates the date from the expected label', () => {
+    const {container} = render(<PlantingTimeline timeline={timeline} />);
+    expect(container.querySelector('.planting-timeline-event--expected time').textContent).toMatch(/\s+expected$/);
+  });
+
   it('gives each event the icon the server chose', () => {
     const {container} = render(<PlantingTimeline timeline={timeline} />);
     expect([...container.querySelectorAll('.planting-timeline-marker img')].map((img) => img.getAttribute('src')))

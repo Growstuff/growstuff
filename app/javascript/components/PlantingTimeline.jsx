@@ -29,10 +29,10 @@ export default function PlantingTimeline({timeline, compact = false}) {
               </span>
               <span className="planting-timeline-label">
                 <span className="planting-timeline-name">{event.label}</span>
-                <span className="planting-timeline-date">
-                  {date}
-                  {event.expected && <em>{expectedLabel}</em>}
-                </span>
+                <time className="planting-timeline-date" dateTime={event.date} title={date}>
+                  {formatDate(event.date, {short: true})}
+                  {event.expected && <em>{' '}{expectedLabel}</em>}
+                </time>
               </span>
             </li>
           );

@@ -21,7 +21,7 @@
           %span.planting-timeline-marker{ 'aria-hidden': 'true' }= image_icon marker.icon
           %span.planting-timeline-label
             %span.planting-timeline-name= marker.label
-            %span.planting-timeline-date
-              = I18n.l(marker.date)
+            %time.planting-timeline-date{ datetime: marker.date.iso8601, title: I18n.l(marker.date) }
+              = I18n.l(marker.date, format: :short)
               - if marker.expected
-                %em= t('.expected')
+                %em= " #{t('.expected')}"

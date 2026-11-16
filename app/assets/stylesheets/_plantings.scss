@@ -835,7 +835,7 @@
 // its label alternately above and below so neighbours don't overlap; the ones near either end lean inwards to stay on screen.
 .planting-timeline {
   position: relative;
-  height: 10rem;
+  container: planting-timeline / inline-size;
   margin: 0.5rem 0.5rem 1rem;
 }
 
@@ -864,6 +864,7 @@
 }
 
 .planting-timeline-events {
+  height: var(--timeline-height, 10rem);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -944,6 +945,10 @@
 .planting-timeline-date {
   display: block;
   color: $ink-muted;
+
+  em {
+    margin-left: 0.25em;
+  }
 }
 
 .planting-timeline-event--failed .planting-timeline-name {
@@ -956,7 +961,7 @@
 
 // The same timeline in a list of plantings, such as a garden's: less tall, with each label on one line.
 .planting-timeline--compact {
-  height: 5rem;
+  --timeline-height: 5rem;
   margin: 0.25rem 1rem;
 
   .planting-timeline-marker {
@@ -1018,6 +1023,83 @@
   .planting-timeline-today {
     top: -0.3rem;
     bottom: -0.3rem;
+  }
+}
+
+// Keep the horizontal bar and angle labels 45 degrees when the timeline is narrow. Vertical writing mode gives
+// rotated text a natural height, so shared grid rows fit the longest label on either side instead of reserving
+// a fixed height. Query the timeline, since a garden card can be narrow even on a desktop.
+@container planting-timeline (max-width: 36rem) {
+  .planting-timeline-events {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2rem 1fr;
+    row-gap: 0.4rem;
+    height: auto;
+    padding-block: 0.25rem;
+  }
+
+  .planting-timeline-events .planting-timeline-event {
+    position: relative;
+    top: auto;
+    display: grid;
+    grid-area: 1 / 1 / -1 / -1;
+    grid-template-columns: 0;
+    grid-template-rows: subgrid;
+    height: auto;
+  }
+
+  .planting-timeline-events .planting-timeline-marker {
+    position: relative;
+    top: auto;
+    grid-column: 1;
+    grid-row: 2;
+    align-self: center;
+    transform: translateX(-50%);
+  }
+
+  .planting-timeline-events .planting-timeline-label {
+    position: static;
+    display: block;
+    grid-column: 1;
+    justify-self: center;
+    max-width: none;
+    max-height: 8rem;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    writing-mode: vertical-rl;
+    // Vertical Latin text is already turned 90 degrees; this leaves it at -45 degrees.
+    transform: rotate(225deg);
+  }
+
+  .planting-timeline-events .planting-timeline-name,
+  .planting-timeline-events .planting-timeline-date {
+    display: block;
+  }
+
+  .planting-timeline-date em {
+    display: none;
+  }
+
+  .planting-timeline-events .planting-timeline-event--above .planting-timeline-label {
+    grid-row: 1;
+    align-self: end;
+    transform: rotate(225deg);
+  }
+
+  .planting-timeline-events .planting-timeline-event--below .planting-timeline-label {
+    grid-row: 3;
+    align-self: start;
+    transform: rotate(225deg);
+  }
+
+  .planting-timeline-events .planting-timeline-event--start .planting-timeline-label {
+    translate: 1rem 0;
+  }
+
+  .planting-timeline-events .planting-timeline-event--end .planting-timeline-label {
+    translate: -1rem 0;
   }
 }
 
