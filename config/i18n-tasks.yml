@@ -53,8 +53,8 @@ search:
   # relative_roots:
   #   - app/views
 
-  ## File.fnmatch patterns to exclude from search (default)
-  # exclude: ["*.jpg", "*.png", "*.gif", "*.svg", "*.ico", "*.eot", "*.ttf", "*.woff", "*.pdf"]
+  ## File.fnmatch patterns to exclude from search. Binary files, which the scanner can't read as text.
+  exclude: ["*.jpg", "*.png", "*.gif", "*.svg", "*.ico", "*.eot", "*.ttf", "*.woff", "*.woff2", "*.pdf", "*.xcf", "*.webp"]
 
   ## Or, File.fnmatch patterns to include
   # include: ["*.rb", "*.html.slim"]
@@ -69,14 +69,35 @@ search:
 #   api_key: "AbC-dEf5"
 
 ## Consider these keys not missing
-# ignore_missing:
-#   - pagination.views.*
+ignore_missing:
+  # Provided by Rails, rails-i18n and Devise, not by this app's locale files.
+  - 'date.{abbr_month_names,month_names}'
+  - 'support.array.*'
+  - 'errors.messages.not_saved'
+  - 'devise.sessions.signed_in'
 
 ## Consider these keys used
-# ignore_unused:
-#   - 'simple_form.{yes,no}'
-#   - 'simple_form.{placeholders,hints,labels}.*'
-#   - 'simple_form.{error_notification,required}.:'
+ignore_unused:
+  # Looked up by Rails and CanCan from the model or the ability, not by a t() call in app/.
+  - 'activerecord.*'
+  - 'unauthorized.*'
+  # Built at runtime from a variable, such as t("frost.verdicts.#{key}"), so the scanner can't see the call.
+  - 'frost.verdicts.*'
+  - 'job_ideas.reason.*'
+  - 'photos.licence.summary.*'
+  - '{harvests,jobs,plantings,seeds}.index.title.*' # ApplicationHelper#title
+  - 'home.stats.*'
+  - 'neighbours.group.*'
+  - 'seeds.crop_changes.show.*'
+  - 'stalls.seeds.new.*'
+  # Used with a conditional or a variable in the key, such as t(draft? ? 'posts.draft_saved' : 'posts.created').
+  - 'buttons.{add,plant}'
+  - 'admin.features.index.switch_{on,off}'
+  - 'gardens.layout_section.*'
+  - 'crop_jobs.added.*'
+  - 'gardens.created'
+  - 'members.follow_button.{follow,follow_named}'
+  - 'posts.{created,draft_saved,updated}'
 
 ## Exclude these keys from `i18n-tasks eq-base' report
 # ignore_eq_base:

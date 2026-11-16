@@ -15,6 +15,12 @@ Use an appropriate level of formality for a user interface, pay attention to gen
 Avoid adding test coverage dependent on string content that may change with an updated translation, unless it is really crucial to the tests.
 Avoid picking YAML translation keys that require quotation or escaping (such as `on`/`off`, `yes`/`no`, or `true`/`false`, which are boolean literals in YAML 1.1; prefer descriptive alternatives like `enabled`/`disabled`).
 
+CI runs `bundle exec i18n-tasks unused -l en` and `bundle exec i18n-tasks missing -l en`, so run both before pushing.
+
+- A key you stop using is deleted from every file in `config/locales`, not only `en.yml`.
+- Use the key's full path, or a relative `t('.key')` in the view or partial it belongs to, so the checker can see it used.
+- A key built at runtime, such as `t("frost.verdicts.#{key}")`, or chosen by a conditional, can't be seen. Add a pattern for it to `ignore_unused` in `config/i18n-tasks.yml`, with a comment saying why. Don't use it to keep a key that is simply unused.
+
 ## Dependencies
 
 Do not commit or publish changes to ruby versions, gemfiles data or similar if you have had to make changes to the application to run in your sandbox environment/a user has not asked you to.

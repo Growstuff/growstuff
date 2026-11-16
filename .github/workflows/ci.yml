@@ -18,6 +18,18 @@ jobs:
       - name: Check contributors
         run: |
           bundle exec script/check_contributors_md.rb
+  i18n:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install ruby version specified in .ruby-version
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Check for unused English translations
+        run: bundle exec i18n-tasks unused -l en
+      - name: Check for missing English translations
+        run: bundle exec i18n-tasks missing -l en
   javascript:
     runs-on: ubuntu-latest
     steps:
