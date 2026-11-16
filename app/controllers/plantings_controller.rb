@@ -26,8 +26,9 @@ class PlantingsController < DataController
     @harvests = @planting.harvests.includes(:owner, :crop, :plant_part).recent
     @child_seeds = @planting.child_seeds.includes(:owner, :crop)
     @observations = @planting.observations.includes(:author).newest_first
-    @current_jobs = @planting.jobs.active.includes(:owner).order(created_at: :desc)
-    @finished_jobs = @planting.jobs.finished.includes(:owner).order(created_at: :desc)
+    # One checklist: what is still to do, soonest first, then what is done.
+    @current_jobs = @planting.jobs.active.order(:due_date, created_at: :desc)
+    @finished_jobs = @planting.jobs.finished.order(finished_at: :desc)
     load_weather
     @crop = @planting.crop
 

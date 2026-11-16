@@ -1892,6 +1892,9 @@ en:
         lead: Two in a row!
         note: The snail is picking up speed.
       undo: Undo
+    checklist:
+      done: Done
+      not_done: Not done yet
     description:
       due: "(due %{due})"
       in_garden_html: in %{link}
@@ -4057,6 +4060,11 @@ en:
         default: Everyone's plantings
         owner_plantings: "%{owner}'s plantings"
       view_owners_profile: View %{owner}'s profile >>
+    job_modal:
+      cancel: Cancel
+      name_label: What needs doing?
+      save: Add job
+      title: Add a job for %{crop}
     modal:
       add_new_garden: Add a new garden
       add_to_my_garden: Add to my garden

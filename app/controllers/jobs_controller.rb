@@ -64,8 +64,10 @@ class JobsController < DataController
   private
 
   # There is no page for a single job: saving or deleting one goes back to the
-  # list it is on.
+  # list it is on, or to its planting's page if it was ticked there.
   def after_save_path
+    return planting_path(@job.planting) if params[:back] == 'planting' && @job.planting
+
     member_jobs_path(current_member || @job.owner)
   end
 

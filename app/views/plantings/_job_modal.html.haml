@@ -1,0 +1,18 @@
+-# A job typed here is saved against this planting, in its garden, and the
+-# member comes back to the planting's page.
+.modal.fade#planting-job-modal{ 'aria-hidden': 'true', 'aria-labelledby': 'planting-job-modal-title', role: 'dialog', tabindex: '-1' }
+  .modal-dialog{ role: 'document' }
+    .modal-content
+      = form_with url: jobs_path, scope: :job do |form|
+        = hidden_field_tag :back, 'planting'
+        = form.hidden_field :planting_id, value: planting.id
+        = form.hidden_field :garden_id, value: planting.garden_id
+        .modal-header
+          %h4.modal-title#planting-job-modal-title= t('.title', crop: planting.crop.name)
+          %button.btn-close{ 'aria-label': t('.cancel'), 'data-bs-dismiss': 'modal', type: 'button' }
+        .modal-body
+          = form.label :name, t('.name_label'), class: 'form-label'
+          = form.text_field :name, required: true, autocomplete: 'off', class: 'form-control'
+        .modal-footer.justify-content-between
+          %button.btn.btn-secondary{ 'data-bs-dismiss': 'modal', type: 'button' }= t('.cancel')
+          = form.submit t('.save'), class: 'btn btn-primary'

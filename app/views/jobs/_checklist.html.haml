@@ -1,0 +1,17 @@
+-# A job per line, with a square to tick or a tick to show it is done. On a
+-# planting's page. back_to is the planting, so ticking returns here.
+%ul.job-checklist.list-unstyled.mb-0
+  - jobs.each do |job|
+    - done = job.finished.present?
+    %li.job-checklist-item{ class: ('done' if done) }
+      - if can?(:edit, job)
+        - label = t(done ? 'jobs.pad.uncross' : 'jobs.pad.cross_off', job: job.name)
+        = button_to '', job_path(job), method: :patch, params: { job: { finished: done ? 0 : 1 }, back: 'planting' },
+          class: ['job-box', ('checked' if done)], form_class: 'job-checklist-tick', title: label, 'aria-label': label
+      - else
+        %span.job-box.static{ class: ('checked' if done) }
+          %span.visually-hidden= t(done ? 'jobs.checklist.done' : 'jobs.checklist.not_done')
+      %span.job-checklist-name= job.name
+      - date_label = job_date_label(job)
+      - if date_label
+        %small.job-checklist-date{ class: ('late' if job_overdue?(job)) }= date_label

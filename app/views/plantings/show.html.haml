@@ -126,24 +126,22 @@
           .section-header
             %h2= t('plantings.show.jobs')
             - if can?(:edit, @planting) && can?(:create, Job)
-              = link_to new_job_path(garden_id: @planting.garden_id, planting_id: @planting.id), class: 'btn btn-sm section-add' do
+              -# Opens the dialog; without JavaScript the link goes to the full form.
+              = link_to new_job_path(garden_id: @planting.garden_id, planting_id: @planting.id), class: 'btn btn-sm section-add',
+                        data: { bs_toggle: 'modal', bs_target: '#planting-job-modal' } do
                 = icon 'fas', 'plus'
                 = t('.add')
           - if @cultivate_soil_link
             .alert.alert-info
               = t('.cultivate_prompt')
               = link_to t('.cultivate'), @cultivate_soil_link, class: 'btn btn-secondary btn-sm ms-2'
-          - if @current_jobs&.size&.positive?
-            .index-cards
-              - @current_jobs.each do |job|
-                = render "jobs/card", job: job
+          - if can?(:edit, @planting) && can?(:create, Job)
+            = render 'plantings/job_modal', planting: @planting
+          - jobs = [*@current_jobs, *@finished_jobs]
+          - if jobs.any?
+            = render 'jobs/checklist', jobs:, back_to: @planting
           - else
             %p.text-muted.mb-0= t('plantings.show.no_jobs')
-          - if @finished_jobs&.size&.positive?
-            %h3= t('plantings.show.jobs_finished')
-            .index-cards
-              - @finished_jobs.each do |job|
-                = render "jobs/card", job: job
 
         %section#comments.comments
           = render "comments/comments", commentable: @planting

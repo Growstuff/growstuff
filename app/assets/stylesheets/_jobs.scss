@@ -22,6 +22,54 @@ $notepad-trail: #a4c98c;
   font-weight: 600;
 }
 
+// A square to tick: the button is the 44px target, the box is drawn inside it.
+@mixin job-tick-box {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 11px;
+    left: 11px;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #757575;
+    border-radius: 3px;
+    background: $white;
+  }
+
+  &:hover::before {
+    border-color: $green;
+  }
+
+  &:focus-visible {
+    outline: 3px solid $orange;
+    outline-offset: -2px;
+  }
+
+  &.checked::before {
+    background: #e4efdc;
+    border-color: $green;
+  }
+
+  &.checked::after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 17px;
+    width: 6px;
+    height: 11px;
+    border: solid $green;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+}
+
 // A member's own jobs, as a notepad: a green title bar, then rows ruled like a
 // list. See the garden notepad design.
 .notepad {
@@ -298,50 +346,7 @@ $notepad-trail: #a4c98c;
   }
 
   .notepad-box {
-    position: relative;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border: 0;
-    background: transparent;
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: 11px;
-      left: 11px;
-      width: 22px;
-      height: 22px;
-      border: 2px solid #757575;
-      border-radius: 3px;
-      background: $white;
-    }
-
-    &:hover::before {
-      border-color: $green;
-    }
-
-    &:focus-visible {
-      outline: 3px solid $orange;
-      outline-offset: -2px;
-    }
-
-    &.checked::before {
-      background: #e4efdc;
-      border-color: $green;
-    }
-
-    &.checked::after {
-      content: "";
-      position: absolute;
-      top: 15px;
-      left: 17px;
-      width: 6px;
-      height: 11px;
-      border: solid $green;
-      border-width: 0 3px 3px 0;
-      transform: rotate(45deg);
-    }
+    @include job-tick-box;
   }
 
   // The name takes the room beside the tick box and wraps there; a very long
@@ -1207,4 +1212,51 @@ $notepad-trail: #a4c98c;
 .crop-job-modal-steps {
   list-style: decimal;
   padding-left: 1.5rem;
+}
+
+// A planting's jobs as a checklist: a square or a tick, the job, and its day.
+.job-checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem 0.6rem;
+  min-height: 48px;
+  border-top: 1px solid #eef0ea;
+
+  &:first-child {
+    border-top: 0;
+  }
+
+  &.done .job-checklist-name {
+    color: #757575;
+    text-decoration: line-through;
+  }
+}
+
+.job-checklist-tick {
+  flex: none;
+  margin: 0;
+}
+
+.job-box {
+  @include job-tick-box;
+
+  // Someone who cannot edit sees the state, not a button.
+  &.static {
+    display: block;
+    flex: none;
+  }
+}
+
+.job-checklist-name {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.job-checklist-date {
+  flex: none;
+  color: $ink-muted;
+
+  &.late {
+    color: $danger-text;
+  }
 }
