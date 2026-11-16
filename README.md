@@ -155,6 +155,20 @@ metadata URL itself, so it only works through a public HTTPS tunnel such as
 If it fails, the generic message hides the reason; look for
 `(bluesky) Authentication failure!` in the server output.
 
+### Sign in with GitHub
+
+1. Register a GitHub **OAuth App** under Settings → Developer settings → OAuth Apps.
+2. Set its authorization callback URL to `https://your-growstuff-host/members/auth/github/callback`
+   (or `http://localhost:3000/members/auth/github/callback` for local development).
+3. Set `GROWSTUFF_GITHUB_CLIENT_ID` and `GROWSTUFF_GITHUB_CLIENT_SECRET` in the
+   environment or your local `.env`, then restart the app. Never commit the secret.
+
+GitHub sign-in is hidden unless both settings are present. Use a separate OAuth
+App for each environment. We request public identity only, do not store GitHub
+access tokens, and do not import email addresses or request repository access.
+Existing members should connect GitHub from **Settings → Apps** before using it
+to sign in; accounts are not automatically matched by public GitHub email.
+
 ### For Home Automation enthusiasts
 
 https://github.com/Growstuff/homeassistant-growstuff/
@@ -185,4 +199,3 @@ Feel free to comment on any of the issues on [Github](https://github.com/Growstu
 For more information about this project, contact [info@growstuff.org](mailto:info@growstuff.org).
 
 Security Issues: If you find an authorization bypass or data breach, please contact our maintainers directly at [maintainers@growstuff.org](mailto:maintainers@growstuff.org).
-

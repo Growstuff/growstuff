@@ -1,0 +1,11 @@
+= form_with url: member_github_omniauth_authorize_path, class: 'mb-3', data: { turbo: false } do |f|
+  .form-text.mb-2= t('.permission_note')
+  - if local_assigns.fetch(:tos, true)
+    .form-check.mb-2
+      = f.check_box :tos_agreement, { class: 'form-check-input', required: true }, '1', nil
+      = f.label :tos_agreement, class: 'form-check-label' do
+        = t('.agree_to_tos_html', tos_link: link_to(t('.terms_of_service'), '/policy/tos', target: '_blank', rel: 'noopener'))
+  .text-end
+    = f.button class: 'btn btn-outline-dark' do
+      = icon 'fab', 'github'
+      = label
