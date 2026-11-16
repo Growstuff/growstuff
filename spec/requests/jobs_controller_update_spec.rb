@@ -9,6 +9,18 @@ describe JobsController, '#update' do
 
   before { sign_in member }
 
+  context 'when ticking a job on its planting\'s checklist' do
+    before { patch job_path(job), params: { job: { finished: 1 }, checklist: 1 } }
+
+    it 'finishes the job' do
+      expect(job.reload.finished).to be true
+    end
+
+    it 'sends back just that line, done' do
+      expect(Capybara.string(response.body)).to have_css("li.job-checklist-item.done##{ActionView::RecordIdentifier.dom_id(job)}")
+    end
+  end
+
   context 'when ordering jobs within a day' do
     let(:day) { Time.zone.today }
     let(:first_job) { create(:job, owner: member, due_date: day) }

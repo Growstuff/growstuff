@@ -41,18 +41,45 @@ describe 'Jobs on a planting' do
     end
   end
 
+  context 'when ticking a job', :js do
+    let!(:planned) { create(:job, owner: member, planting:, garden:, name: 'Net the berries') }
+
+    before do
+      visit planting_path(planting)
+      page.execute_script('window.sameDocument = true')
+      click_button 'Cross off: Net the berries'
+    end
+
+    it 'shows the job as done' do
+      expect(page).to have_css('.job-checklist-item.done', text: 'Net the berries')
+    end
+
+    it 'does not reload the page' do
+      expect(page).to have_css('.job-checklist-item.done')
+      expect(page.evaluate_script('window.sameDocument')).to be true
+    end
+  end
+
   context 'when adding a job in the dialog', :js do
+    let(:due_date) { Date.new(2031, 3, 14) }
+
     before do
       visit planting_path(planting)
       within('#jobs') { click_link 'add' }
       within('#planting-job-modal') do
         fill_in 'job_name', with: 'Stake the tomatoes'
+        fill_in 'job_due_date', with: due_date.strftime('%d%m%Y')
         click_button 'Add job'
       end
     end
 
     it 'shows the job on the planting page' do
       expect(page).to have_css('.job-checklist-item', text: 'Stake the tomatoes')
+    end
+
+    it 'saves the day it is due' do
+      expect(page).to have_css('.job-checklist-item', text: 'Stake the tomatoes')
+      expect(Job.find_by(name: 'Stake the tomatoes').due_date).to eq due_date
     end
 
     it 'links the job to the planting' do
