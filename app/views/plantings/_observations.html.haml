@@ -28,14 +28,15 @@
             - if observation.description.present?
               %p.observation-note.mb-0= observation.description
           - if can_manage
-            = link_to planting_path(planting, anchor: 'observations'), title: t('.edit'), 'aria-label': t('.edit'),
-                      class: 'btn btn-sm btn-link observation-edit',
-                      data: { planting_dialog: 'observation', observation: observation_edit_data(observation) } do
-              = icon 'fas', 'pen'
-            = button_to planting_observation_path(planting_slug: planting.slug, id: observation.id), method: :delete,
-              class: 'btn btn-sm btn-link text-danger observation-delete', title: t('.delete'),
-              data: { confirm: t('are_you_sure') }, 'aria-label': t('.delete') do
-              = icon 'fas', 'times'
+            .observation-actions
+              = link_to planting_path(planting, anchor: 'observations'), title: t('.edit'), 'aria-label': t('.edit'),
+                        class: 'btn btn-sm btn-link observation-edit',
+                        data: { planting_dialog: 'observation', observation: observation_edit_data(observation) } do
+                = icon 'fas', 'pen'
+              = button_to planting_observation_path(planting_slug: planting.slug, id: observation.id), method: :delete,
+                class: 'btn btn-sm btn-link text-danger observation-delete', title: t('.delete'),
+                data: { confirm: t('are_you_sure') }, 'aria-label': t('.delete') do
+                = icon 'fas', 'times'
       - else
         -# The planting itself: always there, and not something to edit.
         %li.observation.observation-planted

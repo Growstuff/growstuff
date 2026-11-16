@@ -56,9 +56,21 @@
     white-space: pre-line;
   }
 
-  .observation-edit,
-  .observation-delete {
+  .observation-actions {
+    display: flex;
+    flex: 0 0 auto;
     align-self: flex-start;
+    gap: 0.25rem;
+    margin-left: auto;
+
+    form {
+      margin: 0;
+    }
+
+    // Keep icon controls compact despite mobile.scss's full-width section buttons.
+    .btn {
+      width: auto;
+    }
   }
 }
 
@@ -69,7 +81,8 @@
     min-height: 28px;
     padding-left: 0.75rem;
 
-    .observation-when {
+    .observation-when,
+    .observation-body {
       flex-basis: 100%;
     }
   }
