@@ -52,3 +52,6 @@ RECAPTCHA_SECRET_KEY="6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 
 # Turns on "Continue with Bluesky". Generate one with: bundle exec rake atproto:generate_key
 # GROWSTUFF_ATPROTO_PRIVATE_KEY=
+
+# GROWSTUFF_GITHUB_CLIENT_ID=""
+# GROWSTUFF_GITHUB_CLIENT_SECRET=""
