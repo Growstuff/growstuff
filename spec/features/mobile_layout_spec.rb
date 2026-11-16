@@ -63,4 +63,26 @@ describe 'Layout on a phone', :js, :phone do
 
     it_behaves_like 'fits the screen'
   end
+
+  context 'with editable planting observations' do
+    let(:planting) { create(:planting, owner: member, garden: member.gardens.first, planted_at: 10.days.ago) }
+    let(:edit_control) { find('.observation-edit').native.rect }
+    let(:delete_control) { find('.observation-delete').native.rect }
+
+    before do
+      create(:observation, planting:, kind: 'disease_observed', description: 'Moth predation')
+      login_as member
+      visit planting_path(planting)
+    end
+
+    it_behaves_like 'fits the screen'
+
+    it 'keeps edit and delete on the same row' do
+      expect(edit_control.y).to eq(delete_control.y)
+    end
+
+    it 'keeps the icon controls compact' do
+      expect([edit_control.width, delete_control.width].max).to be <= 44
+    end
+  end
 end
