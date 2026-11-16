@@ -10,5 +10,4 @@
   = link_to planting.display_name, planting
   - if planting.garden.present?
     %span.record-parent-where
-      growing in
-      = link_to planting.garden.name, planting.garden
+      = t('.growing_in_html', garden: link_to(planting.garden.name, planting.garden))

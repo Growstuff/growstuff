@@ -7,45 +7,45 @@
   -# Only places we found can be saved, so the location is set in its dialog,
   -# not typed here.
   .row.mb-3
-    %span.col-form-label.col-md-2 Your location
+    %span.col-form-label.col-md-2= t('devise_views.location')
     .col-md-8
       -# The form's own edits may be waiting, so the dialog fills the place in here rather than reloading,
       -# and Remove is a button of this form (a form can't hold another) that submits to the delete route.
       .d-flex.flex-wrap.align-items-center.gap-2
         %span= icon 'fas', 'map-marker'
-        %strong#profile-location= resource.location.presence || 'Not set'
-        = render 'home/dashboard/location_picker', label: 'Change', button_class: 'btn btn-sm btn-outline-secondary', icon: 'fas fa-pen', display_id: 'profile-location'
+        %strong#profile-location= resource.location.presence || t('devise_views.not_set')
+        = render 'home/dashboard/location_picker', label: t('devise_views.change'), button_class: 'btn btn-sm btn-outline-secondary', icon: 'fas fa-pen', display_id: 'profile-location'
         %button.btn.btn-sm.btn-outline-danger{ type: 'submit', formaction: member_location_path, formmethod: 'post', name: '_method', value: 'delete' }
-          = icon 'fas', 'trash', 'Remove'
-      %span.form-text.d-block.mt-1 Pick from the places we find, so you're in the right spot on the map. A region is fine.
+          = icon 'fas', 'trash', t('devise_views.remove')
+      %span.form-text.d-block.mt-1= t('devise_views.location_help')
 
   .row.mb-3
     = f.label :bio, class: 'col-form-label col-md-2'
     .col-md-8
-      = f.text_area :bio, rows: 6, class: 'form-control', placeholder: "I'm am XYZ gardener interested in A, B, C"
+      = f.text_area :bio, rows: 6, class: 'form-control', placeholder: t('devise_views.bio_placeholder')
 
   .row.mb-3
-    = f.label :website_url, 'Website', class: 'col-form-label col-md-2'
+    = f.label :website_url, t('devise_views.website'), class: 'col-form-label col-md-2'
     .col-md-8
       = f.url_field :website_url, class: 'form-control', placeholder: "https://you.example.com/"
 
   .row.mb-3
     = f.label :instagram_handle, 'Instagram', class: 'col-form-label col-md-2'
     .col-md-8
-      = f.text_field :instagram_handle, class: 'form-control', placeholder: 'your_handle'
+      = f.text_field :instagram_handle, class: 'form-control', placeholder: t('devise_views.handle_placeholder')
 
   .row.mb-3
     = f.label :facebook_handle, 'Facebook', class: 'col-form-label col-md-2'
     .col-md-8
-      = f.text_field :facebook_handle, class: 'form-control', placeholder: 'your_handle'
+      = f.text_field :facebook_handle, class: 'form-control', placeholder: t('devise_views.handle_placeholder')
 
   .row.mb-3
     = f.label :bluesky_handle, 'Bluesky', class: 'col-form-label col-md-2'
     .col-md-8
-      = f.text_field :bluesky_handle, class: 'form-control', placeholder: 'your_handle'
+      = f.text_field :bluesky_handle, class: 'form-control', placeholder: t('devise_views.handle_placeholder')
 
   .row.mb-3
-    = f.label :other_url, 'Other URL', class: 'col-form-label col-md-2'
+    = f.label :other_url, t('devise_views.other_url'), class: 'col-form-label col-md-2'
     .col-md-8
       = f.url_field :other_url, class: 'form-control', placeholder: "https://you.example.com/"
 
@@ -57,26 +57,24 @@
         %ul.list-unstyled.mb-1.pt-2{ 'aria-labelledby' => 'mastodon-profiles-label' }
           - mastodon_auths.each do |authentication|
             %li= authentication.name.presence || authentication.uid
-        .form-text Linked accounts are read-only here. Manage them in the Apps tab.
+        .form-text= t('devise_views.linked_accounts_help')
 
   .row.mb-3
-    = f.label :locale, 'Language', class: 'col-form-label col-md-2'
+    = f.label :locale, t('devise_views.language'), class: 'col-form-label col-md-2'
     .col-md-8
       = f.select :locale, options_for_select([['English', 'en'], ['Deutsch', 'de'], ['Español', 'es'], ['Français', 'fr'], ['日本語', 'ja'], ['中文', 'zh']], resource.locale || I18n.default_locale.to_s), {}, class: 'form-select'
 
   .row.mb-3
     %label.form-label.col-md-2
-      Profile picture
+      = t('devise_views.profile_picture')
     .col-md-8
       = render partial: "members/avatar", locals: { member: @member }
       - unless @member.preferred_avatar_uri.present?
         %p
           %br/
-          To change your profile picture, visit
-          = succeed "." do
-            = link_to 'gravatar.com', "https://gravatar.com/"
+          = t('devise_views.avatar_help_html', link: link_to('gravatar.com', 'https://gravatar.com/'))
 
   .row.mb-3
     .offset-md-2.col-md-8
-      = f.submit "Save", class: 'btn btn-primary'
+      = f.submit t('devise_views.save'), class: 'btn btn-primary'
       = f.hidden_field(:tos_agreement, value: true)

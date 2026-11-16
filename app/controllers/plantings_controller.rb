@@ -25,6 +25,7 @@ class PlantingsController < DataController
     # drops every harvest that has no photo.
     @harvests = @planting.harvests.includes(:owner, :crop, :plant_part).recent
     @child_seeds = @planting.child_seeds.includes(:owner, :crop)
+    @observations = @planting.observations.includes(:author).newest_first
     @current_jobs = @planting.jobs.active.includes(:owner).order(created_at: :desc)
     @finished_jobs = @planting.jobs.finished.includes(:owner).order(created_at: :desc)
     load_weather
@@ -120,7 +121,7 @@ class PlantingsController < DataController
 
   # Behind the planting_weather feature switch, and not for seedlings still in the nursery, so we do none of the work for them.
   def load_weather
-    return unless Feature.enabled?(:planting_weather) && !@planting.in_nursery?
+    return unless Feature.enabled?(:planting_weather, current_member) && !@planting.in_nursery?
 
     @weather = @planting.weather_readings.select(*WeatherReading::CHARTED).to_a
     @expected_weather = @planting.expected_weather_readings(after: @weather.last&.date)

@@ -18,6 +18,8 @@
 
   .accordion-item {
     border-left: 6px solid $ink-muted;
+    // When a season is scrolled to, its title stops below the sticky bar across the top, not under it.
+    scroll-margin-top: 5rem;
     box-shadow: 1px 3px 3px 1px #cac1b3;
     margin-bottom: 0.75rem;
   }
@@ -27,10 +29,16 @@
   }
 }
 
-.season-item--spring { border-left-color: $green; }
-.season-item--summer { border-left-color: $orange; }
-.season-item--autumn { border-left-color: $yellow; }
-.season-item--winter { border-left-color: $blue; }
+// Each season's row has an edge, and its icon, in the season's colour.
+@each $season, $tint in $season-tints {
+  .season-item--#{$season} {
+    border-left-color: nth($tint, 1);
+
+    .season-icon {
+      color: nth($tint, 1);
+    }
+  }
+}
 
 // The season it is now: a tint over its row.
 .season-item--current .accordion-button {
@@ -47,7 +55,7 @@
 
 .season-summary-name {
   font-size: 1.25rem;
-  min-width: 9rem;
+  min-width: 10.5rem;
 }
 
 .season-summary-months {
@@ -96,10 +104,6 @@
 .season-crops-heading {
   font-size: 1.15rem;
   margin: 1rem 0 0.75rem;
-
-  &:first-child {
-    margin-top: 0;
-  }
 }
 
 // Shown in place of the cards while the weather for the member's place hasn't been fetched.

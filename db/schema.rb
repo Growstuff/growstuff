@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_11_000200) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -898,6 +898,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000200) do
     t.bigint "owner_id"
     t.string "slug"
     t.datetime "updated_at", null: false
+    t.integer "position", default: 0, null: false
     t.index ["crop_job_step_id"], name: "index_jobs_on_crop_job_step_id"
     t.index ["garden_id"], name: "index_jobs_on_garden_id"
     t.index ["jobbable_type", "jobbable_id"], name: "index_jobs_on_jobbable"
@@ -1080,6 +1081,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000200) do
     t.index ["order_id", "product_id"], name: "index_orders_products_on_order_id_and_product_id"
   end
 
+  create_table "observations", force: :cascade do |t|
+    t.bigint "author_id", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "kind"
+    t.datetime "observed_at", null: false
+    t.bigint "planting_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_observations_on_author_id"
+    t.index ["planting_id", "observed_at"], name: "index_observations_on_planting_id_and_observed_at"
+  end
+
   create_table "photo_associations", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.integer "crop_id"
@@ -1184,12 +1197,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000200) do
     t.string "planted_from"
     t.integer "quantity"
     t.date "seed_plant_before"
+    t.string "short_code", limit: 10
     t.string "slug"
     t.string "sunniness"
     t.datetime "updated_at", precision: nil
     t.index ["alternate_name_id"], name: "index_plantings_on_alternate_name_id"
     t.index ["crop_id"], name: "index_plantings_on_crop_id"
     t.index ["garden_id"], name: "index_plantings_on_garden_id"
+    t.index ["owner_id", "short_code"], name: "index_plantings_on_owner_id_and_short_code"
     t.index ["owner_id"], name: "index_plantings_on_owner_id"
     t.index ["parent_seed_id"], name: "index_plantings_on_parent_seed_id"
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
@@ -1379,6 +1394,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000200) do
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
   add_foreign_key "member_dismissals", "members"
   add_foreign_key "member_dismissals", "members", column: "dismissed_id"
+  add_foreign_key "observations", "members", column: "author_id"
+  add_foreign_key "observations", "plantings"
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
   add_foreign_key "planting_histories", "plantings"

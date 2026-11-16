@@ -71,7 +71,6 @@ Rails.application.routes.draw do
 
   resources :gardens, concerns: :has_photos, param: :slug do
     get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
-    post 'fetch_wikidata' => 'gardens#fetch_wikidata', on: :member
     post 'make_nursery' => 'gardens#make_nursery', on: :member
     post 'stop_nursery' => 'gardens#stop_nursery', on: :member
 
@@ -86,6 +85,7 @@ Rails.application.routes.draw do
     resources :harvests
     resources :seeds
     resource :origin, only: :update, module: :plantings
+    resources :observations, only: %i(create update destroy), module: :plantings
     collection do
       get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
     end
@@ -226,7 +226,10 @@ Rails.application.routes.draw do
       post :restore, on: :member
     end
     resources :roles
-    resources :features, only: %i(index update)
+    resources :features, only: %i(index update) do
+      post :add_member, on: :member
+      delete :remove_member, on: :member
+    end
     resources :reminder_stats, only: :index
     get 'climate/members' => 'climate_coverage#members', as: :climate_members
     get 'climate/gardens' => 'climate_coverage#gardens', as: :climate_gardens

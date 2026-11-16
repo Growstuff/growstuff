@@ -5,6 +5,7 @@ import GardenFormModal from './GardenFormModal';
 import EditPlantingModal from './EditPlantingModal';
 import GardenCard from './GardenCard';
 import MarkFinishedModal from './MarkFinishedModal';
+import ObservationModal from './ObservationModal';
 import PlantSomethingModal from './PlantSomethingModal';
 import RecordHarvestModal from './RecordHarvestModal';
 import SaveSeedsModal from './SaveSeedsModal';
@@ -16,7 +17,7 @@ const plantingIds = (garden) => [...garden.perennials, ...garden.annuals].map((p
 // GardensHelper#garden_cards_props. It owns the cards' state so that saving a
 // planting from the "Add planting" dialog can swap in the garden's
 // updated card, and the new planting appears without a page reload.
-export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl, harvest_icon_url: harvestIconUrl, seed_icon_url: seedIconUrl, photo_icon_url: photoIconUrl, finish_icon_url: finishIconUrl}) {
+export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl, harvest_icon_url: harvestIconUrl, seed_icon_url: seedIconUrl, photo_icon_url: photoIconUrl, finish_icon_url: finishIconUrl, observation_kinds: observationKinds}) {
   const [gardens, setGardens] = useState(initialGardens);
   const [plantingIn, setPlantingIn] = useState(null); // the garden the dialog is open for
   const [editing, setEditing] = useState(null); // the planting the edit dialog is open for
@@ -24,6 +25,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
   const [savingSeeds, setSavingSeeds] = useState(null); // the planting the save seeds dialog is open for
   const [addingPhoto, setAddingPhoto] = useState(null); // {label, href}: what the add photo dialog is open for
   const [finishing, setFinishing] = useState(null); // the planting the mark as finished dialog is open for
+  const [observing, setObserving] = useState(null); // the planting the add observation dialog is open for
   const [editingGarden, setEditingGarden] = useState(null); // the garden the edit dialog is open for
   const [notice, setNotice] = useState(null);
   const [highlight, setHighlight] = useState(null); // {id, kind}: the planting just added or harvested
@@ -94,6 +96,12 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
     setNotice(<>Added a photo to {target.label}. <a href={result.photo.url}>See it</a>.</>);
   }
 
+  function observed(updatedCard, planting) {
+    replaceCard(updatedCard);
+    setObserving(null);
+    setNotice(`Added an observation to ${planting.crop.name}.`);
+  }
+
   function finished(updatedCard, planting) {
     replaceCard(updatedCard); // the planting is no longer in progress, so it leaves the card
     setFinishing(null);
@@ -136,6 +144,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           onSaveSeedsPlanting={setSavingSeeds}
           onAddPhoto={setAddingPhoto}
           onFinishPlanting={setFinishing}
+          onObservePlanting={setObserving}
           onEditGarden={setEditingGarden}
         />
       ))}
@@ -175,6 +184,14 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           iconUrl={finishIconUrl}
           onClose={() => setFinishing(null)}
           onSaved={(updatedCard) => finished(updatedCard, finishing)}
+        />
+      )}
+      {observing && (
+        <ObservationModal
+          planting={observing}
+          kinds={observationKinds}
+          onClose={() => setObserving(null)}
+          onSaved={(updatedCard) => observed(updatedCard, observing)}
         />
       )}
       {addingPhoto && (

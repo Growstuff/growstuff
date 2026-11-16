@@ -35,6 +35,7 @@ class Planting < ApplicationRecord
   has_many :histories, -> { order(:ended_on, :id) }, class_name: 'PlantingHistory', dependent: :destroy, inverse_of: :planting
   has_many :harvests, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many :observations, dependent: :destroy
   # One per individual plant, for placing on the garden's layout grid. Made the
   # first time the garden's layout is used (Garden#prepare_layout), not for every
   # planting, as most plantings never go on a layout.
@@ -119,6 +120,26 @@ class Planting < ApplicationRecord
   validates :overall_rating, allow_blank: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5
   }
+  validates :short_code, length: { is: 4 }, format: { with: /\A[2-9A-HJ-NP-Z]{4}\z/ },
+                         uniqueness: { scope: :owner_id, allow_nil: true }
+
+  SHORT_CODE_CHARS = %w[2 3 4 5 6 7 8 9 A B C D E F G H J K L M N P Q R S T U V W X Y Z].freeze
+
+  before_validation :assign_short_code
+  before_save :assign_short_code
+
+  def self.random_short_code
+    Array.new(4) { SHORT_CODE_CHARS.sample }.join
+  end
+
+  def self.generate_short_code(owner = nil)
+    loop do
+      code = random_short_code
+      next if owner && where(owner_id: owner.id, short_code: code).exists?
+
+      break code
+    end
+  end
 
   def subject
     to_s
@@ -213,14 +234,29 @@ class Planting < ApplicationRecord
     garden.nursery?
   end
 
+  # The variety its parent seed says it is, such as Brandywine, or nil when there is no parent seed or it names none.
+  def variety
+    parent_seed&.variety.presence
+  end
+
+  # A name for it with its variety in brackets after, when it has one: "tomato (Brandywine)".
+  def with_variety(name)
+    variety ? "#{name} (#{variety})" : name
+  end
+
   def weather_located?
     latitude.present? && longitude.present?
   end
 
-  # How much frost the planting takes, and whose word that is: [source, level], with the source :planting, :seed or :crop.
-  # The planting's own say comes first, then its seed's, then its crop's. Nil when none of them knows.
+  # How much frost the planting takes, and whose word that is: [source, level], with the source :planting, :seed, :crop
+  # or :parent_crop. The planting's own say comes first, then its seed's, then its crop's, then its crop's parents'.
+  # Nil when none of them knows.
   def hardiness_found
-    { planting: hardiness, seed: parent_seed&.hardiness, crop: crop.hardiness }.find { |_source, level| Hardiness::LEVELS.include?(level) }
+    own = { planting: hardiness, seed: parent_seed&.hardiness }.find { |_source, level| Hardiness::LEVELS.include?(level) }
+    return own if own
+
+    found, level = crop.hardiness_found
+    [found == crop ? :crop : :parent_crop, level] if found
   end
 
   # The weather isn't here yet but will be: this is a planting the daily update collects weather for.
@@ -337,6 +373,10 @@ class Planting < ApplicationRecord
 
   # Copied from the packet when the planting is made, as the packet may be
   # edited or thrown away later.
+  def assign_short_code
+    self.short_code ||= self.class.generate_short_code(owner)
+  end
+
   def remember_seed_plant_before
     self.seed_plant_before ||= parent_seed&.plant_before
   end

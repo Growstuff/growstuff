@@ -38,6 +38,14 @@ describe 'growstuff:send_planting_reminder', flipper: :enable_planting_reminders
     it 'sends nothing' do
       expect { send_reminders }.not_to(change { ActionMailer::Base.deliveries.count })
     end
+
+    context 'with a member grant' do
+      before { Feature.find(:enable_planting_reminders).enable_member(member) }
+
+      it 'sends a reminder to the granted member' do
+        expect { send_reminders }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      end
+    end
   end
 
   context 'when it is not Monday' do

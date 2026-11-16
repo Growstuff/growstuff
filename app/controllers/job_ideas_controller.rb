@@ -7,7 +7,7 @@
 # are. Only while admins have the job ideas feature switched on.
 class JobIdeasController < ApplicationController
   before_action :authenticate_member!
-  before_action { raise ActiveRecord::RecordNotFound unless Feature.enabled?(:job_ideas) }
+  before_action { raise ActiveRecord::RecordNotFound unless Feature.enabled?(:job_ideas, current_member) }
 
   def index
     load_ideas

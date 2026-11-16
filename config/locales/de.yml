@@ -1,5 +1,33 @@
 ---
 de:
+  likes:
+    description_html: '%{member} gefällt %{item}'
+  shared:
+    flash_messages:
+      close: Schließen
+    markdown_help:
+      instructions: Sie können Markdown verwenden, um Ihren Text zu formatieren.
+      examples: 'Zum Beispiel *kursiv*, **fett** oder ein Link [wie dieser](http://to.some.site.com/).'
+      crop_links: 'Kurzlinks zu Nutzpflanzen: [Süßkartoffel](crop).'
+      member_links: 'Kurzlinks zu Mitgliedern: @Benutzername oder [Benutzername](member).'
+    record_parent:
+      growing_in_html: wächst in %{garden}
+    signin_signup:
+      sign_in: Melden Sie sich an
+      sign_up: registrieren Sie sich
+      prompt_html: '%{sign_in} oder %{sign_up}, um %{purpose}.'
+    editable:
+      date:
+        when: Wann?
+      form:
+        edit: '%{field} bearbeiten'
+        minimum: min.
+        maximum: max.
+        when: Wann?
+  timeline:
+    likeables:
+      post:
+        view_post: Beitrag ansehen
   activerecord:
     errors:
       messages:
@@ -28,6 +56,12 @@ de:
         same_crop_required: muss die gleiche Ernte sein
         same_owner_required: Der Erntevorgang muss mit dem Pflanzen identisch sein, oder ein Mitarbeiter in diesem Garten
         too_many_plants: Eine Bepflanzung kann maximal %{limit} Pflanzen auf dem Layout haben
+        cannot_be_stall_owner: kann nicht der Besitzer des Standes sein
+        not_in_future: kann nicht in der Zukunft liegen
+        not_confirmed_in_area: Kreuzen Sie an, dass Sie sich in %{place} befinden.
+        outside_area: Dieser Stand ist nur für Leute in der Nähe von %{place}.
+        owner_unplaced: Der Gärtner hat noch nicht gesagt, wo sie sind.
+        stall_closed: Der Stand ist geschlossen.
       models:
         crop_job_step:
           attributes:
@@ -61,6 +95,8 @@ de:
               source_inclusion: Sie müssen sagen, woher die Samen kommen, oder dass Sie es nicht wissen
             tradable_to:
               tradable_to_inclusion: Sie dürfen Saatgut nur nirgends lokal, national oder international handeln
+            hardiness:
+              hardiness_inclusion: Sie müssen sagen, ob die Samen zart, halbwinterhart, winterhart sind oder ob Sie es nicht wissen
     models:
       comment:
         one: Kommentar
@@ -99,6 +135,8 @@ de:
         enable_planting_reminders: Sendet die wöchentlichen Pflanzerinnerungs-E-Mails an Mitglieder, die sie wünschen.
         job_ideas: Vorgeschlagene Jobs für Mitglieder, von ihren früheren Jobs und Pflanzungen, Erntevorlagen und was Gärtner in der Nähe tun.
         planting_weather: Temperatur- und Niederschlagsdiagramme für jede Pflanzung, basierend auf dem täglichen Wetter für den Gartenbereich.
+        garden_stall: Eine Seite, auf der Mitglieder Freunden Ersatzsämlinge und -samen anbieten. Schalten Sie das Gerät ein, sobald alle Teile eingesetzt sind.
+        planting_codes: Zeigt dem Pflanzeigentümer und den Mitarbeitern in seinem Garten Pflanzcodes an.
       index:
         disabled: Aus
         enabled: An
@@ -108,15 +146,130 @@ de:
         switch_off: Ausschalten
         switch_on: Einschalten
         title: Merkmale
+        members: Für Mitglieder aktiviert
+        login_name: Benutzername
+        add_member: Für Mitglieder aktivieren
+        remove_member: Zuschuss entfernen
       names:
         enable_harvest_reminders: Ernteerinnerungen
         enable_planting_reminders: Pflanzerinnerungen
         job_ideas: Jobideen
         planting_weather: Pflanzwetter
+        garden_stall: Gartenstand
+        planting_codes: Pflanzcodes
       update:
         disabled: "%{feature} ist jetzt ausgeschaltet."
         enabled: "%{feature} ist jetzt aktiviert."
+      member_not_found: Mitglied nicht gefunden. Geben Sie einen vorhandenen Benutzernamen ein.
+    climate_coverage:
+      all: Alle
+      gardens:
+        cell: Wetterzelle
+        climate: Klimadaten
+        fetched: Zuletzt abgerufen
+        garden: Garten
+        inactive: Inaktiv
+        kind: Art
+        location: Standort
+        nursery: Kindergarten
+        owner: Eigentümer
+        title: Daten zum Gartenklima
+      intro: Ob wir Klimadaten (Regen, Temperatur und Frost) für die Wettergitterzelle speichern, in die jeder Standort fällt. Die Daten werden für genutzte Gärten und die Gärten aktueller Pflanzungen abgerufen. Daten sind veraltet, wenn sie eine Woche lang nicht abgerufen wurden. Dies geschieht, wenn in dieser Zelle kein Garten oder keine Bepflanzung genutzt wird. Ein Mitglied ist versichert, wenn es sein eigener Standort oder einer seiner Gärten ist.
+      members:
+        climate: Klimadaten
+        gardens: Gärten
+        gardens_covered: "%{covered} von %{located} aktuell"
+        gardens_stale:
+          one: "%{count} veraltet"
+          other: "%{count} veraltet"
+        location: Standort
+        member: Mitglied
+        own: Eigener Standort
+        title: Klimadaten der Mitglieder
+      statuses:
+        covered: Auf dem neuesten Stand
+        missing: Noch keine Daten
+        stale: Veraltet
+        unlocated: Kein Standort auf der Karte
+    ecocrop_data:
+      create_crop:
+        created: "%{crop} wurde aus %{record} erstellt."
+        name_blank: Geben Sie der neuen Ernte einen Namen.
+        name_taken: Eine Ernte namens %{name} existiert bereits.
+      create_modal:
+        cancel: Stornieren
+        close: Schließen
+        create: Zuschnitt erstellen
+        hint: Erstellen Sie eine Ernte aus diesem EcoCrop-Datensatz. Es wird als genehmigt mit dem untenstehenden wissenschaftlichen Namen erstellt und mit der Aufzeichnung verknüpft.
+        name: Pflanzenname
+        names_hint: Diese werden als alternative Namen auf Englisch beibehalten. Namen mit einem Hinweis in Klammern werden nicht angekreuzt, da sie meist aus einer anderen Sprache oder einem anderen Ort stammen. Deaktivieren Sie alle anderen, die nicht Englisch sind oder nicht richtig sind.
+        names_legend: Andere gebräuchliche Namen
+        title: Erstellen Sie einen Zuschnitt
+        wikipedia_hint: Eine zugelassene Kultur braucht eine. Dies ist eine Vermutung anhand des wissenschaftlichen Namens. Überprüfen Sie daher, ob es sich auf der Seite um die richtige Pflanze handelt.
+        wikipedia_url: Englische Wikipedia-Seite
+      details:
+        category: Kategorie
+        common_names: Gebräuchliche Namen
+        family: Familie
+        life_form: Lebensform
+      index:
+        all: Alle
+        common_names: Gebräuchliche Namen
+        copy_names:
+          one: 1 Namen kopieren
+          other: Kopieren Sie %{count} Namen
+        create_crop: Erstellen Sie einen Zuschnitt
+        crops: Passende Pflanzen
+        heat_data: Wärmefiguren
+        how_to_link: Klicken Sie auf einen gebräuchlichen Namen, um nach der Kulturpflanze zu suchen, zu der er gehört, und bestätigen Sie dann den Link.
+        intro: "%{matched} der %{total} EcoCrop-Datensätze sind einer Kultur zugeordnet."
+        link: Verknüpfen Sie eine Ernte
+        matched: Passend
+        no_heat_data: Fehlen
+        none: Hier gibt es keine EcoCrop-Datensätze.
+        scientific_name: Wissenschaftlicher Name
+        search: Suchen
+        search_placeholder: Wissenschaftlicher oder gebräuchlicher Name
+        suggestion: Link %{crop}
+        suggestion_title: "%{crop} wird wie ein gebräuchlicher Name von %{record} benannt."
+        title: EcoCrop-Daten
+        unlink: Verknüpfung aufheben
+        unmatched: Unübertroffen
+        unmatched_crop: Nicht einer Kultur zugeordnet
+        yes_heat_data: Vollständig
+      link:
+        failed: "%{crop} konnte nicht verknüpft werden."
+        linked:
+          one: "%{crop} ist jetzt mit %{record} verknüpft, wobei 1 alternativer Name hinzugefügt wurde."
+          other: "%{crop} ist jetzt mit %{record} verknüpft, wobei %{count} alternative Namen hinzugefügt wurden."
+          zero: "%{crop} ist jetzt mit %{record} verknüpft."
+      link_modal:
+        back: Wählen Sie eine andere Ernte
+        cancel: Stornieren
+        close: Schließen
+        confirm: Den Zuschnitt %{crop} mit %{record} verknüpfen?
+        confirm_button: Ja, verlinke es
+        hint: Suchen Sie nach der Ernte, die dieser EcoCrop-Datensatz beschreibt. Eine Ernte hat einen Datensatz, daher werden durch die Verknüpfung alle vorhandenen Datensätze ersetzt.
+        names_hint: Diese werden dem Ausschnitt als alternative Namen auf Englisch hinzugefügt. Namen mit einem Hinweis in Klammern werden nicht angekreuzt, da sie meist aus einer anderen Sprache oder einem anderen Ort stammen. Deaktivieren Sie alle anderen, die nicht Englisch sind oder nicht richtig sind.
+        names_legend: Kopieren Sie auch diese gebräuchlichen Namen
+        none: Keine Pflanzen gefunden
+        search_label: Pflanzenname
+        title: Verknüpfen Sie eine Ernte
+      unlink:
+        unlinked: "%{crop} ist nicht mehr mit %{record} verknüpft."
+    members:
+      bulk_ban:
+        banned: Ausgewählte Mitglieder wurden gesperrt.
+        none_selected: Es wurden keine Mitglieder ausgewählt.
   authentications:
+    connected:
+      connected_title: Flickr verbunden
+      not_connected_title: Flickr nicht verbunden
+      connected_heading: Flickr ist verbunden
+      connected_help: Du kannst dieses Fenster schließen und weiter ein Foto auswählen.
+      not_connected_heading: Flickr wurde nicht verbunden
+      not_connected_help: Du kannst dieses Fenster schließen und es erneut versuchen.
+      close_window: Dieses Fenster schließen
     sign_in:
       bluesky:
         terms_of_service: "Nutzungsbedingungen"
@@ -188,6 +341,8 @@ de:
     transplant: Transplantation
     unlike: Like entfernen
     view: Sicht
+    write_blog_post: Blogbeitrag schreiben
+    add_observation: Beobachtung hinzufügen
   comments:
     comments:
       empty: Es gibt noch keine Kommentare
@@ -509,6 +664,9 @@ de:
       crops: Nutzpflanzen
       formats: "Die Daten auf dieser Seite sind in folgenden Formaten verfügbar:"
       feed_title: "Kürzlich hinzugefügte Nutzpflanzen (%{site})"
+      log_in: Einloggen
+      log_in_to_suggest: Fehlt eine Ernte? Sie können neue Kulturen vorschlagen, wenn Sie sich anmelden.
+      no_matches: Keine Kulturen entsprechen diesen Filtern.
     join_banner:
       heading: Growstuff ist eine kostenlose, von der Community betriebene Website für Menschen, die Lebensmittel anbauen.
       prompt: Melden Sie sich an, um Ihre eigenen %{crops} aufzuzeichnen.
@@ -623,6 +781,10 @@ de:
       sowing_method: Aussaatmethode
       spread: Ausbreitung (cm)
       sun_requirements: Sonnenbedarf
+      hardiness:
+        from_packets: Berechnen Sie es anhand der Samenpakete der Mitglieder
+        help: Wie viel Frost verträgt die Ernte? Wählen Sie eine Stufe, um es beizubehalten, unabhängig davon, was auf den Samenpackungen steht.
+        label: Widerstandsfähigkeit
     wrangle:
       edit: Bearbeiten
       add_scientific_name: Wissenschaftlichen Namen hinzufügen
@@ -666,6 +828,92 @@ de:
       title: Ernteverwaltung
       top_level_crops: Nutzpflanzen auf oberster Ebene
       yes: Ja
+    ecocrop_facts:
+      absolute_ph: Absoluter pH-Wert des Bodens
+      absolute_rainfall: Absoluter Niederschlag
+      absolute_temperature: Absolute Temperatur
+      crop_cycle: Erntezyklus
+      max_altitude: Maximale Höhe
+      optimal_light: Optimales Licht
+      optimal_ph: Optimaler pH-Wert des Bodens
+      optimal_rainfall: Optimaler Niederschlag
+      optimal_temperature: Optimale Temperatur
+      source: FAO EcoCrop
+      to: Zu
+      units:
+        celsius: "°C"
+        days: Tage
+        metres: M
+        rainfall: mm/Jahr
+    ecocrop_find_modal:
+      back: Wählen Sie einen anderen Datensatz
+      cancel: Stornieren
+      close: Schließen
+      confirm: "%{crop} mit %{record} verknüpfen?"
+      confirm_button: Ja, verlinke es
+      hint: Durchsuchen Sie die EcoCrop-Datensätze nach gebräuchlichem oder wissenschaftlichem Namen.
+      linked_to: Bereits verknüpft mit %{crops}
+      names_hint: Diese werden dem Ausschnitt als alternative Namen auf Englisch hinzugefügt. Namen mit einem Hinweis in Klammern werden nicht angekreuzt, da sie meist aus einer anderen Sprache oder einem anderen Ort stammen. Deaktivieren Sie alle anderen, die nicht Englisch sind oder nicht richtig sind.
+      names_legend: Kopieren Sie auch diese gebräuchlichen Namen
+      none: Keine EcoCrop-Datensätze gefunden
+      search_label: Gebräuchlicher Name
+      title: Suchen Sie den EcoCrop-Datensatz für %{crop}
+    ecocrop_link:
+      find: Finden Sie EcoCrop-Daten
+      inherited: 'Diese Kulturpflanze hat keinen eigenen EcoCrop-Datensatz und verwendet daher den ihrer Eltern: %{record}.'
+      none: Diese Ernte ist nicht mit EcoCrop-Daten verknüpft.
+      title: EcoCrop-Daten
+    filters:
+      apply: Filter
+      clear: Filter löschen
+      ecocrop: EcoCrop-Daten
+      ecocrop_linked: Verlinkt
+      ecocrop_unlinked: Nicht verlinkt
+      friends: Aufgewachsen durch Menschen, denen ich folge
+      history: Habe ich das schon einmal angebaut?
+      history_before: Ja, das habe ich
+      history_never: Nein, niemals
+      needs_location: Legen Sie fest, wo Sie gärtnern, um nach dem zu filtern, was zu Ihrem Standort passt und was in der Nähe angebaut wird.
+      nearby: Von Gärtnern in der Nähe angebaut
+      no_climate: Wir haben noch kein Wetter für Ihren Ort und können daher nicht sagen, was dort passt. Wir sammeln es für die von Mitgliedern festgelegten Orte, schauen Sie also bald wieder vorbei.
+      parent: Zum Zuschneiden filtern
+      parent_placeholder: Beginnen Sie mit der Eingabe eines Pflanzennamens und wählen Sie dann einen aus
+      remove: Entfernen
+      season: Wächst hinein
+      seeds: Ich habe Samen von
+      set_location: Legen Sie Ihren Standort fest.
+      sign_in: Einloggen.
+      sign_in_for_more: Melden Sie sich an, um auch nach Ihrem Standort, der Jahreszeit, dem Anbau von Menschen in der Nähe und den Menschen, denen Sie folgen, und dem, was Sie angebaut haben, zu filtern.
+      suits: Wächst an meinem Standort gut
+      suits_at: Wächst gut in %{place}
+    time_to_harvest:
+      about_html: Wenn Sie jetzt säen, können Sie mit einer ersten Ernte in etwa %{days} rechnen.
+      hint:
+        no_climate: Da wir für Ihren Ort noch kein Wetter haben, können wir nicht abschätzen, wie lange es dort dauert. Wir sammeln es für die von Mitgliedern festgelegten Orte, schauen Sie also bald wieder vorbei.
+        set_location: Legen Sie in Ihrem Profil einen Standort fest, um genauere Vorhersagen für diese Ernte zu erhalten.
+        sign_in: Melden Sie sich an und legen Sie einen Standort fest, um genauere Vorhersagen für diese Ernte zu erhalten.
+      set_location: Legen Sie Ihren Standort fest.
+      sign_in: Einloggen.
+      source:
+        degree_days: Berechnet aus den Wachstumsgradtagen, die diese Pflanze benötigt, und dem üblichen Wetter bei Ihnen vor Ort.
+        ecocrop: Aus dem Wachstumszyklus in der FAO-EcoCrop-Datenbank, der überall dort, wo er angebaut wird, derselbe ist.
+        median: Von der durchschnittlichen Anpflanzung dieser Kulturpflanze durch die Mitglieder bis zur ersten Ernte.
+      title: Zeit zum Ernten
+    growing_degree_days:
+      cycle_html: Für %{crop} gibt die EcoCrop-Datenbank der FAO eine niedrigste Wachstumstemperatur von %{tmin} und einen kürzesten Wachstumszyklus von %{gmin} Tagen bei der besten Temperatur an, etwa %{degree_days} Wachstumsgradtage bis zur ersten Ernte.
+      example: 'Angenommen, die niedrigste Temperatur beträgt 10 °C. Ein Tag mit durchschnittlich 17 °C ergibt 7 Wachstumsgradtage. Ein Tag mit durchschnittlich 8°C bringt keine, da es zu kalt ist, als dass die Pflanze wachsen könnte. Aus diesem Grund benötigt derselbe Salat im Sommer etwa 50 Tage und im Herbst 90 Tage: Er benötigt in beiden Fällen die gleiche Gesamtwärme.'
+      intro: 'Eine Pflanze wächst mit Wärme, nicht mit Tagen. Ein Wachstumsgradtag ist die nützliche Wärmemenge eines Tages: um wie viel Grad liegt die Durchschnittstemperatur des Tages über der niedrigsten Temperatur, bei der die Pflanze wächst. Addieren Sie die Werte ab der Aussaat und Sie wissen, wie weit die Ernte entfernt ist, unabhängig davon, was im Kalender steht.'
+      needs_html: "%{crop} benötigt etwa %{degree_days} Wachstumsgradtage."
+      summary: Was sind Wachstumsgradtage?
+      usage: 'Wenn Sie uns mitgeteilt haben, wo sich Ihr Garten befindet, nutzen wir dies und das dortige Wetter, um vorherzusagen, wann Ihr %{crop} zur Ernte bereit sein wird. Wir verwenden es nicht dafür, wie lange eine Pflanze lebt oder wann sie erschöpft ist: Wir richten uns danach, was die Mitglieder dafür protokolliert haben.'
+    hardiness:
+      from_packets: Berechnen Sie es anhand der Samenpakete der Mitglieder
+      help: Wie viel Frost verträgt die Ernte? Wählen Sie eine Stufe, um es beizubehalten, unabhängig davon, was auf den Samenpackungen steht.
+      label: Widerstandsfähigkeit
+      sources:
+        manual: Von einem Pflanzenzüchter gesetzt
+        seed_packets: Aus den Samenpaketen der Mitglieder
+      title: Widerstandsfähigkeit
   edit_crop: Zuschnitt bearbeiten
   flash:
     photo_associations:
@@ -865,16 +1113,12 @@ de:
       title: Neuer Garten
     about:
       collaborators: Mitarbeiter
-      fetch_wikidata: Wikidata-Informationen abrufen
       heading: Über diesen Garten
       leave: Garten verlassen
       leave_confirm: Sind Sie sicher, dass Sie diesen Garten verlassen möchten?
       location: Standort
       manage: Verwalten
       owner: Eigentümer
-      temperature_unknown: nicht bekannt
-      temperatures_html: 'Lokale Temperaturen von %{source}: heißeste %{hottest}, kälteste %{coldest}.'
-      wikidata_missing: Für diesen Standort fehlen Wikidata-Informationen.
       you: "(Du)"
     actions:
       add_photo: Foto von Flickr hinzufügen
@@ -927,6 +1171,9 @@ de:
         one: Dieser Garten konnte aufgrund eines Fehlers nicht gespeichert werden
         other: Dieser Garten konnte aufgrund von %{count} Fehlern nicht gespeichert werden
       save: Garten speichern
+      frost_safe:
+        help: Kreuzen Sie dies für ein Gewächshaus, drinnen oder eine beheizte Bank an, wo die Pflanzen keiner Frostgefahr ausgesetzt sind. Bei einer Pflanzung, die hier begonnen hat, beginnt der Frostabschnitt an dem Tag, an dem sie ins Freie geht. Ein Kindergarten beginnt mit einem Häkchen; Deaktivieren Sie das Häkchen, wenn Frost Ihre Sämlinge erreichen kann.
+        label: Dieser Garten ist frostsicher
     header:
       nursery: Kindergarten
       nursery_hint: Hier angezogene Sämlinge können in Ihre Gärten umgepflanzt werden.
@@ -937,6 +1184,8 @@ de:
         other: Foto des Gartens · %{count}-Fotos
       hero_label: Fotos von %{garden}
       season_title: Die Jahreszeit, in der dieser Garten ist
+      frost_protected: Frostgeschützt
+      frost_protected_title: Sicher vor Frost, z. B. im Innenbereich oder im Gewächshaus
     inactive:
       current_gardens: Aktuelle Gärten
       empty_body: Es gibt keine inaktiven Gärten zum Anzeigen.
@@ -1122,6 +1371,8 @@ de:
       the_planting_this_came_from: Die Pflanzung, von der dies stammt
     updated: Harvest wurde erfolgreich aktualisiert.
   home:
+    community_description: Growstuff ist eine Gemeinschaft von Menschen, die Lebensmittel anbauen. Lernen wir gemeinsam, unser eigenes Essen anzubauen.
+    planting_image_alt: Bild von %{planting} von %{owner}
     weather_invitation:
       add_location: Standort hinzufügen
       change_location: Standort ändern
@@ -1313,6 +1564,23 @@ de:
       years_growing:
         one: "%{count} Jahr wachsend"
         other: "%{count} Jahre wachsend"
+      todo: Zu tun
+      todo_confirm: Bestätigen Sie Ihre E-Mail-Adresse
+      todo_confirm_note: Wir haben einen Link an %{email} gesendet. Folgen Sie ihm, damit wir wissen, dass es Ihnen gehört.
+      todo_confirm_resend: Senden Sie es erneut
+      todo_confirm_waiting: Sobald Sie eine E-Mail-Adresse hinzugefügt haben, senden wir Ihnen einen Link zur Bestätigung.
+      todo_email: Fügen Sie Ihre E-Mail-Adresse hinzu
+      todo_email_add: E-Mail hinzufügen
+      todo_email_changed_mind: Haben Sie Ihre Meinung geändert?
+      todo_email_decline: Nein danke
+      todo_email_declined: Sie haben sich entschieden, keine hinzuzufügen, daher senden wir Ihnen keine Benachrichtigungen oder Pflanzerinnerungen.
+      todo_email_error: Das konnten wir gerade nicht retten. Bitte versuchen Sie es erneut.
+      todo_email_note: Ohne diese können wir Ihnen keine Benachrichtigungen oder Pflanzerinnerungen senden oder Ihnen das Zurücksetzen Ihres Passworts ermöglichen. Wir senden Ihnen zur Bestätigung einen Link per E-Mail zu.
+      todo_email_save: E-Mail speichern
+      todo_email_skipped: Übersprungen
+      todo_name: Bestätigen Sie Ihren Namen
+      todo_name_note: Dies ist der Name, der auf der Website angezeigt wird. Wir haben eines vorgeschlagen, und Sie können es ändern.
+      todo_name_save: Namen speichern
     index:
       harvest: Ernte
       plant: Anlage
@@ -1593,6 +1861,96 @@ de:
     data: 'Die Daten auf dieser Seite sind in folgenden Formaten verfügbar:'
     harvesting_now: 'Ernte :'
     weeks_until_harvest: "%{number} Wochen bis zur Ernte"
+  devise_views:
+    resend_confirmation: Bestätigungsanleitung erneut senden
+    confirmation_help: Gib deinen Anmeldenamen oder deine E-Mail-Adresse ein, um die Bestätigungs-E-Mail erneut zu erhalten.
+    login: Anmeldename oder E-Mail
+    change_password: Passwort ändern
+    new_password: Neues Passwort
+    confirm_password: Neues Passwort bestätigen
+    current_password: Aktuelles Passwort
+    change_my_password: Mein Passwort ändern
+    forgot_password: Passwort vergessen?
+    password_help: Gib deine E-Mail-Adresse ein. Wir senden dir einen Link, um ein neues Passwort festzulegen.
+    email: E-Mail
+    send_reset: Anleitung zum Zurücksetzen des Passworts senden
+    sign_in: Anmelden
+    password: Passwort
+    remember_me: Angemeldet bleiben
+    resend_unlock: Entsperranleitung erneut senden
+    join_free: Kostenlos registrieren
+    missing_confirmation: Keine Bestätigungsanleitung erhalten?
+    missing_unlock: Keine Entsperranleitung erhalten?
+    continue_with: Mit %{provider} fortfahren
+    delete_help: Lösche dein Konto bei %{site_name}.
+    delete_password: Zum Löschen ist dein Passwort erforderlich
+    delete: Löschen
+    save: Speichern
+    reconfirm_email: Wenn du deine E-Mail-Adresse änderst, musst du sie erneut bestätigen.
+    show_email: E-Mail-Adresse öffentlich im Profil anzeigen.
+    notification_email: Kopien der Posteingangsbenachrichtigungen (z. B. private Nachrichten) per E-Mail erhalten.
+    planting_reminders: Regelmäßige Erinnerungen zum Erfassen deiner Pflanzungen und Ernten erhalten.
+    harvest_reminders: Regelmäßige Erinnerungen an bevorstehende Ernten erhalten.
+    join_site: Bei %{site_name} registrieren
+    signup_help: Erstelle ein Konto bei %{site_name}, um deinen Gemüsegarten zu dokumentieren und dich mit anderen Menschen auszutauschen, die in deiner Nähe gärtnern.
+    captcha_help: Wenn das Captcha für dich nicht barrierefrei zugänglich ist, kontaktiere uns über die Links in der Fußzeile. Wir helfen dir gerne.
+    login_name: Anmeldename
+    login_help: Dieser Name wird auf der Website angezeigt.
+    email_help: Über diese Adresse kontaktieren wir dich (wir versenden keinen Spam!).
+    agreement_html: Ich stimme den %{link} zu
+    terms: Nutzungsbedingungen
+    sign_up: Registrieren
+    greeting: Hallo %{name},
+    confirmation_body: 'Dein Konto bei %{site_name} wurde erstellt. Bestätige jetzt deine E-Mail-Adresse über den folgenden Link:'
+    confirm_account: Mein Konto bestätigen
+    confirmed_help: Nach der Bestätigung kannst du dich mit deinem Anmeldenamen (%{login}) oder deiner E-Mail-Adresse (%{email}) und dem bei der Registrierung gewählten Passwort anmelden. Beachte, dass beim Anmeldenamen und beim Passwort die Groß- und Kleinschreibung berücksichtigt wird.
+    welcome_html: Wir freuen uns, dich als Mitglied begrüßen zu dürfen, und hoffen, dass dir %{site_name} gefällt. Schau dich um, %{plant_link} und besuche die %{forums_link}, wenn du Fragen oder Rückmeldungen hast.
+    plant_things: pflanze etwas an
+    forums: Foren
+    guidelines_help_html: Bitte lies auch unsere %{link} und halte dich daran. Wir möchten, dass %{site_name} für alle ein freundlicher und einladender Ort ist, und hoffen auf deine Unterstützung.
+    guidelines: Gemeinschaftsrichtlinien
+    looking_forward: Wir freuen uns auf dich!
+    team: Das Team von %{site_name}.
+    reset_body: 'Jemand hat einen Link zum Zurücksetzen deines Passworts bei %{site_name} angefordert. Wenn du das warst, kannst du dein Passwort über diesen Link zurücksetzen:'
+    reset_ignore: Wenn du das nicht warst, hat sich vielleicht jemand vertippt oder einen Scherz erlaubt. Du kannst diese E-Mail einfach ignorieren. Dein Passwort wird nicht geändert.
+    see_you: Bis bald,
+    unlock_body: 'Dein Konto bei %{site_name} wurde nach zu vielen fehlgeschlagenen Anmeldeversuchen gesperrt. Damit schützen wir es vor unbefugten Zugriffen. Vielleicht hast du aber auch dein Passwort vergessen. In beiden Fällen kannst du dein Konto über den folgenden Link entsperren:'
+    unlock_account: Mein Konto entsperren
+    unlock_help_html: Falls du dein Passwort vergessen hast, kannst du nach dem Entsperren deines Kontos %{link}.
+    reset_password: dein Passwort zurücksetzen
+    settings: Einstellungen für %{name}
+    my_profile: Mein Profil
+    profile: Profil
+    apps: Apps
+    delete_account: Konto löschen
+    location: Dein Standort
+    not_set: Nicht festgelegt
+    change: Ändern
+    remove: Entfernen
+    location_help: Wähle einen der gefundenen Orte, damit du auf der Karte richtig angezeigt wirst. Eine Region genügt.
+    bio_placeholder: Ich gärtnere und interessiere mich für A, B und C
+    website: Website
+    handle_placeholder: dein_benutzername
+    other_url: Weitere URL
+    linked_accounts_help: Verknüpfte Konten können hier nur angezeigt werden. Verwalte sie im Tab „Apps“.
+    language: Sprache
+    profile_picture: Profilbild
+    avatar_help_html: Um dein Profilbild zu ändern, besuche %{link}.
+    provider_logo: Logo von %{provider}
+    connected_html: Du bist mit %{provider} als %{account} verbunden
+    disconnect: Verbindung trennen
+    disconnect_confirm: Möchtest du diese Verbindung wirklich entfernen?
+    connect_provider: Mit %{provider} verbinden
+    mastodon_accounts: 'Verbundene Mastodon-Konten:'
+    mastodon_help: Verbinde dein Mastodon-Konto, um dich damit anzumelden und es in deinem Profil anzuzeigen.
+    mastodon_address: Deine Mastodon-Adresse
+    connect_another: Weiteres Konto verbinden
+    api_token: Dein API-Token lautet
+    regenerate: Neu erstellen
+    regenerate_confirm: Bist du sicher? Dein bisheriges Token wird sofort ungültig.
+    delete_token: API-Token löschen
+    delete_token_confirm: Möchtest du dein API-Token wirklich löschen?
+    generate_token: API-Token erstellen
   layouts:
     application:
       breadcrumbs: Brotkrumennavigation
@@ -1835,6 +2193,19 @@ de:
     unable_to_like: Gefällt mir nicht
     unable_to_unlike: Unähnlichkeit nicht möglich
     unfollowed: Ungefolgt %{name}
+    auth_already_linked: Dieses Konto ist bereits mit einem anderen Growstuff-Mitglied verbunden.
+    auth_last_sign_in: Nur so können Sie sich anmelden. Fügen Sie zunächst eine E-Mail-Adresse und ein Passwort hinzu.
+    auth_taken: Dieses Konto ist bereits mit einem anderen Mitglied verbunden.
+    bluesky_declined: Bluesky hat diese Anmeldung nicht genehmigt. Bitte versuchen Sie es erneut.
+    mastodon_declined: Mastodon hat diese Anmeldung nicht genehmigt. Bitte versuchen Sie es erneut.
+    mastodon_failed: Wir konnten Sie nicht bei Mastodon anmelden. Bitte versuchen Sie es erneut.
+    bluesky_expired: Das hat zu lange gedauert, also ließ Bluesky die Anmeldung ablaufen. Bitte versuchen Sie es erneut und beenden Sie den Vorgang innerhalb weniger Minuten.
+    bluesky_failed: Wir konnten Sie nicht bei Bluesky anmelden. Überprüfen Sie Ihr Handle und versuchen Sie es erneut.
+    mastodon_instance_invalid: Wir konnten keine Verbindung zu diesem Mastodon-Server herstellen. Überprüfen Sie die Adresse, die wie you@mastodon.social aussieht, und versuchen Sie es erneut.
+    mastodon_needs_account: Wir kennen diesen Mastodon-Account noch nicht. Treten Sie Growstuff bei oder melden Sie sich an und verbinden Sie dann Mastodon über Ihre Kontoeinstellungen.
+    location_cleared: Standort entfernt.
+    location_unplaced_html: Wir können „%{location}“ nicht auf der Karte finden. <a href="%{link}">Wählen Sie Ihren Standort aus der Liste</a>, damit wir Ihnen zeigen können, was in Ihrer Nähe wächst.
+    tos_required: Bitte stimmen Sie den Nutzungsbedingungen zu, um beizutreten, und versuchen Sie es dann erneut.
   neighbours:
     audience:
       all:
@@ -2445,6 +2816,142 @@ de:
       harvest: "%{crop} Ernte von %{owner}"
       planting: "%{planting}"
       seed: "%{seed}"
+      thing_by: A %{thing} von %{owner}
+      heading: Foto von %{subject}
+      photo_by: Foto von %{name}
+      photos: Fotos
+      taken: Aufgenommen %{date}
+    actions:
+      delete: Foto aus Growstuff löschen
+      delete_confirm: Dieses Foto ganz aus Growstuff löschen? Es wird von allem abgenommen, woran es befestigt ist. Es bleibt auf Flickr.
+      refresh: Fotodaten von Flickr aktualisieren
+      unlink:
+        crop: 'Aus der Ernte entfernen: %{name}'
+        garden: 'Aus dem Garten entfernen: %{name}'
+        harvest: 'Aus der Ernte entfernen: %{name}'
+        job: 'Aus dem Job entfernen: %{name}'
+        planting: 'Aus der Bepflanzung entfernen: %{name}'
+        post: 'Aus dem Beitrag entfernen: %{name}'
+        seed: 'Aus den Samen entfernen: %{name}'
+      unlink_confirm: Dieses Foto aus diesem Datensatz entfernen? Das Foto selbst bleibt auf Growstuff.
+    comment:
+      ago: Vor %{time}.
+      delete: Löschen
+      delete_confirm: Diesen Kommentar löschen?
+      deleted_member: Mitglied gelöscht
+      edit: Bearbeiten
+      edited: bearbeitet
+      photographer: Fotograf
+      you: Du
+    comments:
+      add_comment: Fügen Sie einen Kommentar hinzu
+      empty: Noch keine Kommentare. Seien Sie der Erste, der etwas zu diesem Foto sagt.
+      guidelines: Community-Richtlinien
+      heading: Kommentare
+      join: Melden Sie sich kostenlos an
+      placeholder: Sagen Sie etwas zu diesem Foto
+      post: Kommentar posten
+      public_note_html: Kommentare sind öffentlich. Bitte folgen Sie der %{guidelines}.
+      sign_in: anmelden
+      sign_in_prompt: Melden Sie sich an, um an der Unterhaltung teilzunehmen
+    credit:
+      by: Foto von %{name}
+      'on': am %{site}
+    licence:
+      copied: Kopiert
+      copy_credit: Gutschrift kopieren
+      credit_label: Gutschreiben Sie es so
+      heading: Lizenz
+      public_domain: Public Domain
+      read_licence: Lesen Sie die vollständige Lizenz
+      summary:
+        by: Sie können dieses Foto teilen und anpassen, auch kommerziell, sofern Sie %{name} angeben und auf die Lizenz verweisen.
+        by-nc: Sie können dieses Foto für nichtkommerzielle Zwecke teilen und anpassen, sofern Sie %{name} angeben und auf die Lizenz verweisen.
+        by-nc-nd: Sie können dieses Foto für nichtkommerzielle Zwecke weitergeben, sofern Sie %{name} angeben, auf die Lizenz verlinken und diese nicht ändern.
+        by-nc-sa: Sie können dieses Foto für nichtkommerzielle Zwecke teilen und anpassen, solange Sie %{name} angeben, auf die Lizenz verlinken und teilen, was Sie unter derselben Lizenz machen.
+        by-nd: Sie können dieses Foto auch kommerziell weitergeben, solange Sie %{name} angeben, auf die Lizenz verlinken und diese nicht ändern.
+        by-sa: Sie können dieses Foto teilen und anpassen, auch kommerziell, solange Sie %{name} angeben, auf die Lizenz verlinken und teilen, was Sie unter derselben Lizenz machen.
+        mark: Dieses Foto ist gemeinfrei. Sie können es verwenden, wie Sie möchten.
+        other: Sehen Sie sich die Lizenz an, um zu erfahren, wie Sie dieses Foto verwenden dürfen.
+        reserved: "%{name} behält alle Rechte an diesem Foto. Fragen Sie nach, bevor Sie es woanders verwenden."
+        zero: "%{name} hat alle Rechte an diesem Foto aufgegeben. Sie können es verwenden, wie Sie möchten."
+    photographer:
+      gardens: Sehen Sie sich die Gärten von %{name} an
+      harvests: Ernten
+      heading: Fotograf
+      joined: Beigetreten vor %{time}.
+      plantings: Pflanzungen
+      seeds: Samen
+    photographer_outsider:
+      heading: Fotograf
+      not_a_member: Kein Growstuff-Mitglied. Dieses Foto wird auf %{site} unter einer Creative Commons-Lizenz geteilt.
+      photographer: "%{site} Fotograf"
+      see_photos: Sehen Sie ihre Fotos auf %{site}
+    polaroid:
+      view_on: Anzeigen auf %{site}
+    refresh:
+      not_found: Flickr konnte dieses Foto nicht finden. Es kann privat oder gelöscht sein.
+      not_public: Dieses Foto ist auf Flickr nicht mehr öffentlich und konnte daher nicht aktualisiert werden.
+      refreshed: Die Details des Fotos wurden von Flickr aktualisiert.
+      unavailable: Flickr war nicht erreichbar. Bitte versuchen Sie es gleich noch einmal.
+    records:
+      harvest: "%{crop} Ernte"
+      planting: "%{crop} Pflanzen"
+      seed: "%{crop} Samen"
+    shows:
+      crop:
+        about: Neugierig, wie man es anbaut? Sehen Sie, wann Sie pflanzen müssen, wer es sonst noch in Ihrer Nähe anbaut und was sie ernten.
+        go: Entdecken Sie %{crop}
+        harvests:
+          one: "%{count} Ernte"
+          other: "%{count} Ernten"
+        image_alt: Bild von %{crop}
+        kind: Ernte
+        on_growstuff: Auf Growstuff
+        plantings:
+          one: "%{count} Pflanzen"
+          other: "%{count} Pflanzungen"
+        seeds:
+          one: "%{count} Samenpaket"
+          other: "%{count} Samenpakete"
+      garden:
+        by: Garten von %{owner}
+        kind: Garten
+      harvest:
+        about: Sehen Sie, was aus dem Boden kam und wie lange es bis zum Pflanzen gedauert hat.
+        by: Geerntet von %{owner}
+        go: Sehen Sie sich diese Ernte an
+        kind: Ernte
+        picked: Gepflückt %{date}
+        title: "%{crop} Ernte"
+      heading: Was dieses Foto zeigt
+      intro: Folgen Sie dem Foto zurück zu dem Gartendatensatz, aus dem es stammt.
+      job:
+        by: Job von %{owner}
+        kind: Arbeit
+      outsider_intro: Ein Creative Commons-Foto dieser Ernte, geteilt von %{site}.
+      planting:
+        about: Sehen Sie, wann es reinkam, wie es wuchs und ob es geerntet wurde.
+        by: Gepflanzt von %{owner}
+        go: Sehen Sie sich diese Bepflanzung an
+        kind: Pflanzen
+        planted: Gepflanzt %{date}
+        plants:
+          one: "%{count} Pflanze"
+          other: "%{count} Pflanzen"
+      post:
+        by: Beitrag von %{owner}
+        kind: Post
+      seed:
+        about: Sehen Sie, um welche Sorte es sich handelt, woher sie kommt und ob sie zum Handel geeignet ist.
+        by: Gespeichert von %{owner}
+        go: Sehen Sie sich diese Samen an
+        kind: Samen
+        saved: Gespeichert %{date}
+        seeds:
+          one: "%{count} Samen"
+          other: "%{count} Samen"
+        title: "%{crop} Samen"
   places:
     index:
       title: "%{site_name} Community-Karte"
@@ -2531,6 +3038,8 @@ de:
       planned_for: für %{date}
       planted: Gepflanzt
       planting_failed: diese Pflanzung ist fehlgeschlagen
+      short_code: Kurzcode
+      short_code_description: für Pflanzenschilder und Etiketten
       progress: Fortschritt
       quantity: Menge
       rating: Bewertung
@@ -2538,6 +3047,20 @@ de:
       seeds_saved: Saatgut gewonnen
       sown_from_expired: Aus abgelaufenem Saatgut gesät (pflanzen vor %{year})
       unknown: unbekannt
+      heat: "Gradtage"
+      heat_help_html: "Das sind keine Kalendertage. Ein Wachstumsgradtag ist der Wärmegewinn eines Tages: um wie viele Grad die Tagesmitteltemperatur über der niedrigsten Temperatur lag, bei der diese Nutzpflanze wächst. Ein kalter Tag zählt nicht mit, deshalb braucht eine Nutzpflanze im Herbst mehr Tage als im Sommer. %{link}."
+      heat_help_label: "Was sind Wachstumsgradtage?"
+      heat_help_link: "Mehr dazu auf Wikipedia"
+      heat_help_title: "Wachstumsgradtage"
+      heat_needed_unknown: "bisher; wie viele nötig sind, ist nicht bekannt"
+      heat_of_needed: "von etwa %{needed} benötigt"
+      short_code_help: "Schreiben Sie diesen Code auf Ihr Pflanzenschild oder Ihre Markierung, dann finden Sie genau diese Pflanze später hier wieder, auch unter vielen Pflanzen derselben Nutzpflanze."
+      short_code_help_label: "Wofür ist der Kurzcode?"
+      sun_semi_shade: "Halbschatten"
+      sun_shade: "Schatten"
+      sun_sun: "volle Sonne"
+      variety: "Sorte"
+      variety_from_packet: "aus dem Saatgutpäckchen"
     form:
       save: Speichern
       optional: optional
@@ -2640,6 +3163,52 @@ de:
       weather_soil_temp: Bodenwärme
       weather_temperature_chart: Tageshoch und -tief
       weather_temperature_chart_alt: Tageshöchst- und Tiefsttemperatur, von %{low} bis %{high}.
+      frost_line: "%{degrees} °C Frostgrenze"
+      weather_kill_line: Stirbt bei %{degrees} °C
+      no_observations: Noch ist nichts aufgefallen. Beachten Sie, wenn es blüht, Früchte trägt, verwelkt oder krank wird.
+      observations: Beobachtungen
+      weather: Wetter
+      weather_abandoned_note: Niemand hat diese Pflanzung als abgeschlossen markiert, und der Zeitpunkt, zu dem sie hätte enden sollen, ist schon längst vorbei, daher endet das angezeigte Wetter am %{date}, dem erwarteten Abschluss.
+      weather_absolute_range: Wächst bei %{range}
+      weather_best_days: Tage in Bestform
+      weather_best_days_value: "%{count} von %{total}"
+      weather_days_count:
+        one: "%{count} Tag"
+        other: "%{count} Tage"
+      weather_in: Wetter in %{place}
+      weather_note_cold: zu kalt auf %{days} (Tiefstwerte unter %{limit})
+      weather_note_above: über dem besten Bereich auf %{days}
+      weather_note_below: unterhalb des besten Bereichs auf %{days}
+      weather_note_future_best: Geht man vom Wetter des letzten Jahres aus, sollten %{best} der %{total} Tage von %{from} bis %{to} einen Höchstwert im besten Bereich von %{range} haben.
+      weather_note_future_caution: Voraussichtlich gemischt für %{crop}
+      weather_note_future_danger: Es wird erwartet, dass der Wert außerhalb des Bereichs %{crop} liegt
+      weather_note_future_killed: Das Tief könnte am %{days} die tödliche Temperatur von %{limit} erreichen.
+      weather_note_future_neutral: Es wird erwartet, dass das Wachstum innerhalb des Bereichs von %{crop} bleibt
+      weather_note_future_outside: Die Höchstwerte könnten bei %{outside} liegen.
+      weather_note_future_problems: Es könnte %{problems} sein.
+      weather_note_future_slow: Es wird mit einem Wachstum von %{crop} gerechnet, wenn auch nicht mit dem höchsten Tempo.
+      weather_note_future_success: Voraussichtlich passend für %{crop}
+      weather_note_future_too_both: Voraussichtlich zu heiß und zu kalt für %{crop}
+      weather_note_future_too_cold: Voraussichtlich zu kalt für %{crop}
+      weather_note_future_too_hot: Voraussichtlich zu heiß für %{crop}
+      weather_note_future_survives: Geht man vom Wetter des letzten Jahres aus, sollte es innerhalb des Bereichs bleiben, in dem %{crop} von %{from} bis %{to} wächst.
+      weather_note_hot: zu heiß auf %{days} (Höchstwerte über %{limit})
+      weather_note_past_best: Von %{from} bis %{to} hatten %{best} von %{total} Tagen einen Höchstwert im besten Bereich von %{range}.
+      weather_note_past_caution: Bisher gemischte Bedingungen für %{crop}.
+      weather_note_past_danger: Außerhalb des Bereichs wächst %{crop} bisher hinein
+      weather_note_past_killed: Das Tief erreichte am %{days} die Tötungstemperatur von %{limit}.
+      weather_note_past_neutral: Innerhalb des Bereichs %{crop} wächst bisher
+      weather_note_past_outside: Die Höchstwerte waren %{outside}.
+      weather_note_past_problems: Das Wetter war %{problems}.
+      weather_note_past_slow: Bislang wächst es um %{crop}, wenn auch nicht am schnellsten
+      weather_note_past_success: Bisher gute Bedingungen für %{crop}.
+      weather_note_past_too_both: Bisher zu heiß und zu kalt für %{crop}.
+      weather_note_past_too_cold: Bisher zu kalt für %{crop}.
+      weather_note_past_too_hot: Bisher zu heiß für %{crop}.
+      weather_note_past_survives: Von %{from} bis %{to} blieb das Wetter im Bereich, in dem %{crop} wächst.
+      weather_now_rain: 'Neueste, %{date}: %{rain}'
+      weather_now_temperature: 'Neueste, %{date}: %{high} / %{low}'
+      weather_optimal_range: Wächst am besten %{range}
     string: '%{crop} Pflanzung in %{garden} durch %{owner}'
     timeline:
       failed: Fehlgeschlagen
@@ -2649,6 +3218,16 @@ de:
       harvest_started: Ernte begonnen %{date}
       legend: (Ein Emoji = 1 Woche)
       planted: Gepflanzt %{date}
+      events:
+        failed: "Fehlgeschlagen"
+        finished: "Abgeschlossen"
+        first_harvest: "Erste Ernte"
+        last_harvest: "Letzte Ernte"
+        planted: "Gepflanzt"
+        sown: "Gesät"
+        transplanted: "Umgesetzt nach %{garden}"
+      expected: "erwartet"
+      today: "Heute"
     transplant:
       cancel: Abbrechen
       close: Schließen
@@ -2701,6 +3280,188 @@ de:
       advanced plant: {one: vorgezogene Pflanze, other: vorgezogene Pflanzen}
       graft: {one: Veredelung, other: Veredelungen}
       layering: {one: Absenker, other: Absenker}
+    frost:
+      cards:
+        free:
+          label: Frostfreie Jahreszeit
+          note: in einem typischen Jahr
+        in_danger:
+          label: Frostgefahr, durch die es gewachsen ist
+          note: von der Pflanzung bis zum letzten Mal, %{latest}
+        last:
+          label: Üblicher letzter Frost
+          note: ist erst %{latest} gekommen
+          planted_after: "%{days} danach gepflanzt"
+          planted_before: "%{days} davor gepflanzt"
+        margin:
+          label: Rand über Frost
+          note: kälteste Nacht war %{coldest} °C; Die Frostgrenze liegt bei %{threshold} °C
+        next:
+          label: Die nächste Frostgefahr beginnt
+          note_finished: bereits %{earliest}, %{days}, nachdem diese Pflanzung abgeschlossen war
+          note_finishes: bereits %{earliest}, %{days}, nachdem diese Pflanzung beendet ist
+          note_now: bereits %{earliest}, ab jetzt %{days}.
+      days:
+        one: "%{count} Tag"
+        other: "%{count} Tage"
+      degrees: "%{degrees} °C"
+      nights_so_far:
+        one: Eine Nacht lag bisher bei oder unter %{threshold} °C, die kälteste war %{coldest} °C.
+        other: "%{count} Nächte lagen bisher bei oder unter %{threshold} °C, die kälteste war %{coldest} °C."
+      planted:
+        after: Die Pflanzung erfolgte am %{planted}, %{days} nach dem üblichen letzten Frost (%{usual_end}).
+        before: Die Pflanzung erfolgte am %{planted}, %{days} vor dem üblichen letzten Frost (%{usual_end}).
+      timeline:
+        annotation_after: Gepflanzt %{days} nach dem üblichen letzten Frost
+        annotation_before: Gepflanzt %{days} vor dem üblichen letzten Frost
+        description: Zeitleiste von %{from} bis %{to}. Die übliche Frostgefahr beträgt %{usual_start} bis %{usual_end}. Frost trat bereits im Jahr %{earliest} und erst im Jahr %{latest} auf. Die Bepflanzung dauert von %{planted} bis %{ends}.
+        finish_expected: Ende erwartet %{date}
+        finished: Fertig %{date}
+        legend:
+          finished: Bepflanzung, fertig
+          possible: 'Möglich: so früh oder spät, wie es gekommen ist'
+          so_far: Bisher gepflanzt
+          still_to_come: Die Bepflanzung steht noch bevor
+          usual: Übliche Frostgefahr
+        planted: Gepflanzt %{date}
+        row_danger: Frostgefahr
+        row_planting: Diese Bepflanzung
+        title: Diese Pflanzung gegen die Frostsaison
+        today: Heute, %{date}
+        usual: "%{from} – %{to}"
+        usual_open: "%{from} →"
+      title: Frost
+      verdicts:
+        before_season:
+          body: Der übliche erste Frost ist %{usual_start}, im %{days}. Es kam bereits im Jahr %{earliest}.
+          title: Die Frostgefahr beginnt bald
+          title_far: Noch keine Frostgefahr
+        finished_clear:
+          body: Frost war bis %{latest} möglich, und keine Nacht war in dieser Zeit kälter als %{coldest} °C.
+          body_no_readings: Frost war bis %{latest} möglich. Für diese Pflanzung liegen uns keine Nachttemperaturen vor.
+          title: Zu dieser Bepflanzung kam kein Frost
+        finished_hit:
+          body:
+            one: In einer Nacht, in der Frost möglich war, lag die Temperatur bei oder unter %{threshold} °C. Am kältesten war es %{coldest} °C.
+            other: "%{count} Nächte, in denen Frost möglich war, lagen bei oder unter %{threshold} °C. Am kältesten war es %{coldest} °C."
+          title: Möglicherweise hat der Frost diese Bepflanzung erreicht
+        in_season:
+          body: Der übliche letzte Frost ist %{usual_end}, also %{days}. Es ist erst %{latest} gekommen.
+          title: Bei üblicher Frostgefahr
+        late_possible:
+          body: Es ist erst %{latest}, %{days} von jetzt an gekommen. Behalten Sie die Prognose im Auge.
+          title: Der übliche letzte Frost ist vorbei, aber er kann noch kommen
+        passed:
+          body: Der späteste Frost in den vergangenen Jahren ist %{latest}, %{days} her.
+          title: Die Frostgefahr ist für diese Bepflanzung vorüber
+        rare:
+          body: Frost ist in dieser Gegend selten, daher zeigen wir keine Frostdaten.
+          title: Frost ist hier selten
+    hardiness:
+      help: Lassen Sie es so, dass Sie sich zunächst an der Saat und dann an der Ernte orientieren.
+      label: Wie viel Frost braucht es?
+      sources:
+        crop: Üblich für die Ernte
+        parent_crop: Üblich für die Mutterfrucht
+        planting: Set für diese Bepflanzung
+        seed: Aus der Samenpackung
+      title: Widerstandsfähigkeit
+    observations:
+      add: hinzufügen
+      day: Tag %{count}
+      delete: Beobachtung löschen
+      destroy:
+        deleted: Beobachtung gelöscht.
+      edit: Beobachtung bearbeiten
+      logged_by: "%{author} bemerkt"
+      planted: Gepflanzt
+    origin:
+      change: ändern
+      crop_changed: Diese Bepflanzung beträgt jetzt %{crop}, passend zu Ihrem Paket. Es war %{was}.
+      dialog:
+        another_way: Anders angefangen
+        back: Zurück
+        cancel: Stornieren
+        change_hint: Der Ertrag der Bepflanzung folgt dem Paket. Die Auswahl einer Sorte macht dies zu einer Pflanzung dieser Sorte.
+        change_link: ändern
+        change_title: Ändern Sie, woher diese %{crop} Pflanzung kam
+        choose: Wählen
+        choose_another: Wählen Sie ein anderes
+        choose_different: Wählen Sie ein anderes Paket
+        confirm_other_crop: "%{seed} ist eine andere Kulturpflanze als diese %{crop}-Anpflanzung. Sind Sie sicher, dass es aus diesem Paket gewachsen ist?"
+        label_hint: Sämlinge werden oft mit einem Etikett oder Anhänger geliefert. Kopieren Sie alles Nützliche, damit Sie es in der nächsten Saison finden können.
+        label_text: Beschriftungstext (optional)
+        label_text_hint: Lieferant, Pflanzempfehlung, Erntetage, alles, was darauf steht
+        label_title: Was das Etikett sagt
+        link_anyway: Link trotzdem
+        linked_now: Jetzt verlinkt
+        no_match: Für „%{query}“ wurde unter %{crop} Samen nichts gefunden.
+        not_my_packet: Nicht eines meiner Pakete
+        next: Nächste
+        not_this_packet: Oder es war nicht dieses Paket
+        other_crops: Andere Kulturen
+        other_seeds: Andere Samen
+        other_seeds_hint: Bei „Andere Samen“ wird der Ort angezeigt, von dem sie stammen, und Sie können die Details der Packung hinzufügen. Ein anderer Weg bietet Sämling, Schneiden und den Rest.
+        other_ways: Ein anderer Weg
+        remove_link: Entfernen Sie den Link
+        remove_link_hint: Durch das Entfernen des Links wird dies wieder auf nicht erfasst zurückgesetzt. Die Pflanzliste im Paket wird sofort aktualisiert.
+        right_now: Im Augenblick
+        save: Speichern
+        search: Durchsuchen Sie Ihre Samen
+        search_placeholder: Jede Kultur oder Sorte
+        seed_list: "%{crop} Samen, einschließlich Sorten"
+        seed_list_hint: Durch die Wahl einer Sorte ändert sich auch die Ernte dieser Pflanzung in diese Sorte.
+        seed_source_title: Woher kamen die Samen?
+        seed_title: Ist es einer Ihrer Samen?
+        seedling_source_title: Wo hast du es her?
+        seedling_title: Über den Sämling
+        skip: Speichern Sie einfach „%{kind}“
+        some_other_seeds: Nein, einige andere Samen
+        some_other_seeds_hint: Nicht in Ihrer Bibliothek, oder Sie haben keine.
+        started_title: Wie wurde mit dieser %{crop} Pflanzung begonnen?
+        step: Schritt %{step} von %{total}
+        step_how: Wie es begann
+        step_source: Woher
+        supplier: Woher (optional)
+        supplier_placeholder: Geschäft, Kindergarten, Stand oder Person
+        unsaved: Das hat nicht gerettet. Bitte versuchen Sie es erneut.
+      grown_from: Gewachsen aus
+      kind_hints:
+        cutting: Ein Stück einer anderen Pflanze
+        seed: Aus einer Packung oder gespeichertem Saatgut
+        seedling: Eine junge Pflanze, gekauft oder geschenkt
+        volunteer: Ist von selbst entstanden, aus einem Samen, den du nicht gesät hast
+      kinds:
+        advanced_plant: Fortschrittliche Anlage
+        bare_root_plant: Wurzelnackte Pflanze
+        bulb: Birne
+        cutting: Schneiden
+        graft: Transplantat
+        layering: Schichtung
+        root_division: Wurzelteilung
+        root_tuber: Wurzel/Knolle
+        runner: Läufer
+        seed: Samen
+        seedling: Sämling
+        volunteer: Freiwilliger
+      link_a_seed: Verknüpfe einen Samen
+      not_recorded: Nicht aufgezeichnet
+      packet: Ihr %{seed}-Paket
+      saved_in: Gespeichert %{year}
+      seed_sources:
+        my own seed saving: Vorhin von mir gespeichert
+        other/unknown: Nicht sicher
+        retail outlet: Geschäft oder Gartencenter
+        seed bank or similar institution: Samenbibliothek oder Samenbank
+        seed catalogue: Samenkatalog
+        traded from another person: Von jemandem gehandelt oder geschenkt
+      seedling_sources:
+        gift: Von jemandem gegeben
+        market: Markt oder Stand
+        nursery: Kindergarten
+        shop: Geschäft oder Gartencenter
+        unknown: Nicht sicher
+      undo: Rückgängig machen
   posts:
     draft: Entwurf
     description:
@@ -2832,107 +3593,14 @@ de:
       scientific_name_label: "Wissenschaftlicher Name:"
   seasons:
     autumn: Herbst
-    spring: Feder
+    spring: Frühling
     summer: Sommer
     winter: Winter
+    in_place: "%{season} in %{place}"
   seeds:
     ui:
-      record_title: "%{crop}-Samen von %{owner}"
-      record_description: Samen von %{crop}, geteilt von %{owner}.
-      plantings: Bepflanzungen
-      notes: Notizen
-      edit: bearbeiten
-      no_notes: Noch keine Notizen.
-      descendants_heading: Aus diesen Samen gezogene Pflanzen
-      add: hinzufügen
-      photos: Fotos
-      no_photos: Noch keine Fotos.
-      feed_title: Neueste Samen von %{owner} (%{site_name})
-      all_members: allen Mitgliedern
-      feed_field: "%{label}: %{value}"
-      feed_trade: Tausch %{trade_scope} von %{location} aus
-      unknown_location: unbekannter Ort
-      owner_seeds: Samen von %{owner}
-      meta_description: Samen durchstöbern und suchen.
-      open_data: Offene Daten
-      api_methods: API-Methoden
-      edit_title: Samen bearbeiten
-      in_stock: Vorrätig
-      finished: Aufgebraucht
-      germination_min: Keimung (min. Tage)
-      germination_max: Keimung (max. Tage)
-      search_summary:
-        one: "%{count} Päckchen %{crop}-Samen."
-        other: "%{count} Päckchen %{crop}-Samen."
-      whose_seeds: Wessen Samen
-      mine: Meine
-      following: Personen, denen ich folge
-      near_me: In meiner Nähe
-      everyone: Alle
-      add_seeds: "+ Samen hinzufügen"
-      auth_prompt_html: "%{sign_in} oder %{sign_up}, um Saatgut-Tauschpartner in Ihrer Nähe
-        zu sehen."
-      sign_in: Anmelden
-      sign_up: registrieren
-      sorted_by_distance: Nach Entfernung von Ihrem Standort sortiert.
-      shared_summary: "%{packets} von %{gardeners}."
-      gardener_count:
-        one: "%{count} gärtnernde Person"
-        other: "%{count} gärtnernde Personen"
-      privacy_explanation: Saatgut erscheint hier nur, wenn die Person es teilen möchte.
-        Wir zeigen nur ihren Ort, niemals ihre Adresse. Neben jedem Päckchen steht das Profilbild
-        der Person. Öffnen Sie ein Päckchen, um das Saatgut anzusehen und danach zu fragen.
-      no_descendants: Aus diesen Samen wurde noch nichts angebaut.
-      errors:
-        one: 'Dieses Saatgut konnte aufgrund eines Fehlers nicht gespeichert werden:'
-        other: 'Dieses Saatgut konnte aufgrund von %{count} Fehlern nicht gespeichert werden:'
-      crop_help_html: Sie finden nicht, wonach Sie suchen? %{link}
-      request_crops: Neue Nutzpflanzen vorschlagen.
-      harvested_saved_at: Wann wurden die Samen geerntet oder gesammelt?
-      quantity: Menge
-      plant_before_year: Aussäen vor (Jahr)
-      variety: Sorte
-      batch_number: Chargennummer
-      minimum: min.
-      maturity: Tage bis zur Reife
-      maximum: max.
-      range_to: bis
-      days: Tage
-      row_spacing: Reihenabstand
-      cm: cm
-      organic: Bio?
-      gmo: Gentechnisch verändert?
-      heirloom: Samenfest?
-      source_question: Woher stammen sie?
-      trade_label: Tauschangebot
-      set_location_html: Vergessen Sie nicht, %{link}.
-      set_location: Ihren Standort festzulegen
-      from_location_html: aus %{location}.
-      change_location: Standort ändern.
-      save: Speichern
-      packet_count:
-        one: "%{count} Päckchen"
-        other: "%{count} Päckchen"
-      saved_date: Geerntet am %{date}
-      packet: Päckchen
-      nobody: Niemandem
-      saved_by_html: geerntet von %{owner}
-      view_all: Alle Samen von %{owner} anzeigen
-      nearby_html: Weitere Samen, Mitglieder und mehr in der Nähe von %{location} anzeigen
-      not_specified: nicht angegeben
-      seed_unit:
-        one: Samen
-        other: Samen
-      when_to_sow: Aussaatzeit
-      how_to_sow: Aussaatanleitung
-      germination: Keimung
-      plant_before: Aussäen vor
-      unknown: unbekannt
-      heirloom_or_hybrid: Samenfest oder Hybrid
-      organic_fact: Bio
-      gmo_fact: Gentechnik
-      you_have_it: Haben Sie bereits
-      past_sow_by: Aussaatdatum überschritten
+      request_prompt_html: "%{sign_in} oder %{sign_up}, um Samen anzufragen."
+      month_abbreviations: [Jan, Feb, Mär, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez]
       unknown_quiet: unbekannt
       plant_seeds: Samen aussäen
       saved_year: geerntet %{year}
@@ -2942,18 +3610,158 @@ de:
         other: ca. %{count} Samen
       sow_before_year: aussäen vor %{year}
       will_trade: Tausch %{trade_scope}
+      organic_fact: Bio
+      gmo_fact: Gentechnik
+      save_crop_seeds_sentence: "%{crop}-Samen speichern."
+      unknown: unbekannt
+      no_descendants: Aus diesen Samen wurde noch nichts angebaut.
       activity_html: hat Samen von %{crop} gesammelt
+      change_crop: Nutzpflanze ändern
+      saved_at: Wann wurden sie geerntet?
+      seed_quantity: Wie viele Samen?
+      plant_before_year: Aussäen vor (Jahr)
+      trade_label: Tauschangebot
+      variety: Sorte
+      batch_number: Chargennummer
+      maturity_min: Tage bis zur Reife (min.)
+      maturity_max: Tage bis zur Reife (max.)
+      row_spacing_cm: Reihenabstand (cm)
+      organic: Bio?
+      gmo: Gentechnisch verändert?
+      heirloom: Samenfest?
+      source_question: Woher stammen sie?
+      notes: Notizen
+      errors:
+        one: 'Dieses Saatgut konnte aufgrund eines Fehlers nicht gespeichert werden:'
+        other: 'Dieses Saatgut konnte aufgrund von %{count} Fehlern nicht gespeichert werden:'
       crop: Nutzpflanze
+      crop_help_html: Sie finden nicht, wonach Sie suchen? %{link}
+      request_crops: Neue Nutzpflanzen vorschlagen.
+      harvested_saved_at: Wann wurden die Samen geerntet oder gesammelt?
+      quantity: Menge
+      minimum: min.
+      maximum: max.
+      maturity: Tage bis zur Reife
+      range_to: bis
+      days: Tage
+      row_spacing: Reihenabstand
+      cm: cm
+      set_location_html: Vergessen Sie nicht, %{link}.
+      set_location: Ihren Standort festzulegen
+      from_location_html: aus %{location}.
+      change_location: Standort ändern.
+      save: Speichern
+      image_alt: "%{crop}-Samen, geerntet von %{owner}"
+      saved_by_html: geerntet von %{owner}
+      saved_from: gesammelt von
+      request_subject: Interesse an Ihren %{crop}-Samen
+      request_seeds: Samen anfragen
+      request_seeds_purpose: Samen anzufragen
       sow_before: Aussäen vor
       seeds: Samen
       where_from: Herkunft
       type: Typ
       shared_with: Geteilt mit
+      packet_count:
+        one: "%{count} Päckchen"
+        other: "%{count} Päckchen"
+      saved_date: Geerntet am %{date}
+      packet: Päckchen
+      nobody: Niemandem
+      save_crop_seeds: "%{crop}-Samen speichern"
+      close: Schließen
+      adding_seeds: Sie fügen Ihrem Vorrat Samen hinzu
+      offer_trade: Möchten Sie diese Samen zum Tausch anbieten?
+      trade_from: Ja, ich würde diese Samen von %{location} aus tauschen
+      no_trade: Nein, ich möchte nicht tauschen.
+      save_seeds: Samen speichern
+      view_all: Alle Samen von %{owner} anzeigen
+      nearby_html: Weitere Samen, Mitglieder und mehr in der Nähe von %{location} anzeigen
+      you_have_it: Haben Sie bereits
+      past_sow_by: Aussaatdatum überschritten
+      not_specified: nicht angegeben
+      seed_unit:
+        one: Samen
+        other: Samen
+      when_to_sow: Aussaatzeit
+      how_to_sow: Aussaatanleitung
+      germination: Keimung
+      plant_before: Aussäen vor
+      heirloom_or_hybrid: Samenfest oder Hybrid
+      crop_image_alt: Bild von %{crop}
+      owner_library_html: Saatgutbibliothek von %{owner}
+      crop_seeds: "%{crop}-Samen"
+      shared_seeds: Samen, die Gärtnerinnen und Gärtner teilen möchten
+      auth_prompt_html: "%{sign_in} oder %{sign_up}, um Saatgut-Tauschpartner in Ihrer Nähe zu sehen."
+      sign_in: Anmelden
+      sign_up: registrieren
+      sorted_by_distance: Nach Entfernung von Ihrem Standort sortiert.
+      shared_summary: "%{packets} von %{gardeners}."
+      gardener_count:
+        one: "%{count} gärtnernde Person"
+        other: "%{count} gärtnernde Personen"
+      privacy_explanation: Saatgut erscheint hier nur, wenn die Person es teilen möchte. Wir zeigen nur ihren Ort, niemals ihre Adresse. Neben jedem Päckchen steht das Profilbild der Person. Öffnen Sie ein Päckchen, um das Saatgut anzusehen und danach zu fragen.
+      whose_seeds: Wessen Samen
+      mine: Meine
+      following: Personen, denen ich folge
+      near_me: In meiner Nähe
+      everyone: Alle
+      add_seeds: + Samen hinzufügen
+      search_summary:
+        one: "%{count} Päckchen %{crop}-Samen."
+        other: "%{count} Päckchen %{crop}-Samen."
+      variety_count:
+        one: "%{count} Sorte"
+        other: "%{count} Sorten"
+      open_shelf: ▸ Regal öffnen
+      tick_season: 'Jahreszeit auswählen:'
+      germination_min: Keimung (min. Tage)
+      germination_max: Keimung (max. Tage)
+      in_stock: Vorrätig
+      finished: Aufgebraucht
+      edit_title: Samen bearbeiten
+      owner_seeds: Samen von %{owner}
+      meta_description: Samen durchstöbern und suchen.
+      open_data: Offene Daten
+      api_methods: API-Methoden
+      feed_title: Neueste Samen von %{owner} (%{site_name})
+      all_members: allen Mitgliedern
+      record_title: "%{crop}-Samen von %{owner}"
+      feed_field: '%{label}: %{value}'
+      feed_trade: Tausch %{trade_scope} von %{location} aus
+      unknown_location: unbekannter Ort
+      record_description: Samen von %{crop}, geteilt von %{owner}.
+      plantings: Bepflanzungen
+      edit: bearbeiten
+      no_notes: Noch keine Notizen.
+      descendants_heading: Aus diesen Samen gezogene Pflanzen
+      add: hinzufügen
+      photos: Fotos
+      no_photos: Noch keine Fotos.
+      all_year: Ganzjährig
+      seasons:
+        spring: Frühling
+        summer: Sommer
+        autumn: Herbst
+        winter: Winter
       trade_scopes:
         nowhere: nirgends
         locally: vor Ort
         nationally: landesweit
         internationally: international
+      stats:
+        packets:
+          one: Päckchen
+          other: Päckchen
+        varieties:
+          one: Sorte
+          other: Sorten
+        crops:
+          one: Nutzpflanze
+          other: Nutzpflanzen
+        own:
+          one: eigene Saatguternte
+          other: eigene Saatguternten
     hardiness:
       half_hardy: Mäßig frosthart (leichter Frost ist kein Problem)
       hardy: Winterhart (Frost ist kein Problem)
@@ -3030,11 +3838,176 @@ de:
       heading: "%{crop} Seeds"
     string: "%{crop} Samen von %{owner}"
     updated: wurde erfolgreich aktualisiert.
+    crop_changes:
+      show:
+        confirm: Ja, ändern Sie sie
+        decline: Nein, lass sie
+        harvests:
+          one: 1 Ernte
+          other: "%{count} Ernten"
+        intro: Sie haben diesen Startwert von %{from} in %{to} geändert. Diese wurden daraus gewachsen und sind immer noch %{from}. Sie auch in %{to} ändern?
+        plantings:
+          one: 1 Pflanzung
+          other: "%{count} Pflanzungen"
+        seeds:
+          one: 1 Päckchen Saatgut
+          other: "%{count} Päckchen Saatgut"
+        title: Sie auch auf %{crop} ändern?
+      update:
+        changed: Auf die neue Ernte umgestellt.
   stalls:
     about_growstuff:
       join: Kostenlos anmelden
       sign_in: Anmelden
       text: Eine Community für den Lebensmittelanbau. Halten Sie fest, was Sie pflanzen und ernten, und tauschen Sie Saatgut sowie Tipps mit anderen Gärtnern aus. Treten Sie kostenlos bei oder melden Sie sich an, um mit %{name} über das Angebot auf dem Stand in Kontakt zu treten.
+    card:
+      go: Gehen Sie zu Ihrem Stand
+      heading: Gartenstand
+      open: Eröffne einen Gartenstand
+      open_text: Ihr Gartenstand ist für Freunde geöffnet.
+      text: Teilen Sie überschüssige Setzlinge und Samen mit Freunden. Sie entscheiden, was und wen, Angebote schließen nach 4 Wochen und es werden keine Adressen gespeichert.
+    claim:
+      claim: Beanspruchen
+      claimed: Behauptet
+      confirm: Behaupte es
+      here: Ich bin in %{place}
+      note: 'Hinweis: %{note}'
+      note_label: Eine Notiz für den Gärtner (optional)
+      note_placeholder: Sagen Sie „Danke“ und sagen Sie, was Sie als Gegenleistung anbieten könnten
+      outside: Nur für Personen in der Nähe von %{place}
+      owner_unplaced: Der Gärtner hat noch nicht gesagt, wo sie sind
+      postage: "%{owner} kann Sie bitten, für das Porto zu zahlen."
+      set_place: Nicht richtig? Stellen Sie den Ort ein, an dem Sie gärtnern.
+      set_place_ask: Oder legen Sie in Ihrem Profil fest, wo Sie im Garten arbeiten, damit es für Sie überprüft wird.
+      sign_in: Melden Sie sich an, um einen Anspruch geltend zu machen
+      undo: Machen Sie meinen Anspruch rückgängig
+    claims:
+      create:
+        claimed: "%{crop} wird beansprucht. Es gehört dir; Schicken Sie dem Gärtner eine Nachricht, um die Abholung oder den Versand zu vereinbaren."
+      destroy:
+        undone: Du hast die %{crop} zurückgegeben.
+    offers:
+      free: Frei
+      free_text: Mit freundlichen Grüßen
+      swap: Tauschen
+      swap_text: Bringen Sie eigene Samen mit
+    openings:
+      create:
+        opened: Ihr Gartenstand ist geöffnet.
+      destroy:
+        closed: Ihr Gartenstand ist geschlossen.
+    owner:
+      garden_of: Garten von
+      link: Link zu Ihrem Stand
+      profile: Siehe das Profil von %{name}.
+    seed_tin:
+      add: "+ hinzufügen"
+      heading: In der Saatdose
+      legend: Auf jedem Paket steht, ob es kostenlos oder ein Tausch ist.
+      packets:
+        one: 1 Paket
+        other: "%{count} Pakete"
+      take_off: Bau den Stall ab
+    seeds:
+      choice:
+        not_trading: Noch kein Handel
+        quantity:
+          one: ca. 1 Samen
+          other: ca. %{count} Samen
+        saved: gespeichert %{year}
+        sow_before: Aussaat vor %{year}
+      create:
+        added:
+          one: 1 Paket befindet sich an Ihrem Stand.
+          other: "%{count} Pakete befinden sich auf Ihrem Stand."
+        none: Kreuzen Sie die Pakete an, die Sie am Stand platzieren möchten.
+      destroy:
+        removed: Aus dem Stand genommen. Es befindet sich immer noch in Ihrer Samenbibliothek.
+      new:
+        add: Zum Stand hinzufügen
+        breadcrumb: Samen hinzufügen
+        cancel: Stornieren
+        cant_find: Sie können die Ernte nicht finden?
+        crop: Ernte
+        intro: Wählen Sie aus Ihrer Samenbibliothek Samen für den Stand aus.
+        new_note: Es wird auch in Ihrer Samenbibliothek gespeichert und geht zusammen mit den Paketen, die Sie angekreuzt haben, an den Stand.
+        no_matches: Keine Seeds stimmen mit „%{query}“ überein.
+        none_left: Jedes Paket, das Sie haben, ist bereits am Stand.
+        offer: Als was bieten Sie sie an?
+        offers:
+          free: Verschenken
+          swap: Tauschen oder handeln
+        others:
+          one: Andere Samen in Ihrer Bibliothek (1)
+          other: Andere Samen in Ihrer Bibliothek (%{count})
+        quantity: Ca. wie viele Samen
+        ready:
+          one: Vermerkt mit „wird handeln“ (1)
+          other: Markiert mit „wird handeln“ (%{count})
+        record_new: Fügen Sie ein Samenpaket hinzu, das Sie noch nicht erfasst haben
+        request_crop: Fordern Sie eine neue Ernte an.
+        search: Durchsuchen Sie Ihre Samen
+        search_button: Suchen
+        search_placeholder: Nutzpflanze oder Sorte, zum Beispiel Tomate
+        title: Fügen Sie Ihrem Stand Samen hinzu
+        variety: Vielfalt
+        will_mark: Wenn Sie ein Paket, das nicht mit „Wird gehandelt“ gekennzeichnet ist, an den Stand stellen, wird es in Ihrer Samenbibliothek als „Wird gehandelt“ markiert, sodass Freunde es dort auch sehen können. Wenn man es aus dem Stand nimmt, bleiben Spuren zurück.
+        your_seeds: Deine Samen
+    settings:
+      areas:
+        anywhere: Überall
+        region: Nur Personen in der Nähe von %{place}
+      heading: Wer kann Anspruch darauf erheben?
+      postage: Ich kann Freunde bitten, das Porto zu bezahlen
+      save: Speichern
+      set_place: Stellen Sie den Ort ein, an dem Sie gärtnern.
+      unplaced: Sagen Sie, wo Sie gärtnern, damit Freunde in der Nähe Anspruch darauf haben können. Solange Sie es nicht tun, kann es niemand.
+      where: Wo Freunde sein können
+      where_help: Basiert auf dem Ort in Ihrem Growstuff-Profil und wird immer nur als Ortsname angezeigt. Bluesky-Freunde sagen, wo sie sind, wenn sie behaupten. Es wird keine Straße angezeigt oder abgefragt.
+      your_place: wo du gärtnerst
+    show:
+      add_seeds: Samen hinzufügen
+      breadcrumb: Gartenstand
+      close: Schließen Sie den Stand
+      coming_soon: Kommt bald
+      description:
+        one: Ersatzsamen aus %{name}s Garten auf Growstuff. 1 Paket gibt es zu gewinnen, kostenlos oder zum Tauschen.
+        other: Ersatzsamen aus %{name}s Garten auf Growstuff. %{count} Pakete sind zu gewinnen, kostenlos oder zum Tauschen.
+        zero: Ersatzsetzlinge und Samen aus %{name}s Garten auf Growstuff, kostenlos oder zum Tauschen.
+      first_heading: Ihr Stand ist geöffnet. Was kommt zuerst drauf?
+      first_intro: Sie können jederzeit weitere hinzufügen. Freunden wird nichts angezeigt, bis etwas auf dem Tisch liegt.
+      open: Öffne meinen Stand
+      open_heading: Eröffne einen Gartenstand
+      open_intro: Haben Sie Ersatzsämlinge oder -samen? Stellen Sie sie auf einen Stand und teilen Sie den Link mit Ihren Freunden. Verschenke oder tausche sie.
+      points:
+        choose_what: Sie entscheiden, was auf den Tisch kommt.
+        choose_where: 'Sie entscheiden, wo Freunde sein können: in Ihrer Nähe oder überall.'
+        choose_who: 'Sie entscheiden, wer Anspruch erheben kann: jeder, der angemeldet ist, oder nur die Personen, denen Sie folgen.'
+        expiry: Die Angebote schließen nach 4 Wochen, sodass der Stand nie langweilig wird.
+        privacy: Growstuff speichert keine Adressen. Freunde senden Ihnen eine Nachricht, um die Abholung oder den Versand zu vereinbaren.
+      seedlings: Sämlinge
+      seedlings_text: Von Ihnen gezüchtete Pflanzen, die ein Zuhause brauchen.
+      seeds: Samen
+      seeds_text: Pakete, die Sie gespeichert haben und mit denen Sie handeln möchten.
+      title: "%{name}s Gartenstand"
+    stall:
+      closed: Vorerst geschlossen
+      sign: "%{name}s Gartenstand"
+      spots:
+        more: irgendetwas anderes
+        seedlings: Setzlinge hier
+        seeds: Samen hier
+      tagline: Setzlinge und Samen für Freunde. Kostenlos oder tauschen.
+    terms:
+      anywhere: Jeder, der angemeldet ist, kann einen Anspruch geltend machen.
+      heading: Wer kann Anspruch darauf erheben?
+      manners: Es ist kostenlos, aber es gehört zum guten Ton, eine Gegenleistung anzubieten, zum Beispiel einige Ihrer eigenen Samen oder einfach nur ein Dankeschön.
+      no_money: Growstuff verwaltet weder Geld noch Adressen. Benachrichtigen Sie den Gärtner, um die Abholung oder den Versand zu vereinbaren.
+      postage: "%{owner} kann Sie bitten, für das Porto zu zahlen."
+      region: Die Beanspruchung gilt nur für Personen in der Nähe von %{place}.
+      unplaced: "%{owner} hat noch nicht gesagt, wo sie sich befinden, daher kann vorerst niemand einen Anspruch darauf erheben."
+    update:
+      updated: Gespeichert.
   suggested_jobs:
     create:
       added: '"%{name}" zu deinen geplanten Aufgaben hinzugefügt.'
@@ -3050,6 +4023,81 @@ de:
     update:
       disabled: Wir haben aufgehört, Pflanzen vorzuschlagen.
       enabled: Zuschneidevorschläge sind zurück.
+    climate:
+      add_failed: Wir konnten es nicht hinzufügen. Versuchen Sie es erneut.
+      add_to_jobs: Zu geplanten Jobs hinzufügen
+      average: Durchschnitt
+      best_range: Am besten bei %{low}–%{high}°
+      choose: Öffnen Sie eine Saison, um die Kulturen zu sehen, die dazu passen.
+      collecting_html: Für %{place} liegen uns derzeit keine Klimadaten vor. Wir holen es bald ab.
+      days: Heißester Tag seit Beginn der Aufzeichnungen
+      degrees: "%{value}°"
+      duration:
+        one: 1 Tag
+        other: "%{count} Tage"
+      duration_range: "%{low} bis %{high} Tage"
+      followed_grow: 'Personen, denen Sie folgen und dies anbauen: %{names}'
+      grown_before: Du hast dies in %{years} angebaut
+      growing: Du baust das bereits an
+      heading: Ihr Klima das ganze Jahr über
+      intro_html: Wie das Wetter in den letzten %{years} Jahren normalerweise um %{place} ist.
+      load_failed: Wir konnten die Ernte nicht laden. Versuchen Sie es erneut.
+      loading: Ernte wird geladen…
+      millimetres: "%{value} mm"
+      months: "%{first} bis %{last}"
+      nights: Kälteste Nacht seit Beginn der Aufzeichnungen
+      no_crops: Nichts, was wir wissen.
+      no_data: Wir haben noch kein Wetter für diese Saison.
+      now: Jetzt
+      part_early: früh
+      part_late: spät
+      part_mid: Mitte
+      planned: In Ihren geplanten Jobs
+      planting: Was Gärtner in der Nähe von %{place} in %{season} pflanzen, pflanzten die meisten zuerst.
+      rain: Regen
+      ready_in: bereit in %{part} %{season}
+      retry: Versuchen Sie es erneut
+      still_grows: Wächst auch in %{season} in %{place}, aber nicht in Bestform
+      suits: Wächst gut in %{season} in %{place}
+      timing: "%{days}, %{ready}"
+      usual_day: Typischer heißester Tag
+      usual_night: Typische kälteste Nacht
+      your_location: Ihr Standort
+    introduction:
+      climate: Sagen Sie uns, wo sich Ihr Garten befindet, und wir zeigen Ihnen das dortige Klima das ganze Jahr über, Jahreszeit für Jahreszeit, einschließlich des Regens, der warmen Tage und der kalten Nächte.
+      crops: Für jede Jahreszeit schlagen wir die zu pflanzenden Pflanzen vor, basierend auf den Vorlieben der einzelnen Pflanzen und dem, was Gärtner in Ihrer Nähe bereits anpflanzen.
+      far_html: Das ist das Wetter, das Ihnen am nächsten kommt, daher kann es von Ihrem Garten abweichen. %{sign_up} und sagen Sie uns, wo Sie gärtnern, und wir fügen das Wetter für Ihren genauen Standort hinzu.
+      features:
+        closer_weather: Wetter für Ihren eigenen Garten, nicht nur für den nächstgelegenen Ort, den wir halten
+        following: Sehen Sie, was die Menschen, denen Sie folgen, wachsen lassen
+        garden_climate: Erntevorschläge für das Klima im eigenen Garten, Saison für Saison
+        harvest_predictions: Vorhersagen, wann Ihre Ernte fertig sein wird
+        not_for_me: Verstecken Sie die Pflanzen, die nicht für Sie geeignet sind
+        planned_jobs: Fügen Sie vorgeschlagene Kulturen zu Ihren geplanten Jobs hinzu
+        record: Halten Sie fest, was Sie gepflanzt und angebaut haben
+      finding: Finden Sie Ihren Standort…
+      location_denied: Ihr Browser darf Ihren Standort nicht mit dieser Website teilen. Erlauben Sie es über das Symbol neben der Adresse und versuchen Sie es dann erneut.
+      location_failed: Wir konnten Ihren Standort nicht ermitteln. Überprüfen Sie, ob Ihr Browser die Freigabe erlaubt, und versuchen Sie es erneut.
+      location_timeout: Die Suche nach Ihrem Standort hat zu lange gedauert. Bitte versuchen Sie es erneut.
+      location_unavailable: Ihr Gerät konnte nicht herausfinden, wo es sich befindet. Überprüfen Sie, ob die Ortungsdienste aktiviert sind, und versuchen Sie es dann erneut.
+      location_unsupported: Ihr Browser kann seinen Standort nicht teilen.
+      no_weather: Wir verfügen noch über keine Wetterdaten.
+      retrieving: Daten für %{place} werden abgerufen…
+      showing: Zeigt das Wetter für %{place}, etwa %{distance} km von Ihnen entfernt, aus den letzten %{years} Jahren.
+      sign_in: anmelden
+      sign_up: Melden Sie sich kostenlos an
+      signup_heading: Melden Sie sich an und erhalten Sie Vorschläge für Ihren eigenen Garten
+      summary: Erhalten Sie Vorschläge, was Sie pflanzen sollten, basierend auf dem Klima in Ihrem Garten und den Vorlieben der einzelnen Pflanzen, Saison für Saison.
+      title: Was Sie in Ihrer Nähe anbauen können
+      unnamed_place: das nächstgelegene Gebiet, für das wir das Wetter halten
+      use_my_location: Verwenden Sie meinen Standort
+      waiting:
+      - Die Ernte einsammeln …
+      - Aus dem Fenster schauen…
+      - Nachdenken über das Wetter…
+      - Den Komposthaufen konsultieren…
+      - Retikulierende Splines…
+      - Die Würmer fragen ...
   unauthorized:
     create:
       all: Bitte melden Sie sich an oder registrieren Sie sich, um eine %{subject} zu erstellen.
@@ -3062,3 +4110,140 @@ de:
       all: Nicht berechtigt zu %{action} %{subject}.
     read:
       notification: Sie müssen angemeldet sein, um Benachrichtigungen anzeigen zu können.
+  auto_suggest:
+    choose: Wählen Sie eine aus der Liste aus. Verwenden Sie die Aufwärts- und Abwärtspfeiltasten und dann die Eingabetaste.
+    chosen: 'Ausgewählt: %{name}'
+    none: Es stimmen keine Ernten überein. Überprüfen Sie die Schreibweise oder versuchen Sie es mit einem kürzeren Namen.
+    searching: Suche...
+    unchosen: Noch nicht ausgewählt. Wählen Sie eines aus der Liste aus, sonst wird es nicht verwendet.
+  climate:
+    about_estimates: Diese Zahlen stammen aus 25-km-Wettermodelldaten und nicht aus Messwerten einer Station in Ihrem Garten. Daher können Ihr eigener Niederschlag und Ihre Temperaturen abweichen. Überprüfen Sie Ihren nationalen Wetterdienst, bevor Sie sich darauf verlassen.
+    air:
+      body_above: Die durchschnittliche Lufttemperatur seit dem 1. Januar beträgt %{air} °C und liegt damit um %{difference} °C über den für dieses Datum üblichen %{usual} °C.
+      body_below: Die durchschnittliche Lufttemperatur seit dem 1. Januar beträgt %{air} °C und liegt damit um %{difference} °C unter der für dieses Datum üblichen %{usual} °C.
+      body_close: Die durchschnittliche Lufttemperatur seit dem 1. Januar beträgt %{air} °C und liegt damit nahe an den für dieses Datum üblichen %{usual} °C.
+      cards:
+        coldest: Kältester Monat
+        soil: Boden diesen Monat
+        soil_note: meinen diesen Monat, oben 7 cm
+        warmest: Wärmster Monat
+      chart: Lufttemperatur jeden Monat, dieses Jahr und normalerweise
+      records: Aufzeichnungen in den letzten %{count} Jahren
+      soil_chart: Bodentemperatur jeden Monat, dieses Jahr und normalerweise
+      title: Temperatur
+      verdicts:
+        a_little_cooler: Dieses Jahr ist es etwas kühler als sonst
+        a_little_warmer: Dieses Jahr ist es etwas wärmer als gewöhnlich
+        close: Dieses Jahr verläuft nahezu normal
+        cooler: Dieses Jahr ist es kühler als sonst
+        warmer: Dieses Jahr ist es wärmer als gewöhnlich
+    chart:
+      bar: "%{month}, %{kind}: %{value}"
+      description: 'Säulendiagramm des monatlichen Durchschnitts %{measure}. Üblich: %{usual}. Dieses Jahr bisher: %{year}.'
+      legend:
+        usual: Üblich für den Monat
+        year: Dieses Jahr
+      measures:
+        air: Lufttemperatur in Grad Celsius
+        rain: Niederschlag in Millimetern
+        soil: Bodentemperatur, oberste 7 cm, in Grad Celsius
+    month_year: "%{month} %{year}"
+    on_average: "%{value} im Durchschnitt"
+    rain:
+      body: "%{rain} ist seit dem 1. Januar gesunken. Das sind %{percent} % der zu diesem Zeitpunkt üblichen %{usual}."
+      cards:
+        driest: Trockenster Monat seit Beginn der Aufzeichnungen
+        wettest: Regenreichster Monat seit Beginn der Aufzeichnungen
+        year: Übliches Jahr
+      chart: Regen jeden Monat, dieses Jahr und normalerweise
+      records_note:
+        one: Die feuchtesten und trockensten Monate sind die höchsten und niedrigsten Werte in dem von uns erfassten Datenjahr, nicht unbedingt die höchsten oder niedrigsten Werte aller Zeiten.
+        other: Die feuchtesten und trockensten Monate sind die höchsten und niedrigsten Werte in den %{count} Jahren, über die wir verfügen, nicht unbedingt die höchsten oder niedrigsten Werte aller Zeiten.
+      title: Niederschlagsmenge
+      verdicts:
+        close: Die Niederschlagsmenge ist in diesem Jahr nahezu normal
+        drier: Die Niederschläge fallen in diesem Jahr trockener aus als sonst
+        wetter: Die Niederschläge sind dieses Jahr feuchter als gewöhnlich
+    records:
+      coldest_night: Kälteste Nacht
+      coldest_soil: Kältester Boden
+      hottest_day: Heißester Tag
+      this_year: 'Dieses Jahr: %{value}'
+      warmest_soil: Wärmster Boden
+    table:
+      air: Luft
+      details: Zeigen Sie die monatlichen Zahlen an
+      month: Monat
+      none: "–"
+      rain: Regen
+      soil: Boden
+      this_year: dieses Jahr
+      usual: üblich
+    units:
+      celsius: "%{value} °C"
+      mm: "%{value} mm"
+    years_average:
+      one: 1-Jahres-Durchschnitt
+      other: "%{count}-Jahresdurchschnitt"
+  crop_jobs:
+    add: Fügen Sie %{crop} wachsende Jobs zu meinen Jobs hinzu
+    add_to_planting: Zu %{crop} in %{garden} hinzufügen, gepflanzt %{date}
+    added:
+      one: 1 %{crop} Job zu Ihren Jobs hinzugefügt.
+      other: "%{count} %{crop} Jobs zu Ihren Jobs hinzugefügt."
+    already_added: Ihre Arbeitsplätze verfügen bereits über %{crop} wachsende Arbeitsplätze.
+    new:
+      add_anyway: Fügen Sie sie trotzdem hinzu
+      cancel: Stornieren
+      intro: Die Aufträge werden ab dem Tag der Pflanzung gezählt. Eines, das bereits Vergangenheit wäre, ist heute fällig.
+      out_of_season: "%{template} steht für %{season} und %{date} steht außerhalb Ihres Standorts."
+      planting_on: Wann möchten Sie %{crop} pflanzen?
+      submit: Fügen Sie diese Jobs hinzu
+      title: Fügen Sie %{crop} wachsende Arbeitsplätze hinzu
+    new_planting: Ich werde eine neue %{crop} Bepflanzung vornehmen
+    see_jobs: Sehen Sie sich Ihre Jobs an.
+  crop_photos:
+    create:
+      added: Ein Foto zu %{crop} hinzugefügt.
+      kind_missing: Sagen Sie, ob das Foto eine Pflanzung, eine Ernte oder Samen zeigt.
+      not_creative_commons: Dieses Foto steht nicht unter einer Creative Commons-Lizenz und kann daher hier nicht verwendet werden.
+      not_flickr: Das sieht nicht wie die Adresse eines Fotos auf Flickr aus.
+      not_found: Flickr konnte dieses Foto nicht finden. Es kann privat oder gelöscht sein.
+      not_public: Dieses Foto ist nicht öffentlich und kann daher hier nicht verwendet werden.
+      unavailable: Flickr war nicht erreichbar. Bitte versuchen Sie es gleich noch einmal.
+    kinds:
+      harvest: Etwas geerntet
+      harvest_hint: Gepflückte Produkte, wie zum Beispiel ein Korb mit Tomaten.
+      legend: Was zeigt das Foto?
+      planting: Pflanzen wachsen
+      planting_hint: Pflanzen wachsen in einem Garten, Beet oder Topf.
+      seed: Samen
+      seed_hint: Die Samen selbst oder Samenköpfe und -kapseln.
+    pager:
+      label: Seiten mit Fotos
+      next: Nächste Seite
+      page: Seite %{page} von %{pages}
+      previous: Vorherige Seite
+    source:
+      view_on_flickr: Auf Flickr ansehen
+    new:
+      add: Fügen Sie dieses Foto hinzu
+      attribution: von %{owner}
+      back: Zurück zu %{crop}
+      cancel: Stornieren
+      close: Schließen
+      empty: Für diese Suche stimmten keine öffentlichen Creative-Commons-Fotos überein.
+      intro: Öffentliche Fotos auf Flickr unter einer Creative Commons-Lizenz. Überprüfen Sie, ob das Foto den Ausschnitt zeigt, bevor Sie ihn hinzufügen.
+      modal_title: Fügen Sie dieses Foto von %{crop} hinzu
+      save: Speichern
+      search: Suchen
+      taken: Aufgenommen %{date}
+      title: Finden Sie ein Foto von %{crop}
+  observations:
+    kinds:
+      disease_observed: Krankheit beobachtet
+      flowering: Blüte
+      fruiting: Fruchtbildung
+      germination: Keimung
+      other: Andere
+      wilting: Welken

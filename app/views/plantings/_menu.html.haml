@@ -7,6 +7,7 @@
       = menu_link_to :view, t('buttons.view'), planting_path(slug:)
     = menu_link_to :edit, t('buttons.edit'), edit_planting_path(slug:)
     = menu_add_photo_link(planting)
+    = menu_link_to :observation, t('buttons.add_observation'), planting_path(slug:, anchor: 'observations')
     - if planting.active
       - if can?(:create, Harvest)
         = menu_link_to :harvest, t('buttons.record_harvest'), new_planting_harvest_path(planting_slug: slug)

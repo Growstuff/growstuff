@@ -8,7 +8,7 @@ import {csrfToken, postJson} from '../api';
 //
 // Adding is sent without leaving the page. Once the crop is in the planned jobs for the season, which the server says in
 // crop.planned and onPlanned passes on, the photo has a tick and the button says so.
-export default function SuggestedCropCard({crop, season, urls, labels, onPlanned}) {
+export default function SuggestedCropCard({crop, season, urls, labels, onPlanned, guest = false}) {
   const [adding, setAdding] = useState(false);
   const [failed, setFailed] = useState(false);
 
@@ -53,7 +53,7 @@ export default function SuggestedCropCard({crop, season, urls, labels, onPlanned
         </span>
       )}
       {crop.followed && <span className="home-crop-flag home-crop-flag--followed">{crop.followed}</span>}
-      {crop.planned ? (
+      {!guest && (crop.planned ? (
         <a className="home-crop-go home-crop-planned" href={urls.planned}>
           <i className="fas fa-check" aria-hidden="true" /> {labels.planned}
         </a>
@@ -62,13 +62,13 @@ export default function SuggestedCropCard({crop, season, urls, labels, onPlanned
           {adding && <span className="spinner-border spinner-border-sm me-1" aria-hidden="true" />}
           {labels.addToJobs}
         </button>
-      )}
+      ))}
       {failed && <span className="home-crop-flag home-crop-flag--failed" role="alert">{labels.addFailed}</span>}
-      <form className="home-dismiss-form" method="post" action={urls.dismiss}>
+      {!guest && <form className="home-dismiss-form" method="post" action={urls.dismiss}>
         <input type="hidden" name="authenticity_token" value={csrfToken()} />
         <input type="hidden" name="crop_id" value={crop.id} />
         <button type="submit" className="home-crop-dismiss">{labels.notForMe}</button>
-      </form>
+      </form>}
     </div>
   );
 }

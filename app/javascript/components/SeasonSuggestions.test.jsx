@@ -8,7 +8,7 @@ import {getJson, postJson} from '../api';
 vi.mock('../api', () => ({getJson: vi.fn(), postJson: vi.fn(), csrfToken: () => 'token'}));
 
 const season = (name, title, current = false) => ({
-  name, title, current, hasData: true, months: 'Sep to Nov', mean: '14°', figures: [{label: 'Rain', value: '199 mm'}],
+  name, title, icon: {spring: 'seedling', summer: 'sun'}[name], current, hasData: true, months: 'Sep to Nov', mean: '14°', figures: [{label: 'Rain', value: '199 mm'}],
   url: `/suggestions/seasons/${name}`,
 });
 const seasons = [season('spring', 'Spring', true), season('summer', 'Summer')];
@@ -41,6 +41,13 @@ describe('SeasonSuggestions', () => {
   it('does not fetch the season that comes with the page', () => {
     renderIsland();
     expect(getJson).not.toHaveBeenCalled();
+  });
+
+  it('gives each season the icon the server chose for it', () => {
+    const {container} = renderIsland();
+    const icons = [...container.querySelectorAll('.season-icon')].map((icon) => icon.className);
+    expect(icons[0]).toContain('fa-seedling');
+    expect(icons[1]).toContain('fa-sun');
   });
 
   it('marks the season in progress', () => {
@@ -174,5 +181,32 @@ describe('SeasonSuggestions', () => {
     await userEvent.click(screen.getByRole('button', {name: /Summer/}));
     await userEvent.click(screen.getByRole('button', {name: /Spring/}));
     expect(await screen.findByTitle('In your planned jobs')).toBeInTheDocument();
+  });
+
+  describe('scrolling to an opened season', () => {
+    let scrollIntoView;
+
+    beforeEach(() => {
+      scrollIntoView = vi.fn();
+      window.HTMLElement.prototype.scrollIntoView = scrollIntoView;
+      getJson.mockResolvedValue({ok: true, data: payload('summer', [])});
+    });
+
+    it('does not scroll for the season open on load', () => {
+      renderIsland();
+      expect(scrollIntoView).not.toHaveBeenCalled();
+    });
+
+    it('scrolls to a season when it is opened', async () => {
+      renderIsland();
+      await userEvent.click(screen.getByRole('button', {name: /Summer/}));
+      expect(scrollIntoView).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not scroll when a season is closed', async () => {
+      renderIsland();
+      await userEvent.click(screen.getByRole('button', {name: /Spring/}));
+      expect(scrollIntoView).not.toHaveBeenCalled();
+    });
   });
 });

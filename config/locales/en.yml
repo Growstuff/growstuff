@@ -1,5 +1,33 @@
 ---
 en:
+  likes:
+    description_html: '%{member} liked %{item}'
+  shared:
+    flash_messages:
+      close: Close
+    markdown_help:
+      instructions: You can use Markdown to format your text.
+      examples: 'For instance, *italic*, **bold**, or a link [like this](http://to.some.site.com/).'
+      crop_links: 'Quick crop links: [sweet potato](crop).'
+      member_links: 'Quick member links: @Username or [Username](member).'
+    record_parent:
+      growing_in_html: growing in %{garden}
+    signin_signup:
+      sign_in: Sign in
+      sign_up: sign up
+      prompt_html: '%{sign_in} or %{sign_up} to %{purpose}.'
+    editable:
+      date:
+        when: When?
+      form:
+        edit: Edit %{field}
+        minimum: min
+        maximum: max
+        when: When?
+  timeline:
+    likeables:
+      post:
+        view_post: view post
   activerecord:
     errors:
       messages:
@@ -16,6 +44,7 @@ en:
         grid_too_small_for_plantings: 'is too small: some plantings would fall outside the bed. Move them first.'
         harvest_after_planted: cannot be harvested before planting
         no_newlines: must contain no newlines
+        not_in_future: can't be in the future
         not_a_valid_area_unit: "%{value} is not a valid area unit"
         not_a_valid_planting_method: "%{value} is not a valid planting method"
         not_a_valid_sunniness: "%{value} is not a valid sunniness value"
@@ -197,17 +226,23 @@ en:
       unlink:
         unlinked: "%{crop} is no longer linked to %{record}."
     features:
+      member_not_found: Member not found. Enter an existing username.
       descriptions:
         enable_harvest_reminders: Sends the weekly harvest reminder emails to members who want them.
         enable_planting_reminders: Sends the weekly planting reminder emails to members who want them.
         garden_stall: A page where members offer spare seedlings and seeds to friends. Switch on once all the parts are deployed.
         job_ideas: Suggested jobs for members, from their past jobs and plantings, crop templates and what gardeners nearby are doing.
         planting_weather: Temperature and rainfall charts on each planting, from daily weather for the garden's area.
+        planting_codes: Shows planting codes to the planting owner and collaborators in its garden.
       index:
         disabled: 'Off'
         enabled: 'On'
         feature: Feature
-        intro: Switch features on or off for everyone.
+        intro: Switch features on or off for everyone, or enable them for specific members. Removing a member's grant does not disable a feature that is on for everyone.
+        members: Enabled for members
+        login_name: Username
+        add_member: Enable for member
+        remove_member: Remove grant
         state: State
         switch_off: Switch off
         switch_on: Switch on
@@ -218,6 +253,7 @@ en:
         garden_stall: Garden stall
         job_ideas: Job ideas
         planting_weather: Planting weather
+        planting_codes: Planting codes
       update:
         disabled: "%{feature} is now off."
         enabled: "%{feature} is now on."
@@ -265,6 +301,14 @@ en:
         default: Default
   are_you_sure: Are you sure?
   authentications:
+    connected:
+      connected_title: Flickr connected
+      not_connected_title: Flickr not connected
+      connected_heading: Flickr is connected
+      connected_help: You can close this window and carry on choosing a photo.
+      not_connected_heading: Flickr was not connected
+      not_connected_help: You can close this window and try again.
+      close_window: Close this window
     sign_in:
       bluesky:
         agree_to_tos_html: I agree to the %{tos_link}
@@ -286,6 +330,7 @@ en:
     unchosen: Not chosen yet. Pick one from the list, or it won't be used.
   buttons:
     add: Add
+    add_observation: Add observation
     add_photo: Add photo
     copy: Copy
     delete: Delete
@@ -1201,16 +1246,12 @@ en:
       title: New garden
     about:
       collaborators: Collaborators
-      fetch_wikidata: Fetch Wikidata info
       heading: About this garden
       leave: Leave garden
       leave_confirm: Are you sure you want to leave this garden?
       location: Location
       manage: Manage
       owner: Owner
-      temperature_unknown: not known
-      temperatures_html: 'Local temperatures from %{source}: hottest %{hottest}, coldest %{coldest}.'
-      wikidata_missing: Wikidata information is missing for this location.
       you: "(you)"
     actions:
       add_photo: Add photo from Flickr
@@ -1363,8 +1404,6 @@ en:
       heading: Start your own garden
       text: Plant, harvest and save seeds in one place, and see what grows well near you.
     updated: Garden was successfully updated.
-    wikidata_not_found: Could not find Wikidata information for this location.
-    wikidata_updated: Wikidata information updated.
   hardiness:
     levels:
       half_hardy:
@@ -1965,6 +2004,96 @@ en:
     data: 'The data on this page is available in the following formats:'
     harvesting_now: harvesting now
     weeks_until_harvest: "%{number} weeks until harvest"
+  devise_views:
+    resend_confirmation: Resend confirmation instructions
+    confirmation_help: Enter either your login name or your email address to resend the confirmation email.
+    login: Login name or email
+    change_password: Change your password
+    new_password: New password
+    confirm_password: Password confirmation
+    current_password: Current password
+    change_my_password: Change my password
+    forgot_password: Forgot your password?
+    password_help: Enter your email address and we'll send you a link to choose a new password.
+    email: Email
+    send_reset: Send me reset password instructions
+    sign_in: Sign in
+    password: Password
+    remember_me: Keep me signed in
+    resend_unlock: Resend unlock instructions
+    join_free: Join free
+    missing_confirmation: Didn't receive confirmation instructions?
+    missing_unlock: Didn't receive unlock instructions?
+    continue_with: Continue with %{provider}
+    delete_help: Delete your account from %{site_name}.
+    delete_password: Password required to delete
+    delete: Delete
+    save: Save
+    reconfirm_email: If you change your email address you will have to reconfirm.
+    show_email: Show email publicly on your profile page.
+    notification_email: Receive emailed copies of Inbox notifications (eg. private messages).
+    planting_reminders: Receive regular reminders to track your planting and harvesting.
+    harvest_reminders: Receive regular reminders of upcoming harvests.
+    join_site: Join %{site_name}
+    signup_help: Sign up for a %{site_name} account to track your vegetable garden and connect with other local growers.
+    captcha_help: If you have accessibility issues with the captcha, please contact us via the links in the footer and we will help.
+    login_name: Login name
+    login_help: This is the name that will show on the website.
+    email_help: We'll use this address to contact you (we never spam!)
+    agreement_html: I agree to the %{link}
+    terms: Terms of Service
+    sign_up: Sign up
+    greeting: Hello %{name},
+    confirmation_body: 'Your account on %{site_name} has been created. You just need to confirm your email address through the link below:'
+    confirm_account: Confirm my account
+    confirmed_help: Once you're confirmed, you can sign in with your login name (%{login}) or email address (%{email}), and the password you provided when you signed up. Note that your login name and password are case sensitive.
+    welcome_html: We're excited to have you as a member, and hope you'll enjoy what %{site_name} has to offer. Take a look around the site, %{plant_link}, and feel free to drop in on the %{forums_link} if you have any questions or feedback.
+    plant_things: plant some things
+    forums: forums
+    guidelines_help_html: We'd also appreciate it if you'd read our %{link}, and make sure you follow them. We want %{site_name} to be a friendly, welcoming environment for everyone, and we hope you'll help us keep it that way.
+    guidelines: Community Guidelines
+    looking_forward: Looking forward to seeing you!
+    team: The %{site_name} team.
+    reset_body: 'Someone has requested a link to reset your password on %{site_name}. We presume this was you, in which case you can do so through this link:'
+    reset_ignore: If it wasn't you, then someone's made a typo or has been messing around. In this case, you can safely ignore this email, and your password will not be changed.
+    see_you: See you soon,
+    unlock_body: 'Your %{site_name} account has been locked due to an excessive number of unsuccessful sign in attempts. We do this in case someone is trying to break into your account, but it might also mean you have forgotten your password. In either case, use the link below to unlock your account:'
+    unlock_account: Unlock my account
+    unlock_help_html: If you have forgotten your password, you can %{link} after you've unlocked your account.
+    reset_password: reset your password
+    settings: Settings for %{name}
+    my_profile: My Profile
+    profile: Profile
+    apps: Apps
+    delete_account: Delete Account
+    location: Your location
+    not_set: Not set
+    change: Change
+    remove: Remove
+    location_help: Pick from the places we find, so you're in the right spot on the map. A region is fine.
+    bio_placeholder: I'm a gardener interested in A, B, C
+    website: Website
+    handle_placeholder: your_handle
+    other_url: Other URL
+    linked_accounts_help: Linked accounts are read-only here. Manage them in the Apps tab.
+    language: Language
+    profile_picture: Profile picture
+    avatar_help_html: To change your profile picture, visit %{link}.
+    provider_logo: "%{provider} logo"
+    connected_html: You are connected to %{provider} as %{account}
+    disconnect: Disconnect
+    disconnect_confirm: Are you sure you want to remove this connection?
+    connect_provider: Connect to %{provider}
+    mastodon_accounts: 'Connected Mastodon accounts:'
+    mastodon_help: Connect your Mastodon account to sign in with it and show it on your profile.
+    mastodon_address: Your Mastodon address
+    connect_another: Connect another account
+    api_token: Your API token is
+    regenerate: Regenerate
+    regenerate_confirm: Are you sure? Your old token will stop working immediately.
+    delete_token: Delete API Token
+    delete_token_confirm: Are you sure you want to delete your API token?
+    generate_token: Generate API Token
   layouts:
     application:
       skip: Skip navigation menu
@@ -3487,6 +3616,14 @@ en:
       data_use_policy: Data Use Policy
       community_guidelines: Community Guidelines
       copyright_infringement_policy: Copyright Infringement Policy
+  observations:
+    kinds:
+      disease_observed: Disease observed
+      flowering: Flowering
+      fruiting: Fruiting
+      germination: Germination
+      other: Other
+      wilting: Wilting
   photo_associations:
     update:
       updated: Photo updated.
@@ -3729,6 +3866,13 @@ en:
       finished: Finished
       grown: grown
       grown_in: Grown in
+      heat: Degree days
+      heat_help_html: "These are not calendar days. A growing degree day is one day's worth of useful warmth: how many degrees the day's average temperature was above the lowest temperature this crop grows at. A cold day adds none, so a crop takes more days in autumn than in summer. %{link}."
+      heat_help_label: What are growing degree days?
+      heat_help_link: Read more on Wikipedia
+      heat_help_title: Growing degree days
+      heat_needed_unknown: so far; how many it needs isn't known
+      heat_of_needed: of about %{needed} needed
       lifespan_days:
         one: 1 day
         other: "%{count} days"
@@ -3745,6 +3889,13 @@ en:
       planned_for: for %{date}
       planted: Planted
       planting_failed: this planting failed
+      short_code: Short code
+      short_code_description: for plant markers and labels
+      short_code_help: Write this code on your plant label or marker, and you can find this exact plant here later, even among many of the same crop.
+      short_code_help_label: What is the short code for?
+      sun_semi_shade: partial shade
+      sun_shade: shade
+      sun_sun: full sun
       progress: Progress
       quantity: Quantity
       rating: Rating
@@ -3752,6 +3903,8 @@ en:
       seeds_saved: Seeds saved
       sown_from_expired: Sown from expired seeds (plant before %{year})
       unknown: unknown
+      variety: Variety
+      variety_from_packet: from the seed packet
     form:
       save: Save
       optional: optional
@@ -3792,6 +3945,7 @@ en:
       label: How much frost does it take?
       sources:
         crop: Usual for the crop
+        parent_crop: Usual for the parent crop
         planting: Set for this planting
         seed: From the seed packet
       title: Hardiness
@@ -3818,6 +3972,15 @@ en:
       title: Add %{crop} to your garden
       which_garden: Which garden is it going in?
     plant_something: Plant something
+    observations:
+      add: add
+      day: Day %{count}
+      delete: Delete observation
+      destroy:
+        deleted: Observation deleted.
+      edit: Edit observation
+      logged_by: "%{author} noticed"
+      planted: Planted
     origin:
       change: change
       crop_changed: This planting is now %{crop}, to match your packet. It was %{was}.
@@ -3933,9 +4096,11 @@ en:
       neighbours_explanation: Other %{crop} plantings at the same latitude.
       no_harvests: No harvests recorded yet.
       no_jobs: Nothing is planned here.
+      no_observations: Nothing noticed yet. Note when it flowers, fruits, wilts or falls ill.
       no_photos: No photos yet.
       no_seeds: No seeds saved yet.
       notes: Notes
+      observations: Observations
       photos: Photos
       seeds_saved: Seeds saved
       title: "%{crop} planting by %{owner}"
@@ -4002,13 +4167,16 @@ en:
       weather_temperature_chart_alt: Daily high and low temperature, from %{low} to %{high}.
     string: "%{crop} planting in %{garden} by %{owner}"
     timeline:
-      failed: Failed
-      finish_expected: Finish expected %{date}
-      finished: Finished %{date}
-      first_harvest_expected: First harvest expected %{date}
-      harvest_started: Harvest started %{date}
-      legend: (One emoji = 1 week)
-      planted: Planted %{date}
+      events:
+        failed: Failed
+        finished: Finished
+        first_harvest: First harvest
+        last_harvest: Last harvest
+        planted: Planted
+        sown: Sown
+        transplanted: Moved to %{garden}
+      expected: expected
+      today: Today
     transplant:
       cancel: Cancel
       close: Close
@@ -4192,106 +4360,14 @@ en:
       scientific_name_label: "Scientific name:"
   seasons:
     autumn: Autumn
+    in_place: "%{season} in %{place}"
     spring: Spring
     summer: Summer
     winter: Winter
   seeds:
     ui:
-      record_title: "%{owner}'s %{crop} seeds"
-      record_description: Seeds for %{crop}, shared by %{owner}.
-      plantings: Plantings
-      notes: Notes
-      edit: edit
-      no_notes: No notes yet.
-      descendants_heading: Plants grown from these seeds
-      add: add
-      photos: Photos
-      no_photos: No photos yet.
-      feed_title: Recent seeds from %{owner} (%{site_name})
-      all_members: all members
-      feed_field: "%{label}: %{value}"
-      feed_trade: Will trade %{trade_scope} from %{location}
-      unknown_location: unknown location
-      owner_seeds: "%{owner}'s seeds"
-      meta_description: Browse and search for seeds.
-      open_data: Open Data
-      api_methods: API Methods
-      edit_title: Editing seeds
-      in_stock: In stock
-      finished: Finished
-      germination_min: Germination (min days)
-      germination_max: Germination (max days)
-      search_summary:
-        one: "%{count} packet of %{crop} seeds."
-        other: "%{count} packets of %{crop} seeds."
-      whose_seeds: Whose seeds
-      mine: Mine
-      following: People I follow
-      near_me: Near me
-      everyone: Everyone
-      add_seeds: "+ add seeds"
-      auth_prompt_html: "%{sign_in} or %{sign_up} to see seed traders near you."
-      sign_in: Sign in
-      sign_up: sign up
-      sorted_by_distance: Sorted by distance from your location.
-      shared_summary: "%{packets} from %{gardeners}."
-      gardener_count:
-        one: "%{count} gardener"
-        other: "%{count} gardeners"
-      privacy_explanation: A seed shows here only when the gardener chose to share it. We
-        show a gardener's city, never their address. Each packet has its gardener's avatar
-        beside it. Open a packet to see the seed and ask for some.
-      no_descendants: Nothing has been grown from these seeds yet.
-      errors:
-        one: '1 error prohibited this seed from being saved:'
-        other: "%{count} errors prohibited this seed from being saved:"
-      crop_help_html: Can't find what you're looking for? %{link}
-      request_crops: Request new crops.
-      harvested_saved_at: When were the seeds harvested/saved?
-      quantity: Quantity
-      plant_before_year: Plant before (year)
-      variety: Variety
-      batch_number: Batch number
-      minimum: min
-      maturity: Days until maturity
-      maximum: max
-      range_to: to
-      days: days
-      row_spacing: Row spacing
-      cm: cm
-      organic: Organic?
-      gmo: GMO?
-      heirloom: Heirloom?
-      source_question: Where did they come from?
-      trade_label: Will trade
-      set_location_html: Don't forget to %{link}.
-      set_location: set your location
-      from_location_html: from %{location}.
-      change_location: Change your location.
-      save: Save
-      packet_count:
-        one: "%{count} packet"
-        other: "%{count} packets"
-      saved_date: Saved %{date}
-      packet: Packet
-      nobody: Nobody
-      saved_by_html: saved by %{owner}
-      view_all: view all %{owner}'s seeds
-      nearby_html: View other seeds, members and more near %{location}
-      not_specified: not specified
-      seed_unit:
-        one: seed
-        other: seeds
-      when_to_sow: When to sow
-      how_to_sow: How to sow
-      germination: Germination
-      plant_before: Plant before
-      unknown: Unknown
-      heirloom_or_hybrid: Heirloom or hybrid
-      organic_fact: Organic
-      gmo_fact: GMO
-      you_have_it: You have it
-      past_sow_by: Past sow-by
+      request_prompt_html: "%{sign_in} or %{sign_up} to request seeds."
+      month_abbreviations: [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
       unknown_quiet: unknown
       plant_seeds: Plant seeds
       saved_year: saved %{year}
@@ -4301,18 +4377,158 @@ en:
         other: approx. %{count} seeds
       sow_before_year: sow before %{year}
       will_trade: will trade %{trade_scope}
+      organic_fact: Organic
+      gmo_fact: GMO
+      save_crop_seeds_sentence: Save %{crop} seeds.
+      unknown: Unknown
+      no_descendants: Nothing has been grown from these seeds yet.
       activity_html: saved %{crop} seeds
+      change_crop: Change crop
+      saved_at: When were they saved?
+      seed_quantity: How many seeds?
+      plant_before_year: Plant before (year)
+      trade_label: Will trade
+      variety: Variety
+      batch_number: Batch number
+      maturity_min: Days until maturity (min)
+      maturity_max: Days until maturity (max)
+      row_spacing_cm: Row spacing (cm)
+      organic: Organic?
+      gmo: GMO?
+      heirloom: Heirloom?
+      source_question: Where did they come from?
+      notes: Notes
+      errors:
+        one: '1 error prohibited this seed from being saved:'
+        other: '%{count} errors prohibited this seed from being saved:'
       crop: Crop
+      crop_help_html: Can't find what you're looking for? %{link}
+      request_crops: Request new crops.
+      harvested_saved_at: When were the seeds harvested/saved?
+      quantity: Quantity
+      minimum: min
+      maximum: max
+      maturity: Days until maturity
+      range_to: to
+      days: days
+      row_spacing: Row spacing
+      cm: cm
+      set_location_html: Don't forget to %{link}.
+      set_location: set your location
+      from_location_html: from %{location}.
+      change_location: Change your location.
+      save: Save
+      image_alt: "%{crop} seeds saved by %{owner}"
+      saved_by_html: saved by %{owner}
+      saved_from: saved from
+      request_subject: Interested in your %{crop} seeds
+      request_seeds: Request seeds
+      request_seeds_purpose: request seeds
       sow_before: Sow before
       seeds: Seeds
       where_from: Where from
       type: Type
       shared_with: Shared with
+      packet_count:
+        one: "%{count} packet"
+        other: "%{count} packets"
+      saved_date: Saved %{date}
+      packet: Packet
+      nobody: Nobody
+      save_crop_seeds: Save %{crop} seeds
+      close: Close
+      adding_seeds: You are adding seeds to your stash
+      offer_trade: Will you offer these seeds for trade?
+      trade_from: Yes, I would be willing to trade these from %{location}
+      no_trade: No, I don't want to trade.
+      save_seeds: Save seeds
+      view_all: view all %{owner}'s seeds
+      nearby_html: View other seeds, members and more near %{location}
+      you_have_it: You have it
+      past_sow_by: Past sow-by
+      not_specified: not specified
+      seed_unit:
+        one: seed
+        other: seeds
+      when_to_sow: When to sow
+      how_to_sow: How to sow
+      germination: Germination
+      plant_before: Plant before
+      heirloom_or_hybrid: Heirloom or hybrid
+      crop_image_alt: Image of %{crop}
+      owner_library_html: "%{owner}'s seed library"
+      crop_seeds: "%{crop} seeds"
+      shared_seeds: Seeds that gardeners have chosen to share
+      auth_prompt_html: "%{sign_in} or %{sign_up} to see seed traders near you."
+      sign_in: Sign in
+      sign_up: sign up
+      sorted_by_distance: Sorted by distance from your location.
+      shared_summary: "%{packets} from %{gardeners}."
+      gardener_count:
+        one: "%{count} gardener"
+        other: "%{count} gardeners"
+      privacy_explanation: A seed shows here only when the gardener chose to share it. We show a gardener's city, never their address. Each packet has its gardener's avatar beside it. Open a packet to see the seed and ask for some.
+      whose_seeds: Whose seeds
+      mine: Mine
+      following: People I follow
+      near_me: Near me
+      everyone: Everyone
+      add_seeds: + add seeds
+      search_summary:
+        one: "%{count} packet of %{crop} seeds."
+        other: "%{count} packets of %{crop} seeds."
+      variety_count:
+        one: "%{count} variety"
+        other: "%{count} varieties"
+      open_shelf: ▸ Open shelf
+      tick_season: 'Tick a season:'
+      germination_min: Germination (min days)
+      germination_max: Germination (max days)
+      in_stock: In stock
+      finished: Finished
+      edit_title: Editing seeds
+      owner_seeds: "%{owner}'s seeds"
+      meta_description: Browse and search for seeds.
+      open_data: Open Data
+      api_methods: API Methods
+      feed_title: Recent seeds from %{owner} (%{site_name})
+      all_members: all members
+      record_title: "%{owner}'s %{crop} seeds"
+      feed_field: '%{label}: %{value}'
+      feed_trade: Will trade %{trade_scope} from %{location}
+      unknown_location: unknown location
+      record_description: Seeds for %{crop}, shared by %{owner}.
+      plantings: Plantings
+      edit: edit
+      no_notes: No notes yet.
+      descendants_heading: Plants grown from these seeds
+      add: add
+      photos: Photos
+      no_photos: No photos yet.
+      all_year: All year
+      seasons:
+        spring: Spring
+        summer: Summer
+        autumn: Autumn
+        winter: Winter
       trade_scopes:
         nowhere: nowhere
         locally: locally
         nationally: nationally
         internationally: internationally
+      stats:
+        packets:
+          one: packet
+          other: packets
+        varieties:
+          one: variety
+          other: varieties
+        crops:
+          one: crop
+          other: crops
+        own:
+          one: my own saving
+          other: my own savings
     added_to_stash: Successfully added %{crop} seed to your stash.
     crop_changes:
       show:
@@ -4576,7 +4792,7 @@ en:
       best_range: Best at %{low}–%{high}°
       choose: Open a season to see the crops that suit it.
       collecting_html: We don't currently have any climate data for %{place}. We'll fetch it soon.
-      days: Days reach
+      days: Hottest day on record
       degrees: "%{value}°"
       duration:
         one: 1 day
@@ -4591,7 +4807,7 @@ en:
       loading: Loading crops…
       millimetres: "%{value} mm"
       months: "%{first} to %{last}"
-      nights: Nights fall to
+      nights: Coldest night on record
       no_crops: Nothing we know of.
       no_data: We don't have weather for this season yet.
       now: Now
@@ -4604,12 +4820,49 @@ en:
       ready_in: ready in %{part} %{season}
       retry: Try again
       still_grows: Also grows in %{season} in %{place}, but not at its best
-      suits: Grows best in %{season} in %{place}
+      suits: Grows well in %{season} in %{place}
       timing: "%{days}, %{ready}"
+      usual_day: Typical hottest day
+      usual_night: Typical coldest night
       your_location: your location
     index:
       not_located: Tell us where you garden and we can suggest what to sow.
       title: What to grow near you
+    introduction:
+      climate: Tell us where your garden is and we'll show you the climate there through the year, season by season, including the rain, the warm days and the cold nights.
+      crops: For each season we'll suggest the crops to plant, based on what each plant prefers and what gardeners near you are already planting.
+      far_html: That's the closest weather we have to you, so it may differ from your garden. %{sign_up} and tell us where you garden, and we'll include weather for your exact location.
+      features:
+        closer_weather: Weather fetched for your own garden, not just the nearest place we hold
+        following: See what the people you follow are growing
+        garden_climate: Crop suggestions for the climate in your own garden, season by season
+        harvest_predictions: Predictions of when your harvest will be ready
+        not_for_me: Hide the crops that aren't for you
+        planned_jobs: Add suggested crops to your planned jobs
+        record: Keep a record of what you've planted and grown
+      finding: Finding your location…
+      location_denied: Your browser isn't allowed to share your location with this site. Allow it from the icon next to the address, then try again.
+      location_failed: We couldn't get your location. Check that your browser is allowed to share it, and try again.
+      location_timeout: Finding your location took too long. Please try again.
+      location_unavailable: Your device couldn't work out where it is. Check that its location services are on, then try again.
+      location_unsupported: Your browser can't share its location.
+      no_weather: We don't hold any weather data yet.
+      retrieving: Retrieving data for %{place}…
+      showing: "Showing the weather for %{place}, about %{distance} km from you, from the last %{years} years."
+      sign_in: Sign in
+      sign_up: Sign up for free
+      signup_heading: Sign up and get suggestions for your own garden
+      summary: Get suggestions on what to plant, based on the climate in your garden and what each plant prefers, season by season.
+      title: What to grow near you
+      unnamed_place: the nearest area we hold weather for
+      use_my_location: Use my location
+      waiting:
+        - Gathering the crops…
+        - Looking out the window…
+        - Pondering the weather…
+        - Consulting the compost heap…
+        - Reticulating splines…
+        - Asking the worms…
     update:
       disabled: We've stopped suggesting crops.
       enabled: Crop suggestions are back.

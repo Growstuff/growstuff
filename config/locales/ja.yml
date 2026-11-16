@@ -1,8 +1,207 @@
 ---
 ja:
+  activerecord:
+    models:
+      post: 投稿
+      photo: 写真
+      planting: 作付け
+      harvest: 収穫
+      comment:
+        one: コメント
+        other: コメント
+      crop:
+        one: 作物
+        other: 作物
+      follow:
+        one: フォローする
+        other: 続く
+      garden:
+        one: 庭
+        other: 庭園
+      member:
+        one: メンバー
+        other: メンバー
+      seed:
+        one: シード
+        other: 種子
+    errors:
+      messages:
+        bed_position_incomplete: 列と行の両方が存在するか、どちらも存在しない必要があります
+        bed_position_off_grid: この植物をベッドの外に置きます
+        calculate_crop_failed: 作物の計算に失敗しました
+        cannot_be_about_that: 仕事の内容と合わない
+        cannot_be_garden_owner: 庭の所有者にはなれない
+        cannot_be_stall_owner: 屋台のオーナーにはなれない
+        crop_must_be_approved: データベースに存在している必要があります
+        crop_not_found: データベースに存在している必要があります
+        failed_and_finished: 植え付けも終わっていたら真実ではない
+        finished_after_planted: 植え付け日以降である必要があります
+        grid_too_small_for_plantings: 小さすぎると、いくつかの植物がベッドの外に落ちてしまいます。まずそれらを移動させてください。
+        harvest_after_planted: 植える前に収穫することはできません
+        no_newlines: 改行を含めないでください
+        not_in_future: 将来にはありえない
+        not_a_valid_area_unit: "%{value} は有効なエリア単位ではありません"
+        not_a_valid_planting_method: "%{value} は有効な植栽方法ではありません"
+        not_a_valid_sunniness: "%{value} は有効な日照値ではありません"
+        not_a_valid_unit: "%{value} は有効な単位ではありません"
+        not_a_valid_wikipedia_url: は有効な英語版 Wikipedia URL ではありません
+        not_a_valid_youtube_url: は有効な YouTube URL ではありません
+        not_confirmed_in_area: "%{place} であることにチェックを入れてください。"
+        one_nursery_per_member: すでに存在します。メンバーが持つことができる保育園は 1 つだけです
+        outside_area: この屋台は%{place}付近の方限定です。
+        owner_unplaced: 庭師は彼らがどこにいるのかまだ言っていない。
+        photo_owner_mismatch: リンク先のアイテムと同じ所有者が必要です
+        rejection_notes_required: 拒否理由が「その他」の場合は追加する必要があります
+        rejection_reason_required: 拒否の理由がある場合は拒否する必要があります
+        same_crop_required: 同じ作物でなければなりません
+        same_owner_required: 収穫量は植栽と同じであるか、その庭の協力者でなければなりません
+        stall_closed: 屋台は閉まっています。
+        too_many_plants: 植栽はレイアウト上に最大 %{limit} 個の植物を含めることができます
+      models:
+        crop_job_step:
+          attributes:
+            external_uri:
+              url_format: http:// または https:// で始まる必要があります
+        member:
+          attributes:
+            bluesky_handle:
+              handle_format: URLではなくハンドルである必要があります
+            facebook_handle:
+              handle_format: URLではなくハンドルである必要があります
+            instagram_handle:
+              handle_format: URLではなくハンドルである必要があります
+            login_name:
+              login_name_format: 文字、数字、またはアンダースコアのみを含めることができます
+              login_name_length: 長さは 2 ～ 25 文字にする必要があります
+              login_name_reserved: 名前は予約されています
+            other_url:
+              url_format: http:// または https:// で始まる必要があります
+            website_url:
+              url_format: http:// または https:// で始まる必要があります
+        seed:
+          attributes:
+            gmo:
+              gmo_inclusion: 種子が遺伝子組み換えされているかどうか、あるいは知らないと言わなければなりません。
+            hardiness:
+              hardiness_inclusion: 種子が柔らかいのか、半耐寒性があるのか​​、耐寒性があるのか​​、それとも分からないのかを言わなければなりません。
+            heirloom:
+              heirloom_inclusion: 種子が家宝、交配種、または未知のものであるかどうかを明らかにする必要があります
+            organic:
+              organic_inclusion: 種子が有機かどうか、あるいはわからないと言わなければなりません
+            source:
+              source_inclusion: 種子がどこから来たのか、あるいは知らないと言わなければなりません
+            tradable_to:
+              tradable_to_inclusion: 種子の取引は、地元、国内、国際を問わず、どこでも行うことができません。
+  likes:
+    description_html: '%{member}さんが%{item}に「いいね」しました'
+  shared:
+    flash_messages:
+      close: 閉じる
+    markdown_help:
+      instructions: Markdownを使ってテキストを整形できます。
+      examples: '例えば、*斜体*、**太字**、[このようなリンク](http://to.some.site.com/)。'
+      crop_links: '作物への簡易リンク：[サツマイモ](crop)。'
+      member_links: 'メンバーへの簡易リンク：@ユーザー名 または [ユーザー名](member)。'
+    record_parent:
+      growing_in_html: '%{garden}で栽培中'
+    signin_signup:
+      sign_in: ログイン
+      sign_up: 新規登録
+      prompt_html: '%{purpose}には、%{sign_in}または%{sign_up}してください。'
+    editable:
+      date:
+        when: いつですか？
+      form:
+        edit: '%{field}を編集'
+        minimum: 最小
+        maximum: 最大
+        when: いつですか？
+  timeline:
+    likeables:
+      post:
+        view_post: 投稿を見る
   suggestions:
     index:
       title: あなたの地域で育てられる作物
+      not_located: どこでガーデニングをしているか教えていただければ、何を蒔くべきか提案させていただきます。
+    climate:
+      add_failed: 追加できませんでした。もう一度やり直してください。
+      add_to_jobs: 計画されたジョブに追加する
+      average: 平均
+      best_range: "%{low}～%{high}°で最適"
+      choose: 季節を開いて、その季節に適した作物を確認してください。
+      collecting_html: 現在、%{place} の気候データはありません。すぐに取りに行きます。
+      days: 記録上最も暑い日
+      degrees: "%{value}°"
+      duration:
+        one: 1日
+        other: "%{count}日"
+      duration_range: "%{low} ～ %{high} 日"
+      followed_grow: 'あなたがこれを成長させているフォローしている人: %{names}'
+      grown_before: これを%{years}で育てました
+      growing: あなたはすでにこれを育てています
+      heading: 年間を通しての気候
+      intro_html: 過去 %{years} 年から %{place} 年頃の通常の天気。
+      load_failed: 作物を積み込むことができませんでした。もう一度やり直してください。
+      loading: 作物を読み込み中…
+      millimetres: "%{value}mm"
+      months: "%{first} ～ %{last}"
+      nights: 記録上最も寒い夜
+      no_crops: 私たちが知っていることは何もありません。
+      no_data: この季節にはまだ天気がありません。
+      now: 今
+      part_early: 早い
+      part_late: 遅い
+      part_mid: 半ば
+      planned: 計画している仕事で
+      planting: "%{place} 付近の庭師が %{season} に植えているものは、ほとんどが最初に植えられています。"
+      rain: 雨
+      ready_in: 準備完了 %{part} %{season}
+      retry: もう一度やり直してください
+      still_grows: "%{place}でも%{season}で成長しますが、最高ではありません"
+      suits: "%{place}で%{season}でよく育ちます"
+      timing: "%{days}、%{ready}"
+      usual_day: 典型的な最も暑い日
+      usual_night: 典型的な最も寒い夜
+      your_location: あなたの場所
+    introduction:
+      climate: あなたの庭の場所を教えていただければ、雨、暖かい日中、​​寒い夜など、一年を通して季節ごとのその場所の気候をご案内します。
+      crops: それぞれの植物が好むものと、近くの園芸家がすでに何を植えているかに基づいて、季節ごとに植える作物を提案します。
+      far_html: これは私たちがあなたに最も近い天気なので、あなたの庭とは異なる場合があります。 %{sign_up} と入力して、ガーデニングをしている場所を教えてください。正確な場所の天気情報も含めます。
+      features:
+        closer_weather: 私たちが保有する最も近い場所だけでなく、あなた自身の庭の天気も取得します
+        following: あなたがフォローしている人々がどのように成長しているかを確認してください
+        garden_climate: 季節ごとの自分の庭の気候に合わせた作物の提案
+        harvest_predictions: 収穫時期の予測
+        not_for_me: 自分にとって不向きな作物を隠す
+        planned_jobs: 計画中のジョブに提案された作物を追加する
+        record: 自分が植えたものや育てたものの記録を残す
+      finding: 現在地を検索中…
+      location_denied: お使いのブラウザは、このサイトと位置情報を共有することを許可されていません。アドレスの横のアイコンから許可してから、もう一度お試しください。
+      location_failed: あなたの位置情報を取得できませんでした。ブラウザで共有が許可されていることを確認して、もう一度試してください。
+      location_timeout: 現在地を見つけるのに時間がかかりすぎました。もう一度試してください。
+      location_unavailable: お使いのデバイスはどこにあるのか判断できませんでした。位置情報サービスがオンになっていることを確認して、もう一度試してください。
+      location_unsupported: お使いのブラウザは位置情報を共有できません。
+      no_weather: まだ気象データを持っていません。
+      retrieving: "%{place} のデータを取得しています…"
+      showing: 過去 %{years} 年間の、あなたから約 %{distance} km 離れた %{place} の天気を表示しています。
+      sign_in: サインイン
+      sign_up: 無料でサインアップ
+      signup_heading: 登録して自分の庭に関する提案を入手
+      summary: 庭の気候やそれぞれの植物が季節ごとに好むものに基づいて、何を植えるかについての提案が得られます。
+      title: あなたの近くで何を育てようか
+      unnamed_place: 私たちが天気を把握している最も近い地域
+      use_my_location: 私の位置情報を使用する
+      waiting:
+      - 作物を集めています…
+      - 窓の外を眺めると…
+      - 天気を考えて…
+      - 堆肥の山を調べてみると…
+      - 網状スプライン…
+      - 虫たちに聞いてみると…
+    update:
+      disabled: 作物の提案はやめました。
+      enabled: 作物の提案が戻ってきました。
   photos:
     by_html: "撮影：%{photographer}"
     description:
@@ -33,6 +232,148 @@ ja:
       search: 検索
       connect_required: 写真を追加するには、アカウントをFlickrに接続してください。
       connect: Flickrに接続
+    actions:
+      delete: Growstuff から写真を削除する
+      delete_confirm: この写真を Growstuff から完全に削除しますか?付いているものは全て外されます。 Flickrに残っています。
+      refresh: Flickr から写真データを更新する
+      unlink:
+        crop: '作物から削除: %{name}'
+        garden: '庭から取り除く: %{name}'
+        harvest: '収穫物から取り除く: %{name}'
+        job: 'ジョブから削除: %{name}'
+        planting: '植栽から削除: %{name}'
+        post: '投稿から削除: %{name}'
+        seed: '種から取り除く: %{name}'
+      unlink_confirm: この写真をその記録から削除しますか?写真自体はGrowstuffに残ります。
+    comment:
+      ago: "%{time}前"
+      delete: 消去
+      delete_confirm: このコメントを削除しますか?
+      deleted_member: メンバーが削除されました
+      edit: 編集
+      edited: 編集済み
+      photographer: 写真家
+      you: あなた
+    comments:
+      add_comment: コメントを追加する
+      empty: コメントはまだありません。この写真について最初に何か言ってください。
+      guidelines: コミュニティガイドライン
+      heading: コメント
+      join: 無料で参加
+      placeholder: この写真について何か言ってください
+      post: コメントを投稿する
+      public_note_html: コメントは公開されます。 %{guidelines}をフォローしてください。
+      sign_in: サインイン
+      sign_in_prompt: サインインして会話に参加してください
+    credit:
+      by: '写真提供者: %{name}'
+      'on': "%{site} で"
+    licence:
+      copied: コピーされました
+      copy_credit: クレジットをコピーする
+      credit_label: このようにクレジットしてください
+      heading: ライセンス
+      public_domain: パブリックドメイン
+      read_licence: 完全なライセンスを読む
+      summary:
+        by: "%{name} のクレジットを記載し、ライセンスにリンクする限り、この写真を共有したり改変したりすることができます。これは商業目的であっても可能です。"
+        by-nc: "%{name} のクレジットを記載し、ライセンスにリンクする限り、この写真を非営利目的で共有および調整することができます。"
+        by-nc-nd: "%{name} のクレジットを記載し、ライセンスにリンクし、変更しない限り、この写真を非営利目的で共有できます。"
+        by-nc-sa: "%{name} クレジットを記載し、ライセンスにリンクし、同じライセンスに基づいて作成したものを共有する限り、この写真を非営利目的で共有および調整することができます。"
+        by-nd: "%{name} クレジットを記載し、ライセンスにリンクし、変更しない限り、この写真は商用であっても共有できます。"
+        by-sa: "%{name} クレジットを記載し、ライセンスにリンクし、同じライセンスに基づいて作成したものを共有する限り、この写真を共有および編集することができます。商用でも可能です。"
+        mark: この写真はパブリックドメインです。お好みに合わせてご利用いただけます。
+        other: この写真の使用方法についてはライセンスをご覧ください。
+        reserved: "%{name} がこの写真のすべての権利を保持します。他の場所で使用する前に問い合わせてください。"
+        zero: "%{name} はこの写真のすべての権利を放棄しました。お好みに合わせてご利用いただけます。"
+    photographer:
+      gardens: "%{name} の庭園を見る"
+      harvests: 収穫物
+      heading: 写真家
+      joined: "%{time} 前に参加しました"
+      plantings: 植栽
+      seeds: 種子
+    photographer_outsider:
+      heading: 写真家
+      not_a_member: グロースタッフ会員ではありません。この写真はクリエイティブ コモンズ ライセンスに基づいて %{site} で共有されています。
+      photographer: "%{site} 写真家"
+      see_photos: "%{site} で写真をご覧ください"
+    polaroid:
+      view_on: "%{site}で見る"
+    refresh:
+      not_found: Flickr ではその写真が見つかりませんでした。非公開か削除されている可能性があります。
+      not_public: その写真は Flickr で公開されていないため、更新できませんでした。
+      refreshed: Flickr から写真の詳細を更新しました。
+      unavailable: Flickr にアクセスできませんでした。しばらくしてからもう一度お試しください。
+    records:
+      harvest: "%{crop} 収穫"
+      planting: "%{crop} 植栽"
+      seed: "%{crop} 種"
+    show:
+      crop: "%{crop}"
+      garden: "%{owner} によって「%{garden}」と名付けられた庭園"
+      harvest: "%{owner}までに%{crop}を収穫"
+      heading: "%{subject}の写真"
+      photo_by: '写真提供者: %{name}'
+      photos: 写真
+      planting: "%{planting}"
+      seed: "%{seed}"
+      taken: 撮影%{date}
+      thing_by: "%{thing} by %{owner}"
+    shows:
+      crop:
+        about: どうやって育てるか興味がありますか？いつ植えるか、近くで誰が栽培しているか、何を収穫しているかを確認してください。
+        go: 探索 %{crop}
+        harvests:
+          one: "%{count} 収穫"
+          other: "%{count}個の収穫"
+        image_alt: "%{crop}の画像"
+        kind: 作物
+        on_growstuff: グロースタッフについて
+        plantings:
+          one: "%{count} 植栽"
+          other: "%{count} 植栽"
+        seeds:
+          one: "%{count} シードパケット"
+          other: "%{count} シードパケット"
+      garden:
+        by: "%{owner}の庭園"
+        kind: 庭
+      harvest:
+        about: 地面から何が出てきたのか、植えてからどれくらいの時間がかかったのかを確認してください。
+        by: "%{owner}人が収穫しました"
+        go: この収穫を見てください
+        kind: 収穫
+        picked: "%{date}を選択しました"
+        title: "%{crop} 収穫"
+      heading: この写真が示すもの
+      intro: 写真をたどって、その写真の元となった庭園の記録に戻ります。
+      job:
+        by: "%{owner}の仕事"
+        kind: 仕事
+      outsider_intro: この作物のクリエイティブ コモンズ写真。%{site} から共有されています。
+      planting:
+        about: いつ入ったか、どのように成長したか、収穫されたかどうかを確認します。
+        by: "%{owner}人が植えました"
+        go: この植栽を見てください
+        kind: 植付
+        planted: 植えた%{date}
+        plants:
+          one: "%{count} 植物"
+          other: "%{count} 植物"
+      post:
+        by: 投稿者 %{owner}
+        kind: 役職
+      seed:
+        about: それがどのような品種なのか、どこから来たのか、そして取引されるかどうかを確認してください。
+        by: 保存したユーザー： %{owner}
+        go: これらの種を見てください
+        kind: 種子
+        saved: 保存済み %{date}
+        seeds:
+          one: "%{count} シード"
+          other: "%{count} 種"
+        title: "%{crop} 種"
   forums:
     edit:
       title: フォーラムを編集
@@ -56,6 +397,9 @@ ja:
       posts: 投稿
       post_something: 投稿する
       empty: まだ投稿はありません。
+    created: フォーラムが正常に作成されました。
+    deleted: フォーラムは正常に削除されました。
+    updated: フォーラムは正常に更新されました。
   alternate_names:
     created: 別名が正常に作成されました。
     deleted: 別名が正常に削除されました。
@@ -68,6 +412,7 @@ ja:
       crop_wrangling_guide_intro_html: 作物の整理に関する詳しいガイドラインについては、Growstuff wikiの%{guide_link}を参照してください。
       errors:
         other: "%{count}件のエラーにより、この別名は保存されませんでした:"
+        one: '1 つのエラーにより、この代替名は保存できませんでした:'
       name: 名前
       save: 保存
     index:
@@ -84,6 +429,14 @@ ja:
       crop_label: "作物:"
     updated: 別名が正常に更新されました。
   authentications:
+    connected:
+      connected_title: Flickr連携済み
+      not_connected_title: Flickr未連携
+      connected_heading: Flickrと連携しました
+      connected_help: このウィンドウを閉じて、写真の選択を続けられます。
+      not_connected_heading: Flickrと連携できませんでした
+      not_connected_help: このウィンドウを閉じて、もう一度お試しください。
+      close_window: このウィンドウを閉じる
     sign_in:
       bluesky:
         terms_of_service: "利用規約"
@@ -292,6 +645,11 @@ ja:
         description: 各株から繰り返し収穫できます
     edit:
       title: "作物を編集：%{name}"
+      added_by_html: "%{creator_link} %{time_ago} 前に追加されました。"
+      approved_by_html: "%{approver_link}によって承認されました。"
+      requested_by_html: "%{requester_link} %{time_ago} 前にリクエストされました。"
+      status_by_html: 'ステータス: %{status} by %{creator_link}。'
+      status_html: 'ステータス: %{status}。'
     wrangle:
       edit: 編集
       add_scientific_name: 学名を追加
@@ -299,6 +657,42 @@ ja:
       fetch_gbif: GBIFからデータを取得
       manage_companions: コンパニオンプランツを管理
       job_templates: 作業テンプレート
+      add: 追加
+      add_crop: クロップの追加
+      all_crops: すべての作物
+      approved: 承認された
+      clear: クリア
+      crop_wranglers: クロップラングラー
+      crops: 作物
+      full_crop_hierarchy: 完全な作物階層
+      merge_crops: 作物を結合する
+      not_applicable: 該当なし
+      pending_approval: 承認待ち
+      recently_edited: 最近編集した
+      rejected: 拒否されました
+      search_aria_label: 作物を探す
+      search_button: 検索
+      search_placeholder: 作物を名前で検索する
+      template: テンプレート
+      th_added_by: 追加者
+      th_alternate_names: 別名
+      th_child_crops: 子作物
+      th_growing_degree_days: 成長学位日
+      th_height: 身長
+      th_icon: アイコン
+      th_job_templates: ジョブテンプレート
+      th_name: 名前
+      th_rejected_by: 拒否されました
+      th_requested_by: リクエスト者
+      th_row_spacing: 行間隔
+      th_scientific_names: 学名
+      th_spread: 広める
+      th_updated: 更新されました
+      th_youtube: YouTube
+      time_ago: "%{time}前"
+      title: 作物の取り合い
+      top_level_crops: トップレベルの作物
+      true: はい
     data_improvement:
       title: データの充実
       missing: "%{field}が未登録の作物"
@@ -335,10 +729,14 @@ ja:
       crops: 作物
       formats: このページのデータは次の形式で利用できます：
       feed_title: "最近追加された作物（%{site}）"
+      log_in: ログイン
+      log_in_to_suggest: 作物が不足していませんか?ログインすると、新しい作物を提案できます。
+      no_matches: これらのフィルターに一致する作物はありません。
     requested:
       title: 申請した作物
       subtitle: 承認待ち
       heading: あなたが追加を申請した作物
+      link: 承認を待っている作物が %{number_crops} 個あります
     search_page:
       title: 作物検索
       search: 検索
@@ -402,6 +800,57 @@ ja:
         from_packets: メンバーの種子パケットから算出
         help: 作物がどれだけの霜に耐えられるか。種子パケットの記載に関わらず固定する耐寒性レベルを選択します。
         label: 耐寒性
+      harvest_style:
+        blank: 分からない
+        heading: 収穫スタイル
+        hint: レタスのように、植物ごとに 1 回、植物全体が収穫されます。トマトのように、植物ごとに何度も。
+        label: 植物はどのように収穫されるのか
+        parent: '親: %{style}'
+      alternate_name_with_index: '別名 %{index}:'
+      alternate_names: 別名
+      alternate_names_hint: 作物の別名。
+      basic_information: 基本情報
+      comments: コメント
+      crop_request_notes: クロップリクエストのメモ
+      crop_wrangling_guide: クロップラングリングガイド
+      crop_wrangling_guide_intro_html: クロップラングリングの詳細なガイドラインについては、Growstuff wiki の %{guide_link} を参照してください。
+      currently: 現在：
+      data: データ
+      days_until_maturity_max: 最長でも満期までの日数
+      days_until_maturity_min: 少なくとも満期までの日数
+      description: 説明
+      en_wikipedia_url: ウィキペディアの URL
+      en_wikipedia_url_hint: 英語版ウィキペディアの作物のページへのリンク (必須)。
+      en_youtube_url: YouTubeのURL
+      en_youtube_url_hint: この作物に関する英語の YouTube ビデオへのリンク。
+      germination_days_max: 発芽、最大（日）
+      germination_days_min: 発芽、少なくとも（日）
+      growing: 成長する
+      growing_degree_days: 成長学位日
+      height: 身長(cm)
+      icon: アイコン
+      icon_blank: 'なし: 親作物のものを使用します。'
+      icon_hint: オプション。この作物と、独自の作物を持たないその品種について表示されます。
+      months_to_sow: 種まきまでの月数
+      months_to_sow_hint: 南半球の月にチェックを入れます。北半球は 6 か月になります。
+      name:
+        hint: 英語での作物の一般名 (必須)。
+        label: 名前
+        wranglers_hint: 'Wranglers: これが単数形であることを確認し、固有名詞のみを大文字にしてください。'
+      parent_crop: 親作物
+      parent_crop_hint: オプション。品種などの作物階層を設定するため。
+      parent_value: '親: %{value}'
+      public_food_key: オーストラリア食品成分データベースの公開食品キー
+      rejection_notes_hint: 上記の理由が当てはまらない場合は、このクロップリクエストが拒否された理由を追加メモとして記載してください。
+      requester_submission_notice: このフォームを送信すると、あなたの提案はレビューのためにボランティアの作物管理者のチームに送信されます。結果はできるだけ早くお知らせします。
+      row_spacing: 行間隔 (cm)
+      scientific_name_with_index: 学名%{index}：
+      scientific_names: 学名
+      scientific_names_hint: GBIF を検索して作物の学名を決定します。
+      search_wikipedia: ウィキペディアを検索
+      sowing_method: 播種方法
+      spread: 広がり(cm)
+      sun_requirements: 太陽の要件
     harvests:
       empty: この作物はまだ誰にも収穫されていません。
       harvest_crop: "%{crop}を収穫する"
@@ -437,6 +886,108 @@ ja:
       name: 学名
       save: 保存
       wikidata_id: Wikidata ID
+    ecocrop_facts:
+      absolute_ph: 土壌の絶対pH
+      absolute_rainfall: 絶対降水量
+      absolute_temperature: 絶対温度
+      crop_cycle: 作物周期
+      max_altitude: 最大高度
+      optimal_light: 最適な光
+      optimal_ph: 最適な土壌pH
+      optimal_rainfall: 最適な降雨量
+      optimal_temperature: 最適な温度
+      source: FAO エコクロップ
+      to: に
+      units:
+        celsius: "℃"
+        days: 日
+        metres: メートル
+        rainfall: mm/年
+    ecocrop_find_modal:
+      back: 別のレコードを選択してください
+      cancel: キャンセル
+      close: 近い
+      confirm: "%{crop} を %{record} にリンクしますか?"
+      confirm_button: はい、リンクしてください
+      hint: EcoCrop レコードを一般名または学名で検索します。
+      linked_to: すでに%{crops}にリンクされています
+      names_hint: これらは、英語の代替名として作物に追加されます。括弧内に注が付いている名前は、通常、別の言語または場所からのものであるため、チェックマークが付きません。英語ではないもの、または正しくないものはチェックを外してください。
+      names_legend: これらの一般的な名前もコピーします
+      none: EcoCrop レコードが見つかりませんでした
+      search_label: 通称
+      title: "%{crop} の EcoCrop レコードを検索します。"
+    ecocrop_link:
+      find: EcoCrop データを探す
+      inherited: この作物には独自の EcoCrop レコードがないため、親の %{record} を使用します。
+      none: この作物は EcoCrop データにリンクされていません。
+      title: エコクロップデータ
+    filters:
+      apply: フィルター
+      clear: フィルターをクリアする
+      ecocrop: エコクロップデータ
+      ecocrop_linked: リンク済み
+      ecocrop_unlinked: リンクされていません
+      friends: フォローしている人たちによって成長する
+      history: これを以前に育てたことがありますか？
+      history_before: はい、持っています
+      history_never: いいえ、決して
+      needs_location: ガーデニングを行う場所を設定して、その場所に合ったものと近くで栽培されているものでフィルターします。
+      nearby: 近所の園芸家が育てたもの
+      no_climate: あなたが住んでいる場所の天気はまだわかっていないので、何が適しているかを判断することはできません。メンバーが設定した場所について収集しますので、すぐにもう一度確認してください。
+      parent: フィルターして切り抜きます
+      parent_placeholder: 作物の名前の入力を開始し、1 つ選択します
+      remove: 取り除く
+      season: で成長します
+      seeds: の種を持っています
+      set_location: 場所を設定します。
+      sign_in: ログイン。
+      sign_in_for_more: ログインすると、場所、季節、近くにいる人やフォローしている人が成長しているもの、自分が成長しているものでフィルタリングすることもできます。
+      suits: 私の場所でも元気に育っています
+      suits_at: "%{place}でよく育ちます"
+    time_to_harvest:
+      about_html: 今播種した場合、最初の収穫は約 %{days} 後に見込まれます。
+      hint:
+        no_climate: あなたの場所の天気がまだ分からないので、そこにどれくらい時間がかかるかを計算することができません。メンバーが設定した場所について収集しますので、すぐにもう一度確認してください。
+        set_location: この作物のより正確な予測を取得するには、プロファイルに場所を設定します。
+        sign_in: この作物のより正確な予測を取得するには、ログインして場所を設定します。
+      set_location: 場所を設定します。
+      sign_in: ログイン。
+      source:
+        degree_days: この作物に必要な生育日数と、あなたの場所の通常の天候から計算されます。
+        ecocrop: FAO EcoCrop データベースの成長サイクルから。どこで栽培されても同じです。
+        median: メンバーがこの作物を植えてから最初の収穫までの中央値から。
+      title: 収穫の時期
+    growing_degree_days:
+      cycle_html: "%{crop} の場合、FAO EcoCrop データベースでは、最低生育温度は %{tmin}、最良温度での最短生育サイクルは %{gmin} 日で、最初の収穫まで生育度は約 %{degree_days} 日です。"
+      example: 最低気温が10℃だとします。平均 17°C の 1 日は、成長度が 7 日になります。作物が育つには寒すぎるため、平均気温が 8°C の日は何も得られません。同じレタスを作るのに夏には約 50 日、秋には約 90 日かかるのはこのためです。どちらの場合でも、同じ合計の暖かさが必要です。
+      intro: 植物は日数ではなく、暖かさによって成長します。生育度日とは、1 日分の有用な暖かさ、つまり、その日の平均気温が作物が生育する最低温度より何度高いかを表します。田植えからのそれらを合計すれば、カレンダーが何と言っているかに関係なく、作物がどのくらい進んでいるのかがわかります。
+      needs_html: "%{crop} には約 %{degree_days} の成長度日数が必要です。"
+      summary: 成長学位デーとは何ですか?
+      usage: あなたがあなたの庭の場所を私たちに教えてくれた場合、私たちはそれとそこの天気を使用して、あなたの%{crop}がいつ収穫できるようになるかを予測します。私たちは植物の寿命や植物がいつ終わるかについては使用しません。メンバーが記録した内容に基づいて判断します。
+    hardiness:
+      from_packets: メンバーのシードパケットからそれを解決する
+      help: 作物にどれだけの霜が降りるか。シード パケットの内容に関係なく、それを保持するレベルを選択します。
+      label: 耐久性
+      sources:
+        manual: クロップラングラーによる設定
+        seed_packets: メンバーのシードパケットから
+      title: 耐久性
+    search: 作物を探す
+    new:
+      edible_only: Growstuff データベースには食用作物のみが含まれています。将来的には他の作物もサポートしたいと考えていますが、現時点では、あなたの提案が食用ではない場合、追加することはできません。
+      intro: 作物を提案していただきありがとうございます。私たちの作物データベースはボランティアによって管理されており、ご協力をお願いいたします。新しい作物を提案する際に考慮すべき点がいくつかあります。
+      new_crop: 新しい作物
+      search_our_crops: 私たちの作物を検索してください
+      search_suggestion_html: まず、%{search_link} を実行して、おそらく別の名前でそれがまだ存在していないことを確認します。
+      suggest_crop: 作物を提案する
+      wikipedia_requirement: 現時点では、Wikipedia ページがある作物のみを追加しています。 Wikipedia に独自の項目がない特定の品種を追加したい場合は、代わりに作物のより一般的な形式を使用し、メモ/説明に品種の名前を入力してください。
+    form:
+      approve_and_save: 承認して保存
+      errors:
+        one: '1 つのエラーにより、この作物は保存できませんでした:'
+        other: "%{count} エラーにより、この作物は保存できませんでした:"
+      reject: 拒否する
+      save: 保存
   frost:
     about_estimates: これらの日付は25 km間隔の気象モデルデータに基づく推定であり、菜園の観測所での実測値ではありません。冷え込みやすい場所では、さらに気温が下がることがあります。推定が外れる可能性もあるため、利用する前に国の気象機関の情報を確認し、地域の栽培者にも相談してください。
     cards:
@@ -577,6 +1128,7 @@ ja:
       search_suggestion_html: まず、別名などで既に登録されていないか%{search_link}してみることをお勧めします。
       suggest_crop: 作物を提案する
       wikipedia_requirement: 現時点では、Wikipediaのページが存在する作物のみを追加しています。Wikipediaに単独の記事がない特定の品種を追加したい場合は、より一般的な作物の名前を使用し、品種名はメモ/説明欄に記入してください。
+      title: 新しい庭の協力者
     form:
       approve_and_save: 承認して保存
       errors:
@@ -584,6 +1136,7 @@ ja:
         other: "%{count}件のエラーにより、この作物は保存されませんでした:"
       reject: 却下
       save: 保存
+      guidance: あなたの庭のコラボレーターとして追加するには、友人、家族、またはコミュニティの庭のメンバーにgrostuffのユーザー名を尋ねてください。
     fields:
       harvest_style:
         blank: 不明
@@ -719,8 +1272,15 @@ ja:
         one: 1件のエラーにより、この庭を保存できませんでした
         other: '%{count}件のエラーにより、この庭を保存できませんでした'
       save: 庭を保存
+      frost_safe:
+        help: 植物が霜の危険にさらされていない温室、屋内、または暖房ベンチの場合は、これにチェックを入れます。ここで始まった植栽は屋外に出たその日から霜のセクションが始まります。保育園がチェックを開始します。霜が苗に届く可能性がある場合は、チェックを外してください。
+        label: この庭は霜から安全です
+      location_helper: プロフィールに場所を設定している場合は、新しい庭園を作成するときにその場所が使用されます。
     overview:
       no_plantings: 植え付けはありません
+      gardensactions: 庭園/アクション
+      gardensphoto: 庭園/写真
+      plantingsthumbnail: 植栽/サムネイル
     header:
       all_gardens: "%{owner} のすべての庭"
       frost_protected: 霜除けあり
@@ -779,6 +1339,95 @@ ja:
       inactive_notice: この庭は休止中です。
       set_active: アクティブに設定
       to_plant: して、この庭に何かを植えましょう。
+      km_from_you: あなたから約 %{km} km
+      suggested_plantings:
+        one: ここに追加する植栽提案が %{count} 件ありました
+        other: ここに追加する提案された植栽が %{count} 件あります
+      suggested_plantings_go: 参照→
+    about:
+      collaborators: 協力者
+      heading: この庭園について
+      leave: 庭園を離れる
+      leave_confirm: この庭園を出てもよろしいですか?
+      location: 位置
+      manage: 管理
+      owner: 所有者
+      you: "（あなた）"
+    actions:
+      add_photo: Flickrから写真を追加
+      make_nursery: ここを保育園にしてください
+      new_job: 新しい仕事
+    companions:
+      heading: おすすめの仲間
+    confirm_deactivate: この庭園に関連するすべての植栽は完了済みとしてマークされます。本気ですか？
+    confirm_delete: この庭園に関連付けられているすべての植栽も削除されます。本気ですか？
+    created: 庭が無事に作成されました。
+    created_prompt_html: 庭が無事に作成されました。 <a href="%{link}">2週間以内にこの庭の花壇の草取りを</a>計画しませんか?
+    deleted: ガーデンは正常に削除されました。
+    description:
+      no_description: まだ説明はありません。
+    facts:
+      area: エリア
+      garden_type: ガーデンタイプ
+      growing_now: 今成長中
+      harvested: 収穫された
+      harvests_this_year: 今年は何回も
+      plantings:
+        one: 植付
+        other: 植栽
+      type: タイプ
+      unknown: 未知
+    jobs_section:
+      public: 公共
+    join_banner:
+      heading: Growstuff は、人々が自分が育てたものを共有する場所です
+      text: Growstuff は、自分で食べ物を育てる方法をガイドし、何を植えるか、庭の手入れ方法を提案します。季節が進むにつれて、あなたの緯度にいる他の人々が何をしているかを見てみましょう。
+    join_prompt:
+      text: 無料で参加して%{owner}人をフォローし、自分の庭の記録を残しましょう。
+      title: 近くで何かを育てていますか？
+    layout_section:
+      drag_plants: 地図上で植物をドラッグして、何がどこに当てはまるかを確認します。
+      edit_layout: レイアウトを編集する
+      edit_layout_label: ベッドのレイアウトを編集する
+      heading: レイアウト
+      map_out: このベッドの地図を作成する
+      map_out_text: 植物をベッドの写真にドラッグし、何がどこに収まるかを確認してください。
+      new: 新しい
+      plants_placed:
+        one: "%{count} 植物をベッドの上に置きました"
+        other: "%{count} 個の植物がベッドの上に置かれています"
+      view_layout: ビューのレイアウト
+      view_layout_label: ベッドのレイアウトを見る
+      where_each: この庭の各植物がどこに生えているか、花壇の地図上で。
+    nursery_declined: はい、保育園についてはもう質問しません。後で庭園ページから設定できます。
+    nursery_made: この庭は今、あなたの保育園です。
+    nursery_name: 保育園
+    nursery_stopped: この庭はもうあなたの保育園ではありません。
+    owner_gardens:
+      growing_count: "%{count} 成長中"
+      heading: "%{owner} さんの庭園"
+      inactive_gardens:
+        one: "%{count} 非アクティブな庭園"
+        other: "%{count} 非アクティブな庭園"
+      new_garden: "+ 新しい庭"
+      nursery: 保育園
+    photos_section:
+      add: 追加
+      heading: 写真
+      more: 写真をもっと見る
+      none: 写真はまだありません。
+    plantings_section:
+      add: 追加
+      heading: 今成長中
+      nothing_planted: ここには現在何も植えられていません。
+    sign_in: サインイン
+    sign_up: 無料で参加
+    start:
+      already_member: すでに会員ですか?
+      heading: 自分の庭を始めましょう
+      text: 種子を 1 か所で植え、収穫し、保存し、近くで何がよく育つかを確認します。
+    string: "%{owner}の%{garden}"
+    updated: ガーデンが正常に更新されました。
   hardiness:
     levels:
       half_hardy:
@@ -877,7 +1526,18 @@ ja:
       quantity: 数量
       see_how: "%{owner}さんの%{crop}の様子を見る。"
       the_planting_this_came_from: 収穫元の植え付け
+    created: ハーベストが正常に作成されました。
+    harvest_something: 何かを収穫する
+    index:
+      title:
+        crop_harvests: みんなの%{crop}収穫
+        default: みんなの収穫物
+        owner_harvests: "%{owner} さんの収穫"
+        planting_harvests: "%{planting}からの収穫"
+    updated: 収穫は正常に更新されました。
   home:
+    community_description: Growstuffは食べ物を育てる人々のコミュニティです。一緒に食べ物の育て方を学びましょう。
+    planting_image_alt: "%{owner}による%{planting}の画像"
     weather_invitation:
       add_location: 場所を追加
       change_location: 場所を変更
@@ -935,6 +1595,212 @@ ja:
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
       sign_in_mastodon: Mastodonでログイン
+      badge: オープンソース · オープンデータ · 2012 年以降
+      headline_html: あなたが住んでいる場所で、今何を<strong>成長させるべきか</strong>、<br>知ってください
+      photo_by: "%{login}まで"
+      public_note: あなたが記録するものはすべて、あなたの都市も含めて公開されたオープンデータです。
+      sign_in_bluesky: Bluesky でサインインする
+      sign_in_linktext: サインイン
+      sign_up: 無料で参加
+    added_to_stash: "%{crop} 個のシードを隠し場所に追加しました。"
+    dashboard:
+      add_bed: "+ベッド"
+      add_seeds: "+ 種子"
+      all_gardens: すべての庭園
+      all_plants: すべての植物
+      all_varieties:
+        one: "%{count} 種類"
+        other: 全%{count}種類
+      at_latitude: あなたの緯度で
+      at_latitude_note: "%{band} の庭師によるトップの植栽"
+      bed_counts: "%{plantings} 件の植栽 · %{ready} 件の準備完了"
+      beds: ベッド
+      chip_growing: 成長する
+      chip_ready: 準備ができて
+      col_bed: ベッド
+      col_maturity: 成熟
+      col_plant: 植物
+      col_planted: 植えた
+      col_progress: 進捗
+      compared: 昨年との比較
+      compared_empty: 昨年と同じ作物を植えて、ここで比較してみます。
+      compared_note: 今年も昨年も同じ作物
+      days:
+        one: "%{count}日"
+        other: "%{count}日"
+      do_it: やってみろよ
+      done: 終わり
+      easy_to_sow: 近くの%{month}で簡単に播種できます
+      first_plant: 最初の植物を植えましょう。所要時間は 1 分ほどです。
+      first_year: あなたの最初の年
+      following: 続く
+      friends: 私の友人と隣人
+      friends_empty: 何人かの庭師をフォローして、何を育てているか見てみましょう。
+      friends_note: 最初にフォローしている人、次に近くの人
+      garden_title_html: "<strong>%{name}の</strong>の庭"
+      get_started: 始めましょう
+      growing_now: 今成長中
+      harvest_by_month: 月ごとの収穫
+      harvest_by_month_count: 収穫
+      harvest_by_month_note_count: '記録された収穫: 今年 (緑色) と昨年 (淡い色)'
+      harvest_by_month_note_weight: 収穫kg：今年（緑色）と昨年（淡い色）。重量のある収穫物のみがカウントされます。
+      harvest_by_month_unit_count: 収穫物
+      harvest_by_month_unit_weight: kg
+      harvest_by_month_weight: 重さ
+      harvest_soon: もうすぐ収穫
+      harvesting: 収穫
+      hidden_suggestions:
+        one: 推奨作物 1 件を非表示にしました。
+        other: "%{count} 件のおすすめ作物を非表示にしました。"
+      jobs_today:
+        one: もうすぐ 1 件の仕事
+        other: もうすぐ%{count}件の求人
+      jobs_today_go: 私の仕事 →
+      last_year_planted: 去年の今頃、あなたは%{crops}を植えました。
+      no_seeds: まだシードは保存されていません。
+      not_for_me: 私のためではありません
+      not_for_me_title: "%{crop} を再度提案しないでください"
+      nothing_ready: まだ何も準備ができていません。
+      nothing_to_show: 何も一致しません。
+      novice_lede:
+        one: "%{count} 植物の成長。いいスタートだ。"
+        other: "%{count} 個の植物が成長しています。いいスタートだ。"
+      plant_crop: 植物 %{crop}
+      plant_this: これを植えます
+      planted_when: 植えられました %{when}
+      planting: 植付
+      plus_harvest: "+ 収穫"
+      plus_job: "+ 仕事を計画する"
+      plus_plant: "+ 植物"
+      ready: 準備ができて
+      ready_now: 今すぐ準備完了
+      ready_title:
+        one: "%{count} 個の苗が収穫の準備ができました"
+        other: "%{count} 個の苗が収穫の準備ができています"
+      record_harvests: 記録的な収穫
+      relative:
+        ago: "%{time}前"
+        today: 今日
+        yesterday: 昨日
+      see_all: すべて見る
+      see_all_plantings:
+        one: あなたの植栽を見てください
+        other: "%{count} 件の植栽をすべて見る"
+      see_which: どれかを見てください↓
+      seeds_near: あなたの近くの種子
+      seeds_near_note: 近所の人が、始められる種を提供してくれる。
+      seeds_note: 購入した種子や自分で保存した種子を記録します。どちらもシード ライブラリに入ります。
+      seeds_on_hand: 手持ちの種子
+      seeds_to_start: 今春から種まき開始予定
+      set_location: どこでガーデニングをしているか教えてください
+      show_hidden: もう一度見せてください
+      sow_body: あなたの緯度の庭師が今月それを植えています。
+      sow_harvest: 今日植えたら%{date}くらい収穫できると思います。
+      sow_title: 種まき%{crop}これ%{month}
+      started_in: "%{month}からスタートしました。次に、最初の収穫と今シーズンの種まきです。"
+      stat_harvests: 今年の収穫物
+      stat_kilograms: 今年収穫された
+      stat_plantings: 今年の植栽
+      stat_varieties: 保存された種子品種
+      step_join: グロースタッフに参加する
+      step_location: どこでガーデニングをしているか教えてください
+      step_location_button: 場所を設定する
+      step_location_note: あなたの季節と緯度に合わせたアドバイスを提供します
+      step_photo: 写真を追加する
+      step_photo_note: オプションですが、あなたの庭があなたのものになります
+      step_plant: 最初の植物を追加する
+      step_plant_button: 何かを植える
+      step_plant_note: 今月に合ったものからお選びください
+      stop_suggesting: 提案をやめる
+      suggestions_off: トリミングの提案はオフになっています。
+      this_week: 今週
+      tile_harvest: 選んだものを記録する
+      tile_job: あなたの庭の仕事を計画する
+      tile_job_title: ジョブの追加
+      tile_photo: 庭の
+      tile_photo_title: 写真を追加
+      tile_plant: 何か新しいこと
+      tile_seeds: 植物から
+      tile_seeds_title: シードを保存する
+      todo: やること
+      todo_confirm: メールアドレスを確認してください
+      todo_confirm_note: "%{email} にリンクを送信しました。フォローしてください。それがあなたのものであることがわかります。"
+      todo_confirm_resend: もう一度送信してください
+      todo_confirm_waiting: メール アドレスを追加すると、確認用のリンクが送信されます。
+      todo_email: メールアドレスを追加してください
+      todo_email_add: メールアドレスを追加
+      todo_email_changed_mind: 気が変わりましたか？
+      todo_email_decline: 結構です
+      todo_email_declined: 追加しないことを選択したため、通知や植栽のリマインダーは送信されません。
+      todo_email_error: 今それを保存できませんでした。もう一度試してください。
+      todo_email_note: これがないと、通知や植栽リマインダーを送信したり、パスワードをリセットしたりすることができません。確認用のリンクをメールでお送りします。
+      todo_email_save: メールを保存する
+      todo_email_skipped: スキップされました
+      todo_name: お名前を確認してください
+      todo_name_note: これはウェブサイトに表示される名前です。私たちは 1 つを提案しましたが、変更することもできます。
+      todo_name_save: 名前を保存する
+      turn_on_suggestions: それらを再びオンにします
+      view_all_suggestions: "%{month} のすべての提案を表示"
+      view_seed_library: シード ライブラリを表示する
+      vs_last_year: 去年との比較
+      years_growing:
+        one: "%{count} 年成長"
+        other: "%{count}年成長"
+    index:
+      harvest: 収穫
+      plant: 植物
+      welcome: "%{site_name}、%{member_name} へようこそ"
+    recent:
+      see_all: すべてを見る
+      title: 今週植えた
+    recent_posts:
+      all_posts: すべての投稿
+      all_posts_short: すべての投稿
+      by: による
+      comments:
+        one: コメント1件
+        other: "%{count} コメント"
+      title: 最近の投稿
+    releases:
+      find_out_more: もっと詳しく見る »
+      title: 新着情報
+    stats:
+      crops:
+        one: 作物
+        other: 作物
+      members:
+        one: 庭師
+        other: 庭師
+      plantings:
+        one: 植付
+        other: 植栽
+    updated: シードは正常に更新されました。
+    why_join:
+      neighbours:
+        body: 近くの種子を見つけて、地元の庭師が現在何を植え、収穫しているかを確認してください。
+        title: 隣人とともに成長する
+      open_data:
+        body: 作物、植栽、収穫はオープンデータとして共有されます。それらをダウンロードして学習し、それを基にして構築してください。
+        link: データを取得する
+        title: オープンデータ
+      open_intro: Growstuff はコミュニティ プロジェクトです。誰でもその仕組みを読むことができ、庭師がここに記録したものはすべて無料で使用できます。
+      open_source:
+        body: コードは GitHub で公開されています。バグを報告したり、機能を提案したり、その構築を手伝ったりしてください。
+        link: コードを見る
+        title: オープンソース
+      open_title: 2012 年から屋外に建設
+      plan:
+        body: あなたの緯度と季節に応じたアドバイスを、毎週明確な次のステップとともに提供します。
+        title: 今月何をすべきかを知る
+      ready: ガーデニングを始める準備はできましたか?
+      record:
+        body: ページを離れることなく、植え付け、収穫、写真、種子を追加できます。
+        title: すべてを 1 か所にまとめて保管
+      since:
+        body: ここでは 10 年以上にわたって庭師たちが成長し、記録し、共有してきました。種子会社や広告ネットワークによって所有されていません。
+        link: 私たちの物語
+        title: 2012年頃から
+      title: サインインする理由
   jobs:
     description:
       due: "(期日: %{due})"
@@ -986,6 +1852,175 @@ ja:
         owner_jobs: "%{owner} の作業"
       unknown: 不明
 
+    celebrate:
+      crossed_off: "「%{name}」に取り消し線を引いた"
+      done:
+        one: 今週は仕事が1件終わりました。
+        other: 今週完了したジョブは %{count} 件です。
+      many:
+        lead: 絶好調！
+        note: カタツムリは他のカタツムリを呼びました。
+      one:
+        lead: いいもの！
+        note: カタツムリは感動し、少し嫉妬します。
+      three:
+        lead: ハットトリック！
+        note: カタツムリは立ち止まって見ています。
+      two:
+        lead: 2回連続！
+        note: カタツムリはスピードを上げています。
+      undo: 元に戻す
+    pad:
+      add: ジョブを追加する
+      add_button: 追加
+      add_failed: そのジョブは追加されていない可能性があります。再試行する前にリストを確認してください。
+      adding: "「%{name}」を追加中…"
+      adding_button: 追加中…
+      after: 後
+      all_jobs: すべての求人を見る
+      before: 前に
+      change_date: 日付を変更します…
+      change_day: 日を変更してください
+      crop: 作物
+      cross_off: 'クロスオフ: %{job}'
+      done: 終わり
+      done_on: 完了 %{day}
+      done_today: 今日完了しました
+      drop_here: ジョブをここにドラッグします。
+      edit_hint: Enter で保存、Esc でキャンセル
+      edit_label: ジョブ名
+      garden: 庭
+      garden_title: この庭でできる仕事
+      hide_done: 完了を非表示にする
+      in_garden: "%{garden}で"
+      later: 後で
+      link_hint: "@ とクロップ名を入力して、このジョブをそれにリンクします。"
+      move_later: 後で
+      move_today: 今日
+      move_tomorrow: 明日
+      move_week: 今週
+      move_weekend: 今週末
+      next_weekend: 次の週末
+      overdue: 期限を過ぎました
+      photo_after: アフター写真を追加
+      photo_before: 使用前の写真を追加
+      photo_of_after: '写真後: %{title}'
+      photo_of_before: '前の写真: %{title}'
+      planting: 植付
+      public_note: 求人は公開されるため、ここに個人情報を入力しないでください。
+      remove_link: リンクを削除する
+      seeds: 種子
+      set_day: 曜日を設定する
+      show_later:
+        one: 今後の求人を 1 件表示
+        other: "%{count} 件の求人を表示します"
+      show_older:
+        one: 古い完了済みジョブ 1 件を表示
+        other: "%{count} 個の古い完了済みジョブを表示"
+      slow: ゆっくりと着実に。
+      someday: いつか
+      someday_note: ウィッシュリスト、何もコミットしていない
+      title: "%{owner} さんの求人"
+      today: 今日
+      uncross: 'リストに戻す: %{job}'
+      week: 今週
+      weekend: 今週末
+    plan_something: 何かを計画する
+    suggestions:
+      planted: 植えられました %{date}
+      saved: 保存済み %{year}
+      seeds: "%{crop} 種"
+      the_crop: 作物
+  devise_views:
+    resend_confirmation: 確認メールを再送信
+    confirmation_help: ログイン名またはメールアドレスを入力して、確認メールを再送信してください。
+    login: ログイン名またはメールアドレス
+    change_password: パスワードを変更
+    new_password: 新しいパスワード
+    confirm_password: 新しいパスワード（確認）
+    current_password: 現在のパスワード
+    change_my_password: パスワードを変更する
+    forgot_password: パスワードをお忘れですか？
+    password_help: メールアドレスを入力してください。新しいパスワードを設定するためのリンクをお送りします。
+    email: メールアドレス
+    send_reset: パスワード再設定メールを送信
+    sign_in: ログイン
+    password: パスワード
+    remember_me: ログイン状態を維持する
+    resend_unlock: ロック解除メールを再送信
+    join_free: 無料で登録
+    missing_confirmation: 確認メールが届きませんか？
+    missing_unlock: ロック解除メールが届きませんか？
+    continue_with: "%{provider}で続ける"
+    delete_help: "%{site_name}のアカウントを削除します。"
+    delete_password: 削除にはパスワードが必要です
+    delete: 削除
+    save: 保存
+    reconfirm_email: メールアドレスを変更した場合は、再確認が必要です。
+    show_email: プロフィールページでメールアドレスを公開する。
+    notification_email: 受信トレイの通知（プライベートメッセージなど）のコピーをメールで受け取る。
+    planting_reminders: 作付けや収穫の記録を促すリマインダーを定期的に受け取る。
+    harvest_reminders: 収穫予定のリマインダーを定期的に受け取る。
+    join_site: "%{site_name}に参加"
+    signup_help: "%{site_name}のアカウントを作成して、家庭菜園を記録したり、地域の栽培仲間とつながったりしましょう。"
+    captcha_help: CAPTCHAを利用しづらい場合は、フッターのリンクからお問い合わせください。お手伝いいたします。
+    login_name: ログイン名
+    login_help: サイトに表示される名前です。
+    email_help: ご連絡のために使用します（迷惑メールは送りません）。
+    agreement_html: "%{link}に同意します"
+    terms: 利用規約
+    sign_up: 登録
+    greeting: "%{name}さん、こんにちは。"
+    confirmation_body: "%{site_name}のアカウントが作成されました。以下のリンクからメールアドレスを確認してください。"
+    confirm_account: アカウントを確認する
+    confirmed_help: "確認後は、ログイン名（%{login}）またはメールアドレス（%{email}）と、登録時に設定したパスワードでログインできます。ログイン名とパスワードは大文字と小文字を区別します。"
+    welcome_html: "%{site_name}へようこそ。サイトを楽しんでいただければ幸いです。サイトを見て回ったり、%{plant_link}。ご質問やご意見があれば、%{forums_link}もお気軽にご利用ください。"
+    plant_things: 植物を育てたりしてみましょう
+    forums: フォーラム
+    guidelines_help_html: "%{link}を読み、守っていただけると幸いです。%{site_name}を誰にとっても親しみやすく、温かい場所にするため、ご協力をお願いいたします。"
+    guidelines: コミュニティガイドライン
+    looking_forward: お会いできるのを楽しみにしています！
+    team: "%{site_name}チーム"
+    reset_body: "%{site_name}のパスワード再設定がリクエストされました。ご本人によるリクエストの場合は、以下のリンクから再設定できます。"
+    reset_ignore: 心当たりがない場合は、入力間違いやいたずらの可能性があります。このメールは無視していただいて構いません。パスワードは変更されません。
+    see_you: またお会いしましょう。
+    unlock_body: "%{site_name}のアカウントは、ログインの失敗回数が上限を超えたためロックされました。不正アクセスを防ぐための措置ですが、パスワードをお忘れの場合にも起こることがあります。以下のリンクからアカウントのロックを解除してください。"
+    unlock_account: アカウントのロックを解除する
+    unlock_help_html: "パスワードをお忘れの場合は、アカウントのロック解除後に%{link}ことができます。"
+    reset_password: パスワードを再設定する
+    settings: "%{name}さんの設定"
+    my_profile: 自分のプロフィール
+    profile: プロフィール
+    apps: アプリ
+    delete_account: アカウントを削除
+    location: 所在地
+    not_set: 未設定
+    change: 変更
+    remove: 削除
+    location_help: 地図上の正しい場所に表示されるよう、検索された場所から選んでください。地域名だけでも構いません。
+    bio_placeholder: A、B、Cに関心があり、家庭菜園を楽しんでいます
+    website: ウェブサイト
+    handle_placeholder: ユーザー名
+    other_url: その他のURL
+    linked_accounts_help: ここでは連携済みアカウントの表示のみ可能です。「アプリ」タブで管理してください。
+    language: 言語
+    profile_picture: プロフィール画像
+    avatar_help_html: "プロフィール画像を変更するには、%{link}にアクセスしてください。"
+    provider_logo: "%{provider}のロゴ"
+    connected_html: "%{provider}に%{account}として接続しています"
+    disconnect: 接続を解除
+    disconnect_confirm: この接続を解除してもよろしいですか？
+    connect_provider: "%{provider}に接続"
+    mastodon_accounts: 接続済みのMastodonアカウント：
+    mastodon_help: Mastodonアカウントを接続すると、そのアカウントでログインしたり、プロフィールに表示したりできます。
+    mastodon_address: Mastodonアドレス
+    connect_another: 別のアカウントを接続
+    api_token: APIトークン
+    regenerate: 再生成
+    regenerate_confirm: よろしいですか？古いトークンは直ちに使用できなくなります。
+    delete_token: APIトークンを削除
+    delete_token_confirm: APIトークンを削除してもよろしいですか？
+    generate_token: APIトークンを生成
   layouts:
     application:
       breadcrumbs: パンくずリスト
@@ -1004,19 +2039,96 @@ ja:
     header:
       logo_alt: Growstuffのロゴ（洋梨のイラスト）
       community_map: コミュニティマップ
+      account: アカウント
+      admin: 管理者
+      browse_crops: 作物を閲覧する
+      browse_members: メンバーを参照
+      community: コミュニティ
+      community_gardens: コミュニティガーデン
+      crop_wrangling: 作物の取り合い
+      crops: 作物
+      current_memberlogin_name: "%{current_memberlogin_name}"
+      forums: フォーラム
+      garden_type: ガーデンタイプ
+      garden_types: 庭園の種類
+      gardens: 庭園
+      harvest: 収穫
+      harvests: 収穫
+      inbox: 受信箱
+      inbox_unread: 受信箱 (%{unread_count})
+      jobs: 求人
+      plantings: 植栽
+      posts: 投稿
+      profile: プロフィール/タイムライン
+      record: 記録
+      seeds: 種子
+      skip: ナビゲーションメニューをスキップ
+      support_growstuff: 成長するものをサポートする
+      toggle_navigation: ナビゲーションを切り替え
+      your_stuff: あなたのもの
     menu:
       label: メニュー
       community_map: コミュニティマップ
       my_place: 現在地の天気
+      about: について
+      activities: 活動内容
+      add: 追加
+      add_button: "+追加"
+      admin: 管理者
+      all_crops: すべての作物
+      browse_members: メンバーを参照
+      cancel: キャンセル
+      close: メニューを閉じる
+      community: コミュニティ
+      community_gardens: コミュニティガーデン
+      crop_wrangling: 作物の取り合い
+      crops: 作物
+      crops_heading: 作物
+      forums: フォーラム
+      friends_and_neighbours: 友人と隣人
+      gardens: 庭園
+      harvests: 収穫
+      help_and_community: ヘルプとコミュニティ
+      how_it_works: Growstuff の仕組み
+      inbox: 受信箱
+      my_garden: 私の庭
+      my_harvests: 私の収穫
+      my_jobs: 私の仕事
+      my_plantings: 私の植栽
+      my_seeds: 私の種
+      new_badge: 新しい
+      planting_suggestions: 植栽の提案
+      plantings: 植栽
+      posts: 投稿
+      releases: 新着情報
+      search: 検索
+      search_all: "%{term} のすべての作物を検索"
+      search_placeholder: 作物を探す
+      seeds: 種子
+      sign_in: サインイン
+      sign_out: サインアウト
+      sign_up: 無料で参加
     nav:
       my_records: "自分の%{records}"
       everyone_records: "みんなの%{records}"
       add_record: "%{record}を追加"
       record_purpose: "自分の%{records}を記録する"
       description: "%{site_name}では、家庭菜園の収穫を記録し、どれだけ収穫できたかを確認できます。"
+      my_drafts: 私のドラフト
+      suggest_something: 何かを提案する
     footer:
       open_service: オープンサービス
       donate: 寄付 - コーヒーを奢る
+      about: について
+      community_guidelines: コミュニティガイドライン
+      contact: 接触
+      data_use_policy: データ使用ポリシー
+      get_involved: 参加してみよう
+      growstuff_team: グロースタッフチーム
+      open_source: オープンソース
+      privacy_policy: プライバシーポリシー
+      support: サポート
+      terms_of_service: 利用規約
   member_emails:
     decline:
       declined: 了解しました。今後は表示しませんが、アカウント設定でメールアドレスを追加するまで通知は届きません。
@@ -1079,6 +2191,7 @@ ja:
       instructions_html: "他のGrowstuffメールの配信停止を希望される場合は、%{link}からお手続きいただけます"
       settings_page: 設定ページ
       title: "%{member}の登録解除"
+      error: 申し訳ありませんが、設定の更新中にエラーが発生しました。
     confirm_email: "メールアドレスにリンクを送信しました。リンクを開いてリマインダーの受信を開始してください。"
     contact:
       flickr_logo: Flickrロゴ
@@ -1100,8 +2213,27 @@ ja:
     stats:
       followers:
         other: "%{count}人のフォロワー"
+        one: "%{count} 人のフォロワー"
       heading: 統計
       toggle: 表示/非表示
+    card:
+      not_interested: "%{name} の提案をやめる"
+      visit: "%{name} さんの庭園を訪問"
+    edit_profile: プロフィールの編集
+    follow_button:
+      follow: フォローする
+      follow_named: "%{name}をフォロー"
+      following: 続く
+      following_named: あなたは %{name} をフォローしています
+    follow_buttons:
+      block: ブロック
+      follow: フォローする
+      unblock: ブロックを解除する
+      unfollow: フォローを解除する
+    signup:
+      error: サインアップを完了できませんでした
+    unsubscribed: "%{email_type} 件のメールの購読が解除されました。"
+    welcome: いらっしゃいませ
   messages:
     form:
       about: 関連
@@ -1113,6 +2245,32 @@ ja:
     new:
       breadcrumb_messages: メッセージ
       title: "%{recipient} にメッセージを送信"
+    auth_already_linked: そのアカウントはすでに別の Growstuff メンバーに接続されています。
+    auth_failed: 認証に失敗しました。
+    auth_last_sign_in: これがサインインできる唯一の方法です。最初に電子メール アドレスとパスワードを追加します。
+    auth_success: 認証に成功しました。
+    auth_taken: そのアカウントはすでに別のメンバーに接続されています。
+    bluesky_declined: Bluesky はそのサインインを承認しませんでした。もう一度試してください。
+    mastodon_declined: マストドンはそのサインインを承認しませんでした。もう一度お試しください。
+    mastodon_failed: マストドンにサインインできませんでした。もう一度試してください。
+    bluesky_expired: 時間がかかりすぎたので、Bluesky はサインインを期限切れにしました。もう一度お試しください。数分以内に終了してください。
+    bluesky_failed: Bluesky にサインインできませんでした。ハンドルを確認して、もう一度試してください。
+    crops_waiting: 争奪されるのを待っている作物があります。
+    follow_error: すでにフォローしているか、フォロー中にエラーが発生しました。
+    followed: フォロー中 %{name}
+    invalid_location: 有効な場所を入力してください
+    mastodon_instance_invalid: そのマストドンサーバーに接続できませんでした。 you@mastodon.social のようなアドレスを確認して、もう一度試してください。
+    mastodon_needs_account: 私たちはそのマストドンのアカウントをまだ知りません。 Growstuff に参加するかサインインして、アカウント設定から Mastodon に接続します。
+    location_cleared: 場所が削除されました。
+    location_unplaced_html: 地図上に「%{location}」が見つかりません。 <a href="%{link}">リストからあなたの場所を選択してください</a>。あなたの近くで何が成長しているかを表示できます。
+    revert_error: "%{date} からのバージョンに戻すことができませんでした。エラー: %{errors}"
+    revert_success: "%{date} からのバージョンに戻しました"
+    tos_required: 利用規約に同意して参加してから、もう一度お試しください。
+    transplant_error: '植栽の移植中にエラーが発生しました: %{errors}'
+    transplant_success: 無事に植え替えが完了しました。
+    unable_to_like: 好きになれない
+    unable_to_unlike: 好きになれない
+    unfollowed: フォローを外されました %{name}
   pages:
     community_guidelines:
       title: "Growstuff コミュニティ ガイドライン"
@@ -1490,6 +2648,17 @@ ja:
       change_location: '場所を変更:'
       placeholder: 都市、地域、州を検索...
       search: 検索
+    show:
+      community_near: "%{place} 近くの %{site_name} コミュニティ"
+      nearby_members: 近くのメンバー
+      no_nearby_members: 近くにメンバーがいない
+      no_nearby_plantings: 近くに植栽が見つからない
+      no_nearby_seeds: 近くに種子が見つかりません
+      recent_plantings: "%{place} 付近の最近の植栽"
+      seeds_available: "%{place}付近で取引可能な種子"
+      view_all_members: すべてのメンバーを見る >>
+      view_all_plantings: すべての植栽を見る >>
+      view_all_seeds: すべての種子を見る >>
   plant_parts:
     edit:
       back: 戻る
@@ -1498,6 +2667,7 @@ ja:
     form:
       errors:
         other: "%{count}件のエラーにより、この植物部位は保存されませんでした:"
+        one: '1 つのエラーにより、このプラント パーツは保存できませんでした:'
       name: 名前
       save: 保存
     index:
@@ -1533,6 +2703,16 @@ ja:
       harvest_started: "%{date}に収穫開始"
       legend: "(絵文字1つ = 1週間)"
       planted: "%{date}に植え付け"
+      events:
+        failed: "失敗"
+        finished: "終了"
+        first_harvest: "初収穫"
+        last_harvest: "最終収穫"
+        planted: "植え付け"
+        sown: "播種"
+        transplanted: "%{garden}に移動"
+      expected: "予定"
+      today: "今日"
     transplant:
       cancel: キャンセル
       close: 閉じる
@@ -1548,18 +2728,22 @@ ja:
       grown_in: 日照条件
       lifespan_days:
         other: "%{count}日"
+        one: 1日
       no_date_recorded: 日付未記録
       no_finish_predicted: 終了予測なし
       not_rated: 未評価
       not_specified: 指定なし
       packets_of_seed:
         other: "%{count}袋の種"
+        one: 種子1袋
       perennial: 多年草
       perennial_description: 年々成長し続けます
       planned: 計画済み
       planned_for: "%{date} 予定"
       planted: 植え付け
       planting_failed: この植え付けは失敗しました
+      short_code: ショートコード
+      short_code_description: プラントマーカーやラベル用
       progress: 進捗
       quantity: 数量
       rating: 評価
@@ -1567,9 +2751,29 @@ ja:
       seeds_saved: 保存した種
       sown_from_expired: 期限切れの種から播種（%{year}年までに植え付け）
       unknown: 不明
+      heat: "積算温度"
+      heat_help_html: "これは暦の日数ではありません。積算温度は、その日の「役に立つ暖かさ」を表し、日平均気温がこの作物の生育できる最低気温を何度上回ったかで数えます。寒い日は加算されないため、作物は夏より秋のほうが日数がかかります。%{link}。"
+      heat_help_label: "積算温度とは？"
+      heat_help_link: "Wikipediaで詳しく見る"
+      heat_help_title: "積算温度"
+      heat_needed_unknown: "これまでの値。必要な積算温度は不明です"
+      heat_of_needed: "必要な約%{needed}のうち"
+      short_code_help: "このコードを植物のラベルや目印に書いておくと、同じ作物がたくさんあっても、後でここでその株を見つけられます。"
+      short_code_help_label: "ショートコードは何のためですか？"
+      sun_semi_shade: "半日陰"
+      sun_shade: "日陰"
+      sun_sun: "日なた"
+      variety: "品種"
+      variety_from_packet: "種袋より"
     badges:
       harvest_prediction: 収穫までの予測週数
       harvest_ready: この作付けは今すぐ収穫できます
+      days_until_finished: 完成までの日数
+      days_until_harvest: 収穫までの日数
+      harvesting_now: 今収穫中
+      late_finishing: 仕上げが遅い
+      sharedbuttonsfinish_planting: 共有/ボタン/finish_planting
+      super_late: 超遅刻
     descendants:
       add: 追加
     harvests:
@@ -1584,6 +2788,97 @@ ja:
       grower_photo: '%{owner}が育てた%{planting}'
       plantings: 作付け
       add: 追加
+      crop: 作物
+      frost_line: "%{degrees} °C フロストライン"
+      weather_kill_line: "%{degrees}℃で死亡"
+      grower: 栽培者
+      harvest_month_yes: "%{month}、通常収穫中"
+      harvest_months: 収穫月
+      harvest_months_legend: 強調表示されている月は、この作物が通常ここで収穫される月です。
+      harvest_months_unknown: この緯度ではこの作物の収穫月はまだありません。
+      harvests: 収穫
+      heading: "%{crop} 植栽"
+      jobs: 求人
+      jobs_current: 計画済み
+      jobs_finished: 終了した
+      meta_description: "%{crop} は %{owner} によって %{garden} に植えられました。"
+      more_photos: 写真をもっと見る
+      neighbours: 世界の隣人
+      neighbours_explanation: 同じ緯度にある他の %{crop} 植栽。
+      no_harvests: まだ収穫は記録されていません。
+      no_harvests_prompt: ここに収穫量を記録して作物の予測を改善すると、来シーズンの庭と比較できるようになります。
+      no_jobs: ここでは何も計画されていません。
+      no_observations: まだ何も気づいていません。花が咲いたり、結実したり、しおれたり、病気になったりする場合は注意してください。
+      no_photos: 写真はまだありません。
+      no_photos_prompt: 写真は Flickr アカウントからのものです。この植栽がどのように成長するかを追跡するために 1 つ追加します。
+      no_seeds: まだシードは保存されていません。
+      no_seeds_prompt: この植え付けからの種子を保存して、次のシーズンに播種したり、他のメンバーと交換したりできます。
+      notes: 注意事項
+      observations: 観察
+      photos: 写真
+      seeds_saved: シードが保存されました
+      title: "%{crop} 植え付け by %{owner}"
+      view_all_plantings: "%{owner} さんのすべての植栽"
+      weather: 天気
+      weather_abandoned_note: この植栽を完了としてマークする人は誰もおらず、完了するはずだった時期はとうに過ぎているため、表示されている天気は完了予定の %{date} で終了します。
+      weather_absolute_range: "%{range}で成長します"
+      weather_best_days: 最良の範囲にある日数
+      weather_best_days_value: "%{count}/%{total}"
+      weather_coldest: 最も寒い夜
+      weather_credit_html: "%{open_meteo} (%{licence})。変更されたコペルニクス気候変動サービス情報が含まれています。天気は庭園内で測定されたものではなく、庭園の周囲の地域をモデルとしており、数日遅れて表示されます。合計、グラフ、および予想される天気は、そのデータを当社が適応させたものです。"
+      weather_credit_licence: CC BY 4.0
+      weather_credit_source: Open-Meteo.com による気象データ
+      weather_days: 日数
+      weather_days_count:
+        one: "%{count}日"
+        other: "%{count}日"
+      weather_expected_note: 点線と棒は予想天気で、昨年の同じ日のデータを1年前倒ししたものです。それらは観察されていません。
+      weather_hottest: 最も暑い日
+      weather_in: "%{place}の天気"
+      weather_location_intro: これを使用して、ここの植栽が通過した気温と降雨量を示します。あなたの庭園の都市または地域は、庭園の他の部分と同様に公開されています。
+      weather_location_title: この庭はどこですか？
+      weather_new: 新しい
+      weather_note_cold: "%{days} では寒すぎます (最低気温は %{limit} を下回ります)"
+      weather_note_above: "%{days} の最適範囲を超えています"
+      weather_note_below: "%{days} の最適範囲を下回っています"
+      weather_note_future_best: 昨年の天気から考えると、%{from}から%{to}までの%{total}日のうち%{best}は、%{range}の最高範囲内にあるはずです。
+      weather_note_future_caution: "%{crop} の混合が予想されます"
+      weather_note_future_danger: "%{crop} の範囲外になることが予想されます。"
+      weather_note_future_killed: "%{days} では最低温度が %{limit} の致死温度に達する可能性があります。"
+      weather_note_future_neutral: "%{crop} の範囲内に収まると予想されます。"
+      weather_note_future_outside: 最高値は %{outside} になる可能性があります。
+      weather_note_future_problems: "%{problems}になる可能性があります。"
+      weather_note_future_slow: 最速ではありませんが、%{crop} の成長が見込まれます
+      weather_note_future_success: "%{crop} に適合すると予想されます"
+      weather_note_future_too_both: "%{crop}人にとっては暑すぎたり寒すぎたりすると予想されます"
+      weather_note_future_too_cold: "%{crop}人には寒すぎると予想されます"
+      weather_note_future_too_hot: "%{crop} には熱すぎることが予想されます"
+      weather_note_future_survives: 昨年の天候からすると、%{from}から%{to}までの%{crop}の範囲内に収まるはずです。
+      weather_note_hot: "%{days} では熱すぎます (最高値は %{limit} を超えています)"
+      weather_note_past_best: "%{from}から%{to}まで、%{total}日中%{best}は%{range}の最良範囲内で最高値を記録しました。"
+      weather_note_past_caution: "%{crop} のこれまでの混合条件"
+      weather_note_past_danger: 範囲外%{crop}は今のところ伸びています
+      weather_note_past_killed: 低温は%{days}で致死温度%{limit}に達しました。
+      weather_note_past_neutral: 今のところ%{crop}の範囲内で伸びます
+      weather_note_past_outside: 最高値は%{outside}でした。
+      weather_note_past_problems: 天気は%{problems}でした。
+      weather_note_past_slow: 最速ではありませんが、これまでのところ %{crop} 成長しています
+      weather_note_past_success: 今のところ%{crop}の好条件
+      weather_note_past_too_both: これまでのところ %{crop} にとっては暑すぎ、寒すぎます
+      weather_note_past_too_cold: 今のところ%{crop}には寒すぎます
+      weather_note_past_too_hot: これまでのところ %{crop} には熱すぎます
+      weather_note_past_survives: "%{from}から%{to}まで、天候は%{crop}の範囲内に収まりました。"
+      weather_now_rain: '最新、%{date}: %{rain}'
+      weather_now_temperature: '最新、%{date}: %{high} / %{low}'
+      weather_optimal_range: 最も成長する %{range}
+      weather_pending: この植栽の気象履歴を取得して計算しています。一晩で収集され、約5日遅れて実行されるため、新しい植栽の最初の日は、植えてから数日後に表示されます。
+      weather_rain: 雨
+      weather_rain_chart: 日降雨量
+      weather_rain_chart_alt: "%{count} 日にわたる毎日の降雨量、1 日あたり最大 %{max} mm。"
+      weather_set_location: 庭の場所を設定して気温と降水量のデータを取得する
+      weather_soil_temp: 地温
+      weather_temperature_chart: 毎日の最高値と最低値
+      weather_temperature_chart_alt: 毎日の最高気温と最低気温は%{low}から%{high}まで。
     description:
       activity_html: '%{crop}を植えました'
     menu:
@@ -1608,6 +2903,11 @@ ja:
       owner_plantings: '%{owner}の作付け'
       plantings: 作付け
       browse: 作付けを閲覧・検索します。
+      title:
+        crop_plantings: みんなの%{crop}植栽
+        default: みんなの植栽
+        owner_plantings: "%{owner}さんの植栽"
+      view_owners_profile: "%{owner} さんのプロフィールを見る >>"
     crop:
       days: {one: '%{count}日', other: '%{count}日'}
       more: '%{crop}の詳細'
@@ -1646,6 +2946,8 @@ ja:
       errors:
         one: '%{count}件のエラーにより、この作付けを保存できませんでした：'
         other: '%{count}件のエラーにより、この作付けを保存できませんでした：'
+      failed_helper: 枯れたり、収穫せずに除去された場合、この植栽を失敗としてマークします。
+      finish_helper: 作物をすべて収穫するか、枯れるか、そうでなければ庭で成長しなくなると、植え付けは終了します。
     sun: {sun: 日なた, semi-shade: 半日陰, shade: 日陰}
     units:
       plant: {one: 株, other: 株}
@@ -1663,106 +2965,209 @@ ja:
       advanced plant: {one: 大苗, other: 大苗}
       graft: {one: 接ぎ木, other: 接ぎ木}
       layering: {one: 取り木, other: 取り木}
+    card:
+      planted_by_in_html: "%{garden}に%{owner}によって植えられました"
+    frost:
+      cards:
+        free:
+          label: 霜の降りない季節
+          note: 典型的な年に
+        in_danger:
+          label: 霜の危険を乗り越えて成長した
+          note: 植え付けから最後まで、%{latest}
+        last:
+          label: いつもの最後の霜
+          note: "%{latest} まで遅くなりました"
+          planted_after: その後に%{days}個植えました
+          planted_before: その前に%{days}個植えました
+        margin:
+          label: 霜の上のマージン
+          note: 最も寒い夜は %{coldest} °C でした。霜線は%{threshold}℃です
+        next:
+          label: 次の霜の危険が始まります
+          note_finished: この植え付けが完了した後は、早くても %{earliest}、%{days}
+          note_finishes: この植え付けが終了すると、早ければ %{earliest}、%{days}
+          note_now: 早ければ %{earliest}、これからは %{days}
+      days:
+        one: "%{count}日"
+        other: "%{count}日"
+      degrees: "%{degrees}℃"
+      nights_so_far:
+        one: これまでの一晩は %{threshold} °C 以下で、最も寒かったのは %{coldest} °C でした。
+        other: これまでの%{count}夜は%{threshold}℃以下で、最も寒いのは%{coldest}℃でした。
+      planted:
+        after: 定植は、通常の最後の霜 (%{usual_end}) の後、%{planted}、%{days} に行われました。
+        before: 植え付けは、通常の最後の霜 (%{usual_end}) の前に %{planted}、%{days} に行われました。
+      timeline:
+        annotation_after: 通常の最後の霜の後に%{days}を植えました
+        annotation_before: 通常の最後の霜が降りる前に%{days}を植えました
+        description: "%{from} から %{to} までのタイムライン。通常の霜の危険性は%{usual_start}から%{usual_end}までです。霜は早くて %{earliest} 、遅くて %{latest} に来ました。植栽は%{planted}から%{ends}までです。"
+        finish_expected: 終了予想 %{date}
+        finished: 完了 %{date}
+        legend:
+          finished: 田植え、終わりました
+          possible: 可能性：早ければ早いか遅くても
+          so_far: ここまでの植え付け
+          still_to_come: 田植えはまだこれから
+          usual: 通常の霜の危険性
+        planted: 植えた%{date}
+        row_danger: 霜の危険
+        row_planting: この植栽
+        title: 霜の季節を狙ったこの植え付け
+        today: 今日、%{date}
+        usual: "%{from} – %{to}"
+        usual_open: "%{from} →"
+      title: 霜
+      verdicts:
+        before_season:
+          body: 通常の初霜は%{usual_start}ですが、%{days}です。早くも%{earliest}となっております。
+          title: 霜の危険が間もなく始まります
+          title_far: まだ霜の危険はない
+        finished_clear:
+          body: "%{latest} までは霜が降りる可能性があり、その期間中は %{coldest} °C より寒い夜はありませんでした。"
+          body_no_readings: フロストは%{latest}まで可能でした。この植栽には夜間の気温がありません。
+          title: この植栽には霜が降りませんでした
+        finished_hit:
+          body:
+            one: 霜が降りる可能性がある夜は、%{threshold} °C 以下でした。最も寒かったのは %{coldest} °C でした。
+            other: 霜が降りる可能性がある%{count}夜は%{threshold}℃以下でした。最も寒かったのは %{coldest} °C でした。
+          title: 霜がこの植栽に到達した可能性があります
+        in_season:
+          body: 通常ラストフロストは%{usual_end}で%{days}です。 %{latest}まで遅くなりました。
+          title: いつもの霜の危険に
+        late_possible:
+          body: 今から%{latest}、%{days}まで遅くなりました。予報に注目してください。
+          title: いつもの終霜は過ぎましたが、まだ降る可能性があります
+        passed:
+          body: 過去数年間で最も遅く霜が降りたのは %{latest}、%{days} 前です。
+          title: この植栽では霜の危険はなくなりました
+        rare:
+          body: この地域では霜が降りることは稀であるため、霜が降りた日付は表示されません。
+          title: ここでは霜が降りることはまれです
+    garden_card:
+      by: による
+    hardiness:
+      help: 種、作物の順に進むには、不明のままにしておきます。
+      label: どれくらい霜が降りますか？
+      sources:
+        crop: 作物にとって通常の
+        parent_crop: 親作物では通常
+        planting: この植栽にセットしたもの
+        seed: 種子の袋から
+      title: 耐久性
+    plant_something: 何かを植える
+    observations:
+      add: 追加
+      day: 日%{count}
+      delete: 観察の削除
+      destroy:
+        deleted: 観察は削除されました。
+      edit: 観察を編集する
+      logged_by: "%{author} が気づきました"
+      planted: 植えた
+    origin:
+      change: 変化
+      crop_changed: この植栽はパケットに合わせて %{crop} になりました。 %{was}でした。
+      dialog:
+        another_way: 別の方法で始めた
+        back: 戻る
+        cancel: キャンセル
+        change_hint: 植栽の作物はパケットに従います。品種を選択すると、その品種の植栽になります。
+        change_link: 変化
+        change_title: この %{crop} 件の植栽の出所を変更する
+        choose: 選ぶ
+        choose_another: 別のものを選択してください
+        choose_different: 別のパケットを選択してください
+        confirm_other_crop: "%{seed} は、この %{crop} の植栽とは別の作物です。本当にこのパケットから生えてきたのですか？"
+        label_hint: 苗木にはラベルやタグが付いていることがよくあります。役に立つものは何でもコピーして、来シーズンも見つけられるようにしましょう。
+        label_text: ラベルのテキスト (オプション)
+        label_text_hint: サプライヤー、植栽アドバイス、収穫までの日数、印刷されているもの
+        label_title: ラベルに記載されている内容
+        link_anyway: とにかくリンクする
+        linked_now: 現在リンクされています
+        no_match: "%{crop} シード中に「%{query}」に該当するものが見つかりませんでした。"
+        not_my_packet: 私のパケットは一つもありません
+        next: 次
+        not_this_packet: それともこのパケットではなかったのか
+        other_crops: その他の作物
+        other_seeds: その他の種子
+        other_seeds_hint: 他のシードは送信元に移動し、パケットの詳細を追加できるようになります。別の方法では、苗木、挿し木などを提供します。
+        other_ways: 別の方法
+        remove_link: リンクを削除する
+        remove_link_hint: リンクを削除すると、記録されない状態に戻ります。パケットの植栽リストはすぐに更新されます。
+        right_now: 今すぐ
+        save: 保存
+        search: あなたの種を検索してください
+        search_placeholder: どの作物でも品種でも
+        seed_list: "%{crop} 種（品種を含む）"
+        seed_list_hint: 品種を選択すると、この植栽の作物もその品種に変更されます。
+        seed_source_title: 種子はどこから来たのでしょうか？
+        seed_title: それはあなたの種の一つですか？
+        seedling_source_title: どこで手に入れたのですか？
+        seedling_title: 苗について
+        skip: "「%{kind}」を保存するだけです"
+        some_other_seeds: いいえ、他の種もあります
+        some_other_seeds_hint: あなたのライブラリにないか、何も持っていません。
+        started_title: この %{crop} 個の植林はどのようにして始まったのでしょうか?
+        step: ステップ%{step}/%{total}
+        step_how: 始まりの経緯
+        step_source: どこから
+        supplier: どこから（オプション）
+        supplier_placeholder: 店舗、保育園、屋台または人
+        unsaved: それは救われませんでした。もう一度試してください。
+      grown_from: から成長した
+      kind_hints:
+        cutting: 別の植物の一部
+        seed: パケットまたは保存されたシードから
+        seedling: 購入または贈られた若い植物
+        volunteer: あなたが蒔かなかった種から、ひとりでに現れた
+      kinds:
+        advanced_plant: 先進プラント
+        bare_root_plant: 裸根植物
+        bulb: バルブ
+        cutting: 切断
+        graft: 移植片
+        layering: レイヤリング
+        root_division: 根の分割
+        root_tuber: 根/塊茎
+        runner: ランナー
+        seed: シード
+        seedling: 苗木
+        volunteer: ボランティア
+      link_a_seed: シードをリンクする
+      not_recorded: 記録されていない
+      packet: あなたの%{seed}パケット
+      saved_in: 保存済み %{year}
+      seed_sources:
+        my own seed saving: 以前私が保存した
+        other/unknown: わからない
+        retail outlet: ショップまたは園芸センター
+        seed bank or similar institution: シードライブラリまたはシードバンク
+        seed catalogue: 種子カタログ
+        traded from another person: 誰かから交換または贈与された
+      seedling_sources:
+        gift: 誰かから与えられた
+        market: 市場または屋台
+        nursery: 保育園
+        shop: ショップまたは園芸センター
+        unknown: わからない
+      undo: 元に戻す
+    progress:
+      progress_0_not_planted_yet: '進捗状況: 0% - まだ植えられていません'
+    string: "%{crop} が %{garden} に %{owner} で植えられています"
   seasons:
     autumn: 秋
     spring: 春
     summer: 夏
     winter: 冬
+    in_place: "%{place}の%{season}"
   seeds:
+    form:
+      finish_helper: 種をすべてまいたり、すべて交換に出したりしたら、終了に設定します。
+      trade_help: 他の%{site_name}メンバーと種を交換しませんか？種を交換可能として登録すると、他のメンバーからリクエストを受け取れます。条件やその他の情報は、上の説明欄に記載できます。
     ui:
-      record_title: "%{owner}の%{crop}の種"
-      record_description: "%{owner}が共有する%{crop}の種。"
-      plantings: 植え付け
-      notes: メモ
-      edit: 編集
-      no_notes: メモはまだありません。
-      descendants_heading: この種から育てた植物
-      add: 追加
-      photos: 写真
-      no_photos: 写真はまだありません。
-      feed_title: "%{owner}の最近の種（%{site_name}）"
-      all_members: すべてのメンバー
-      feed_field: "%{label}：%{value}"
-      feed_trade: "%{location}から%{trade_scope}で交換可能"
-      unknown_location: 所在地不明
-      owner_seeds: "%{owner}の種"
-      meta_description: 種を閲覧・検索できます。
-      open_data: オープンデータ
-      api_methods: APIメソッド
-      edit_title: 種を編集
-      in_stock: 在庫あり
-      finished: 終了
-      germination_min: 発芽（最短日数）
-      germination_max: 発芽（最長日数）
-      search_summary:
-        one: "%{crop}の種が%{count}袋。"
-        other: "%{crop}の種が%{count}袋。"
-      whose_seeds: 誰の種
-      mine: 自分
-      following: フォロー中の人
-      near_me: 近くの人
-      everyone: すべての人
-      add_seeds: "+ 種を追加"
-      auth_prompt_html: 近くで種を交換している人を見るには、%{sign_in}または%{sign_up}してください。
-      sign_in: ログイン
-      sign_up: 新規登録
-      sorted_by_distance: あなたの所在地からの距離順に表示しています。
-      shared_summary: "%{gardeners}からの%{packets}。"
-      gardener_count:
-        one: 栽培者%{count}人
-        other: 栽培者%{count}人
-      privacy_explanation: 栽培者が共有を選んだ種だけがここに表示されます。市区町村は表示しますが、住所は公開しません。各種袋の横には栽培者のアバターが表示されます。種袋を開くと種の詳細を確認し、分けてもらうよう依頼できます。
-      no_descendants: この種からはまだ何も育てられていません。
-      errors:
-        one: 1件のエラーにより、この種を保存できませんでした：
-        other: "%{count}件のエラーにより、この種を保存できませんでした："
-      crop_help_html: お探しの作物が見つかりませんか？ %{link}
-      request_crops: 新しい作物をリクエストする。
-      harvested_saved_at: いつ種を収穫・採種しましたか？
-      quantity: 数量
-      plant_before_year: 播種期限（年）
-      variety: 品種
-      batch_number: ロット番号
-      minimum: 最小
-      maturity: 成熟までの日数
-      maximum: 最大
-      range_to: "～"
-      days: 日
-      row_spacing: 畝間
-      cm: cm
-      organic: 有機栽培ですか？
-      gmo: 遺伝子組み換えですか？
-      heirloom: 伝統品種ですか？
-      source_question: どこから入手しましたか？
-      trade_label: 交換範囲
-      set_location_html: 忘れずに%{link}。
-      set_location: 所在地を設定してください
-      from_location_html: 所在地は%{location}です。
-      change_location: 所在地を変更する。
-      save: 保存
-      packet_count:
-        one: "%{count}袋"
-        other: "%{count}袋"
-      saved_date: "%{date}採種"
-      packet: 種袋
-      nobody: 共有なし
-      saved_by_html: "%{owner}が採種"
-      view_all: "%{owner}のすべての種を表示"
-      nearby_html: "%{location}付近の他の種やメンバーなどを表示"
-      not_specified: 未指定
-      seed_unit:
-        one: 粒
-        other: 粒
-      when_to_sow: 種まきの時期
-      how_to_sow: 種まきの方法
-      germination: 発芽
-      plant_before: 播種期限
-      unknown: 不明
-      heirloom_or_hybrid: 伝統品種または交配種
-      organic_fact: 有機栽培
-      gmo_fact: 遺伝子組み換え
-      you_have_it: 所有済み
-      past_sow_by: 播種期限切れ
+      request_prompt_html: 種をリクエストするには、%{sign_in}または%{sign_up}してください。
+      month_abbreviations: [1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
       unknown_quiet: 不明
       plant_seeds: 種をまく
       saved_year: "%{year}年採種"
@@ -1772,18 +3177,158 @@ ja:
         other: 約%{count}粒
       sow_before_year: "%{year}年より前にまく"
       will_trade: "%{trade_scope}で交換可能"
+      organic_fact: 有機栽培
+      gmo_fact: 遺伝子組み換え
+      save_crop_seeds_sentence: "%{crop}の種を保存。"
+      unknown: 不明
+      no_descendants: この種からはまだ何も育てられていません。
       activity_html: "%{crop}の種を採種しました"
+      change_crop: 作物を変更
+      saved_at: いつ採種しましたか？
+      seed_quantity: 種は何粒ですか？
+      plant_before_year: 播種期限（年）
+      trade_label: 交換範囲
+      variety: 品種
+      batch_number: ロット番号
+      maturity_min: 成熟までの日数（最短）
+      maturity_max: 成熟までの日数（最長）
+      row_spacing_cm: 畝間（cm）
+      organic: 有機栽培ですか？
+      gmo: 遺伝子組み換えですか？
+      heirloom: 伝統品種ですか？
+      source_question: どこから入手しましたか？
+      notes: メモ
+      errors:
+        one: '1件のエラーにより、この種を保存できませんでした：'
+        other: '%{count}件のエラーにより、この種を保存できませんでした：'
       crop: 作物
+      crop_help_html: お探しの作物が見つかりませんか？ %{link}
+      request_crops: 新しい作物をリクエストする。
+      harvested_saved_at: いつ種を収穫・採種しましたか？
+      quantity: 数量
+      minimum: 最小
+      maximum: 最大
+      maturity: 成熟までの日数
+      range_to: ～
+      days: 日
+      row_spacing: 畝間
+      cm: cm
+      set_location_html: 忘れずに%{link}。
+      set_location: 所在地を設定してください
+      from_location_html: 所在地は%{location}です。
+      change_location: 所在地を変更する。
+      save: 保存
+      image_alt: "%{owner}が採種した%{crop}の種"
+      saved_by_html: "%{owner}が採種"
+      saved_from: 採種元
+      request_subject: あなたの%{crop}の種に興味があります
+      request_seeds: 種をリクエスト
+      request_seeds_purpose: 種をリクエストする
       sow_before: 播種期限
       seeds: 種
       where_from: 入手元
       type: 種類
       shared_with: 共有範囲
+      packet_count:
+        one: "%{count}袋"
+        other: "%{count}袋"
+      saved_date: "%{date}採種"
+      packet: 種袋
+      nobody: 共有なし
+      save_crop_seeds: "%{crop}の種を保存"
+      close: 閉じる
+      adding_seeds: 種のストックに追加します
+      offer_trade: この種を交換に出しますか？
+      trade_from: はい、%{location}から交換に応じます
+      no_trade: いいえ、交換しません。
+      save_seeds: 種を保存
+      view_all: "%{owner}のすべての種を表示"
+      nearby_html: "%{location}付近の他の種やメンバーなどを表示"
+      you_have_it: 所有済み
+      past_sow_by: 播種期限切れ
+      not_specified: 未指定
+      seed_unit:
+        one: 粒
+        other: 粒
+      when_to_sow: 種まきの時期
+      how_to_sow: 種まきの方法
+      germination: 発芽
+      plant_before: 播種期限
+      heirloom_or_hybrid: 伝統品種または交配種
+      crop_image_alt: "%{crop}の画像"
+      owner_library_html: "%{owner}の種ライブラリ"
+      crop_seeds: "%{crop}の種"
+      shared_seeds: 栽培者が共有することを選んだ種
+      auth_prompt_html: 近くで種を交換している人を見るには、%{sign_in}または%{sign_up}してください。
+      sign_in: ログイン
+      sign_up: 新規登録
+      sorted_by_distance: あなたの所在地からの距離順に表示しています。
+      shared_summary: "%{gardeners}からの%{packets}。"
+      gardener_count:
+        one: 栽培者%{count}人
+        other: 栽培者%{count}人
+      privacy_explanation: 栽培者が共有を選んだ種だけがここに表示されます。市区町村は表示しますが、住所は公開しません。各種袋の横には栽培者のアバターが表示されます。種袋を開くと種の詳細を確認し、分けてもらうよう依頼できます。
+      whose_seeds: 誰の種
+      mine: 自分
+      following: フォロー中の人
+      near_me: 近くの人
+      everyone: すべての人
+      add_seeds: + 種を追加
+      search_summary:
+        one: "%{crop}の種が%{count}袋。"
+        other: "%{crop}の種が%{count}袋。"
+      variety_count:
+        one: "%{count}品種"
+        other: "%{count}品種"
+      open_shelf: ▸ 棚を開く
+      tick_season: 季節を選択：
+      germination_min: 発芽（最短日数）
+      germination_max: 発芽（最長日数）
+      in_stock: 在庫あり
+      finished: 終了
+      edit_title: 種を編集
+      owner_seeds: "%{owner}の種"
+      meta_description: 種を閲覧・検索できます。
+      open_data: オープンデータ
+      api_methods: APIメソッド
+      feed_title: "%{owner}の最近の種（%{site_name}）"
+      all_members: すべてのメンバー
+      record_title: "%{owner}の%{crop}の種"
+      feed_field: '%{label}：%{value}'
+      feed_trade: "%{location}から%{trade_scope}で交換可能"
+      unknown_location: 所在地不明
+      record_description: "%{owner}が共有する%{crop}の種。"
+      plantings: 植え付け
+      edit: 編集
+      no_notes: メモはまだありません。
+      descendants_heading: この種から育てた植物
+      add: 追加
+      photos: 写真
+      no_photos: 写真はまだありません。
+      all_year: 通年
+      seasons:
+        spring: 春
+        summer: 夏
+        autumn: 秋
+        winter: 冬
       trade_scopes:
         nowhere: 交換不可
         locally: 近隣
         nationally: 国内
         internationally: 国際
+      stats:
+        packets:
+          one: 袋
+          other: 袋
+        varieties:
+          one: 品種
+          other: 品種
+        crops:
+          one: 作物
+          other: 作物
+        own:
+          one: 自家採種
+          other: 自家採種
     hardiness:
       half_hardy: 半耐寒性（軽い霜なら耐えられます）
       hardy: 耐寒性（霜に耐えられます）
@@ -1837,6 +3382,43 @@ ja:
         one: 該当する%{count}袋を表示
         other: 該当する%{count}袋を表示
       showing: 播種期限を過ぎた袋を表示しています。
+    added_to_stash: "%{crop} 個のシードを隠し場所に追加しました。"
+    crop_changes:
+      show:
+        confirm: はい、変更します
+        decline: いいえ、放っておいてください
+        harvests:
+          one: 1 収穫
+          other: "%{count}個の収穫"
+        intro: このシードを %{from} から %{to} に変更しました。これらはそこから成長し、現在でも %{from} です。これらも%{to}に変更しますか?
+        plantings:
+          one: 1 植栽
+          other: "%{count} 植栽"
+        seeds:
+          one: 種子1袋
+          other: "%{count} 個の種子パケット"
+        title: "%{crop}にも変更しますか?"
+      update:
+        changed: 新しい作物に切り替わりました。
+    index:
+      title:
+        crop_seeds: みんなの%{crop}の種
+        default: みんなの種
+        owner_seeds: "%{owner} 種"
+    packet:
+      choice_back: 戻る
+      choice_front: フロント
+      choice_none: なし
+      group: パケット写真
+      label_back: パッケージの裏面
+      label_front: パケットの前面
+      photo_back: パッケージ裏面の写真を追加します
+      photo_front: パッケージの表面の写真を追加します
+    save_seeds: シードを保存する
+    show:
+      heading: "%{crop} 種"
+    string: "%{owner}に属する%{crop}の種子"
+    updated: シードは正常に更新されました。
   posts:
     draft: 下書き
     description:
@@ -1917,6 +3499,10 @@ ja:
       other: "%{count}分で読めます"
     untitled: 無題の投稿
     write_blog_post: ブログを書く
+    created: 投稿が正常に作成されました。
+    deleted: 投稿は削除されました。
+    draft_saved: 下書きが保存されました。
+    updated: 投稿は正常に更新されました。
   rack_attack:
     blocked:
       contact: お知らせください
@@ -1946,6 +3532,7 @@ ja:
       crop_wrangling_guide_intro_html: 作物の整理に関する詳しいガイドラインについては、Growstuff wikiの%{guide_link}を参照してください。
       errors:
         other: "%{count}件のエラーにより、この学名は保存されませんでした:"
+        one: '1 つのエラーにより、この学名は保存できませんでした:'
       name: 名前
       save: 保存
       wikidata_id: Wikidata ID
@@ -1971,6 +3558,154 @@ ja:
       join: 無料で参加
       sign_in: ログイン
       text: 食物を育てるためのコミュニティです。植えたものや収穫したものを記録し、他のガーデナーと種やヒントを交換しましょう。無料で参加するかログインして、%{name}に出品内容について問い合わせましょう。
+    card:
+      go: 屋台に行ってください
+      heading: ガーデンストール
+      open: 園芸店を開く
+      open_text: あなたの園芸店は友人のために開かれています。
+      text: 予備の苗木や種子を友達と共有します。誰と何を選択するかはあなたが選択し、オファーは 4 週間後に終了し、アドレスは保持されません。
+    claim:
+      claim: 請求
+      claimed: 主張した
+      confirm: 請求してください
+      here: 私は%{place}です
+      note: '注: %{note}'
+      note_label: 庭師へのメモ（オプション）
+      note_placeholder: 感謝の気持ちを伝え、お返しに何を提供できるか
+      outside: "%{place}付近の方限定"
+      owner_unplaced: 庭師はまだどこにいるか言っていない
+      postage: "%{owner}の場合、送料のご負担をお願いする場合がございます。"
+      set_place: そうではありませんか？ガーデニングをする場所を設定します。
+      set_place_ask: または、プロフィールでガーデニングを行う場所を設定すると、それがチェックされます。
+      sign_in: サインインして申請してください
+      undo: 私の主張を取り消します
+    claims:
+      create:
+        claimed: "%{crop}が請求されています。それはあなたのものです。庭師にメッセージを送って、引き取りまたは郵送の手配をしてください。"
+      destroy:
+        undone: "%{crop}を返しました。"
+    offers:
+      free: 無料
+      free_text: よろしくお願いします
+      swap: スワップ
+      swap_text: 自分で採った種を持ち帰る
+    openings:
+      create:
+        opened: 園芸店がオープンしました。
+      destroy:
+        closed: 園芸店は閉店しています。
+    owner:
+      garden_of: の庭園
+      link: あなたのブースへのリンク
+      profile: "%{name}さんのプロフィールを見る"
+    seed_tin:
+      add: "+追加"
+      heading: 種缶の中には
+      legend: 各パケットには、無料かスワップかが記載されています。
+      packets:
+        one: 1包
+        other: "%{count} パケット"
+      take_off: ストールを外して
+    seeds:
+      choice:
+        not_trading: まだ取引していません
+        quantity:
+          one: 約。種子1個
+          other: 約。 %{count} 種
+        saved: 保存済み %{year}
+        sow_before: "%{year} 前に種をまきます"
+      create:
+        added:
+          one: 1 パケットが屋台にあります。
+          other: "%{count} パケットがあなたの屋台にあります。"
+        none: ストールに置きたいパケットにチェックを入れます。
+      destroy:
+        removed: 屋台から外されました。それはまだシード ライブラリにあります。
+      new:
+        add: ストールに追加
+        breadcrumb: 種を加える
+        cancel: キャンセル
+        cant_find: 作物が見つかりませんか?
+        crop: 作物
+        intro: 種ライブラリから屋台に置く種を選びます。
+        new_note: これはシード ライブラリにも保存され、チェックしたパケットとともにストールします。
+        no_matches: "「%{query}」に一致するシードはありません。"
+        none_left: あなたが持っているすべてのパケットはすでにストールにあります。
+        offer: 何として提供していますか？
+        offers:
+          free: 譲る
+          swap: 交換またはトレード
+        others:
+          one: ライブラリ内の他のシード (1)
+          other: ライブラリ内の他のシード (%{count})
+        quantity: 約種は何個
+        ready:
+          one: "「取引する」とマーク (1)"
+          other: "「取引予定」とマーク (%{count})"
+        record_new: まだ記録していないシード パケットを追加します
+        request_crop: 新しい作物をリクエストしてください。
+        search: あなたの種を検索してください
+        search_button: 検索
+        search_placeholder: 作物または品種（トマトなど）
+        title: 屋台に種を追加する
+        variety: バラエティ
+        will_mark: "「取引する」とマークされていないパケットを屋台に置くと、シード ライブラリで「取引する」とマークされるため、友人もそこで見ることができます。ストールから外すと跡が残ります。"
+        your_seeds: あなたの種
+    settings:
+      areas:
+        anywhere: どこでも
+        region: "%{place}付近の人のみ"
+      heading: 誰が請求できるか
+      postage: 友人に送料の支払いをお願いするかもしれません
+      save: 保存
+      set_place: ガーデニングをする場所を設定します。
+      unplaced: 近くの友達が主張できるように、どこでガーデニングをしているかを伝えます。あなたがそうするまでは、誰もそれができません。
+      where: 友達がいられる場所
+      where_help: Growstuff プロフィール上の場所に基づいており、場所名としてのみ表示されます。ブルースカイの友人たちは、主張するときに自分がどこにいるかを言います。住所が表示されたり、尋ねられたりすることはありません。
+      your_place: どこでガーデニングをするか
+    show:
+      add_seeds: 種を加える
+      breadcrumb: ガーデンストール
+      close: 屋台を閉める
+      coming_soon: 近日公開
+      description:
+        one: Growstuff の %{name} の庭からの予備の種子。 1 パケットは無料または交換可能です。
+        other: Growstuff の %{name} の庭からの予備の種子。 %{count} 個のパケットが無料または交換に利用可能です。
+        zero: Growstuff の %{name} の庭からの予備の苗木と種子を無料または交換します。
+      first_heading: あなたの屋台は開いています。まず何が起こるでしょうか？
+      first_intro: いつでも追加できます。テーブルに何かが置かれるまで、友人には何も表示されません。
+      open: 私の屋台を開いてください
+      open_heading: 園芸店を開く
+      open_intro: 予備の苗や種はありますか？それらを屋台に置いて、リンクを友達と共有してください。譲るか交換してください。
+      points:
+        choose_what: テーブルに何を置くかはあなたが選びます。
+        choose_where: 友達がいる場所は、近くでもどこでも、あなたが選択できます。
+        choose_who: サインインしている人なら誰でも、またはあなたがフォローしている人のみが、請求できる人を選択できます。
+        expiry: オファーは 4 週間後に終了するため、屋台が古くなることはありません。
+        privacy: Growstuff はアドレスを保持しません。友人からメッセージを受け取って、引き取りまたは郵送の手配をしてもらいます。
+      seedlings: 苗木
+      seedlings_text: あなたが育てた植物には家が必要です。
+      seeds: 種子
+      seeds_text: 保存したパケットを交換します。
+      title: "%{name}さんのガーデンストール"
+    stall:
+      closed: 現在閉店中
+      sign: "%{name}さんのガーデンストール"
+      spots:
+        more: 他に何か
+        seedlings: ここの苗
+        seeds: ここの種子
+      tagline: 友達への苗と種。無料、または交換。
+    terms:
+      anywhere: サインインしている人は誰でも請求できます。
+      heading: 誰が請求できるか
+      manners: 無料ではありますが、自分の種や単なる感謝の気持ちなど、何かお返しをするのがマナーです。
+      no_money: Growstuff は金銭や住所を一切扱いません。庭師にメッセージを送って、引き取りまたは郵送の手配をしてください。
+      postage: "%{owner}の場合、送料のご負担をお願いする場合がございます。"
+      region: 請求は%{place}付近の方のみとなります。
+      unplaced: "%{owner} はまだ居場所を明かしていないため、今のところ誰も主張できません。"
+    update:
+      updated: 保存されました。
   notifier_mailer:
     crop_request:
       approve_or_reject: このリクエストを承認または却下
@@ -2040,3 +3775,614 @@ ja:
     whats_new:
       feature_count: "%{count} 件の新機能があります："
       heading: 前回のメール以降の新機能
+  admin:
+    climate_coverage:
+      all: 全て
+      gardens:
+        cell: 気象セル
+        climate: 気候データ
+        fetched: 最後に取得したもの
+        garden: 庭
+        inactive: 非アクティブ
+        kind: 親切
+        location: 位置
+        nursery: 保育園
+        owner: 所有者
+        title: 庭園の気候データ
+      intro: 気象グリッド セルの気候データ (雨、気温、霜) を保持するかどうかは、各場所に該当します。データは、使用中の庭園と現在植栽されている庭園に対して取得されます。データが 1 週間取得されなかった場合、データは古くなります。これは、そのセル内の庭や植栽が使用されていない場合に発生します。会員自身の所在地、または会員の庭園が該当する場合は対象となります。
+      members:
+        climate: 気候データ
+        gardens: 庭園
+        gardens_covered: "%{covered}/%{located} 最新"
+        gardens_stale:
+          one: "%{count} が期限切れです"
+          other: "%{count} が期限切れです"
+        location: 位置
+        member: メンバー
+        own: 自分の場所
+        title: 会員の気候データ
+      statuses:
+        covered: 最新の
+        missing: まだデータがありません
+        stale: 期限切れ
+        unlocated: 地図上に位置がありません
+    ecocrop_data:
+      create_crop:
+        created: "%{crop}は%{record}から作成されました。"
+        name_blank: 新しい作物に名前を付けます。
+        name_taken: "%{name} という作物はすでに存在します。"
+      create_modal:
+        cancel: キャンセル
+        close: 近い
+        create: クロップの作成
+        hint: この EcoCrop レコードから作物を作成します。承認されたものとして作成され、以下の学名が付けられ、記録にリンクされています。
+        name: 作物名
+        names_hint: これらは英語の別名として保持されます。括弧内に注が付いている名前は、通常、別の言語または場所からのものであるため、チェックマークが付きません。英語ではないもの、または正しくないものはチェックを外してください。
+        names_legend: その他の一般的な名前
+        title: 作物を作成する
+        wikipedia_hint: 承認された作物にはそれが必要です。これは学名からの推測ですので、ページが正しい植物であることを確認してください。
+        wikipedia_url: 英語版ウィキペディアのページ
+      details:
+        category: カテゴリ
+        common_names: 通称
+        family: 家族
+        life_form: 生命体
+      index:
+        all: 全て
+        common_names: 通称
+        copy_names:
+          one: 1 の名前をコピーします
+          other: "%{count} 個の名前をコピーします"
+        create_crop: 作物を作成する
+        crops: 適合する作物
+        heat_data: 発熱量
+        how_to_link: 一般名をクリックして、それが属する作物を検索し、リンクを確認します。
+        intro: EcoCrop レコード %{total} のうち %{matched} が作物と一致します。
+        link: 作物をリンクする
+        matched: 一致しました
+        no_heat_data: ない
+        none: ここには EcoCrop レコードはありません。
+        scientific_name: 学名
+        search: 検索
+        search_placeholder: 学名または通称
+        suggestion: リンク %{crop}
+        suggestion_title: "%{crop}は%{record}の通称のような名前です。"
+        title: エコクロップデータ
+        unlink: リンクを解除する
+        unmatched: 比類のない
+        unmatched_crop: 作物に合わない
+        yes_heat_data: 完了
+      link:
+        failed: "%{crop}はリンクできませんでした。"
+        linked:
+          one: "%{crop} は %{record} にリンクされ、別名が 1 つ追加されました。"
+          other: "%{crop} は %{record} にリンクされ、%{count} の代替名が追加されました。"
+          zero: "%{crop} は %{record} にリンクされました。"
+      link_modal:
+        back: 別の作物を選択してください
+        cancel: キャンセル
+        close: 近い
+        confirm: 作物%{crop}を%{record}にリンクしますか?
+        confirm_button: はい、リンクしてください
+        hint: この EcoCrop レコードで説明されている作物を検索します。作物には 1 つのレコードがあるため、それをリンクすると、それが持っていたレコードが置き換えられます。
+        names_hint: これらは、英語の代替名として作物に追加されます。括弧内に注が付いている名前は、通常、別の言語または場所からのものであるため、チェックマークが付きません。英語ではないもの、または正しくないものはチェックを外してください。
+        names_legend: これらの一般的な名前もコピーします
+        none: 作物が見つかりませんでした
+        search_label: 作物名
+        title: 作物をリンクする
+      unlink:
+        unlinked: "%{crop} は %{record} にリンクされなくなりました。"
+    features:
+      member_not_found: メンバーが見つかりません。既存のユーザー名を入力します。
+      descriptions:
+        enable_harvest_reminders: 毎週の収穫リマインダーメールを希望するメンバーに送信します。
+        enable_planting_reminders: 毎週の植栽リマインダーメールを希望するメンバーに送信します。
+        garden_stall: 会員が余った苗や種を友達に提供するページです。すべての部品を展開したらスイッチをオンにします。
+        job_ideas: メンバーの過去の仕事や植栽、作物のテンプレート、近くの庭師の活動から、メンバーに提案される仕事。
+        planting_weather: 庭のエリアの毎日の天気から、各植栽の温度と降水量のグラフ。
+        planting_codes: 庭の植栽所有者と協力者に植栽コードを表示します。
+      index:
+        disabled: オフ
+        enabled: の上
+        feature: 特徴
+        intro: すべてのユーザーに対して機能をオンまたはオフに切り替えたり、特定のメンバーに対して機能を有効にしたりできます。メンバーの許可を削除しても、全員が有効になっている機能は無効になりません。
+        members: メンバーに対して有効
+        login_name: ユーザー名
+        add_member: メンバーに対して有効にする
+        remove_member: 付与を削除する
+        state: 州
+        switch_off: スイッチをオフにする
+        switch_on: スイッチオン
+        title: 特徴
+      names:
+        enable_harvest_reminders: 収穫リマインダー
+        enable_planting_reminders: 植栽のリマインダー
+        garden_stall: ガーデンストール
+        job_ideas: 仕事のアイデア
+        planting_weather: 植栽天気
+        planting_codes: 植栽コード
+      update:
+        disabled: "%{feature} はオフになりました。"
+        enabled: "%{feature}がオンになりました。"
+    members:
+      bulk_ban:
+        banned: 選ばれたメンバーは追放されました。
+        none_selected: メンバーが選ばれませんでした。
+  application_helper:
+    title:
+      title:
+        default: デフォルト
+  are_you_sure: 本気ですか？
+  auto_suggest:
+    choose: リストから 1 つ選択します。上下の矢印キーを使用して、Enter キーを押します。
+    chosen: '選択: %{name}'
+    none: 一致する作物はありません。スペルを確認するか、短い名前を試してください。
+    searching: 検索中…
+    unchosen: まだ選ばれていません。リストから 1 つ選択しないと使用されません。
+  buttons:
+    add: 追加
+    add_observation: 観察を追加する
+    add_photo: 写真を追加
+    add_seed_to_stash: "%{crop_name}個の種を隠し場所に追加します"
+    copy: コピー
+    delete: 消去
+    edit: 編集
+    harvest: 収穫
+    harvest_crop: 収穫%{crop_name}
+    like: のように
+    make_nursery: 私の子供部屋として使用します
+    mark_as_active: アクティブとしてマークする
+    mark_as_failed: 失敗としてマークする
+    mark_as_finished: 完了としてマークする
+    mark_as_inactive: 非アクティブとしてマークする
+    my_gardens: 私の庭
+    new_harvest: 新しい収穫
+    new_job: ジョブを追加する
+    new_planting: 新しい植栽
+    new_post: 新しい投稿を書く
+    new_seeds: 新しい保存されたシード
+    plant: 植物
+    plant_crop: 植物 %{crop_name}
+    plant_something_here: ここに何かを植えます
+    record_harvest: 記録的な収穫
+    save_seeds: シードを保存する
+    stop_nursery: 私の子供部屋として使用するのはやめてください
+    timeline: タイムライン
+    total_likes: 合計いいね！
+    transplant: 移植
+    unlike: いいねを削除
+    view: ビュー
+    write_blog_post: ブログ投稿を書く
+  climate:
+    about_estimates: これらの数値は 25 km の気象モデル データからのものであり、庭の観測所からの測定値ではないため、実際の雨量や気温は異なる場合があります。信頼する前に、国の気象サービスを確認してください。
+    air:
+      body_above: 1 月 1 日以降の平均気温は %{air} °C で、この日の通常の %{usual} °C よりも %{difference} °C 高くなります。
+      body_below: 1 月 1 日以降の平均気温は %{air} °C で、この日の通常の %{usual} °C よりも %{difference} °C 低いです。
+      body_close: 1 月 1 日以降の平均気温は %{air} °C で、この日の通常の %{usual} °C に近いです。
+      cards:
+        coldest: 最も寒い月
+        soil: 今月の土
+        soil_note: 今月のトップ7センチメートルを意味します
+        warmest: 最も暖かい月
+      chart: 今年と通常の各月の気温
+      records: 過去 %{count} 年間の記録
+      soil_chart: 今年と例年の毎月の土壌温度
+      title: 温度
+      verdicts:
+        a_little_cooler: 今年は例年より少し涼しいですね
+        a_little_warmer: 今年は例年より少し暖かいですね
+        close: 今年も例年に近いですね
+        cooler: 今年は例年より涼しいですね
+        warmer: 今年は例年より暖かいですね
+    chart:
+      bar: "%{month}、%{kind}: %{value}"
+      description: '月平均 %{measure} の縦棒グラフ。通常: %{usual}。今年はこれまで: %{year}。'
+      legend:
+        usual: 月の通常
+        year: 今年
+      measures:
+        air: 気温（摂氏）
+        rain: ミリ単位の雨量
+        soil: 土壌温度、上部 7 cm、摂氏
+    month_year: "%{month} %{year}"
+    on_average: 平均%{value}
+    rain:
+      body: "%{rain}は1月1日以来減少しました。これは、この日までの通常 %{usual} の %{percent}% です。"
+      cards:
+        driest: 記録上最も乾燥した月
+        wettest: 記録上最も雨の多かった月
+        year: 例年
+      chart: 今年も、そして例年も毎月雨が降ります
+      records_note:
+        one: 最も雨の多い月と最も乾燥した月は、当社が保有する 1 年間のデータの中で最も高い月と最も低い月であり、必ずしも史上最高または最低というわけではありません。
+        other: 最も雨の多い月と最も乾燥した月は、当社が保持する %{count} 年間のデータの中で最も高い月と最も低い月であり、必ずしも史上最高または最低というわけではありません。
+      title: 降雨
+      verdicts:
+        close: 今年の降水量は例年に近い
+        drier: 今年の降雨量は例年より少ないです
+        wetter: 今年の雨は例年より多い
+    records:
+      coldest_night: 最も寒い夜
+      coldest_soil: 最も寒い土壌
+      hottest_day: 最も暑い日
+      this_year: '今年: %{value}'
+      warmest_soil: 最も暖かい土壌
+    table:
+      air: 空気
+      details: 月ごとの数字を表示する
+      month: 月
+      none: "–"
+      rain: 雨
+      soil: 土壌
+      this_year: 今年
+      usual: いつもの
+    units:
+      celsius: "%{value}℃"
+      mm: "%{value}mm"
+    years_average:
+      one: 1年平均
+      other: "%{count}年平均"
+  crop_companions:
+    created: コンパニオンが正常に作成されました。
+    deleted: コンパニオンは正常に破壊されました。
+  crop_dismissals:
+    create:
+      dismissed: "%{crop} を再度提案することはありません。"
+    destroy_all:
+      restored: 隠された提案が戻ってきました。
+  crop_job_templates:
+    created: ジョブテンプレートが作成されました。
+    deleted: ジョブテンプレートが削除されました。
+    options:
+      anchor:
+        first_harvest: 最初の収穫
+        planting_out: 植える
+        sowing: 種まき
+      applies_to_all: 全%{crop}種類
+      applies_to_one: "%{crop}のみ"
+      direction:
+        after: 後
+        before: 前に
+      offset_unit:
+        days: 日
+        months: 月
+        weeks: 週
+      repeat:
+        fortnightly: 2週間ごと
+        monthly: 毎月
+        once: 一度
+        weekly: 毎週
+      season:
+        any: いつでも
+        autumn_winter: 秋と冬
+        spring_summer: 春と夏
+      status:
+        draft: 下書き
+        published: 発行済み
+    saved: ジョブテンプレートが保存されました。
+  crop_jobs:
+    add: "%{crop} 件の成長中の仕事を自分の仕事に追加"
+    add_to_planting: "%{garden}の%{crop}に追加し、%{date}を植えます"
+    added:
+      one: 求人に %{crop} 件の求人を追加しました。
+      other: 求人に %{count} %{crop} 件の求人を追加しました。
+    already_added: あなたの仕事にはすでに %{crop} 件の増加中の仕事があります。
+    new:
+      add_anyway: とにかく追加してください
+      cancel: キャンセル
+      intro: ジョブは植えた日からカウントされます。すでに過ぎているものは今日締め切りです。
+      out_of_season: "%{template} は %{season} のもので、%{date} はあなたのいる場所の外にあります。"
+      planting_on: "%{crop} をいつ植えますか?"
+      submit: これらのジョブを追加します
+      title: 成長中の求人を %{crop} 件追加
+    new_planting: 新しい%{crop}の植栽を行うつもりです
+    see_jobs: あなたの仕事を見てください。
+  crop_photos:
+    create:
+      added: "%{crop}に写真を追加しました。"
+      kind_missing: 写真が植え付け、収穫、または種子のいずれを示しているかを伝えます。
+      not_creative_commons: その写真はクリエイティブ コモンズ ライセンスに基づいていないため、ここでは使用できません。
+      not_flickr: これは Flickr 上の写真のアドレスとは思えません。
+      not_found: Flickr ではその写真が見つかりませんでした。非公開か削除されている可能性があります。
+      not_public: その写真は非公開なのでここでは使えません。
+      unavailable: Flickr にアクセスできませんでした。しばらくしてからもう一度お試しください。
+    kinds:
+      harvest: 収穫したもの
+      harvest_hint: バスケットに入ったトマトなどの収穫物。
+      legend: 写真は何を示していますか?
+      planting: 成長する植物
+      planting_hint: 庭、ベッド、鉢などで育つ植物。
+      seed: 種子
+      seed_hint: 種子自体、または種子の頭と鞘。
+    pager:
+      label: 写真のページ
+      next: 次のページ
+      page: ページ %{page}/%{pages}
+      previous: 前のページへ
+    source:
+      view_on_flickr: Flickrで見る
+    new:
+      add: この写真を追加
+      attribution: "%{owner}まで"
+      back: "%{crop} に戻る"
+      cancel: キャンセル
+      close: 近い
+      empty: この検索に一致するクリエイティブ コモンズの公開写真はありませんでした。
+      intro: クリエイティブ コモンズ ライセンスに基づいて Flickr に写真を公開します。追加する前に、写真にトリミングが表示されていることを確認してください。
+      modal_title: "%{crop} の写真を追加します"
+      save: 保存
+      search: 検索
+      taken: 撮影%{date}
+      title: "%{crop} の写真を見つけてください"
+  edit_crop: トリミングを編集する
+  forms:
+    optional: "(オプション)"
+  job_ideas:
+    add: "+追加"
+    add_all: すべて追加 %{count}
+    added: 求人に「%{name}」を追加しました。
+    added_to_jobs:
+      one: リストに 1 件のジョブを追加しました
+      other: "%{count} 件の求人をリストに追加しました"
+    banner:
+      one: 今週あなたにおすすめの仕事が 1 件あります
+      other: 今週あなたに提案された求人は %{count} 件あります
+    banner_go: アイデアを見る→
+    dismiss: 私のためではありません
+    done: 終わり
+    filter:
+      community: 私が育てたものを人々が育てている
+      mine: 私が前にやったこと
+      nearby: 私の近くに
+      world: 世界の隣人
+    footer: カウントは公共の仕事と植林から得られます。アイデアを追加すると「いつか」の下に置かれるので、その日を決めることができます。 「私には向きません」を選択すると、1 年間非表示になったり、すぐに表示されるようにスヌーズしたりできます。
+    gone: その考えはもうありません。
+    hidden:
+      dismissed: 隠れた。季節とともに戻ってくるかもしれません。
+      month: 一ヶ月居眠りした。
+      week: 一週間居眠りした。
+    job:
+      harvest: 収穫%{crop}
+      plant: 植物 %{crop}
+    more:
+      one: あと 1 つのアイデアが待っています。
+      other: "%{count} 個以上のアイデアが待っています。"
+    none: 今のところ提案できることは何もありません。季節の変わり目にぜひチェックしてみてください。
+    preview:
+      one: 仕事を見る
+      other: "%{count} のジョブを参照"
+    reason:
+      community:
+        earlier:
+          one: "%{crop} を栽培している 1 人の庭師が、以前のこの時期にこれを行いました。"
+          other: "%{crop} を栽培している %{count} 人の庭師は、前年のこの時期にこれを行いました。"
+        now:
+          one: "%{crop} を栽培している 1 人の庭師が今月これを計画しています。"
+          other: "%{crop} の栽培者 %{count} 人が今月これを計画しています。"
+      community_of:
+        earlier:
+          one: "%{crop} を栽培している %{of} 人の庭師のうちの 1 人が、前年のこの時期にこれを行いました。"
+          other: "%{crop} を栽培している %{of} 人の庭師のうち %{count} 人は、前年のこの時期にこれを行いました。"
+        now:
+          one: "%{crop} を栽培している %{of} 人の庭師のうちの 1 人が、今月これを計画しています。"
+          other: "%{crop} を栽培している %{of} 人の庭師のうち %{count} 人が、今月これを計画しています。"
+      harvest_harvested: 最後に収穫したのは %{day} です。
+      harvest_predicted: 通常どれくらいかかるかを計算すると、%{day} くらいで準備完了です。
+      nearby:
+        earlier:
+          one: 近くの庭師1人が、昨年のこの時期にこれを行いました。
+          other: "%{count} 近くの庭師が、昨年のこの時期にこれを行いました。"
+        now:
+          one: 近くの庭師 1 人が今月これを計画しています。
+          other: 近くの %{count} の庭師が今月これを計画しています。
+      past_job:
+        one: "%{day} でこれを実行しました。"
+        other: あなたはこれを %{count} 年前のこの時期に行い、最後に %{day} 年に行いました。
+      past_planting:
+        one: これを%{day}に植えました。
+        other: これを %{count} 年後のこの時期に植え、最後に %{day} 年に植えました。
+      template:
+        one: 1ジョブ：%{steps}。 %{day}に植えられたあなたの%{crop}のために。
+        other: "%{count} ジョブ: %{steps}。 %{day}に植えられたあなたの%{crop}のために。"
+      world:
+        earlier:
+          one: あなたの緯度の庭師 1 人が、この時期にこれを行いました。
+          other: あなたの緯度の %{count} 人の庭師がこの時期にこれを行いました。
+        now:
+          one: あなたの緯度の庭師 1 人が今月これを計画しています。
+          other: あなたの緯度の %{count} 人の庭師が今月これを計画しています。
+    section:
+      community: あなたが育てたものを人々も育てる
+      community_note: 公共の仕事
+      harvest: 収穫の準備ができました
+      harvest_note: あなたの庭で
+      nearby: あなたの近くで
+      nearby_note: "%{place} あたり"
+      templates: テンプレート
+      templates_note: あなたが持っている植栽のために
+      this_time: この時期には
+      this_time_note: あなたの仕事と植栽から
+      world: 世界の隣人
+      world_note: あなたの緯度のどこにでも庭師がいます
+    snooze:
+      label: スヌーズ
+      month: 1ヶ月
+      week: 一週間
+    title: 今のところのアイデア
+  label:
+    data: このページのデータは次の形式で利用できます。
+    days_until_finished: "%{number}日"
+    days_until_harvest: "%{number}日"
+    harvesting_now: 今収穫中
+    weeks_until_finished: "%{number} 週間"
+    weeks_until_harvest: 収穫まで%{number}週間
+  links:
+    my_gardens: 私の庭
+  member_dismissals:
+    create:
+      dismissed: "%{name} を再度提案することはありません。"
+  neighbours:
+    audience:
+      all:
+        feed: 追いかけて、あなたの近くで、そしてさらに遠くへ
+        posts: あなたがフォローしている人やさらに遠くにいる人から
+      anywhere:
+        feed: 世界中の庭師たち
+        posts: 世界中の園芸家から
+      following:
+        feed: あなたがフォローしている人
+        posts: フォローしている人から
+      following_and_near:
+        feed: あなたがフォローしている人や近くの庭師
+        posts: あなたがフォローしている人や近くにいる人から
+      me:
+        feed: あなただけ
+        posts: あなたから
+      near:
+        feed: 近くの庭師
+        posts: 近くの園芸家から
+      region:
+        feed: 150km以内の園芸家
+        posts: 150km以内の園芸業者様より
+    day:
+      from: "%{time}から"
+      today: 今日 · %{date}
+      yesterday: 昨日 · %{date}
+    entry:
+      did_things_html: "<b>%{count}のこと</b>をしました"
+      following: 続く
+      near: あなたの近くに
+    feed:
+      earlier: 以前の日を表示する
+      empty: まだ表示するものはありません。
+      title: 友人や近所の人からの最新情報
+    group:
+      due: "%{date}の場合"
+      garden_layout_html: "%{things}のレイアウトを再配置しました"
+      harvest_html: 収穫%{things}
+      job_finished_html:
+        one: 仕事を終えました、%{things}
+        other: 完了した %{count} ジョブ、%{things}
+      job_html:
+        one: ジョブを計画しました、%{things}
+        other: 計画された %{count} ジョブ、%{things}
+      planted_out_html: "%{garden}に%{things}を植えました"
+      planting_finished_html: 成長完了%{things}
+      planting_html: 植えた%{things}
+      seed_finished_html: "%{things}種で終了"
+      seed_html: "%{things} 個の種子を保存しました"
+      seed_trade_html: 取引できる種子は %{things} 個あります
+      transplant_html: "%{things}を%{garden}に移植しました"
+      weighing: 重量%{weight}
+    layout:
+      crop: "%{crop} ×%{count}"
+      label: "%{garden}: そのレイアウト"
+    photos:
+      added:
+        one: 写真を追加しました
+        other: "%{count}枚の写真を追加しました"
+      of_html:
+        one: "%{subject}の写真"
+        other: "%{subject} の写真 %{count}"
+    posts:
+      activity: 最近の活動
+      comments: コメント
+      posted_by: 投稿者
+      subject: 主題
+      title: 最近の投稿
+    reach:
+      few:
+        one: "%{place}の近くにある%{count}の庭師のみ。"
+        other: "%{place}の近くには%{count}人の庭師だけがいます。"
+      looked_further: そこで私たちはさらに外にも目を向けました。
+      none: "%{place}付近の庭師はまだいません。"
+      ring:
+        anywhere: どこでも
+        near: "%{place}"
+        region: "%{km}km以内"
+      widened: いくつか見つかるまで検索範囲を広げました。
+      you: あなた
+    season:
+      in_hemisphere: "%{hemisphere}半球の%{season}"
+      northern: 北部
+      southern: 南部の
+    show:
+      add_location_html: "%{link} でお近くの庭師をご覧ください。"
+      add_location_link: 住んでいる場所を追加
+      heading_html: "<strong>私の</strong>の友人と隣人"
+      lede:
+        few: あなたは数人をフォローしています。最初にそれらを表示し、次に近くのものを表示します。
+        following: あなたがフォローしている庭師たち、そしてあなたの近くにいる庭師たちが何をしようとしているのか。
+        me: あなたが何をしてきたかだけです。
+        none: まだ誰もフォローしていないので、近くの庭師が表示されます。
+        widened: あなたがフォローしている人は誰もおらず、近くにもまだ誰もいないので、さらに遠くに目を向けました。
+      scope:
+        anywhere: どこでも
+        auto: 自動
+        following: 私がフォローしている人たち
+        me: 自分
+        nearby: 近く
+      title: 私の友人と隣人
+      welcome:
+        body_html: このページは新しいページですので、ぜひお試しください。 %{link} 何がうまくいくか、何がうまくいかないのか、そして何が知りたいのか教えてください。
+        feedback_link: フィードバックをお寄せください
+        title: お友達やご近所さんのフィードへようこそ
+    subject:
+      garden: 庭 %{name}
+      harvest: "%{crop}個の収穫"
+      job: 仕事%{name}
+      planting: "%{crop}個の植栽"
+      seed: "%{crop} 種"
+    suggestions:
+      followed_by: 続いて%{people}
+      privacy: 私たちはあなたの都市のみを使用し、あなたの正確な位置は決して使用しません。誰かの提案をやめるには×を押してください。
+      title: 誰をフォローするか
+      why: '同じ作物を栽培する: %{crops}'
+  nurseries:
+    show:
+      dont_need: 必要ありません
+      dont_need_text: Growstuff で苗を育てるのをスキップします。再度質問することはありません。庭園のページから気が変わっても構いません。
+      make_a_nursery: 保育園を作る
+      make_new: 新しいものを作る
+      make_new_text: あなたの苗木のためだけの「ナーサリー」という名前の庭を作ります。
+      no_nursery_for_me: 私のための保育園はありません
+      no_other_garden: 他に使える庭はありません。
+      title: あなたの保育園
+      use_existing: お手持ちの庭を活用して
+      use_this_garden: この庭を私の子供部屋として使ってください
+      which_garden: どこの庭？
+    what_is_a_nursery:
+      description_html: "<strong>苗床</strong>は苗木を育てる場所です。庭に植える前にトレイまたはポットに種を蒔いたものです。苗床に種を蒔き、準備ができたら 1 つの庭に移植するか、いくつかの庭に分けて植えます。"
+  observations:
+    kinds:
+      disease_observed: 観察された病気
+      flowering: 開花
+      fruiting: 結実
+      germination: 発芽
+      other: 他の
+      wilting: しおれる
+  photo_associations:
+    update:
+      updated: 写真を更新しました。
+  planting:
+    status:
+      finished: 終了した
+      growing: 成長する
+      harvesting: 収穫
+      late: 遅い
+      not planted: 植えられていない
+      not_enough_data: データが不十分です
+      perennial: 多年草
+      unknown: 未知
+  unauthorized:
+    create:
+      all: "%{subject} を作成するには、サインインまたはサインアップしてください。"
+      garden_type: 認可されていません。管理者のみがガーデン タイプを作成できます。
+      notification: メッセージを送信するにはサインインしてください。
+      planting: 何かを植えるにはサインインまたはサインアップしてください。
+      post: 投稿するにはサインインまたはサインアップしてください。
+      seed: シードを追加するには、サインインまたはサインアップしてください。
+    manage:
+      all: "%{action} %{subject} には権限がありません。"
+    read:
+      notification: 通知を表示するにはサインインする必要があります。

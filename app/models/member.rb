@@ -3,6 +3,8 @@
 class Member < ApplicationRecord
   include Discard::Model
 
+  include Flipper::Identifier
+
   acts_as_messageable # messages can be sent to this model
   include Geocodable
   include MemberFlickr
@@ -15,6 +17,7 @@ class Member < ApplicationRecord
   # Relationships
   has_many :posts, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
   has_many :comments, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
+  has_many :observations, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
   has_many :forums, foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
   has_many :gardens, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_one :stall, dependent: :destroy

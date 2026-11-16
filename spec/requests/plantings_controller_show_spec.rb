@@ -14,4 +14,8 @@ describe PlantingsController, '#show' do
   it 'lists a job planned for the planting, though it has never been crossed off or put back' do
     expect(page).to have_css('.card.job', text: 'Stake the tomatoes')
   end
+
+  it 'hides the short code from visitors' do
+    expect(page).to have_no_css('.planting-short-code, .plantingfact--shortcode')
+  end
 end

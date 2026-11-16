@@ -50,6 +50,13 @@ class CropsController < ApplicationController
   def search
     @term = params[:term]
 
+    # To be further split: As we add more short codes and this becomes a 'find anything' search box,
+    # move to own controller.
+    if request.format.html? && current_member && @term.to_s.match?(/\A[2-9A-HJ-NP-Z]{4}\z/)
+      planting = current_member.plantings.find_by(short_code: @term)
+      return redirect_to planting_path(planting) if planting
+    end
+
     @crops = CropSearchService.search(@term,
                                       page:           params[:page],
                                       per_page:       Crop.per_page,

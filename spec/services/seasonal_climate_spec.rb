@@ -99,12 +99,22 @@ describe SeasonalClimate do
       expect(season(:summer).mean).to eq 6.0
     end
 
-    it 'gives how cold the nights typically fall' do
-      expect(season(:summer).night).to eq(-2.0)
+    it 'gives the coldest night of the season' do
+      expect(season(:summer).night).to eq(-7.0)
     end
 
-    it 'gives how hot the days typically get' do
-      expect(season(:summer).day).to eq 14.0
+    it 'gives the average of the coldest nights of the months of the season' do
+      # Each month's coldest night is its mean minus 8, and the summer's means average 6, so the nights average -2.
+      expect(season(:summer).night_usual).to eq(-2.0)
+    end
+
+    it 'gives the average of the hottest days of the months of the season' do
+      # Each month's hottest day is its mean plus 8, and the summer's means average 6, so the days average 14.
+      expect(season(:summer).day_usual).to eq 14.0
+    end
+
+    it 'gives the hottest day of the season' do
+      expect(season(:summer).day).to eq 22.0
     end
 
     it 'adds up the usual rain of the months' do

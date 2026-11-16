@@ -1,25 +1,27 @@
-- if planting.annual?
-  .d-flex.justify-content-between
-    - if planting.planted_at.present?
-      %p.small #{image_icon 'planting-hand'} #{t('.planted', date: I18n.l(planting.planted_at))}
-    - if planting.first_harvest_date.present?
-      %p.small #{harvest_icon} #{t('.harvest_started', date: I18n.l(planting.first_harvest_date))}
-    - elsif planting.first_harvest_predicted_at.present?
-      %p.small #{harvest_icon} #{t('.first_harvest_expected', date: I18n.l(planting.first_harvest_predicted_at))}
-    - if planting.finished_at.present?
-      %p.small #{finished_icon} #{t('.finished', date: I18n.l(planting.finished_at))}
-    - elsif planting.failed?
-      %p.small #{finished_icon} #{t('.failed')}
-    - elsif planting.finish_predicted_at.present?
-      %p.small #{finished_icon} #{t('.finish_expected', date: I18n.l(planting.finish_predicted_at))}
-  - if planting.planted_at.present? && planting.expected_lifespan.present?
-    .progress
-      .progress-bar{class: "progress-bar--#{planting.progress_state}", "aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => planting.percentage_grown, role: "progressbar", style: "width: #{planting.percentage_grown}%"}
-    %ul.list-unstyled.d-flex.flex-wrap.justify-content-start
-      - in_weeks(planting.expected_lifespan).times do |week_number|
-        %li{class: planting.planted_at + week_number.weeks > Time.zone.today ? 'text-muted progress-fade' : '', 'data-bs-toggle': "tooltip", 'data-bs-placement': "top", title: I18n.l(planting.planted_at + week_number.weeks)}
-          = render 'timeline_icon',
-            planting: planting,
-            week_number: week_number,
-            date_this_week: planting.planted_at + week_number.weeks
-    %small= t('.legend')
+-# A planting's life as a line with its events on it: sown or planted, each move to another garden, first and last
+-# harvest, and finished, each with the icon the site uses for it elsewhere. A solid badge has happened; a dashed,
+-# fainter one is expected. The line is filled as far as today. PlantingTimeline decides what goes where; the garden
+-# cards draw the same thing in React (PlantingTimeline.jsx).
+- timeline = PlantingTimeline.new(planting)
+- if planting.annual? && timeline.show?
+  -# Where we know which half of the world the garden is in, the line is made of the seasons it runs through, as the
+  -# weather charts further down the page are. Without that it is a plain line.
+  - seasons = weather_seasons(planting.latitude, from: timeline.start, days: timeline.days)
+  .planting-timeline
+    .planting-timeline-line{ class: ('planting-timeline-line--seasons' if seasons.any?), 'aria-hidden': 'true' }
+      = weather_season_strip(seasons, timeline.days)
+      - fill = "width: #{timeline.fill_position}%"
+      .planting-timeline-fill{ class: "progress-bar--#{planting.progress_state}", style: fill }
+      - if timeline.today_position
+        %span.planting-timeline-today{ style: "left: #{timeline.today_position}%", title: t('.today') }
+    %ol.planting-timeline-events
+      - timeline.markers.each do |marker|
+        - classes = marker.modifiers.map { |modifier| "planting-timeline-event--#{modifier}" }
+        %li.planting-timeline-event{ class: classes, style: "left: #{marker.percent}%" }
+          %span.planting-timeline-marker{ 'aria-hidden': 'true' }= image_icon marker.icon
+          %span.planting-timeline-label
+            %span.planting-timeline-name= marker.label
+            %span.planting-timeline-date
+              = I18n.l(marker.date)
+              - if marker.expected
+                %em= t('.expected')

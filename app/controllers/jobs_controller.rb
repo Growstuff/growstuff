@@ -39,7 +39,16 @@ class JobsController < DataController
   end
 
   def update
-    updated = @job.update(job_params)
+    updated = Job.transaction do
+      saved = @job.update(job_params)
+      if saved && params.key?(:before_id)
+        editable = Job.where(owner: current_member).or(Job.where(id: Job.accessible_by(current_ability, :update).select(:id)))
+        saved = ReorderJob.call(@job, editable, params[:before_id])
+      end
+      raise ActiveRecord::Rollback unless saved
+
+      true
+    end
 
     return render_notepad(:ok) if request.xhr? && updated
     return head :unprocessable_content if request.xhr?

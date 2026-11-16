@@ -13,6 +13,12 @@ module PostsHelper
     truncate(strip_tags(markdownify(post.body)), length:)
   end
 
+  def post_excerpt(post, length: 300)
+    html = Kramdown::Document.new(markdownify(post.body)).to_html
+    text = Nokogiri::HTML.fragment(html).text
+    text.squish.truncate(length)
+  end
+
   private
 
   def localized_post_languages
