@@ -1199,6 +1199,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
     t.date "seed_plant_before"
     t.string "short_code", limit: 10
     t.string "slug"
+    t.bigint "source_planting_id"
     t.string "sunniness"
     t.datetime "updated_at", precision: nil
     t.index ["alternate_name_id"], name: "index_plantings_on_alternate_name_id"
@@ -1208,6 +1209,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
     t.index ["owner_id"], name: "index_plantings_on_owner_id"
     t.index ["parent_seed_id"], name: "index_plantings_on_parent_seed_id"
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
+    t.index ["source_planting_id"], name: "index_plantings_on_source_planting_id"
   end
 
   create_table "plants", force: :cascade do |t|
@@ -1401,6 +1403,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
   add_foreign_key "planting_histories", "plantings"
   add_foreign_key "planting_seedlings", "plantings", on_delete: :cascade
   add_foreign_key "plantings", "alternate_names", on_delete: :nullify
+  add_foreign_key "plantings", "plantings", column: "source_planting_id"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "plants", "plantings"
   add_foreign_key "posts", "photos", column: "card_photo_id", on_delete: :nullify
