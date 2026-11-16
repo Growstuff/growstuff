@@ -24,4 +24,4 @@
             %time.planting-timeline-date{ datetime: marker.date.iso8601, title: I18n.l(marker.date) }
               = I18n.l(marker.date, format: :short)
               - if marker.expected
-                %em= " #{t('.expected')}"
+                %em= t('.expected')

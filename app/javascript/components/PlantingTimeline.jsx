@@ -31,7 +31,7 @@ export default function PlantingTimeline({timeline, compact = false}) {
                 <span className="planting-timeline-name">{event.label}</span>
                 <time className="planting-timeline-date" dateTime={event.date} title={date}>
                   {formatDate(event.date, {short: true})}
-                  {event.expected && <em>{' '}{expectedLabel}</em>}
+                  {event.expected && <em>{expectedLabel}</em>}
                 </time>
               </span>
             </li>

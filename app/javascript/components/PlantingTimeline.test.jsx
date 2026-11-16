@@ -35,9 +35,9 @@ describe('PlantingTimeline', () => {
     expect(container.querySelector('time')).toHaveAttribute('datetime', timeline.events[0].date);
   });
 
-  it('separates the date from the expected label', () => {
+  it('renders the expected label in its own element without added whitespace', () => {
     const {container} = render(<PlantingTimeline timeline={timeline} />);
-    expect(container.querySelector('.planting-timeline-event--expected time').textContent).toMatch(/\s+expected$/);
+    expect(container.querySelector('.planting-timeline-event--expected time em').textContent).toBe(timeline.expected_label);
   });
 
   it('gives each event the icon the server chose', () => {
