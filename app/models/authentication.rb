@@ -8,11 +8,12 @@ class Authentication < ApplicationRecord
   # omniauth_providers, and give it a partial in app/views/authentications/sign_in/.
   SIGN_IN_PROVIDERS = {
     'bluesky'  => -> { Atproto::ClientConfig.enabled? },
-    'mastodon' => -> { true }
+    'mastodon' => -> { true },
+    'github'   => -> { OmniAuth::Strategies::GrowstuffGithub.enabled? }
   }.freeze
 
   # Providers that identify someone without telling us an email address.
-  EMAIL_OPTIONAL_PROVIDERS = %w(bluesky mastodon).freeze
+  EMAIL_OPTIONAL_PROVIDERS = %w(bluesky mastodon github).freeze
 
   def self.enabled_sign_in_providers
     SIGN_IN_PROVIDERS.select { |_provider, enabled| enabled.call }.keys

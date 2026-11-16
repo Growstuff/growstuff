@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 import BlueskyModal from './BlueskyModal';
+import GithubModal from './GithubModal';
 import MastodonModal from './MastodonModal';
 import {closeOpenOffcanvases} from './Modal';
 import SignInModal from './SignInModal';
@@ -8,13 +9,13 @@ import SignUpModal from './SignUpModal';
 
 // The sign in, sign up and federated account dialogs for server-rendered links.
 // Nothing of its own is drawn: it listens for clicks on any
-// [data-auth-dialog="sign_in"], "sign_up", "bluesky" or "mastodon" link (the menu,
+// [data-auth-dialog="sign_in"], "sign_up", "bluesky", "mastodon" or "github" link (the menu,
 // the home page's buttons) and opens that dialog over the page. The layout
 // mounts it once, for visitors who aren't signed in.
 //
 // The link's own href is the page for the same thing, so it stays the
 // fallback without JavaScript.
-export default function AuthDialog({urls, recaptcha_site_key: recaptchaSiteKey, site_name: siteName}) {
+export default function AuthDialog({urls, recaptcha_site_key: recaptchaSiteKey, site_name: siteName, github_labels: githubLabels}) {
   const [opened, setOpened] = useState(null);
   const open = useRef(null);
   open.current = setOpened;
@@ -35,12 +36,16 @@ export default function AuthDialog({urls, recaptcha_site_key: recaptchaSiteKey, 
 
   const onBluesky = urls.bluesky ? () => setOpened(opened === 'sign_up' ? 'bluesky_sign_up' : 'bluesky') : undefined;
   const onMastodon = urls.mastodon ? () => setOpened(opened === 'sign_up' ? 'mastodon_sign_up' : 'mastodon') : undefined;
+  const onGithub = urls.github ? () => setOpened(opened === 'sign_up' ? 'github_sign_up' : 'github') : undefined;
 
   if (opened === 'sign_in') {
-    return <SignInModal urls={urls} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_up')} onBluesky={onBluesky} onMastodon={onMastodon} />;
+    return <SignInModal urls={urls} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_up')} onBluesky={onBluesky} onMastodon={onMastodon} onGithub={onGithub} githubLabel={githubLabels?.continue} />;
   }
   if (opened === 'sign_up') {
-    return <SignUpModal urls={urls} recaptchaSiteKey={recaptchaSiteKey} siteName={siteName} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_in')} onBluesky={onBluesky} onMastodon={onMastodon} />;
+    return <SignUpModal urls={urls} recaptchaSiteKey={recaptchaSiteKey} siteName={siteName} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_in')} onBluesky={onBluesky} onMastodon={onMastodon} onGithub={onGithub} githubLabel={githubLabels?.continue} />;
+  }
+  if ((opened === 'github' || opened === 'github_sign_up') && urls.github) {
+    return <GithubModal urls={urls} labels={githubLabels} requireTerms={opened === 'github_sign_up'} onClose={() => setOpened(null)} />;
   }
   if (opened === 'mastodon' || opened === 'mastodon_sign_up') {
     return <MastodonModal urls={urls} requireTerms={opened === 'mastodon_sign_up'} onClose={() => setOpened(null)} />;

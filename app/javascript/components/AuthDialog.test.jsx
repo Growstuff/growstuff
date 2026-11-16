@@ -4,7 +4,8 @@ import {describe, expect, it, vi} from 'vitest';
 
 import AuthDialog from './AuthDialog';
 
-const urls = {sign_in: '/s', sign_up: '/u', forgot_password: '/f', sign_in_page: '/si', sign_up_page: '/su', bluesky: '/b', mastodon: '/m'};
+const urls = {sign_in: '/s', sign_up: '/u', forgot_password: '/f', sign_in_page: '/si', sign_up_page: '/su', bluesky: '/b', mastodon: '/m', github: '/g'};
+const githubLabels = {title: 'Sign in with GitHub', continue: 'Continue with GitHub', permission_note: 'Public identity only', agree_to_terms: 'I agree to the', terms_of_service: 'Terms of Service', cancel: 'Cancel'};
 
 function setup(pageUrls = urls) {
   render(
@@ -13,14 +14,15 @@ function setup(pageUrls = urls) {
         <a href="/members/sign_up" data-auth-dialog="sign_up">Join</a>
         <a href="/members/sign_in" data-auth-dialog="bluesky">Bluesky</a>
         <a href="/members/sign_in" data-auth-dialog="mastodon">Mastodon</a>
+        <a href="/members/sign_in" data-auth-dialog="github">GitHub</a>
         <a href="/about">About</a>
-        <AuthDialog urls={pageUrls} site_name="Growstuff" />
+        <AuthDialog urls={pageUrls} site_name="Growstuff" github_labels={githubLabels} />
       </>,
   );
 }
 
 describe('AuthDialog', () => {
-  describe.each(['Bluesky', 'Mastodon'])('%s terms agreement', (provider) => {
+  describe.each(['Bluesky', 'Mastodon', 'GitHub'])('%s terms agreement', (provider) => {
     it('does not prompt when signing in from a provider link', async () => {
       setup();
       await userEvent.click(screen.getByRole('link', {name: provider}));
@@ -44,6 +46,31 @@ describe('AuthDialog', () => {
 
   it('draws nothing to start with', () => {
     setup();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('posts the GitHub form to its authorization endpoint', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'GitHub'}));
+    expect(screen.getByRole('button', {name: githubLabels.continue}).closest('form')).toHaveAttribute('action', urls.github);
+  });
+
+  it('uses POST for GitHub authorization', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'GitHub'}));
+    expect(screen.getByRole('button', {name: githubLabels.continue}).closest('form')).toHaveAttribute('method', 'post');
+  });
+
+  it('hides GitHub when it is switched off', async () => {
+    setup({...urls, github: null});
+    await userEvent.click(screen.getByRole('link', {name: 'Log in'}));
+    expect(screen.queryByRole('button', {name: githubLabels.continue})).not.toBeInTheDocument();
+  });
+
+  it('closes GitHub without leaving the page', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'GitHub'}));
+    await userEvent.click(screen.getByRole('button', {name: githubLabels.cancel}));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
