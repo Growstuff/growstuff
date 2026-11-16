@@ -50,6 +50,10 @@ class JobsController < DataController
       true
     end
 
+    # A tick on a planting's page: just that line, drawn again.
+    return render(partial: 'jobs/checklist_item', locals: { job: @job }) if params[:checklist] && updated
+    return head :unprocessable_content if params[:checklist]
+
     return render_notepad(:ok) if request.xhr? && updated
     return head :unprocessable_content if request.xhr?
 

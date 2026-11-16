@@ -4062,6 +4062,7 @@ en:
       view_owners_profile: View %{owner}'s profile >>
     job_modal:
       cancel: Cancel
+      due_label: When is it due?
       name_label: What needs doing?
       save: Add job
       title: Add a job for %{crop}
