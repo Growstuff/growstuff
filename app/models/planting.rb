@@ -232,7 +232,7 @@ class Planting < ApplicationRecord
       end
 
       result = dup
-      result.assign_attributes(quantity: amount.to_i, source_planting: self, slug: nil, harvests_count: 0)
+      result.assign_attributes(quantity: amount.to_i, source_planting: self, slug: nil, short_code: nil, harvests_count: 0)
       histories.each do |history|
         result.histories.build(history.attributes.except('id', 'planting_id', 'created_at', 'updated_at'))
       end
