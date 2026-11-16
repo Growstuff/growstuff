@@ -13,8 +13,22 @@
         .modal-body
           = form.label :name, t('.name_label'), class: 'form-label'
           = form.text_field :name, required: true, autocomplete: 'off', class: 'form-control'
-          = form.label :due_date, t('.due_label'), class: 'form-label mt-3'
-          = form.date_field :due_date, value: Time.zone.today.to_fs(:ymd), class: 'form-control'
+          -# The same days as the menu on a job in the notepad. Change date reveals a
+          -# calendar; job_due_choice.js gives its radio button the day picked.
+          %fieldset.job-due-choices.mt-3
+            %legend.form-label= t('.due_label')
+            .list-group.job-due-list
+              - job_due_choices.each_with_index do |(key, day), index|
+                %label.list-group-item.list-group-item-action.job-due-choice
+                  = radio_button_tag 'job[due_date]', day.to_fs(:ymd), index.zero?, class: 'form-check-input', id: "job_due_date_#{key}"
+                  = menu_icon(:job)
+                  = t("jobs.pad.#{key}")
+              %label.list-group-item.list-group-item-action.job-due-choice.job-due-custom
+                = radio_button_tag 'job[due_date]', '', false, class: 'form-check-input', id: 'job_due_date_custom'
+                = menu_icon(:job)
+                = t('jobs.pad.change_date')
+                = date_field_tag :job_due_date_picker, nil, class: 'form-control form-control-sm job-due-picker', hidden: true,
+                                                            min: Time.zone.today.to_fs(:ymd), 'aria-label': t('jobs.pad.change_date')
         .modal-footer.justify-content-between
           %button.btn.btn-secondary{ 'data-bs-dismiss': 'modal', type: 'button' }= t('.cancel')
           = form.submit t('.save'), class: 'btn btn-primary'

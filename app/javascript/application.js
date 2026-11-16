@@ -16,6 +16,7 @@ import './site/ecocrop_find';
 import './site/editable';
 import './site/finish_toggle';
 import './site/job_checklist';
+import './site/job_due_choice';
 import './site/job_ideas';
 import './site/job_notepad';
 import './site/likes';

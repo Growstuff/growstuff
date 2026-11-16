@@ -1260,3 +1260,26 @@ $notepad-trail: #a4c98c;
     color: $danger-text;
   }
 }
+
+// The days to choose from when adding a job to a planting: a list like the menu
+// on a job in the notepad, a calendar icon beside each.
+.job-due-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+
+  .menu-icon {
+    flex: none;
+    color: $green;
+  }
+}
+
+.job-due-picker {
+  flex: 0 1 11rem;
+  margin-left: auto;
+
+  &[hidden] {
+    display: none;
+  }
+}

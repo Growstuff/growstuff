@@ -32,6 +32,7 @@ describe 'Jobs on a planting' do
 
     it 'finishes the job when it is ticked' do
       click_button 'Cross off: Net the berries'
+      expect(page).to have_css('.job-checklist-item.done', text: 'Net the berries')
       expect(planned.reload.finished).to be true
     end
 
@@ -68,7 +69,8 @@ describe 'Jobs on a planting' do
       within('#jobs') { click_link 'add' }
       within('#planting-job-modal') do
         fill_in 'job_name', with: 'Stake the tomatoes'
-        fill_in 'job_due_date', with: due_date.strftime('%d%m%Y')
+        choose 'Change date…'
+        fill_in 'job_due_date_picker', with: due_date
         click_button 'Add job'
       end
     end

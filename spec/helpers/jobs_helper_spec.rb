@@ -77,4 +77,30 @@ describe JobsHelper do
       expect(date_label(due_date: nil)).to be_nil
     end
   end
+
+  describe '#job_due_choices' do
+    subject(:keys) { helper.job_due_choices(today).map(&:first) }
+
+    context 'with a Monday' do
+      let(:today) { Date.new(2026, 11, 16) }
+
+      it { is_expected.to eq %i(move_today move_tomorrow move_week move_weekend move_later) }
+    end
+
+    context 'with a Thursday' do
+      let(:today) { Date.new(2026, 11, 19) }
+
+      it 'leaves out This week, which is just tomorrow' do
+        expect(keys).to eq %i(move_today move_tomorrow move_weekend move_later)
+      end
+    end
+
+    context 'with a Saturday' do
+      let(:today) { Date.new(2026, 11, 21) }
+
+      it 'leaves out This week and This weekend' do
+        expect(keys).to eq %i(move_today move_tomorrow move_later)
+      end
+    end
+  end
 end

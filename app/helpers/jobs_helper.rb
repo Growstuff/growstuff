@@ -1,6 +1,20 @@
 # frozen_string_literal: true
 
 module JobsHelper
+  # The days a job can be moved to, or set for, in a click: Today, Tomorrow, This
+  # week, This weekend and Later. Each is the label's translation key under
+  # jobs.pad and the day. This week and This weekend are left out when they are
+  # no later than tomorrow.
+  def job_due_choices(today = Time.zone.today)
+    [
+      [:move_today, today],
+      [:move_tomorrow, today + 1.day],
+      ([:move_week, JobList.week_date(today)] if JobList.week_date(today) > today + 1.day),
+      ([:move_weekend, JobList.weekend_start(today)] if JobList.weekend_start(today) > today + 1.day),
+      [:move_later, JobList.later_date(today)]
+    ].compact
+  end
+
   # The day shown beside a job: when it is due, or, once it is crossed off, when
   # that was ("done last Tuesday"). A job crossed off before the day was recorded
   # shows the day it was due.
