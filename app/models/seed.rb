@@ -56,7 +56,7 @@ class Seed < ApplicationRecord
   after_commit :update_crop_medians, on: %i(create update destroy)
   validates :row_spacing, allow_nil:    true,
                           numericality: { only_integer: true, greater_than: 0 }
-  validates :variety, :batch_number, length: { maximum: 100 }
+  validates :variety, :batch_number, :brand, :barcode, length: { maximum: 100 }
   validate :plant_before_year_is_a_year
   validates :tradable_to, allow_blank: false,
                           inclusion:   { in: TRADABLE_TO_VALUES, message: :tradable_to_inclusion }
@@ -168,6 +168,10 @@ class Seed < ApplicationRecord
       @bad_plant_before_year = given
       self.plant_before = nil
     end
+  end
+
+  def bought_from_retail?
+    source == 'retail outlet'
   end
 
   def tradable

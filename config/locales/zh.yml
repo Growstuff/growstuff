@@ -3656,6 +3656,8 @@ zh:
       trade_label: 交换范围
       variety: 品种
       batch_number: 批次编号
+      brand: 品牌
+      barcode: 条形码
       maturity_min: 成熟天数（最少）
       maturity_max: 成熟天数（最多）
       row_spacing_cm: 行距（厘米）

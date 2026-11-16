@@ -3661,6 +3661,8 @@ de:
       trade_label: Tauschangebot
       variety: Sorte
       batch_number: Chargennummer
+      brand: Marke
+      barcode: Strichcode
       maturity_min: Tage bis zur Reife (min.)
       maturity_max: Tage bis zur Reife (max.)
       row_spacing_cm: Reihenabstand (cm)

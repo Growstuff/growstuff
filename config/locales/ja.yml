@@ -3190,6 +3190,8 @@ ja:
       trade_label: 交換範囲
       variety: 品種
       batch_number: ロット番号
+      brand: ブランド
+      barcode: バーコード
       maturity_min: 成熟までの日数（最短）
       maturity_max: 成熟までの日数（最長）
       row_spacing_cm: 畝間（cm）
