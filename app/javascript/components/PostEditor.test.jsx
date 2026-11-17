@@ -6,7 +6,7 @@ import * as api from '../api';
 
 import PostEditor from './PostEditor';
 
-// The Flickr picker has its own tests. Here it just hands back the next photo.
+// The hosted-photo picker has its own tests. Here it just hands back the next photo.
 let nextPhoto = 6;
 vi.mock('./AddPhotoModal', () => ({
   default: ({onAdded}) => (
@@ -22,9 +22,10 @@ vi.mock('./AddPhotoModal', () => ({
 }));
 
 const hidden = (container) => container.querySelector('input[type="hidden"]');
+const addPhotoLabel = 'Choose photo';
 
 async function setup(props = {}) {
-  const view = render(<PostEditor name="post[body]" {...props} />);
+  const view = render(<PostEditor name="post[body]" addPhotoLabel={addPhotoLabel} {...props} />);
   await screen.findByRole('toolbar', {name: 'Formatting'});
   return view;
 }
@@ -313,15 +314,15 @@ describe('PostEditor', () => {
       expect(await screen.findByText('Photo 99')).toBeInTheDocument();
     });
 
-    it('offers the Flickr photo button only to those who can add photos', async () => {
+    it('offers the photo button only to those who can add photos', async () => {
       await setup();
-      expect(screen.queryByRole('button', {name: 'Flickr photo'})).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', {name: addPhotoLabel})).not.toBeInTheDocument();
     });
 
     it('saves a blank new draft so a photo has a post to go on', async () => {
       const create = vi.spyOn(api, 'postJson').mockResolvedValue({ok: true, status: 201, data: {id: 12}});
       await setup({canAddPhoto: true, autosave: {createUrl: '/posts', updateUrl: null, subjectId: 'post_subject'}});
-      await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
+      await userEvent.click(screen.getByRole('button', {name: addPhotoLabel}));
       await waitFor(() => expect(create).toHaveBeenCalledWith('/posts', {post: {subject: '', body: '', draft: true}}));
       create.mockRestore();
     });
@@ -329,26 +330,26 @@ describe('PostEditor', () => {
     it('opens the picker once the draft is saved', async () => {
       vi.spyOn(api, 'postJson').mockResolvedValue({ok: true, status: 201, data: {id: 12}});
       await setup({canAddPhoto: true, autosave: {createUrl: '/posts', updateUrl: null, subjectId: 'post_subject'}});
-      await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
+      await userEvent.click(screen.getByRole('button', {name: addPhotoLabel}));
       expect(await screen.findByRole('dialog')).toBeInTheDocument();
     });
 
     it('says so when the draft cannot be saved', async () => {
       vi.spyOn(api, 'postJson').mockResolvedValue({ok: false, status: 500, data: null});
       await setup({canAddPhoto: true, autosave: {createUrl: '/posts', updateUrl: null, subjectId: 'post_subject'}});
-      await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
+      await userEvent.click(screen.getByRole('button', {name: addPhotoLabel}));
       expect(await screen.findByText(/could not be saved, so a photo cannot be added/)).toBeInTheDocument();
     });
 
-    it('opens the Flickr picker for a post that exists', async () => {
+    it('opens the photo picker for a post that exists', async () => {
       await setup({canAddPhoto: true, postPath: '/posts/a-post'});
-      await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
+      await userEvent.click(screen.getByRole('button', {name: addPhotoLabel}));
       expect(await screen.findByRole('dialog')).toBeInTheDocument();
     });
 
     it('puts a picked photo in the text', async () => {
       const {container} = await setup({canAddPhoto: true, postPath: '/posts/a-post'});
-      await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
+      await userEvent.click(screen.getByRole('button', {name: addPhotoLabel}));
       await userEvent.click(await screen.findByRole('button', {name: 'Add one'}));
       await waitFor(() => expect(hidden(container).value).toMatch(/\(photo:\d+\/wide\)/));
     });
@@ -356,7 +357,7 @@ describe('PostEditor', () => {
     it('keeps the first photo when a second is picked while it is selected', async () => {
       const {container} = await setup({canAddPhoto: true, postPath: '/posts/a-post', value: 'Words'});
       for (let i = 0; i < 2; i += 1) {
-        await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
+        await userEvent.click(screen.getByRole('button', {name: addPhotoLabel}));
         await userEvent.click(await screen.findByRole('button', {name: 'Add one'}));
         await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
         // Clicking a photo in the text selects it, as it is right after being placed.

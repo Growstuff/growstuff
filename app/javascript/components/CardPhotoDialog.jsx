@@ -9,6 +9,7 @@ import Modal from './Modal';
 // page is server rendered.
 export default function CardPhotoDialog({
   url, photos, selectedId = null, subject, excerpt = '', byline = '', addPhotoUrl = null, addPhotoLabel = '',
+  photoLabels = {card_hint: 'Photos come from your Flickr or Mastodon account. This photo stands for your post wherever it appears as a card: the posts list, your page and links shared elsewhere.', card_empty: 'Add a photo to this post first, then you can choose it here.', pick_different: 'Pick a different photo'},
 }) {
   const [open, setOpen] = useState(false);
   const [chosenId, setChosenId] = useState(selectedId || (photos[0] && photos[0].id));
@@ -38,11 +39,10 @@ export default function CardPhotoDialog({
         <Modal title={`Card photo for “${subject}”`} titleId="card-photo-title" onClose={() => setOpen(false)}>
           <div className="modal-body">
             <p className="text-muted">
-              Photos come from your Flickr account. This photo stands for your post wherever it appears as a card: the
-              posts list, your page and links shared elsewhere.
+              {photoLabels.card_hint}
             </p>
             {photos.length === 0 ? (
-              <p>Pick a photo from Flickr for this post first, then you can choose it here.</p>
+              <p>{photoLabels.card_empty}</p>
             ) : (
               <fieldset>
                 <legend className="h6 text-uppercase">Photos in this post</legend>
@@ -76,7 +76,7 @@ export default function CardPhotoDialog({
                   data-photo-label={addPhotoLabel}
                   onClick={() => setOpen(false)}
                 >
-                  Pick a different photo from Flickr
+                  {photoLabels.pick_different}
                 </a>
                 <span className="text-muted small">Or leave it empty and the first photo is used.</span>
               </p>

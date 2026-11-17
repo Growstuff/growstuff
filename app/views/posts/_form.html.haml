@@ -34,7 +34,7 @@
           -# Falls back to the plain textarea if the editor script does not load.
           - editor_props = { name: 'post[body]', value: @post.body.to_s, previewUrl: preview_posts_path,
             canAddPhoto: can?(:create, Photo), photos: post_photo_props(@post), cardPhotoId: @post.card_photo_id,
-            postPath: (post_path(@post.id) if @post.persisted?) }
+            postPath: (post_path(@post.id) if @post.persisted?), addPhotoLabel: t('photos.import_picker.add') }
           - editor_props[:autosave] = autosave if draft
           = react_component('PostEditor', editor_props) do
             = f.text_area :body, rows: 12, label: false
