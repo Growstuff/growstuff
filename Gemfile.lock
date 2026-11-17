@@ -287,7 +287,7 @@ GEM
       sysexits (~> 1.1)
     hashie (5.2.0)
       logger
-    herringbone (0.9.1)
+    herringbone (1.0.0)
       bigdecimal
     highline (3.1.2)
       reline
@@ -363,6 +363,7 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     minitest (6.1.0)
       drb (~> 2.0)
       prism (>= 1.5, < 3)
@@ -383,6 +384,9 @@ GEM
     net-smtp (0.5.2)
       net-protocol
     nio4r (2.7.5)
+    nokogiri (1.19.7)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.19.7-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth (1.1.6)
