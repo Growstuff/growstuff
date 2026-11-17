@@ -7,7 +7,7 @@
   .frost-section-body
     -# The verdict is a note like the weather section's: an icon for how it stands, a bold line and the sentence under it.
     - note = frost_verdict_note(frost.verdict)
-    .weather-note.frost-verdict{ class: ["weather-note--#{note[:level]}", "frost-verdict--#{frost.verdict}"], role: 'status' }
+    .weather-note{ class: "weather-note--#{note[:level]}", role: 'status', data: { verdict: frost.verdict } }
       %span.weather-note-icons
         %i.fas.weather-note-icon{ class: "fa-#{note[:icon]}", 'aria-hidden': true }
       %div

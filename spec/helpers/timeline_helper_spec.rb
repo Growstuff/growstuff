@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ObservationsHelper do
+describe TimelineHelper do
   describe '#planted_note' do
     subject(:note) { helper.planted_note(planting) }
 
@@ -49,19 +49,50 @@ describe ObservationsHelper do
     end
   end
 
-  describe '#damaging_wind_note' do
-    let(:run) do
-      [build(:place_condition, kind: 'damaging_wind', value: 91.0, direction_degrees: 10.0, temp_min_c: 6.1, temp_max_c: 15.8),
-       build(:place_condition, kind: 'damaging_wind', value: 112.4, direction_degrees: 225.0, temp_min_c: 8.0, temp_max_c: 14.0)]
+  describe '#weather_entry' do
+    let(:planting) { build(:planting, crop: build(:crop, name: 'pea')) }
+
+    context 'with damaging wind' do
+      let(:run) do
+        [build(:place_condition, kind: 'damaging_wind', value: 101.0, direction_degrees: 10.0, temp_min_c: 6.1, temp_max_c: 15.8),
+         build(:place_condition, kind: 'damaging_wind', value: 112.4, direction_degrees: 225.0, temp_min_c: 8.0, temp_max_c: 14.0)]
+      end
+
+      it 'describes the strongest day, with where from and the temperatures' do
+        expect(helper.weather_entry(:damaging_wind, run,
+                                    planting)[:note]).to eq 'Gusts up to 112 km/h from the south-west, 8 to 14 °C that day.'
+      end
+
+      it 'says how many days in a row' do
+        expect(helper.weather_entry(:damaging_wind, run, planting)[:title]).to eq 'Damaging wind for 2 days in a row'
+      end
+
+      it 'leaves out what is not known' do
+        run.last.assign_attributes(direction_degrees: nil, temp_min_c: nil)
+        expect(helper.weather_entry(:damaging_wind, run, planting)[:note]).to eq 'Gusts up to 112 km/h.'
+      end
     end
 
-    it 'describes the strongest day, with where from and the temperatures' do
-      expect(helper.damaging_wind_note(run)).to eq 'Gusts up to 112 km/h from the south-west, 8 to 14 °C that day.'
+    context 'with a day too cold for the crop' do
+      let(:run) { [build(:planting_condition, kind: 'killing_cold', value: -4.0, threshold: -2.0)] }
+
+      it 'names the crop and the limit it crossed' do
+        expect(helper.weather_entry(:killing_cold, run, planting)[:note]).to eq 'Down to -4 °C, at or below the -2 °C that kills pea.'
+      end
+
+      it 'is a problem, in a cold icon' do
+        expect(helper.weather_entry(:killing_cold, run, planting)).to include(icon: 'temperature-low', classes: 'observation-problem')
+      end
+    end
+  end
+
+  describe '#timeline_partial' do
+    it 'shares one partial between the weather kinds' do
+      expect(%i(frost killing_heat first_snow).map { |type| helper.timeline_partial(type) }).to eq %w(weather weather weather)
     end
 
-    it 'leaves out what is not known' do
-      run.last.assign_attributes(direction_degrees: nil, temp_min_c: nil)
-      expect(helper.damaging_wind_note(run)).to eq 'Gusts up to 112 km/h.'
+    it 'names the others for themselves' do
+      expect(helper.timeline_partial(:harvest)).to eq 'harvest'
     end
   end
 

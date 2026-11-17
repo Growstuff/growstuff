@@ -17,7 +17,7 @@ describe 'frost/_section' do
   before { render partial: 'frost/section', locals: { frost: } }
 
   it 'shows the verdict' do
-    expect(rendered).to have_css '.frost-verdict--passed'
+    expect(rendered).to have_css '[data-verdict=\"passed\"]'
   end
 
   it 'keeps the timeline and figures closed until asked for' do
@@ -40,7 +40,7 @@ describe 'frost/_section' do
     let(:finished) { true }
 
     it 'shows the finished verdict' do
-      expect(rendered).to have_css '.frost-verdict--finished_clear'
+      expect(rendered).to have_css '[data-verdict=\"finished_clear\"]'
     end
 
     it 'draws the planting as one bar' do
@@ -54,7 +54,7 @@ describe 'frost/_section' do
     end
 
     it 'shows the verdict' do
-      expect(rendered).to have_css '.frost-verdict--rare'
+      expect(rendered).to have_css '[data-verdict=\"rare\"]'
     end
 
     it 'leaves out the timeline' do
@@ -70,7 +70,7 @@ describe 'frost/_section' do
     let(:frost) { FrostSeason.new(stat:, today:) }
 
     it 'shows the verdict' do
-      expect(rendered).to have_css '.frost-verdict--passed'
+      expect(rendered).to have_css '[data-verdict=\"passed\"]'
     end
 
     it 'draws the frost danger' do

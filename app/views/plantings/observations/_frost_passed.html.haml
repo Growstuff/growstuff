@@ -1,0 +1,7 @@
+-# Where frost happens, the day its danger ended for the planting: from the frost dates, so not something to edit.
+%li.observation.observation-frost
+  %span.observation-icon= icon 'fas', 'sun'
+  = timeline_when(entry.at, planting)
+  .observation-body
+    %strong.observation-kind= t('.title')
+    %p.observation-note.mb-0= t('.note')

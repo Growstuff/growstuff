@@ -1,0 +1,8 @@
+-# The day it moved out of the nursery, from the planting's record of where it has been.
+- garden = entry.record.moved_to
+%li.observation.observation-transplanted
+  %span.observation-icon= icon 'fas', 'arrow-right'
+  = timeline_when(entry.at, planting)
+  .observation-body
+    %strong.observation-kind= t('.title')
+    %p.observation-note.mb-0= t('.note_html', garden: link_to(garden.name, garden))
