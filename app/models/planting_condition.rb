@@ -61,7 +61,8 @@ class PlantingCondition < ApplicationRecord
     return [] if planting.garden.frost_safe?
 
     readings.select { |day| day.wind_gust_max_kmh && day.wind_gust_max_kmh >= DAMAGING_GUST_KMH }.map do |day|
-      Day.new('damaging_wind', day.date, day.wind_gust_max_kmh, DAMAGING_GUST_KMH, day.wind_direction_degrees, day.temp_min_c, day.temp_max_c)
+      Day.new('damaging_wind', day.date, day.wind_gust_max_kmh, DAMAGING_GUST_KMH, day.wind_direction_degrees, day.temp_min_c,
+              day.temp_max_c)
     end
   end
 

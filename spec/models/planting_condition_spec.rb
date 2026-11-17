@@ -13,8 +13,9 @@ describe PlantingCondition do
     let(:cell) { planting.weather_cell }
     let(:kept) { planting.conditions.pluck(:kind, :occurred_on, :value, :threshold) }
 
-    def reading(date, low, high = 12.0)
-      create(:weather_reading, latitude: cell.first, longitude: cell.last, date:, temp_min_c: low, temp_max_c: high)
+    def reading(date, low, high = 12.0, gust: 20.0, direction: 270.0)
+      create(:weather_reading, latitude: cell.first, longitude: cell.last, date:, temp_min_c: low, temp_max_c: high,
+                               wind_gust_max_kmh: gust, wind_direction_degrees: direction)
     end
 
     before do
@@ -23,6 +24,8 @@ describe PlantingCondition do
       reading(Date.new(2026, 8, 20), -1.5)
       reading(Date.new(2026, 8, 21), 6.0)
       reading(Date.new(2026, 8, 22), 1.0, 33.0)
+      reading(Date.new(2026, 8, 23), 8.0, 14.0, gust: 90.0, direction: 225.0)
+      reading(Date.new(2026, 8, 24), 8.0, 14.0, gust: 89.9)
     end
 
     it 'keeps the nights that reached the frost danger temperature' do
@@ -40,9 +43,15 @@ describe PlantingCondition do
       expect(kept).to include(['killing_heat', Date.new(2026, 8, 22), 33.0, 30.0])
     end
 
+    it 'keeps the days with gusts of 90 km/h or more, with where from and the temperatures' do
+      refresh
+      expect(planting.conditions.damaging_wind.pluck(:occurred_on, :value, :direction_degrees, :temp_min_c, :temp_max_c))
+        .to eq [[Date.new(2026, 8, 23), 90.0, 225.0, 8.0, 14.0]]
+    end
+
     it 'does not duplicate a day when run again' do
       2.times { described_class.refresh(planting, today:) }
-      expect(planting.conditions.count).to eq 4
+      expect(planting.conditions.count).to eq 5
     end
 
     context 'when a day kept earlier no longer counts' do
@@ -57,9 +66,9 @@ describe PlantingCondition do
     context 'when the crop has no EcoCrop figures' do
       let(:crop) { create(:crop) }
 
-      it 'keeps only the frost nights' do
+      it 'keeps no days of killing cold or heat' do
         refresh
-        expect(planting.conditions.pluck(:kind).uniq).to eq ['frost']
+        expect(planting.conditions.pluck(:kind).uniq).to contain_exactly('frost', 'damaging_wind')
       end
     end
 

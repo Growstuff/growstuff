@@ -3,6 +3,68 @@
 require 'rails_helper'
 
 describe ObservationsHelper do
+  describe '#planted_note' do
+    subject(:note) { helper.planted_note(planting) }
+
+    let(:planting) { create(:planting, planted_at: Date.new(2026, 5, 1)) }
+
+    it { is_expected.to be_nil }
+
+    context 'when it is in the nursery' do
+      let(:nursery) { create(:garden).tap(&:make_nursery!) }
+      let(:planting) { create(:planting, garden: nursery, owner: nursery.owner) }
+
+      it { is_expected.to eq 'Sown in the nursery.' }
+    end
+
+    context 'when it began in a nursery and has moved out' do
+      before do
+        nursery = create(:garden, owner: planting.owner).tap(&:make_nursery!)
+        create(:planting_history, planting:, garden: nursery, ended_on: Date.new(2026, 6, 1))
+      end
+
+      it { is_expected.to eq 'Sown in the nursery.' }
+    end
+
+    context 'with a seed packet we have recorded' do
+      let(:planting) { create(:planting, parent_seed: create(:seed)) }
+
+      it 'says so and links to it' do
+        expect(note).to have_link("a seed packet we've recorded", href: "/seeds/#{planting.parent_seed.slug}")
+      end
+    end
+
+    context 'when started another way' do
+      let(:planting) { create(:planting, planted_from: 'cutting') }
+
+      it { is_expected.to eq 'Started as: cutting.' }
+    end
+
+    context 'with a seedling and where it came from' do
+      let(:planting) { create(:planting, planted_from: 'seedling') }
+
+      before { create(:planting_seedling, planting:, source: 'shop', supplier: 'Kiwi Seedlings') }
+
+      it { is_expected.to eq 'Started as: seedling · Shop or garden centre · Kiwi Seedlings.' }
+    end
+  end
+
+  describe '#damaging_wind_note' do
+    let(:run) do
+      [build(:planting_condition, kind: 'damaging_wind', value: 91.0, direction_degrees: 10.0, temp_min_c: 6.1, temp_max_c: 15.8),
+       build(:planting_condition, kind: 'damaging_wind', value: 112.4, direction_degrees: 225.0, temp_min_c: 8.0, temp_max_c: 14.0)]
+    end
+
+    it 'describes the strongest day, with where from and the temperatures' do
+      expect(helper.damaging_wind_note(run)).to eq 'Gusts up to 112 km/h from the south-west, 8 to 14 °C that day.'
+    end
+
+    it 'leaves out what is not known' do
+      run.last.assign_attributes(direction_degrees: nil, temp_min_c: nil)
+      expect(helper.damaging_wind_note(run)).to eq 'Gusts up to 112 km/h.'
+    end
+  end
+
   describe '#observation_timeline' do
     subject(:timeline) { helper.observation_timeline(planting, observations, conditions:, harvests:, jobs:, frost_passed_on:) }
 
