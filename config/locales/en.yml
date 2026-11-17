@@ -2098,16 +2098,26 @@ en:
     profile_picture: Profile picture
     avatar_help_html: To change your profile picture, visit %{link}.
     provider_logo: "%{provider} logo"
-    connected_html: You are connected to %{provider} as %{account}
+    connected_as_html: Connected as %{account}
     disconnect: Disconnect
     disconnect_confirm: Are you sure you want to remove this connection?
     connect_provider: Connect to %{provider}
-    mastodon_accounts: 'Connected Mastodon accounts:'
-    mastodon_help: Connect your Mastodon account to sign in with it and show it on your profile.
-    mastodon_address: Your Mastodon server
-    mastodon_address_placeholder: mastodon.social
-    connect_another: Connect another account
+    fedi_heading: Mastodon and Fediverse accounts
+    fedi_use: Mastodon, Pixelfed and other Fedi accounts are used for both signing in and adding photos.
+    flickr_use: Flickr is used only for adding photos.
+    bluesky_use: Bluesky is used only for signing in.
+    fedi_add: Add Mastodon, Fedi or Pixelfed
+    fedi_connect:
+      title: Add a Fedi account
+      label: Server address
+      placeholder: mastodon.social
+      hint: The address of the server your account is on, such as mastodon.social. You'll log in there, so we don't need your username. We only ask who you are. We can't post for you.
+      submit: Connect
+      busy: Contacting your server, one moment…
+    api_heading: API token access
     api_token: Your API token is
+    copy: Copy
+    copied: Copied
     regenerate: Regenerate
     regenerate_confirm: Are you sure? Your old token will stop working immediately.
     delete_token: Delete API Token

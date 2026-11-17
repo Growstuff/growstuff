@@ -25,3 +25,51 @@
     -webkit-line-clamp: 1;
   }
 }
+// The Apps tab of the settings: one section per service, each with its icon beside its name.
+.app-service {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 0.5rem;
+
+  .app-service-icon {
+    flex: 0 0 2.5rem;
+    padding-top: 0.25rem;
+    text-align: center;
+  }
+
+  .app-service-body {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .app-service-title {
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+  }
+
+  .app-service-account {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  .app-service-token {
+    overflow-wrap: anywhere;
+  }
+
+  .api-token-copy {
+    display: inline-flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-left: 0.5rem;
+  }
+
+  form {
+    margin-bottom: 0;
+  }
+}

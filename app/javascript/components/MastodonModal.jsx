@@ -3,7 +3,18 @@ import React, {useEffect, useState} from 'react';
 import {csrfToken} from '../api';
 import Modal from './Modal';
 
-export default function MastodonModal({urls, onClose, requireTerms = false}) {
+// What the dialog says. Signing in is the default; connecting an account from settings
+// passes its own, from the server.
+const SIGN_IN_COPY = {
+  title: 'Sign in with Mastodon',
+  label: 'Mastodon server',
+  placeholder: 'mastodon.social',
+  hint: "The address of your Mastodon server. You'll log in there, so we don't need your username. We only ask who you are. We can't post for you.",
+  submit: 'Continue with Mastodon',
+  busy: 'Contacting Mastodon, one moment…',
+};
+
+export default function MastodonModal({urls, onClose, requireTerms = false, copy = SIGN_IN_COPY}) {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -13,13 +24,13 @@ export default function MastodonModal({urls, onClose, requireTerms = false}) {
   }, []);
 
   return (
-    <Modal title="Sign in with Mastodon" titleId="mastodon-title" onClose={onClose} size={null}>
+    <Modal title={copy.title} titleId="mastodon-title" onClose={onClose} size={null}>
       <form method="post" action={urls.mastodon} onSubmit={() => setBusy(true)}>
         <div className="modal-body fs-5">
           <input type="hidden" name="authenticity_token" value={csrfToken()} />
-          <label className="form-label fw-semibold" htmlFor="mastodon-address">Mastodon server</label>
-          <input id="mastodon-address" name="identifier" className="form-control form-control-lg" placeholder="mastodon.social" inputMode="url" autoComplete="off" autoCapitalize="none" spellCheck={false} required />
-          <div className="form-text">The address of your Mastodon server. You'll log in there, so we don't need your username. We only ask who you are. We can't post for you.</div>
+          <label className="form-label fw-semibold" htmlFor="mastodon-address">{copy.label}</label>
+          <input id="mastodon-address" name="identifier" className="form-control form-control-lg" placeholder={copy.placeholder} inputMode="url" autoComplete="off" autoCapitalize="none" spellCheck={false} required />
+          <div className="form-text">{copy.hint}</div>
           {requireTerms && <div className="form-check mt-3">
             <input id="mastodon-tos" name="tos_agreement" type="checkbox" value="1" className="form-check-input" required />
             <label className="form-check-label" htmlFor="mastodon-tos">
@@ -30,8 +41,8 @@ export default function MastodonModal({urls, onClose, requireTerms = false}) {
         <div className="modal-footer d-block">
           <button type="submit" className="btn btn-success btn-lg w-100" disabled={busy} aria-busy={busy}>
             {busy ?
-              <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Contacting Mastodon, one moment…</> :
-              <><i className="fab fa-mastodon" aria-hidden="true" /> Continue with Mastodon</>}
+              <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> {copy.busy}</> :
+              <><i className="fab fa-mastodon" aria-hidden="true" /> {copy.submit}</>}
           </button>
         </div>
       </form>
