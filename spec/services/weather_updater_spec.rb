@@ -26,6 +26,11 @@ describe WeatherUpdater, type: :service do
       expect { updater.update_all }.to change(WeatherReading, :count).by(371)
     end
 
+    it 'refreshes the planting\'s conditions' do
+      expect(PlantingCondition).to receive(:refresh).with(Planting.last, today:)
+      updater.update_all
+    end
+
     it 'records where the reading came from' do
       updater.update_all
       expect(WeatherReading.first.source).to eq 'open-meteo'

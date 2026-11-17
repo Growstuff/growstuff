@@ -39,6 +39,8 @@ class Planting < ApplicationRecord
   has_many :harvests, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :observations, dependent: :destroy
+  # What it went through, from its weather: see PlantingCondition.
+  has_many :conditions, class_name: 'PlantingCondition', dependent: :delete_all, inverse_of: :planting
   # One per individual plant, for placing on the garden's layout grid. Made the
   # first time the garden's layout is used (Garden#prepare_layout), not for every
   # planting, as most plantings never go on a layout.
