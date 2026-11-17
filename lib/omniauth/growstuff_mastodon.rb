@@ -31,10 +31,13 @@ module OmniAuth
 
       private
 
-      # Accept the conventional @user@server spelling as well as user@server.
-      # The upstream strategy splits on @, so a leading @ would lose the server.
+      # Only the server matters: Mastodon asks whoever is logged in there to approve, so a
+      # username typed here would be ignored. Take a bare server (mastodon.social), a pasted
+      # address (https://mastodon.social/@alice), or the old you@mastodon.social, and hand the
+      # upstream strategy "@server". It splits on @ and uses what follows the last one.
       def identifier
-        super&.delete_prefix('@')
+        server = super.to_s.sub(%r{\Ahttps?://}, '').split('/').first.to_s.split('@').last
+        "@#{server}" if server.present?
       end
     end
   end

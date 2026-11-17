@@ -17,9 +17,9 @@ export default function MastodonModal({urls, onClose, requireTerms = false}) {
       <form method="post" action={urls.mastodon} onSubmit={() => setBusy(true)}>
         <div className="modal-body fs-5">
           <input type="hidden" name="authenticity_token" value={csrfToken()} />
-          <label className="form-label fw-semibold" htmlFor="mastodon-address">Mastodon address</label>
-          <input id="mastodon-address" name="identifier" className="form-control form-control-lg" placeholder="alice@mastodon.social" autoComplete="username" autoCapitalize="none" spellCheck={false} required />
-          <div className="form-text">We only ask who you are. We can't post for you.</div>
+          <label className="form-label fw-semibold" htmlFor="mastodon-address">Mastodon server</label>
+          <input id="mastodon-address" name="identifier" className="form-control form-control-lg" placeholder="mastodon.social" inputMode="url" autoComplete="off" autoCapitalize="none" spellCheck={false} required />
+          <div className="form-text">The address of your Mastodon server. You'll log in there, so we don't need your username. We only ask who you are. We can't post for you.</div>
           {requireTerms && <div className="form-check mt-3">
             <input id="mastodon-tos" name="tos_agreement" type="checkbox" value="1" className="form-check-input" required />
             <label className="form-check-label" htmlFor="mastodon-tos">
