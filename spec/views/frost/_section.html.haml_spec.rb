@@ -20,12 +20,16 @@ describe 'frost/_section' do
     expect(rendered).to have_css '.frost-verdict--passed'
   end
 
+  it 'keeps the timeline and figures closed until asked for' do
+    expect(rendered).to have_css 'details.section-details:not([open])'
+  end
+
   it 'draws the timeline' do
-    expect(rendered).to have_css '.frost-timeline .frost-band--usual'
+    expect(rendered).to have_css '.frost-timeline .frost-band--usual', visible: :all
   end
 
   it 'shows the figures' do
-    expect(rendered).to have_css '.frost-card', count: 4
+    expect(rendered).to have_css '.frost-card', count: 4, visible: :all
   end
 
   it 'marks the section experimental' do
@@ -40,7 +44,7 @@ describe 'frost/_section' do
     end
 
     it 'draws the planting as one bar' do
-      expect(rendered).to have_css '.frost-band--finished'
+      expect(rendered).to have_css '.frost-band--finished', visible: :all
     end
   end
 
@@ -54,11 +58,11 @@ describe 'frost/_section' do
     end
 
     it 'leaves out the timeline' do
-      expect(rendered).to have_no_css '.frost-timeline'
+      expect(rendered).to have_no_css '.frost-timeline', visible: :all
     end
 
     it 'leaves out the figures' do
-      expect(rendered).to have_no_css '.frost-card'
+      expect(rendered).to have_no_css '.frost-card', visible: :all
     end
   end
 
@@ -70,15 +74,15 @@ describe 'frost/_section' do
     end
 
     it 'draws the frost danger' do
-      expect(rendered).to have_css '.frost-timeline .frost-band--usual'
+      expect(rendered).to have_css '.frost-timeline .frost-band--usual', visible: :all
     end
 
     it 'leaves out the planting row' do
-      expect(rendered).to have_no_css '.frost-band--so_far'
+      expect(rendered).to have_no_css '.frost-band--so_far', visible: :all
     end
 
     it 'shows the figures about the place' do
-      expect(rendered).to have_css '.frost-card', count: 3
+      expect(rendered).to have_css '.frost-card', count: 3, visible: :all
     end
   end
 end

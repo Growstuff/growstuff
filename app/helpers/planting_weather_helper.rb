@@ -72,7 +72,7 @@ module PlantingWeatherHelper
                       weather_rain_bars(expected, from:, step:, top:, css: 'weather-expected')])
     latest = readings.last
     if latest
-      label = t('plantings.show.weather_now_rain', date: l(latest.date, format: :short),
+      label = t('plantings.show.weather_now_rain', date: month_day_text(latest.date),
                                                    rain: "#{latest.rainfall_mm.to_f.round(1)} mm")
     end
     ticks = [[0, weather_tick(top, 'mm')], [0.5, weather_tick(top / 2.0, 'mm')], [1, weather_tick(0, 'mm')]]

@@ -43,7 +43,7 @@ describe 'Noting an observation on a planting', :js do
     before { visit planting_path(planting) }
 
     it 'adds it to the timeline from the section heading' do
-      within('#observations') { click_link 'add' }
+      within('#observations') { click_link 'Log observation' }
       choose_kind_and_save('Flowering', 'First blossoms')
 
       expect(page).to have_css '#observations .observation', text: 'Flowering'

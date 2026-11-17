@@ -5,23 +5,29 @@
     %h2= t('frost.title')
     = link_to t('frost.experimental'), '#about-frost-estimates', class: 'frost-section-badge'
   .frost-section-body
-    .frost-verdict{ class: "frost-verdict--#{frost.verdict}" }
-      .frost-verdict-icon= frost_icon(frost.verdict)
+    -# The verdict is a note like the weather section's: an icon for how it stands, a bold line and the sentence under it.
+    - note = frost_verdict_note(frost.verdict)
+    .weather-note.frost-verdict{ class: ["weather-note--#{note[:level]}", "frost-verdict--#{frost.verdict}"], role: 'status' }
+      %span.weather-note-icons
+        %i.fas.weather-note-icon{ class: "fa-#{note[:icon]}", 'aria-hidden': true }
       %div
-        %p.frost-verdict-title= verdict[:title]
-        %p.frost-verdict-body= verdict[:body]
+        %strong= verdict[:title]
+        %span= verdict[:body]
+    -# The verdict is what most people need; the season and the figures behind it are one click away.
     - unless frost.verdict == :rare
-      = render 'frost/timeline', frost: frost
-      .frost-cards
-        - frost_cards(frost).each do |card|
-          .frost-card
-            .frost-card-label= card[:label]
-            .frost-card-value= card[:value]
-            .frost-card-note= card[:note]
+      %details.section-details
+        %summary= t('frost.show_details')
+        .section-details-body
+          = render 'frost/timeline', frost: frost
+          .frost-cards
+            - frost_cards(frost).each do |card|
+              .frost-card
+                .frost-card-label= card[:label]
+                .frost-card-value= card[:value]
+                .frost-card-note= card[:note]
+          = render 'frost/credit'
     .frost-about#about-frost-estimates
       %p
         %strong= t('frost.experimental_heading')
         = t('frost.about_estimates')
-      %p
-        = link_to t('plantings.show.weather_credit_source'), 'https://open-meteo.com/'
-        (#{link_to t('plantings.show.weather_credit_licence'), 'https://creativecommons.org/licenses/by/4.0/'})
+      = render 'frost/credit' if frost.verdict == :rare
