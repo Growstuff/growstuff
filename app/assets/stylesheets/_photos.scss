@@ -96,22 +96,90 @@
   color: #757575;
 }
 
+// The licence tick box for Mastodon photos is what stops the photo being added, so it has to stand out.
+.photo-picker-licence {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 3px solid var(--bs-warning);
+  border-radius: 6px;
+  background: var(--bs-warning-bg-subtle);
+
+  &.is-accepted {
+    border-color: var(--bs-success);
+    background: var(--bs-success-bg-subtle);
+  }
+
+  .photo-picker-licence-check {
+    min-height: 2rem;
+    padding-left: 2.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    .form-check-input {
+      width: 2rem;
+      height: 2rem;
+      margin-top: 0;
+      margin-left: -2.75rem;
+      border-width: 2px;
+      cursor: pointer;
+    }
+  }
+}
+
+// Shown beside the disabled Add photo button, saying why it is disabled.
+.photo-picker-licence-needed {
+  flex-basis: 100%;
+  margin: 0;
+  text-align: right;
+  font-weight: 600;
+  color: var(--bs-warning-text-emphasis);
+}
+
 .photo-picker-waiting {
   margin-top: 1rem;
 }
 
+// The photo chosen, shown back for confirmation: the picture beside what it is and where it is going.
+.photo-picker-confirm-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
 .photo-picker-confirm .photo-picker-preview {
   display: block;
-  max-width: 100%;
-  max-height: 14rem;
-  margin-bottom: 0.5rem;
+  flex: 0 0 auto;
+  max-width: 12rem;
+  max-height: 12rem;
+  border: 4px solid #fff;
   border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(65, 63, 59, 0.25);
 }
 
-.photo-picker-confirm .photo-picker-title {
-  font-size: 1.1rem;
+.photo-picker-confirm-details {
+  flex: 1 1 14rem;
+  min-width: 0;
 }
 
+.photo-picker-confirm-title {
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.photo-picker-confirm-meta {
+  margin-bottom: 0.25rem;
+
+  span {
+    margin-right: 0.5rem;
+    color: #757575;
+  }
+}
 
 // Photo cards are little polaroids: a white border all round the picture, a
 // deeper lip beneath it where the caption goes, and a soft shadow so they sit

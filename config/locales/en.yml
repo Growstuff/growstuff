@@ -3672,6 +3672,7 @@ en:
       license_consent: I license this image as Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0).
       license_hint: Confirm that you own this image and can grant this licence. Others may share and adapt it, including commercially, with attribution and the same licence.
       license_link: Read the CC BY-SA 4.0 licence
+      license_needed: Tick the licence box above, then you can add this photo.
       license_required: You must agree to license this image as CC BY-SA 4.0 before importing it.
       invalid_photo: This image is not an eligible public photo from your linked account.
       unavailable: The Mastodon server could not be reached or does not allow public API access. Please try again later.

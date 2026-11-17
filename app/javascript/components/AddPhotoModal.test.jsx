@@ -40,7 +40,7 @@ describe('AddPhotoModal', () => {
 
   describe('Mastodon', () => {
     const labels = {source: 'Photo source', flickr: 'Flickr', mastodon: 'Mastodon', account: 'Account',
-      license_consent: 'Licence consent', license_hint: 'Licence explanation', more: 'More', recent: 'Recent', search: 'Search',
+      license_consent: 'Licence consent', license_hint: 'Licence explanation', license_needed: 'Licence needed', more: 'More', recent: 'Recent', search: 'Search',
       add: 'Add photo', back: 'Back'};
     const accounts = [{id: 7, name: '@alice@example.social'}, {id: 8, name: '@alice@other.social'}];
     const mastodonPhoto = {...photo, status_id: '99', license_name: null};
@@ -72,6 +72,17 @@ describe('AddPhotoModal', () => {
     it('requires consent before adding an unlicensed image', async () => {
       await choose();
       expect(screen.getByRole('button', {name: 'Add photo'})).toBeDisabled();
+    });
+
+    it('says why the photo cannot be added yet', async () => {
+      await choose();
+      expect(screen.getByRole('status')).toHaveTextContent('Licence needed');
+    });
+
+    it('stops saying so once consent is given', async () => {
+      const user = await choose();
+      await user.click(screen.getByRole('checkbox'));
+      expect(screen.queryByRole('status')).not.toBeInTheDocument();
     });
 
     it('sends explicit consent and the selected post identity', async () => {
