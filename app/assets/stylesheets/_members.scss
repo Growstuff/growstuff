@@ -29,6 +29,7 @@
 .app-service {
   display: flex;
   gap: 1rem;
+  max-width: 44rem;
   padding: 1.25rem;
   margin-bottom: 1rem;
   border: 1px solid var(--bs-border-color);
