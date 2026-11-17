@@ -9,6 +9,8 @@ require './lib/actions/oauth_signup_action'
 # Heavily overlaps with Authentications controller
 #
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  include BackToSettings
+
   # Devise calls the action named for the provider.
   Authentication::SIGN_IN_PROVIDERS.each_key do |provider|
     define_method(provider) { create }
@@ -16,7 +18,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def failure
     flash[:alert] = failure_message
-    redirect_to request.env['omniauth.origin'] || "/"
+    redirect_to back_to_origin('/')
   end
 
   private
@@ -42,7 +44,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     @authentication = nil
 
-    return redirect_to request.env['omniauth.origin'] || edit_member_registration_path unless auth
+    return redirect_to back_to_origin(apps_tab_path) unless auth
     return connect_to_current_member(action, auth) if current_member
 
     member = action.find_or_create_from_authorization(auth, tos_agreement: terms_agreed? || nil)
@@ -76,6 +78,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       action.establish_authentication(auth, current_member)
       flash[:notice] = t('messages.auth_success')
     end
-    redirect_to edit_member_registration_path
+    redirect_to apps_tab_path
   end
 end

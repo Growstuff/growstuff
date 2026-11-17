@@ -103,7 +103,7 @@ describe 'Signing in with GitHub' do
 
     it 'returns to settings' do
       callback
-      expect(response).to redirect_to edit_member_registration_path
+      expect(response).to redirect_to edit_member_registration_path(anchor: 'apps')
     end
 
     context 'with an identity already linked to someone else' do

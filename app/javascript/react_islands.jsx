@@ -5,10 +5,12 @@
 //
 // To add a component: create it in ./components and register it below.
 import AlternateNames from './components/AlternateNames';
+import ApiTokenCopy from './components/ApiTokenCopy';
 import AuthDialog from './components/AuthDialog';
 import CardPhotoDialog from './components/CardPhotoDialog';
 import CropFilterPicker from './components/CropFilterPicker';
 import EmailStep from './components/EmailStep';
+import FediConnect from './components/FediConnect';
 import FeedMore from './components/FeedMore';
 import GardenCards from './components/GardenCards';
 import GardenLayout from './components/GardenLayout';
@@ -36,7 +38,7 @@ import ScientificNames from './components/ScientificNames';
 import SeedStack from './components/SeedStack';
 import {mountIslands, registerIslands} from './islands';
 
-registerIslands({AlternateNames, AuthDialog, CardPhotoDialog, CropFilterPicker, EmailStep, FeedMore, GardenCards, GardenLayout, GardenPicker, GardenPlanter, GrowingTable, HarvestChart, JobPicker, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingOrigin, PlantingRating, PostEditor, RecordDialog, ScientificNames, SeasonSuggestions, SeedLibrary, SeedStack, UseMyLocation});
+registerIslands({AlternateNames, ApiTokenCopy, AuthDialog, CardPhotoDialog, CropFilterPicker, EmailStep, FediConnect, FeedMore, GardenCards, GardenLayout, GardenPicker, GardenPlanter, GrowingTable, HarvestChart, JobPicker, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingOrigin, PlantingRating, PostEditor, RecordDialog, ScientificNames, SeasonSuggestions, SeedLibrary, SeedStack, UseMyLocation});
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => mountIslands());
