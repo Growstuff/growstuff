@@ -36,8 +36,17 @@ class PhotosController < ApplicationController
     @type = params[:type]
     @id = params[:id]
     @label = params[:label]
+    @source = params[:source] == 'mastodon' ? 'mastodon' : 'flickr'
+    @mastodon_auths = current_member.authentications.where(provider: 'mastodon').order(:id)
+    if @source == 'mastodon'
+      authorize! :update, @item
+      @picker = mastodon_picker_json.merge(picker_options)
+      return render json: @picker if request.format.json?
+
+      return render :new
+    end
     retrieve_from_flickr
-    return render json: flickr_picker_json if request.format.json?
+    return render json: flickr_picker_json.merge(picker_options) if request.format.json?
 
     respond_with @photo
   end
@@ -48,10 +57,16 @@ class PhotosController < ApplicationController
 
   def create
     ActiveRecord::Base.transaction do
-      @photo = find_or_create_photo_from_flickr_photo
       @item = item_to_link_to
       raise "Could not find this #{type} owned by you" unless @item
 
+      @photo = if params.dig(:photo, :source) == 'mastodon'
+                 authorize! :update, @item
+                 mastodon_source.import(status_id: params.dig(:photo, :status_id), attachment_id: params.dig(:photo, :source_id),
+                                        license_accepted: params.dig(:photo, :license_accepted))
+               else
+                 find_or_create_photo_from_flickr_photo
+               end
       @photo.save! if @photo.present?
       link_photo_to_item
     end
@@ -62,6 +77,13 @@ class PhotosController < ApplicationController
     raise unless request.format.json?
 
     render json: { errors: e.record.errors }, status: :unprocessable_content
+  rescue MastodonPhotoSource::Rejected => e
+    if request.format.json?
+      render json: { errors: [t("photos.import_picker.#{e.reason}")] }, status: :unprocessable_content
+    else
+      redirect_to new_photo_path(type: params[:type], id: params[:id], label: params[:label], source: 'mastodon',
+                                 authentication_id: params[:authentication_id]), alert: t("photos.import_picker.#{e.reason}")
+    end
   end
 
   def update
@@ -85,6 +107,33 @@ class PhotosController < ApplicationController
   end
 
   private
+
+  def picker_options
+    { accounts: @mastodon_auths.map { |auth| { id: auth.id, name: auth.name } },
+      labels: t('photos.import_picker'), connect_mastodon_url: "#{edit_member_registration_path}#apps" }
+  end
+
+  def mastodon_authentication
+    auths = current_member.authentications.where(provider: 'mastodon').order(:id)
+    params[:authentication_id].present? ? auths.find(params[:authentication_id]) : auths.first
+  end
+
+  def mastodon_source
+    auth = mastodon_authentication
+    raise MastodonPhotoSource::Rejected, :invalid_photo unless auth
+
+    MastodonPhotoSource.new(auth)
+  end
+
+  def mastodon_picker_json
+    auth = mastodon_authentication
+    return { state: 'connect', source: 'mastodon' } unless auth
+
+    { state: 'ready', source: 'mastodon', authentication_id: auth.id, name: auth.name, sets: [],
+      **MastodonPhotoSource.new(auth).photos(cursor: params[:cursor], tag: params[:tag]) }
+  rescue MastodonPhotoSource::Rejected => e
+    { state: 'unavailable', source: 'mastodon', error: t("photos.import_picker.#{e.reason}") }
+  end
 
   # For the React garden cards: what the "add photo" dialog needs to show, as
   # the page does. Not connected (or the connection has gone stale) sends you to

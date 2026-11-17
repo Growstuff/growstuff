@@ -389,15 +389,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_17_000200) do
     t.index ["stall_seed_id"], name: "index_claims_on_stall_seed_id", unique: true
   end
 
-  create_table "climate_requests", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
-    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
-    t.datetime "requested_at", null: false, comment: "When the cell was first asked for, so the longest waiting is fetched first."
-    t.datetime "updated_at", null: false
-    t.index ["latitude", "longitude"], name: "index_climate_requests_on_cell", unique: true
-  end
-
   create_table "climate_months", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "days", null: false, comment: "How many days of the month the figures are from."
@@ -418,6 +409,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_17_000200) do
     t.datetime "updated_at", null: false
     t.integer "year", null: false
     t.index ["latitude", "longitude", "year", "month"], name: "index_climate_months_on_cell_year_and_month", unique: true
+  end
+
+  create_table "climate_requests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.datetime "requested_at", null: false, comment: "When the cell was first asked for, so the longest waiting is fetched first."
+    t.datetime "updated_at", null: false
+    t.index ["latitude", "longitude"], name: "index_climate_requests_on_cell", unique: true
   end
 
   create_table "comfy_cms_categories", id: :serial, force: :cascade do |t|
@@ -1075,12 +1075,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_17_000200) do
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
   end
 
-  create_table "orders_products", id: false, force: :cascade do |t|
-    t.integer "order_id"
-    t.integer "product_id"
-    t.index ["order_id", "product_id"], name: "index_orders_products_on_order_id_and_product_id"
-  end
-
   create_table "observations", force: :cascade do |t|
     t.bigint "author_id", null: false
     t.datetime "created_at", null: false
@@ -1091,6 +1085,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_17_000200) do
     t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_observations_on_author_id"
     t.index ["planting_id", "observed_at"], name: "index_observations_on_planting_id_and_observed_at"
+  end
+
+  create_table "orders_products", id: false, force: :cascade do |t|
+    t.integer "order_id"
+    t.integer "product_id"
+    t.index ["order_id", "product_id"], name: "index_orders_products_on_order_id_and_product_id"
   end
 
   create_table "photo_associations", id: :serial, force: :cascade do |t|
@@ -1144,15 +1144,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_17_000200) do
     t.index ["seed_id", "photo_id"], name: "index_photos_seeds_on_seed_id_and_photo_id"
   end
 
-  create_table "plant_parts", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", precision: nil
-    t.integer "harvests_count", default: 0
-    t.string "name"
-    t.string "slug"
-    t.datetime "updated_at", precision: nil
-    t.index ["slug"], name: "index_plant_parts_on_slug", unique: true
-  end
-
   create_table "place_conditions", force: :cascade do |t|
     t.float "latitude", null: false, comment: "Centre of the weather grid cell, in degrees."
     t.float "longitude", null: false, comment: "Centre of the weather grid cell, in degrees."
@@ -1168,9 +1159,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_17_000200) do
     t.index ["latitude", "longitude", "kind", "occurred_on"], name: "index_place_conditions_on_cell_kind_and_day", unique: true
   end
 
+  create_table "plant_parts", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", precision: nil
+    t.integer "harvests_count", default: 0
+    t.string "name"
+    t.string "slug"
+    t.datetime "updated_at", precision: nil
+    t.index ["slug"], name: "index_plant_parts_on_slug", unique: true
+  end
+
   create_table "planting_conditions", force: :cascade do |t|
     t.bigint "planting_id", null: false
-    t.string "kind", null: false, comment: "What the planting went through: killing_cold or killing_heat."
+    t.string "kind", null: false, comment: "What the planting went through: frost, killing_cold or killing_heat."
     t.date "occurred_on", null: false
     t.float "value", comment: "The day's lowest air temperature for frost and killing cold, highest for killing heat, in degrees Celsius."
     t.float "threshold", comment: "The limit the day crossed, in degrees Celsius, as it was when the day was recorded."

@@ -1261,7 +1261,7 @@ en:
       owner: Owner
       you: "(you)"
     actions:
-      add_photo: Add photo from Flickr
+      add_photo: Add photo
       make_nursery: Make this a nursery
       new_job: New job
     archived_jobs:
@@ -3660,6 +3660,32 @@ en:
     update:
       updated: Photo updated.
   photos:
+    import_picker:
+      source: Photo source
+      flickr: Flickr
+      mastodon: Mastodon
+      account: Mastodon account
+      connect: Connect a Mastodon account
+      connect_hint: Connect your account in settings, then return here to choose a photo.
+      public_only: Only your public images without content warnings are shown. Boosts, private posts, videos and audio are not imported.
+      hosted: The image stays on your Mastodon server. Growstuff displays it and links back to your post.
+      license_consent: I license this image as Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0).
+      license_hint: Confirm that you own this image and can grant this licence. Others may share and adapt it, including commercially, with attribution and the same licence.
+      license_link: Read the CC BY-SA 4.0 licence
+      license_required: You must agree to license this image as CC BY-SA 4.0 before importing it.
+      invalid_photo: This image is not an eligible public photo from your linked account.
+      unavailable: The Mastodon server could not be reached or does not allow public API access. Please try again later.
+      untitled: Untitled photo
+      more: Load more
+      recent: Recent photos
+      add: Add photo
+      card_hint: 'Photos come from your Flickr or Mastodon account. This photo stands for your post wherever it appears as a card: the posts list, your page and links shared elsewhere.'
+      card_empty: Add a photo to this post first, then you can choose it here.
+      pick_different: Pick a different photo
+      back: Back
+      tag: Hashtag
+      search: Search
+      empty: No eligible photos found on this page.
     by_html: "by %{photographer}"
     description:
       activity_html: "took a photo %{photo}"
@@ -3687,11 +3713,11 @@ en:
       album: Choose a photo album
       tag: or search by tag
       search: Search
-      connect_required: You must connect your account to Flickr to add photos.
+      connect_required: Connect your Flickr account to choose photos from Flickr.
       connect: Connect to Flickr
     actions:
       delete: Delete photo from Growstuff
-      delete_confirm: Delete this photo from Growstuff altogether? It is taken off everything it is attached to. It stays on Flickr.
+      delete_confirm: Delete this photo from Growstuff altogether? It is taken off everything it is attached to. It stays on its original hosting service.
       refresh: Refresh photo data from Flickr
       unlink:
         crop: "Remove from the crop: %{name}"
@@ -4267,7 +4293,7 @@ en:
         '
       no_jobs: Nothing is planned here.
       no_photos: No photos yet.
-      no_photos_prompt: Photos come from your Flickr account. Add one to track how this planting grows.
+      no_photos_prompt: Photos come from your Flickr or Mastodon account. Add one to track how this planting grows.
       no_seeds: No seeds saved yet.
       no_seeds_prompt: Save seeds from this planting to sow next season, or to trade with other members.
       notes: Notes
@@ -4422,13 +4448,13 @@ en:
       editor_instructions_html: Use the buttons above to format your text. Type <strong>@</strong> to link to a crop, a member or one of your plantings. For anything else, the <strong>Markdown</strong> tab shows the raw text.
       forum_notice_html: "This post will be posted in the forum %{forum}"
       photos: Photos
-      photo_instructions_html: Use <strong>+ Flickr photo</strong> in the toolbar to put a photo in your post. Its card photo and photos appear here when you next open the draft.
+      photo_instructions_html: Use <strong>+ Add photo</strong> in the toolbar to put a photo in your post. Its card photo and photos appear here when you next open the draft.
       card_photo: Card photo
       card_photo_help: Shown on the posts list, your page and shared links.
       card_photo_empty: Add a photo, then choose which one stands for this post.
       photos_in_post: Photos in this post
-      pick_from_flickr: pick from flickr
-      flickr_photos: These are photos from your Flickr account.
+      pick_from_flickr: choose a photo
+      flickr_photos: These photos are hosted on your Flickr or Mastodon server.
       autosave_help: Saved automatically as you work. Close this page and pick it up later from your posts.
       discard_draft: Discard draft
       confirm_discard: Are you sure?

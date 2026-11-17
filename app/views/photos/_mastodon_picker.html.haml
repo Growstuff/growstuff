@@ -1,0 +1,52 @@
+%p= t('photos.import_picker.public_only')
+%p= t('photos.import_picker.hosted')
+- if @picker[:state] == 'connect'
+  %p= t('photos.import_picker.connect_hint')
+  = link_to t('photos.import_picker.connect'), @picker[:connect_mastodon_url], class: 'btn btn-primary'
+- else
+  = form_tag new_photo_path, method: :get do
+    = hidden_field_tag :type, @type
+    = hidden_field_tag :id, @id
+    = hidden_field_tag :source, 'mastodon'
+    = hidden_field_tag :label, @label if @label.present?
+    = label_tag :authentication_id, t('photos.import_picker.account')
+    - selected = params[:authentication_id] || @picker[:authentication_id]
+    - accounts = options_from_collection_for_select(@mastodon_auths, :id, :name, selected)
+    = select_tag :authentication_id, accounts, class: 'form-select'
+    = label_tag :tag, t('photos.import_picker.tag')
+    = text_field_tag :tag, params[:tag], class: 'form-control'
+    .d-flex.justify-content-end.my-3
+      = submit_tag t('photos.import_picker.search'), class: 'btn btn-primary'
+  - if @picker[:state] == 'unavailable'
+    %p.alert.alert-warning= @picker[:error]
+  - else
+    - if @picker[:photos].empty?
+      %p= t('photos.import_picker.empty')
+    .row
+      - @picker[:photos].each do |photo|
+        .col-md-4.col-12.mb-3
+          = form_tag photos_path(type: @type, id: @id, label: @label, authentication_id: @picker[:authentication_id]) do
+            = hidden_field_tag 'photo[source]', 'mastodon'
+            = hidden_field_tag 'photo[source_id]', photo[:id]
+            = hidden_field_tag 'photo[status_id]', photo[:status_id]
+            = image_tag photo[:thumb_url], alt: photo[:title], class: 'img-fluid', loading: 'lazy'
+            %p= photo[:title]
+            - if photo[:license_name].blank?
+              %label.form-check
+                - options = { required: true, class: 'form-check-input', id: "license-#{photo[:id]}" }
+                = check_box_tag 'photo[license_accepted]', '1', false, options
+                %span.form-check-label= t('photos.import_picker.license_consent')
+              %p.small= t('photos.import_picker.license_hint')
+              - licence_label = t('photos.import_picker.license_link')
+              = link_to licence_label, MastodonPhotoSource::LICENSE_URL, target: '_blank', rel: 'noopener noreferrer'
+            - else
+              %p= photo[:license_name]
+            .d-flex.justify-content-between.mt-3
+              = link_to t('photos.import_picker.back'), @item, class: 'btn btn-link'
+              = submit_tag t('photos.import_picker.add'), class: 'btn btn-success'
+    - if @picker[:next_cursor]
+      :ruby
+        more_path = new_photo_path(type: @type, id: @id, label: @label, source: 'mastodon',
+                                   authentication_id: @picker[:authentication_id], tag: params[:tag],
+                                   cursor: @picker[:next_cursor])
+      = link_to t('photos.import_picker.more'), more_path, class: 'btn btn-outline-secondary'
