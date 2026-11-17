@@ -59,8 +59,8 @@ describe TimelineHelper do
       end
 
       it 'describes the strongest day, with where from and the temperatures' do
-        expect(helper.weather_entry(:damaging_wind, run,
-                                    planting)[:note]).to eq 'Gusts up to 112 km/h from the south-west, 8 to 14 °C that day.'
+        note = helper.weather_entry(:damaging_wind, run, planting)[:note]
+        expect(note).to eq 'Gusts up to 112 km/h from the south-west, 8 to 14 °C that day.'
       end
 
       it 'says how many days in a row' do

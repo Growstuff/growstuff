@@ -11,8 +11,8 @@
   - if can?(:update, harvest)
     .observation-actions
       = actions_menu('harvest', id: harvest.id, label: t('plantings.observations.actions')) do
-        = menu_link_to :edit, t('.edit'), edit_harvest_path(slug: harvest.slug), class: 'harvest-edit',
-                       data: { planting_dialog: 'harvest', harvest: harvest_edit_data(harvest) }
+        - edit_data = { planting_dialog: 'harvest', harvest: harvest_edit_data(harvest) }
+        = menu_link_to :edit, t('.edit'), edit_harvest_path(slug: harvest.slug), class: 'harvest-edit', data: edit_data
         - if can?(:destroy, harvest)
           .dropdown-divider
           = menu_delete_button(harvest)

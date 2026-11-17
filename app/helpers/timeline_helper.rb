@@ -68,7 +68,7 @@ module TimelineHelper
   # What a run of weather days draws as: { icon:, classes:, title:, note: }, with the figures of the strongest of them.
   def weather_entry(type, run, planting)
     title = t("plantings.observations.weather.#{type}.title", count: run.size)
-    WEATHER_ENTRIES.fetch(type).merge(title:, note: weather_note(type, run, planting))
+    WEATHER_ENTRIES.fetch(type).merge(title:, note: weather_entry_note(type, run, planting))
   end
 
   # What the "Planted" entry adds: where it was sown, if somewhere safe from frost like the nursery, and what it was started
@@ -87,7 +87,7 @@ module TimelineHelper
     end
   end
 
-  def weather_note(type, run, planting)
+  def weather_entry_note(type, run, planting)
     figures = run.filter_map(&:value)
     scope = "plantings.observations.weather.#{type}.note"
     limit = frost_degrees(run.first.threshold) if type.in?(%i(killing_cold killing_heat))

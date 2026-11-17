@@ -26,7 +26,7 @@ class PlantingsController < DataController
     @harvests = @planting.harvests.includes(:owner, :crop, :plant_part).recent
     @child_seeds = @planting.child_seeds.includes(:owner, :crop)
     @observations = @planting.observations.includes(:author).newest_first
-    @conditions = @planting.conditions.oldest_first.to_a + place_conditions
+    @conditions = @planting.conditions.oldest_first.to_a + PlaceCondition.for_planting(@planting).to_a
     @current_jobs = @planting.jobs.active.includes(:owner).order(created_at: :desc)
     @finished_jobs = @planting.jobs.finished.includes(:owner).order(created_at: :desc)
     load_weather
@@ -120,16 +120,6 @@ class PlantingsController < DataController
   end
 
   private
-
-  # What the weather did at the planting's place while it was outdoors, from the place's own days: not for one somewhere safe
-  # from frost, like the nursery, or with no place.
-  def place_conditions
-    planting = @planting
-    return [] if planting.planted_at.blank? || !planting.weather_located? || planting.garden.frost_safe?
-
-    from = [planting.weather_first_day, planting.frost_safe_stay&.ended_on].compact.max
-    PlaceCondition.at(*planting.weather_cell).between(from, planting.weather_last_day).oldest_first.to_a
-  end
 
   # Behind the planting_weather feature switch. Seedlings still in the nursery get a note saying why there is no weather, and
   # none of the work.

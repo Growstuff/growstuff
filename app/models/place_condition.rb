@@ -27,6 +27,15 @@ class PlaceCondition < ApplicationRecord
   scope :oldest_first, -> { order(:occurred_on) }
   scope :between, ->(from, to) { where(occurred_on: from..to) }
 
+  # What the weather did at a planting's place while it was outdoors, oldest first. None for one somewhere safe from frost, like
+  # the nursery, or with no place. A stay somewhere safe from frost before it went out is left out.
+  def self.for_planting(planting)
+    return none if planting.planted_at.blank? || !planting.weather_located? || planting.garden.frost_safe?
+
+    from = [planting.weather_first_day, planting.frost_safe_stay&.ended_on].compact.max
+    at(*planting.weather_cell).between(from, planting.weather_last_day).oldest_first
+  end
+
   # Brings the cell's days up to date with the weather we hold for it, adding the new and dropping those that no longer count.
   def self.refresh(latitude, longitude)
     readings = WeatherReading.at(latitude, longitude).order(:date).select(*COLUMNS).to_a
