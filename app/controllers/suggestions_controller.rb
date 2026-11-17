@@ -68,8 +68,9 @@ class SuggestionsController < ApplicationController
   # What the island shows for the season: its groups of crops, each with a heading, as cards.
   def season_payload(season)
     dismissed = current_member ? current_member.crop_dismissals.pluck(:crop_id) : []
-    fitting = SeasonalCrops.new(@climate).sown_in(season.months, limit: SEASON_CROPS, except: dismissed)
-    planting = @dashboard ? @dashboard.sowing_in(season.months, SEASON_CROPS) : []
+    fitting = SeasonalCrops.new(@climate).sown_in(season.months, limit: nil, except: dismissed)
+    fitting = fitting.transform_values { |list| not_growing_first(list) }
+    planting = @dashboard ? not_growing_first(@dashboard.sowing_in(season.months, nil)) : []
     crops = (fitting.values.flatten + planting).uniq
     ActiveRecord::Associations::Preloader.new(records: crops, associations: [:photos, :ecocrop_record, { parent: :ecocrop_record }]).call
     @followed = @dashboard ? @dashboard.followed_growing(crops.map(&:id)) : {}
@@ -81,6 +82,13 @@ class SuggestionsController < ApplicationController
               [:tolerable, t('suggestions.climate.still_grows', season: name, place:), fitting[:tolerable]]]
     groups.unshift([:planting, t('suggestions.climate.planting', season: name, place:), planting]) if @dashboard
     { season: season.name, groups: groups.map { |key, heading, list| group(season, list, heading).merge(key: key.to_s) } }
+  end
+
+  # The first SEASON_CROPS of the crops, those the member is not growing yet before those they are, each in its own order.
+  def not_growing_first(crops)
+    return crops.first(SEASON_CROPS) unless @dashboard
+
+    crops.partition { |crop| !@dashboard.growing?(crop) }.flatten.first(SEASON_CROPS)
   end
 
   def group(season, crops, heading)

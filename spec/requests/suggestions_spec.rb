@@ -156,6 +156,21 @@ describe 'Crop suggestions' do
           expect(crops_of(island_props).first['growing']).to be true
         end
 
+        context 'with a more planted crop the member is already growing' do
+          let(:garden) { create(:garden, owner: member) }
+
+          before do
+            create(:crop, name: 'Zesty chard', ecocrop_record: record)
+            create(:planting, crop:, garden:, owner: member, planted_at: Date.new(2026, 10, 1))
+            crop.update_columns(plantings_count: 50) # rubocop:disable Rails/SkipsModelValidations
+          end
+
+          it 'lists the crops not growing yet first' do
+            get suggestions_path
+            expect(crops_of(island_props).pluck('name')).to eq ['Zesty chard', 'Wintery kale']
+          end
+        end
+
         it 'says nothing of earlier years when the member has not grown it' do
           get suggestions_path
           expect(crops_of(island_props).first['grown_before']).to be_nil
