@@ -4,7 +4,7 @@ class PhotosController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
   before_action :set_crop_and_planting, only: :index
   after_action :expire_homepage, only: %i(create destroy)
-  load_and_authorize_resource
+  load_and_authorize_resource except: :create
   respond_to :html, :json
   responders :flash
 
@@ -36,8 +36,13 @@ class PhotosController < ApplicationController
     @type = params[:type]
     @id = params[:id]
     @label = params[:label]
-    @source = params[:source] == 'mastodon' ? 'mastodon' : 'flickr'
     @mastodon_auths = current_member.authentications.where(provider: 'mastodon').order(:id)
+    @sources = []
+    @sources << 'flickr' if current_member.auth('flickr').present?
+    @sources << 'mastodon' if @mastodon_auths.any?
+    # With no account connected, offer both connection paths instead of an empty picker.
+    @sources = %w(flickr mastodon) if @sources.empty?
+    @source = @sources.include?(params[:source]) ? params[:source] : @sources.first
     if @source == 'mastodon'
       authorize! :update, @item
       @picker = mastodon_picker_json.merge(picker_options)
@@ -56,6 +61,9 @@ class PhotosController < ApplicationController
   end
 
   def create
+    # Import options (status_id and license_accepted) are not Photo attributes.
+    # Authorize here instead of letting CanCan mass-assign the incoming params.
+    authorize! :create, Photo
     ActiveRecord::Base.transaction do
       @item = item_to_link_to
       raise "Could not find this #{type} owned by you" unless @item
@@ -109,7 +117,7 @@ class PhotosController < ApplicationController
   private
 
   def picker_options
-    { accounts: @mastodon_auths.map { |auth| { id: auth.id, name: auth.name } },
+    { source: @source, sources: @sources, accounts: @mastodon_auths.map { |auth| { id: auth.id, name: auth.name } },
       labels: t('photos.import_picker'), connect_mastodon_url: "#{edit_member_registration_path}#apps" }
   end
 

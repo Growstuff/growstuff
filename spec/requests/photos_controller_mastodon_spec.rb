@@ -17,7 +17,13 @@ describe PhotosController do
   end
   let(:photo_params) { { source: 'mastodon', source_id: '456', status_id: '123', license_accepted: true } }
 
-  around { |example| VCR.turned_off { example.run } }
+  around do |example|
+    original = ActionController::Parameters.action_on_unpermitted_parameters
+    ActionController::Parameters.action_on_unpermitted_parameters = :raise
+    VCR.turned_off { example.run }
+  ensure
+    ActionController::Parameters.action_on_unpermitted_parameters = original
+  end
 
   before do
     sign_in member
@@ -135,6 +141,18 @@ describe PhotosController do
 
     context 'with another member destination' do
       let(:job) { create(:job) }
+
+      it 'does not create a photo' do
+        expect { add_photo }.not_to change(Photo, :count)
+      end
+    end
+
+    context 'without permission to create photos' do
+      before do
+        allow(Ability).to receive(:new).and_wrap_original do |original, *args|
+          original.call(*args).tap { |ability| ability.cannot :create, Photo }
+        end
+      end
 
       it 'does not create a photo' do
         expect { add_photo }.not_to change(Photo, :count)

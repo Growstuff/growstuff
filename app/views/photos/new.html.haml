@@ -2,7 +2,7 @@
 
 %h1= t('.title')
 %nav.mb-3{ aria: { label: t('photos.import_picker.source') } }
-  - %w(flickr mastodon).each do |source|
+  - @sources.each do |source|
     - path = new_photo_path(type: @type, id: @id, label: @label, source: source)
     = link_to t("photos.import_picker.#{source}"), path, class: 'btn btn-outline-secondary'
 
