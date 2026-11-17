@@ -51,6 +51,20 @@
           = submit_tag(@mastodon_auths&.any? ? t('devise_views.connect_another') : t('devise_views.connect_provider', provider: 'Mastodon'),
                         form: 'mastodon-connect', name: nil, class: 'btn btn-primary')
 
+- if Authentication.enabled_sign_in_providers.include?('github')
+  %hr
+  .row
+    .col-md-12
+      - if (github_auth = current_member.auth('github'))
+        %p
+          = icon 'fab', 'github'
+          = t('devise_views.connected_html', provider: 'GitHub', account: github_auth.name || github_auth.uid)
+          = link_to t('devise_views.disconnect'), github_auth,
+                    data: { confirm: t('devise_views.disconnect_confirm') },
+                    method: :delete, class: 'remove btn btn-danger'
+      - else
+        = render 'authentications/sign_in/github', label: t('devise_views.connect_provider', provider: 'GitHub'), tos: false
+
 %hr
 .row
   .col-md-12

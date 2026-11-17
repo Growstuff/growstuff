@@ -1,10 +1,11 @@
 import {fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {describe, expect, it, vi} from 'vitest';
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 
 import AuthDialog from './AuthDialog';
 
-const urls = {sign_in: '/s', sign_up: '/u', forgot_password: '/f', sign_in_page: '/si', sign_up_page: '/su', bluesky: '/b', mastodon: '/m'};
+const urls = {sign_in: '/s', sign_up: '/u', forgot_password: '/f', sign_in_page: '/si', sign_up_page: '/su', bluesky: '/b', mastodon: '/m', github: '/g'};
+const githubLabels = {continue: 'Continue with GitHub'};
 
 function setup(pageUrls = urls) {
   render(
@@ -13,13 +14,20 @@ function setup(pageUrls = urls) {
         <a href="/members/sign_up" data-auth-dialog="sign_up">Join</a>
         <a href="/members/sign_in" data-auth-dialog="bluesky">Bluesky</a>
         <a href="/members/sign_in" data-auth-dialog="mastodon">Mastodon</a>
+        <a href="/members/sign_in" data-auth-dialog="github">GitHub</a>
         <a href="/about">About</a>
-        <AuthDialog urls={pageUrls} site_name="Growstuff" />
+        <AuthDialog urls={pageUrls} site_name="Growstuff" github_labels={githubLabels} />
       </>,
   );
 }
 
 describe('AuthDialog', () => {
+  let githubSubmit;
+  beforeEach(() => {
+    githubSubmit = vi.spyOn(HTMLFormElement.prototype, 'submit').mockImplementation(() => {});
+  });
+  afterEach(() => vi.restoreAllMocks());
+
   describe.each(['Bluesky', 'Mastodon'])('%s terms agreement', (provider) => {
     it('does not prompt when signing in from a provider link', async () => {
       setup();
@@ -45,6 +53,73 @@ describe('AuthDialog', () => {
   it('draws nothing to start with', () => {
     setup();
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('posts the GitHub form to its authorization endpoint', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'GitHub'}));
+    expect(githubSubmit.mock.instances[0]).toHaveAttribute('action', urls.github);
+  });
+
+  it('uses POST for GitHub authorization', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'GitHub'}));
+    expect(githubSubmit.mock.instances[0]).toHaveAttribute('method', 'post');
+  });
+
+  it('sends the CSRF token with GitHub authorization', async () => {
+    const meta = document.createElement('meta');
+    meta.name = 'csrf-token';
+    meta.content = 'csrf-token';
+    document.head.appendChild(meta);
+    try {
+      setup();
+      await userEvent.click(screen.getByRole('link', {name: 'GitHub'}));
+      expect(githubSubmit.mock.instances[0].elements.authenticity_token.value).toBe('csrf-token');
+    } finally {
+      meta.remove();
+    }
+  });
+
+  it('hides GitHub when it is switched off', async () => {
+    setup({...urls, github: null});
+    await userEvent.click(screen.getByRole('link', {name: 'Log in'}));
+    expect(screen.queryByRole('button', {name: githubLabels.continue})).not.toBeInTheDocument();
+  });
+
+  it('starts GitHub authorization without an interim dialog', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'GitHub'}));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('starts GitHub authorization directly from sign in', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'Log in'}));
+    await userEvent.click(screen.getByRole('button', {name: githubLabels.continue}));
+    expect(githubSubmit).toHaveBeenCalledOnce();
+  });
+
+  it('does not assume terms acceptance when signing in', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'Log in'}));
+    await userEvent.click(screen.getByRole('button', {name: githubLabels.continue}));
+    expect(githubSubmit.mock.instances[0].elements.tos_agreement).toBeUndefined();
+  });
+
+  it('passes accepted signup terms to GitHub authorization', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'Join'}));
+    await userEvent.click(screen.getByRole('checkbox'));
+    await userEvent.click(screen.getByRole('button', {name: githubLabels.continue}));
+    expect(githubSubmit.mock.instances[0].elements.tos_agreement.value).toBe('1');
+  });
+
+  it('leaves unaccepted signup terms for signup completion', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'Join'}));
+    await userEvent.click(screen.getByRole('button', {name: githubLabels.continue}));
+    expect(githubSubmit.mock.instances[0].elements.tos_agreement).toBeUndefined();
   });
 
   it('opens sign in from a sign in link', async () => {

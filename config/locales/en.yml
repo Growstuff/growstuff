@@ -304,6 +304,13 @@ en:
       not_connected_help: You can close this window and try again.
       close_window: Close this window
     sign_in:
+      github:
+        title: Sign in with GitHub
+        continue: Continue with GitHub
+        agree_to_terms: I agree to the
+        agree_to_tos_html: I agree to the %{tos_link}
+        terms_of_service: Terms of Service
+        cancel: Cancel
       bluesky:
         agree_to_tos_html: I agree to the %{tos_link}
         contacting: Contacting Bluesky…

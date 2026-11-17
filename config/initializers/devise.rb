@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require './lib/omniauth/growstuff_mastodon'
+require './lib/omniauth/growstuff_github'
 
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
@@ -211,7 +212,8 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
+  config.omniauth :github, ENV.fetch('GROWSTUFF_GITHUB_CLIENT_ID', nil), ENV.fetch('GROWSTUFF_GITHUB_CLIENT_SECRET', nil),
+                   strategy_class: OmniAuth::Strategies::GrowstuffGithub
 
   config.omniauth :mastodon,
                    strategy_class: OmniAuth::Strategies::GrowstuffMastodon,

@@ -55,8 +55,8 @@ class Growstuff::OauthSignupAction
     authentication = member.authentications
       .create_with(
         name:,
-        token:  (auth.dig('credentials', 'token') unless auth['provider'] == 'mastodon'),
-        secret: (auth.dig('credentials', 'secret') unless auth['provider'] == 'mastodon')
+        token:  (auth.dig('credentials', 'token') unless %w(mastodon github).include?(auth['provider'])),
+        secret: (auth.dig('credentials', 'secret') unless %w(mastodon github).include?(auth['provider']))
       )
       .find_or_create_by(
         provider:  auth['provider'],
