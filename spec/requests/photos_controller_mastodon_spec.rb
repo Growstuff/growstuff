@@ -49,9 +49,43 @@ describe PhotosController do
       expect(response.parsed_body.at_css('input[name="photo[license_accepted]"][required]:not([checked])')).to be_present
     end
 
-    it 'offers Mastodon from the Flickr page without JavaScript' do
+    it 'offers Mastodon without JavaScript' do
       get new_photo_path, params: { type: 'job', id: job.id }
       expect(response.parsed_body.at_css('a[href*="source=mastodon"]')).to be_present
+    end
+
+    it 'defaults to Mastodon when that is the connected source' do
+      get new_photo_path(format: :json), params: { type: 'job', id: job.id }
+      expect(response.parsed_body['source']).to eq 'mastodon'
+    end
+
+    it 'offers only the connected source' do
+      get new_photo_path(format: :json), params: { type: 'job', id: job.id }
+      expect(response.parsed_body['sources']).to eq ['mastodon']
+    end
+
+    it 'does not offer an unconnected Flickr account without JavaScript' do
+      get new_photo_path, params: { type: 'job', id: job.id }
+      expect(response.parsed_body.at_css('a[href*="source=flickr"]')).to be_nil
+    end
+
+    it 'falls back to a connected source for an unconnected source link' do
+      get new_photo_path(format: :json), params: { type: 'job', id: job.id, source: 'flickr' }
+      expect(response.parsed_body['source']).to eq 'mastodon'
+    end
+
+    context 'with Flickr also connected' do
+      before { create(:flickr_authentication, member:) }
+
+      it 'offers both connected sources' do
+        get new_photo_path(format: :json), params: { type: 'job', id: job.id, source: 'mastodon' }
+        expect(response.parsed_body['sources']).to eq %w(flickr mastodon)
+      end
+
+      it 'keeps the requested connected source' do
+        get new_photo_path(format: :json), params: { type: 'job', id: job.id, source: 'mastodon' }
+        expect(response.parsed_body['source']).to eq 'mastodon'
+      end
     end
 
     context 'without a connected Mastodon account' do
@@ -60,6 +94,11 @@ describe PhotosController do
       it 'offers a connection rather than failing' do
         get new_photo_path(format: :json), params: { type: 'job', id: job.id, source: 'mastodon' }
         expect(response.parsed_body['state']).to eq 'connect'
+      end
+
+      it 'offers both connection paths when neither source is connected' do
+        get new_photo_path(format: :json), params: { type: 'job', id: job.id }
+        expect(response.parsed_body['sources']).to eq %w(flickr mastodon)
       end
     end
   end
