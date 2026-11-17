@@ -48,9 +48,9 @@ describe('AddPhotoModal', () => {
 
     beforeEach(() => {
       mastodonData = {state: 'ready', source: 'mastodon', photos: [mastodonPhoto], sets: [], authentication_id: 7,
-        accounts, labels, next_cursor: '88'};
+        accounts, labels, next_cursor: '88', sources: ['flickr', 'mastodon']};
       fetch.mockImplementation(async (url) => ({ok: true, status: url.startsWith('/photos/new') ? 200 : 201,
-        json: async () => url.startsWith('/photos/new') ? (url.includes('source=mastodon') ? mastodonData : {...ready, labels, accounts}) : {}}));
+        json: async () => url.startsWith('/photos/new') ? (url.includes('source=mastodon') ? mastodonData : {...ready, source: 'flickr', sources: ['flickr', 'mastodon'], labels, accounts}) : {}}));
     });
 
     function open(onAdded = vi.fn()) {
@@ -121,6 +121,51 @@ describe('AddPhotoModal', () => {
       open();
       await user.selectOptions(await screen.findByRole('combobox', {name: labels.source}), 'flickr');
       await waitFor(() => expect(fetch.mock.lastCall[0]).toContain('source=flickr'));
+    });
+
+    it('offers both sources when both are connected', async () => {
+      open();
+      const select = await screen.findByRole('combobox', {name: labels.source});
+      expect(Array.from(select.options, (option) => option.value)).toEqual(['flickr', 'mastodon']);
+    });
+
+    it('does not offer Flickr when only Mastodon is connected', async () => {
+      mastodonData.sources = ['mastodon'];
+      open();
+      await screen.findByRole('button', {name: photo.title});
+      expect(screen.queryByRole('option', {name: labels.flickr})).not.toBeInTheDocument();
+    });
+
+    it('uses a single connected source without a source selector', async () => {
+      mastodonData.sources = ['mastodon'];
+      open();
+      await screen.findByRole('button', {name: photo.title});
+      expect(screen.queryByRole('combobox', {name: labels.source})).not.toBeInTheDocument();
+    });
+
+    it('does not offer Mastodon when only Flickr is connected', async () => {
+      fetch.mockResolvedValue({ok: true, json: async () => ({...ready, source: 'flickr', sources: ['flickr'], labels})});
+      render(<AddPhotoModal label="Tomatoes" newUrl="/photos/new?type=job&id=5" onClose={vi.fn()} onAdded={vi.fn()} />);
+      await screen.findByRole('button', {name: photo.title});
+      expect(screen.queryByRole('option', {name: labels.mastodon})).not.toBeInTheDocument();
+    });
+
+    it('lets the server choose the initially connected source', async () => {
+      fetch.mockResolvedValue({ok: true, json: async () => ({...mastodonData, sources: ['mastodon']})});
+      render(<AddPhotoModal label="Tomatoes" newUrl="/photos/new?type=job&id=5" onClose={vi.fn()} onAdded={vi.fn()} />);
+      await screen.findByRole('button', {name: photo.title});
+      expect(fetch.mock.calls[0][0]).not.toContain('source=');
+    });
+
+    it('imports from the source automatically selected by the server', async () => {
+      fetch.mockImplementation(async (url) => ({ok: true, status: 200,
+        json: async () => url.startsWith('/photos/new') ? {...mastodonData, sources: ['mastodon']} : {}}));
+      const user = userEvent.setup();
+      render(<AddPhotoModal label="Tomatoes" newUrl="/photos/new?type=job&id=5" onClose={vi.fn()} onAdded={vi.fn()} />);
+      await user.click(await screen.findByRole('button', {name: photo.title}));
+      await user.click(screen.getByRole('checkbox'));
+      await user.click(screen.getByRole('button', {name: labels.add}));
+      expect(JSON.parse(fetch.mock.lastCall[1].body).photo.source).toBe('mastodon');
     });
   });
 });
