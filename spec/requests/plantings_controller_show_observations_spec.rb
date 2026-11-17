@@ -160,6 +160,27 @@ describe PlantingsController, '#show observations' do
     end
   end
 
+  context 'with heavy rain, extreme heat and first snow' do
+    before do
+      create(:planting_condition, planting:, kind: 'heavy_rain', occurred_on: Date.new(2026, 1, 8), value: 112.0, threshold: 100.0)
+      create(:planting_condition, planting:, kind: 'extreme_heat', occurred_on: Date.new(2026, 1, 9), value: 41.3, threshold: 40.0)
+      create(:planting_condition, planting:, kind: 'first_snow', occurred_on: Date.new(2026, 1, 10), value: 3.0)
+      get planting_path(planting)
+    end
+
+    it 'lists the heavy rain with how much fell' do
+      expect(page).to have_css('.observation-problem', text: 'Heavy rain 112 mm of rain in a day.')
+    end
+
+    it 'lists the extreme heat with the high, on the heat tint' do
+      expect(page).to have_css('.observation-hot', text: 'Extreme heat A high of 41.3 °C.')
+    end
+
+    it 'lists the first snow of the winter' do
+      expect(page).to have_css('.observation-frost', text: 'First snow of the winter 3 cm of snow fell.')
+    end
+  end
+
   context 'with a day of damaging wind' do
     before do
       create(:planting_condition, planting:, kind: 'damaging_wind', occurred_on: Date.new(2026, 1, 9), value: 104.0, threshold: 90.0,
@@ -169,6 +190,18 @@ describe PlantingsController, '#show observations' do
 
     it 'lists it with the gusts, where from and the temperatures' do
       expect(page).to have_css('.observation-problem', text: 'Damaging wind Gusts up to 104 km/h from the south, 11.1 to 13.7 °C that day.')
+    end
+  end
+
+  context 'with a finished job, when signed in as the owner' do
+    before do
+      create(:job, jobbable: planting, owner: planting.owner, finished: true)
+      sign_in planting.owner
+      get planting_path(planting)
+    end
+
+    it 'gives it no menu on the timeline' do
+      expect(page).to have_no_css('.observation-job .observation-actions')
     end
   end
 

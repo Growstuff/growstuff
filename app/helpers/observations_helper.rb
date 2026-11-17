@@ -7,14 +7,15 @@ module ObservationsHelper
   }.freeze
 
   # One line of the timeline: when, what kind of entry (:observation, :harvest, :job, :planted, :transplanted, :frost,
-  # :killing_cold, :killing_heat, :damaging_wind or :frost_passed) and what it is about. That is the Observation for an
-  # observation, the Harvest for a harvest, the Job for a job done, the PlantingHistory for a move out of the nursery, the day
-  # for frost danger passing, the run of PlantingConditions for the weather kinds (see #condition_runs), and nothing for the
-  # planting itself.
+  # :killing_cold, :killing_heat, :damaging_wind, :heavy_rain, :extreme_heat, :first_snow or :frost_passed) and what it is
+  # about. That is the Observation for an observation, the Harvest for a harvest, the Job for a job done, the PlantingHistory
+  # for a move out of the nursery, the day for frost danger passing, the run of PlantingConditions for the weather kinds (see
+  # #condition_runs), and nothing for the planting itself.
   TimelineEntry = Struct.new(:at, :type, :record)
 
   # Of entries on one day, the planting comes first in time, then the weather, the harvests, the jobs, then what was noticed.
-  TIMELINE_ORDER = %i(planted transplanted frost killing_cold killing_heat damaging_wind frost_passed harvest job observation).freeze
+  TIMELINE_ORDER = %i(planted transplanted frost killing_cold killing_heat damaging_wind heavy_rain extreme_heat first_snow
+                      frost_passed harvest job observation).freeze
 
   # The kinds of observation to choose from, with their wording. Observations with no kind are "other".
   def observation_kind_options
@@ -103,6 +104,13 @@ module ObservationsHelper
     end
   end
 
+  # The weather entries that are one note each: the icon and the classes that colour the row.
+  WEATHER_ENTRIES = {
+    heavy_rain:   { icon: 'cloud-showers-heavy', classes: 'observation-problem' },
+    extreme_heat: { icon: 'sun', classes: 'observation-problem observation-hot' },
+    first_snow:   { icon: 'snowman', classes: 'observation-frost' }
+  }.freeze
+
   COMPASS_POINTS = %w(north north_east east south_east south south_west west north_west).freeze
 
   # Where the wind blew from, in words: "south-west". Nil when we don't know.
@@ -110,6 +118,16 @@ module ObservationsHelper
     return unless degrees
 
     t("observations.compass.#{COMPASS_POINTS[((degrees % 360) / 45.0).round % 8]}")
+  end
+
+  # What a run of heavy rain, extreme heat or snow days says of the strongest of them: "Up to 112 mm of rain in a day."
+  def weather_entry_note(type, run)
+    peak = run.filter_map(&:value).max
+    case type
+    when :heavy_rain then t('plantings.observations.heavy_rain_note', amount: number_with_precision(peak, precision: 0))
+    when :extreme_heat then t('plantings.observations.extreme_heat_note', degrees: frost_degrees(peak))
+    else t('plantings.observations.first_snow_note', amount: frost_degrees(peak))
+    end
   end
 
   # What a run of damaging wind days says of the strongest of them: "Gusts up to 112 km/h from the south-west, 8 to 14 °C that

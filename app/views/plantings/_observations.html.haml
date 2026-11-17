@@ -98,8 +98,19 @@
             %span.text-muted.small= t('.job_done')
             - if job.description.present?
               %p.observation-note.mb-0= job.description
-          - if can?(:edit, job)
-            .observation-actions= render 'jobs/actions', job:
+      - when :heavy_rain, :extreme_heat, :first_snow
+        -# Rain, heat or snow worth noting, days in a row, from the weather: not something to edit.
+        - run = entry.record
+        - entry_style = ObservationsHelper::WEATHER_ENTRIES.fetch(entry.type)
+        %li.observation{ class: entry_style[:classes] }
+          %span.observation-icon= icon 'fas', entry_style[:icon]
+          .observation-when
+            %time{ datetime: at.to_date.iso8601 }= l(at.to_date)
+            - if (day = timeline_day(at.to_date, planting))
+              %span.observation-day= t('.day', count: day)
+          .observation-body
+            %strong.observation-kind= t(".#{entry.type}", count: run.size)
+            %p.observation-note.mb-0= weather_entry_note(entry.type, run)
       - when :damaging_wind
         -# Gusts at or above the damaging speed, days in a row: from the weather, so not something to edit.
         %li.observation.observation-problem
