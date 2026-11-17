@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_17_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_17_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1155,10 +1155,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_17_000000) do
 
   create_table "planting_conditions", force: :cascade do |t|
     t.bigint "planting_id", null: false
-    t.string "kind", null: false, comment: "What the planting went through: frost, killing_cold or killing_heat."
+    t.string "kind", null: false, comment: "What the planting went through: frost, killing_cold, killing_heat or damaging_wind."
     t.date "occurred_on", null: false
     t.float "value", comment: "The day's lowest air temperature for frost and killing cold, highest for killing heat, in degrees Celsius."
     t.float "threshold", comment: "The limit the day crossed, in degrees Celsius, as it was when the day was recorded."
+    t.float "direction_degrees", comment: "Damaging wind: where it blew from, 0 to 360."
+    t.float "temp_min_c", comment: "Damaging wind: the day's lowest air temperature in degrees Celsius."
+    t.float "temp_max_c", comment: "Damaging wind: the day's highest air temperature in degrees Celsius."
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["planting_id", "kind", "occurred_on"], name: "index_planting_conditions_on_planting_kind_and_day", unique: true
