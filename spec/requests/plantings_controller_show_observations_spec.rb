@@ -84,6 +84,22 @@ describe PlantingsController, '#show observations' do
     end
   end
 
+  context 'with a move out of the nursery' do
+    before do
+      nursery = create(:garden, owner: planting.owner).tap(&:make_nursery!)
+      create(:planting_history, planting:, garden: nursery, started_on: Date.new(2026, 1, 1), ended_on: Date.new(2026, 1, 11))
+      get planting_path(planting)
+    end
+
+    it 'lists the day it moved, with the day of the planting' do
+      expect(page).to have_css('.observation-transplanted .observation-day', text: 'Day 10')
+    end
+
+    it 'names the garden it moved into' do
+      expect(page).to have_css(".observation-transplanted a[href='/gardens/#{planting.garden.slug}']", text: planting.garden.name)
+    end
+  end
+
   context 'with jobs' do
     before do
       create(:job, jobbable: planting, owner: planting.owner, name: 'Mulch the bed', finished: true)
@@ -163,8 +179,8 @@ describe PlantingsController, '#show observations' do
     end
 
     it 'lists them as one entry, with the coldest' do
-      expect(page).to have_css('.observation-frost', count: 1, text: 'Frost for 3 nights in a row')
-      expect(page).to have_css('.observation-frost .observation-note', text: 'Down to -3 °C')
+      expect(page).to have_css('.observation-frost', count: 1, text: 'Frost detected for 3 nights in a row')
+      expect(page).to have_css('.observation-frost .observation-note', text: 'Overnight temperature fell to -3 °C')
     end
 
     it 'dates it from the first night' do

@@ -118,7 +118,7 @@
 
         %section#photos= render 'plantings/photos', photos: @photos, planting: @planting
 
-        %section#observations.observations= render 'plantings/observations', planting: @planting, observations: @observations, conditions: @conditions.to_a, harvests: @harvests.to_a, jobs: @finished_jobs.to_a, frost_passed_on: @frost&.danger_passed_on
+        %section#observations.observations= render 'plantings/observations', planting: @planting, observations: @observations, conditions: @conditions.to_a, harvests: @harvests.to_a, jobs: @finished_jobs.to_a, frost_passed_on: @frost&.danger_passed_on, histories: @planting.histories.includes(:garden).to_a
 
         = render 'frost/section', frost: @frost if @frost
 

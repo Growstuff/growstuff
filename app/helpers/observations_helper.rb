@@ -6,14 +6,15 @@ module ObservationsHelper
     'wilting' => 'arrow-trend-down', 'disease_observed' => 'bug'
   }.freeze
 
-  # One line of the timeline: when, what kind of entry (:observation, :harvest, :job, :planted, :frost, :killing_cold,
-  # :killing_heat, :damaging_wind or :frost_passed) and what it is about. That is the Observation for an observation, the
-  # Harvest for a harvest, the Job for a job done, the day for frost danger passing, the run of PlantingConditions for the
-  # weather kinds (see #condition_runs), and nothing for the planting itself.
+  # One line of the timeline: when, what kind of entry (:observation, :harvest, :job, :planted, :transplanted, :frost,
+  # :killing_cold, :killing_heat, :damaging_wind or :frost_passed) and what it is about. That is the Observation for an
+  # observation, the Harvest for a harvest, the Job for a job done, the PlantingHistory for a move out of the nursery, the day
+  # for frost danger passing, the run of PlantingConditions for the weather kinds (see #condition_runs), and nothing for the
+  # planting itself.
   TimelineEntry = Struct.new(:at, :type, :record)
 
   # Of entries on one day, the planting comes first in time, then the weather, the harvests, the jobs, then what was noticed.
-  TIMELINE_ORDER = %i(planted frost killing_cold killing_heat damaging_wind frost_passed harvest job observation).freeze
+  TIMELINE_ORDER = %i(planted transplanted frost killing_cold killing_heat damaging_wind frost_passed harvest job observation).freeze
 
   # The kinds of observation to choose from, with their wording. Observations with no kind are "other".
   def observation_kind_options
@@ -83,11 +84,13 @@ module ObservationsHelper
   # What the timeline lists, newest first: the observations, the planting itself, which has no observation, on the day it
   # went in, its harvests, the jobs done on it, the day frost danger passed, and its conditions (nights of frost and days too
   # cold or hot for the crop, each run of days in a row as one entry), which nobody has to note.
-  def observation_timeline(planting, observations, conditions: [], harvests: [], jobs: [], frost_passed_on: nil) # rubocop:disable Metrics/ParameterLists
+  def observation_timeline(planting, observations, conditions: [], harvests: [], jobs: [], frost_passed_on: nil, histories: []) # rubocop:disable Metrics/ParameterLists
     entries = observations.map { |observation| TimelineEntry.new(observation.observed_at, :observation, observation) }
     entries << TimelineEntry.new(planting.planted_at.in_time_zone, :planted) if planting.planted_at.present?
     entries += harvests.map { |harvest| TimelineEntry.new((harvest.harvested_at || harvest.created_at).in_time_zone, :harvest, harvest) }
     entries += jobs.map { |job| TimelineEntry.new((job.finished_at || job.updated_at).in_time_zone, :job, job) }
+    moves = histories.select { |history| history.garden.nursery? }
+    entries += moves.map { |history| TimelineEntry.new(history.ended_on.in_time_zone, :transplanted, history) }
     entries << TimelineEntry.new(frost_passed_on.in_time_zone, :frost_passed, frost_passed_on) if frost_passed_on
     entries += condition_runs(conditions).map { |run| TimelineEntry.new(run.first.occurred_on.in_time_zone, run.first.kind.to_sym, run) }
     entries.sort_by { |entry| [entry.at, TIMELINE_ORDER.index(entry.type)] }.reverse

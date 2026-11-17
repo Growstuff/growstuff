@@ -66,12 +66,13 @@ describe ObservationsHelper do
   end
 
   describe '#observation_timeline' do
-    subject(:timeline) { helper.observation_timeline(planting, observations, conditions:, harvests:, jobs:, frost_passed_on:) }
+    subject(:timeline) { helper.observation_timeline(planting, observations, conditions:, harvests:, jobs:, frost_passed_on:, histories:) }
 
     let(:planting) { create(:planting, planted_at: Date.new(2026, 5, 1)) }
     let(:harvests) { [] }
     let(:jobs) { [] }
     let(:frost_passed_on) { nil }
+    let(:histories) { [] }
     let(:observations) { [build(:observation, planting:, observed_at: Time.zone.local(2026, 5, 3, 9))] }
     let(:conditions) { [build(:planting_condition, planting:, occurred_on: Date.new(2026, 5, 2))] }
 
@@ -100,6 +101,23 @@ describe ObservationsHelper do
 
       it 'puts it in order by the day it was picked' do
         expect(timeline.map(&:type)).to eq %i(observation harvest frost planted)
+      end
+    end
+
+    context 'with a move out of the nursery' do
+      let(:nursery) { create(:garden, owner: planting.owner).tap(&:make_nursery!) }
+      let(:histories) { [create(:planting_history, planting:, garden: nursery, ended_on: Date.new(2026, 5, 2))] }
+
+      it 'puts it in order by the day it moved' do
+        expect(timeline.map(&:type)).to eq %i(observation frost transplanted planted)
+      end
+    end
+
+    context 'with a move out of an ordinary garden' do
+      let(:histories) { [create(:planting_history, planting:, ended_on: Date.new(2026, 5, 2))] }
+
+      it 'leaves it out' do
+        expect(timeline.map(&:type)).to eq %i(observation frost planted)
       end
     end
 
