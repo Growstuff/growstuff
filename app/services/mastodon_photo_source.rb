@@ -67,6 +67,7 @@ class MastodonPhotoSource
       thumbnail_url: attachment['preview_url'].presence || attachment['url'],
       fullsize_url: attachment['url'], link_url: status['url'],
       title: photo.title.presence || attachment['description'].presence || I18n.t('photos.import_picker.untitled'),
+      date_taken: photo.date_taken || posted_at(status),
       license_name: photo.license_name.presence || LICENSE_NAME,
       license_url: photo.license_name.present? ? photo.license_url : LICENSE_URL
     )
@@ -77,6 +78,14 @@ class MastodonPhotoSource
 
   def source_id(attachment)
     "#{attachment['id']}@#{@domain}"
+  end
+
+  # When the post was made, which is when the picture was shared, not necessarily when it was
+  # taken. Mastodon does not say that. A date we can't read is left blank rather than refusing the photo.
+  def posted_at(status)
+    Time.iso8601(status['created_at'].to_s)
+  rescue ArgumentError
+    nil
   end
 
   def existing_photo(attachment)

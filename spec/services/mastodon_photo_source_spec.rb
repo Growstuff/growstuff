@@ -17,7 +17,8 @@ describe MastodonPhotoSource do
       'preview_url' => 'https://cdn.example/small.jpg', 'description' => 'Tomatoes ripening' }
   end
   let(:status) do
-    { 'id' => '123', 'account' => { 'id' => '111' }, 'visibility' => 'public', 'sensitive' => false,
+    { 'id' => '123', 'created_at' => '2026-03-04T05:06:07.000Z', 'account' => { 'id' => '111' },
+      'visibility' => 'public', 'sensitive' => false,
       'url' => 'https://photos.example/@alice/123', 'media_attachments' => [attachment] }
   end
   let(:statuses) { [status] }
@@ -124,8 +125,24 @@ describe MastodonPhotoSource do
       expect(import.title).to eq attachment['description']
     end
 
-    it 'does not mistake the posting date for the date taken' do
-      expect(import.date_taken).to be_nil
+    it 'uses the date the post was made as the photo date' do
+      expect(import.date_taken).to eq Time.utc(2026, 3, 4, 5, 6, 7)
+    end
+
+    context 'without a post date' do
+      before { status.delete('created_at') }
+
+      it 'leaves the photo date blank' do
+        expect(import.date_taken).to be_nil
+      end
+    end
+
+    context 'with a post date that cannot be read' do
+      before { status['created_at'] = 'last Tuesday' }
+
+      it 'leaves the photo date blank' do
+        expect(import.date_taken).to be_nil
+      end
     end
 
     it 'records the agreed licence' do
@@ -153,6 +170,22 @@ describe MastodonPhotoSource do
 
       it 'keeps its stated licence' do
         expect(import(consent: false).license_name).to eq 'CC BY 4.0'
+      end
+
+      context 'without a date yet' do
+        before { photo.update!(date_taken: nil) }
+
+        it 'gives it the post date' do
+          expect(import(consent: false).date_taken).to eq Time.utc(2026, 3, 4, 5, 6, 7)
+        end
+      end
+
+      context 'with a date already' do
+        before { photo.update!(date_taken: Time.utc(2020, 1, 2, 3, 4, 5)) }
+
+        it 'keeps that date' do
+          expect(import(consent: false).date_taken).to eq Time.utc(2020, 1, 2, 3, 4, 5)
+        end
       end
 
       it 'offers its stated licence in the picker' do
