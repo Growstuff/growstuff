@@ -159,6 +159,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
   const sources = data?.sources || [];
   const labels = data?.labels || {};
   const needsLicense = mastodon && chosen && !chosen.license_name;
+  const licenseMissing = needsLicense && !licenseAccepted;
   const steps = connectFirst ? ['Connect Flickr', 'Choose a photo', 'Confirm'] : ['Choose a photo', 'Confirm'];
   const firstChoose = connectFirst ? 2 : 1;
   const current = !ready ? 1 : chosen ? firstChoose + 1 : firstChoose;
@@ -187,7 +188,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
       {data && (
         <>
           <div className="modal-body plant-dialog-body">
-            {data.labels && (
+            {data.labels && !chosen && (
               <div className="photo-picker-filters mb-3">
                 {sources.length > 1 && <>
                   <label htmlFor="photo-source">{labels.source}</label>
@@ -301,28 +302,27 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
                     <span>Your choice is kept, so you can press Add photo to try again.</span>
                   </div>
                 )}
-                <div className="crop-confirm">
+                <div className="crop-confirm photo-picker-confirm">
                   <p className="crop-confirm-label">Ready to add this photo?</p>
-                  <dl className="crop-confirm-details photo-picker-confirm">
-                    <dt>To</dt>
-                    <dd>{label}</dd>
-                    <dt>Photo</dt>
-                    <dd>
-                      <img src={chosen.preview_url} alt={chosen.title || 'The photo you chose'} className="photo-picker-preview" />
-                      <span className="photo-picker-title">{chosen.title}</span>
-                      <button type="button" className="btn btn-sm btn-outline-secondary ms-3" onClick={() => setChosen(null)} disabled={saving}>
+                  <div className="photo-picker-confirm-card">
+                    <img src={chosen.preview_url} alt={chosen.title || 'The photo you chose'} className="photo-picker-preview" />
+                    <div className="photo-picker-confirm-details">
+                      <p className="photo-picker-confirm-title">{chosen.title}</p>
+                      <p className="photo-picker-confirm-meta"><span>To</span> {label}</p>
+                      {mastodon && data.name && <p className="photo-picker-confirm-meta"><span>{labels.account}</span> {data.name}</p>}
+                      <button type="button" className="btn btn-sm btn-outline-secondary mt-2" onClick={() => setChosen(null)} disabled={saving}>
                         <i className="fas fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> photo</span>
                       </button>
-                    </dd>
-                  </dl>
+                    </div>
+                  </div>
                   <p className="photo-picker-hint mb-0">{mastodon ? labels.hosted : 'The photo stays on Flickr. Growstuff shows it and links back to it.'}</p>
                   {needsLicense && (
-                    <div className="mt-3">
-                      <label className="form-check">
-                        <input type="checkbox" className="form-check-input" checked={licenseAccepted} onChange={(event) => setLicenseAccepted(event.target.checked)} disabled={saving} required />
+                    <div className={`photo-picker-licence ${licenseAccepted ? 'is-accepted' : 'is-pending'}`}>
+                      <label className="form-check photo-picker-licence-check">
+                        <input type="checkbox" className="form-check-input" checked={licenseAccepted} onChange={(event) => setLicenseAccepted(event.target.checked)} disabled={saving} required aria-describedby="photo-licence-hint" />
                         <span className="form-check-label">{labels.license_consent}</span>
                       </label>
-                      <p className="photo-picker-hint">{labels.license_hint} <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">{labels.license_link}</a></p>
+                      <p id="photo-licence-hint" className="photo-picker-hint mb-0">{labels.license_hint} <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">{labels.license_link}</a></p>
                     </div>
                   )}
                   {mastodon && chosen.license_name && <p>{chosen.license_name}</p>}
@@ -331,9 +331,10 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
             )}
           </div>
           {ready && chosen && (
-            <div className="modal-footer">
+            <div className="modal-footer justify-content-between">
+              {licenseMissing && <p id="photo-licence-needed" className="photo-picker-licence-needed" role="status"><i className="fas fa-arrow-up" aria-hidden="true" /> {labels.license_needed}</p>}
               <button type="button" className="btn btn-link" onClick={() => setChosen(null)} disabled={saving}>{mastodon ? labels.back : 'Back'}</button>
-              <button type="button" className="btn btn-success btn-plant" onClick={add} disabled={saving || (needsLicense && !licenseAccepted)} aria-busy={saving} autoFocus>
+              <button type="button" className="btn btn-success btn-plant" onClick={add} disabled={saving || licenseMissing} aria-describedby={licenseMissing ? 'photo-licence-needed' : undefined} aria-busy={saving} autoFocus>
                 {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Adding…</> : mastodon ? labels.add : 'Add photo'}
               </button>
             </div>
