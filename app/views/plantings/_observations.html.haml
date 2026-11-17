@@ -3,7 +3,7 @@
 -# The add link opens the same dialog as the actions menu item (see PlantingActions).
 - can_manage = can?(:create, Observation.new(planting:))
 - can_harvest = can?(:edit, planting) && !planting.failed && can?(:create, Harvest)
-- timeline = observation_timeline(planting, observations, conditions:, harvests:, jobs:, frost_passed_on:)
+- timeline = observation_timeline(planting, observations, conditions:, harvests:, jobs:, frost_passed_on:, histories:)
 .section-header
   %h2= t('plantings.show.timeline')
   - if can_manage || can_harvest
@@ -72,6 +72,18 @@
                 - if can?(:destroy, harvest)
                   .dropdown-divider
                   = menu_delete_button(harvest)
+      - when :transplanted
+        -# The day it moved out of the nursery, from the planting's record of where it has been.
+        - garden = entry.record.moved_to
+        %li.observation.observation-transplanted
+          %span.observation-icon= icon 'fas', 'arrow-right'
+          .observation-when
+            %time{ datetime: at.to_date.iso8601 }= l(at.to_date)
+            - if (day = timeline_day(at.to_date, planting))
+              %span.observation-day= t('.day', count: day)
+          .observation-body
+            %strong.observation-kind= t('.transplanted')
+            %p.observation-note.mb-0= t('.transplanted_note_html', garden: link_to(garden.name, garden))
       - when :job
         -# A job that has been done. Open ones stay in the jobs section.
         - job = entry.record

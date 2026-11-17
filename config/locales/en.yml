@@ -4100,9 +4100,9 @@ en:
       edit: Edit observation
       edit_harvest: Edit harvest
       frost:
-        one: Frost
-        other: Frost for %{count} nights in a row
-      frost_low: Down to %{degrees} °C
+        one: Frost detected
+        other: Frost detected for %{count} nights in a row
+      frost_low: Overnight temperature fell to %{degrees} °C
       frost_passed: Frost danger passed
       frost_passed_note: In 9 years out of 10 the last frost here has come by this day.
       harvested: Harvested
@@ -4124,6 +4124,8 @@ en:
       planted_in_nursery: Sown in the nursery.
       planted_packet_link: a seed packet we've recorded
       planted_started_as: "Started as: %{kind}."
+      transplanted: Transplanted
+      transplanted_note_html: Moved from the nursery into %{garden}.
     origin:
       change: change
       crop_changed: This planting is now %{crop}, to match your packet. It was %{was}.
