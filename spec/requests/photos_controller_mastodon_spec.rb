@@ -145,6 +145,11 @@ describe PhotosController do
         expect(response).to have_http_status(:unprocessable_content)
       end
 
+      it 'gives the reason in the shape the dialog reads' do
+        add_photo
+        expect(response.parsed_body['errors']).to eq('base' => [I18n.t('photos.import_picker.license_required')])
+      end
+
       it 'returns the non-JavaScript user to the picker' do
         add_photo(format: :html)
         path = new_photo_path(type: 'job', id: job.id, label: 'before', source: 'mastodon', authentication_id: authentication.id)

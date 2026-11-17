@@ -87,7 +87,7 @@ class PhotosController < ApplicationController
     render json: { errors: e.record.errors }, status: :unprocessable_content
   rescue MastodonPhotoSource::Rejected => e
     if request.format.json?
-      render json: { errors: [t("photos.import_picker.#{e.reason}")] }, status: :unprocessable_content
+      render json: { errors: { base: [t("photos.import_picker.#{e.reason}")] } }, status: :unprocessable_content
     else
       redirect_to new_photo_path(type: params[:type], id: params[:id], label: params[:label], source: 'mastodon',
                                  authentication_id: params[:authentication_id]), alert: t("photos.import_picker.#{e.reason}")
