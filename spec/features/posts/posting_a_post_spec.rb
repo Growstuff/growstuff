@@ -45,16 +45,16 @@ describe 'Post a post' do
       end
     end
 
-    context "adding a Flickr photo" do
+    context 'when adding a photo' do
       it "opens the photo dialog for a draft with a title and text" do
         fill_in "post_subject", with: "Photos"
         find(".post-editor-content").send_keys("Some words")
-        click_button "Flickr photo"
+        click_button I18n.t('photos.import_picker.add')
         expect(page).to have_css "[role=dialog]", text: "Add photo"
       end
 
       it "opens the photo dialog even before anything is written" do
-        click_button "Flickr photo"
+        click_button I18n.t('photos.import_picker.add')
         expect(page).to have_css "[role=dialog]", text: "Add photo"
       end
     end
