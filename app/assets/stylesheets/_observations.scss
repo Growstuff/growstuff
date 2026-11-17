@@ -1,4 +1,20 @@
+$observation-frost-tint: #eef5fb;
+$observation-harvest-tint: #fff9e6;
+$observation-heat-tint: #fdf0f2;
+
 // A planting's observations, newest first, down a line with a dot for each.
+.observations .section-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.5rem;
+}
+
+// The prompt to log a first observation: room to breathe above the timeline.
+.observations .notepad-ideas {
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+}
+
 .observation-timeline {
   margin: 0;
   padding-left: 1.5rem;
@@ -29,6 +45,32 @@
 
     &.observation-problem .observation-icon {
       background: $danger-text;
+    }
+
+    // Frost, harvests and days too hot come from the weather and the harvest records, not from the grower's notes, so they
+    // sit on a faint tint of their own: pale blue for frost, pale yellow for a harvest, pale pink for heat.
+    &.observation-frost,
+    &.observation-harvest,
+    &.observation-hot {
+      margin-bottom: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.375rem;
+
+      .observation-icon {
+        top: 0.5rem;
+      }
+    }
+
+    &.observation-frost {
+      background: $observation-frost-tint;
+    }
+
+    &.observation-harvest {
+      background: $observation-harvest-tint;
+    }
+
+    &.observation-hot {
+      background: $observation-heat-tint;
     }
   }
 

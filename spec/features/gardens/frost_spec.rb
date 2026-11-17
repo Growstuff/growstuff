@@ -13,8 +13,8 @@ describe 'Frost on a garden', flipper: :planting_weather do
       visit garden_path(garden)
     end
 
-    it { expect(page).to have_css '.frost-section .frost-timeline' }
-    it { expect(page).to have_no_css '.frost-band--so_far' }
+    it { expect(page).to have_css '.frost-section .frost-timeline', visible: :all }
+    it { expect(page).to have_no_css '.frost-band--so_far', visible: :all }
   end
 
   context 'without frost dates' do

@@ -24,53 +24,6 @@ $frost-warning: #fff8e1;
     @include figure-heading;
   }
 
-  // The verdict: an icon, a headline and a sentence, tinted by how it stands.
-  .frost-verdict {
-    @include figure-banner;
-  }
-
-  .frost-verdict--passed,
-  .frost-verdict--finished_clear {
-    background: $frost-clear;
-  }
-
-  .frost-verdict--in_season,
-  .frost-verdict--finished_hit {
-    background: $frost-warning;
-  }
-
-  .frost-verdict--finished_undated {
-    background: $frost-lane;
-  }
-
-  .frost-verdict-icon {
-    @include figure-banner-icon;
-  }
-
-  .frost-verdict--passed .frost-verdict-icon,
-  .frost-verdict--finished_clear .frost-verdict-icon {
-    background: $green;
-  }
-
-  .frost-verdict--in_season .frost-verdict-icon,
-  .frost-verdict--late_possible .frost-verdict-icon,
-  .frost-verdict--finished_hit .frost-verdict-icon {
-    background: $orange;
-    color: #212121;
-  }
-
-  .frost-verdict--rare .frost-verdict-icon {
-    background: $brown;
-  }
-
-  .frost-verdict-title {
-    @include figure-banner-title;
-  }
-
-  .frost-verdict-body {
-    @include figure-banner-body;
-  }
-
   // The timeline: two rows of bands on one axis of months.
   .frost-lanes {
     position: relative;
@@ -267,6 +220,12 @@ $frost-warning: #fff8e1;
 
   .frost-card-note {
     @include figure-card-note;
+  }
+
+  .frost-credit {
+    color: $brown;
+    line-height: 1.5;
+    margin: 0;
   }
 
   .frost-about {

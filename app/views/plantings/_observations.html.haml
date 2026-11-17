@@ -1,20 +1,34 @@
--# What the grower noticed about this planting, newest first, as a timeline, with the day it was planted in its place.
+-# What happened to this planting, newest first, as a timeline: what the grower noticed, its harvests, the jobs done on it, the nights it went
+-# through frost (its conditions), and the day it was planted.
 -# The add link opens the same dialog as the actions menu item (see PlantingActions).
 - can_manage = can?(:create, Observation.new(planting:))
-- timeline = observation_timeline(planting, observations)
+- can_harvest = can?(:edit, planting) && !planting.failed && can?(:create, Harvest)
+- timeline = observation_timeline(planting, observations, conditions:, harvests:, jobs:, frost_passed_on:)
 .section-header
-  %h2= t('plantings.show.observations')
-  - if can_manage
-    - add_options = { class: 'btn btn-sm section-add', data: { planting_dialog: 'observation' } }
-    = link_to planting_path(planting, anchor: 'observations'), add_options do
-      = icon 'fas', 'plus'
-      = t('.add')
-- if observations.empty?
-  %p.text-muted.mb-0= t('plantings.show.no_observations')
+  %h2= t('plantings.show.timeline')
+  - if can_manage || can_harvest
+    .section-actions
+      - if can_manage
+        - add_options = { class: 'btn btn-sm section-add', data: { planting_dialog: 'observation' } }
+        = link_to planting_path(planting, anchor: 'observations'), add_options do
+          = icon 'fas', 'plus'
+          = t('.add')
+      -# Recording a harvest is in the page's actions menu too; this is the link behind that menu item.
+      - if can_harvest
+        = link_to new_planting_harvest_path(planting_slug: planting.slug), class: 'btn btn-sm section-add', data: { planting_dialog: 'harvest' } do
+          = icon 'fas', 'plus'
+          = t('.add_harvest')
+-# Only for those who can log one: a prompt for the first, in the yellow box the job ideas use.
+- if observations.empty? && can_manage
+  = render 'jobs/ideas_banner', href: planting_path(planting, anchor: 'observations'), open: false,
+                                data: { planting_dialog: 'observation' }, text: t('.idea'), go: t('.idea_go')
 - if timeline.any?
   %ol.observation-timeline.list-unstyled
-    - timeline.each do |at, observation|
-      - if observation
+    - timeline.each do |entry|
+      - at = entry.at
+      - case entry.type
+      - when :observation
+        - observation = entry.record
         %li.observation{ class: ("observation-problem" if observation.problem?), id: "observation-#{observation.id}" }
           %span.observation-icon= observation_icon(observation.kind)
           .observation-when
@@ -37,7 +51,73 @@
                 class: 'btn btn-sm btn-link text-danger observation-delete', title: t('.delete'),
                 data: { confirm: t('are_you_sure') }, 'aria-label': t('.delete') do
                 = icon 'fas', 'times'
-      - else
+      - when :harvest
+        -# A harvest is edited on its own page.
+        - harvest = entry.record
+        %li.observation.observation-harvest
+          %span.observation-icon= icon 'fas', 'basket-shopping'
+          .observation-when
+            %time{ datetime: at.to_date.iso8601 }= l(at.to_date)
+            - if (day = timeline_day(at.to_date, planting))
+              %span.observation-day= t('.day', count: day)
+          .observation-body
+            %strong.observation-kind= link_to t('.harvested'), harvest_path(slug: harvest.slug)
+            - if harvest.plant_part_name.present?
+              %span.text-muted.small= harvest.plant_part_name
+            %p.observation-note.mb-0= harvest.to_s
+      - when :job
+        -# A job that has been done. Open ones stay in the jobs section.
+        - job = entry.record
+        %li.observation.observation-job
+          %span.observation-icon= icon 'fas', 'circle-check'
+          .observation-when
+            %time{ datetime: at.to_date.iso8601 }= l(at.to_date)
+            - if (day = timeline_day(at.to_date, planting))
+              %span.observation-day= t('.day', count: day)
+          .observation-body
+            %strong.observation-kind= job.name
+            %span.text-muted.small= t('.job_done')
+            - if job.description.present?
+              %p.observation-note.mb-0= job.description
+          - if can?(:edit, job)
+            .observation-actions= render 'jobs/actions', job:
+      - when :frost_passed
+        -# Where frost happens, the day its danger ended for the planting: from the frost dates, so not something to edit.
+        %li.observation.observation-frost
+          %span.observation-icon= icon 'fas', 'sun'
+          .observation-when
+            %time{ datetime: at.to_date.iso8601 }= l(at.to_date)
+            - if (day = timeline_day(at.to_date, planting))
+              %span.observation-day= t('.day', count: day)
+          .observation-body
+            %strong.observation-kind= t('.frost_passed')
+            %p.observation-note.mb-0= t('.frost_passed_note')
+      - when :killing_cold, :killing_heat
+        -# Days past what the crop takes, in a row, from the weather and the crop's EcoCrop figures: not something to edit.
+        - run = entry.record
+        - cold = entry.type == :killing_cold
+        %li.observation.observation-problem{ class: ('observation-hot' unless cold) }
+          %span.observation-icon= icon 'fas', (cold ? 'temperature-low' : 'temperature-high')
+          .observation-when
+            %time{ datetime: at.to_date.iso8601 }= l(at.to_date)
+            - if (day = timeline_day(at.to_date, planting))
+              %span.observation-day= t('.day', count: day)
+          .observation-body
+            %strong.observation-kind= t(".#{entry.type}", count: run.size)
+            - extreme = cold ? run.filter_map(&:value).min : run.filter_map(&:value).max
+            %p.observation-note.mb-0= t(".#{entry.type}_note", degrees: frost_degrees(extreme), limit: frost_degrees(run.first.threshold), crop: planting.crop_name)
+      - when :frost
+        -# Nights that reached the frost danger temperature, in a row: from the weather, so not something to edit.
+        %li.observation.observation-frost
+          %span.observation-icon= icon 'fas', 'snowflake'
+          .observation-when
+            %time{ datetime: at.to_date.iso8601 }= l(at.to_date)
+            - if (day = timeline_day(at.to_date, planting))
+              %span.observation-day= t('.day', count: day)
+          .observation-body
+            %strong.observation-kind= t('.frost', count: entry.record.size)
+            %p.observation-note.mb-0= t('.frost_low', degrees: frost_degrees(entry.record.filter_map(&:value).min))
+      - when :planted
         -# The planting itself: always there, and not something to edit.
         %li.observation.observation-planted
           %span.observation-icon= icon 'fas', 'trowel'

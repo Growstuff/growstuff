@@ -3,13 +3,18 @@
 require 'rails_helper'
 
 describe PlantingsController, '#show observations' do
+  include ActiveSupport::Testing::TimeHelpers
+
   let(:planting) { create(:planting, planted_at: Date.new(2026, 1, 1)) }
   let(:page) { Capybara.string(response.body) }
 
   context 'with none' do
     before { get planting_path(planting) }
 
-    it { expect(page).to have_css('#observations', text: 'Nothing noticed yet') }
+    it 'offers the public nothing to log' do
+      expect(page).to have_no_css('#observations .notepad-ideas')
+    end
+
     it { expect(page).to have_css('#observations .observation-planted', text: 'Planted') }
   end
 
@@ -44,11 +49,125 @@ describe PlantingsController, '#show observations' do
     end
   end
 
-  context 'when signed in as the owner' do
+  context 'with a harvest' do
+    before do
+      create(:harvest, planting:, crop: planting.crop, owner: planting.owner, harvested_at: Date.new(2026, 1, 11))
+      get planting_path(planting)
+    end
+
+    it 'lists it on the timeline, with the day of the planting' do
+      expect(page).to have_css('.observation-harvest .observation-day', text: 'Day 10')
+    end
+
+    it 'links to the harvest' do
+      expect(page).to have_css('.observation-harvest a[href^="/harvests/"]')
+    end
+
+    it 'no longer has a section of its own' do
+      expect(page).to have_no_css('section#harvests')
+    end
+  end
+
+  context 'with jobs' do
+    before do
+      create(:job, jobbable: planting, owner: planting.owner, name: 'Mulch the bed', finished: true)
+        .update_columns(finished_at: Time.zone.local(2026, 1, 6, 10)) # rubocop:disable Rails/SkipsModelValidations
+      create(:job, jobbable: planting, owner: planting.owner, name: 'Water in', finished: false)
+      get planting_path(planting)
+    end
+
+    it 'lists the one that is done on the timeline, with the day of the planting' do
+      expect(page).to have_css('.observation-job .observation-day', text: 'Day 5')
+    end
+
+    it 'names it' do
+      expect(page).to have_css('.observation-job', text: 'Mulch the bed')
+    end
+
+    it 'leaves the one still to do in the jobs section' do
+      expect(page).to have_css('#jobs', text: 'Water in')
+    end
+
+    it 'takes the one that is done out of the jobs section' do
+      expect(page).to have_no_css('#jobs', text: 'Mulch the bed')
+    end
+  end
+
+  context 'with frost dates for the place', flipper: :planting_weather do
+    let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
+    let(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: Date.new(2026, 8, 18)) }
+    let(:cell) { planting.weather_cell }
+
+    before do
+      travel_to(Time.zone.local(2026, 11, 7, 12))
+      create(:frost_stat, latitude: cell.first, longitude: cell.last, threshold_c: FrostCalculator::FROST_DANGER_C, status: 'frost',
+                          first_frost_p10: 154, first_frost_median: 173, last_frost_median: 240, last_frost_p90: 273)
+      get planting_path(planting)
+    end
+
+    it 'marks the day the frost danger passed, with the day of the planting' do
+      expect(page).to have_css('.observation-frost .observation-day', text: 'Day 44')
+    end
+  end
+
+  context 'with days too cold and too hot for the crop' do
+    before do
+      [2, 3].each do |day|
+        create(:planting_condition, planting:, kind: 'killing_cold', occurred_on: Date.new(2026, 1, day), value: -4.0, threshold: -2.0)
+      end
+      create(:planting_condition, planting:, kind: 'killing_heat', occurred_on: Date.new(2026, 1, 9), value: 41.0, threshold: 38.0)
+      get planting_path(planting)
+    end
+
+    it 'lists the cold days as one entry, with the coldest' do
+      expect(page).to have_css('.observation-problem', text: 'Too cold for 2 days in a row Down to -4 °C, at or below the -2 °C')
+    end
+
+    it 'lists the hot day' do
+      expect(page).to have_css('.observation-problem', text: 'Too hot Up to 41 °C, above the 38 °C')
+    end
+  end
+
+  context 'with frost on three nights in a row' do
+    before do
+      [2, 3, 4].each { |day| create(:planting_condition, planting:, occurred_on: Date.new(2026, 1, day), value: day - 5.0) }
+      get planting_path(planting)
+    end
+
+    it 'lists them as one entry, with the coldest' do
+      expect(page).to have_css('.observation-frost', count: 1, text: 'Frost for 3 nights in a row')
+      expect(page).to have_css('.observation-frost .observation-note', text: 'Down to -3 °C')
+    end
+
+    it 'dates it from the first night' do
+      expect(page).to have_css('.observation-frost .observation-day', text: 'Day 1')
+    end
+
+    it 'gives it no way to edit' do
+      expect(page).to have_no_css('.observation-frost .observation-edit')
+    end
+  end
+
+  context 'when signed in as the owner with none' do
+    before do
+      sign_in planting.owner
+      get planting_path(planting)
+    end
+
+    it 'suggests logging one, opening the dialog' do
+      expect(page).to have_css('#observations .notepad-ideas[data-planting-dialog="observation"]')
+    end
+  end
+
+  context 'when signed in as the owner with some' do
     before do
       create(:observation, planting: planting)
       sign_in planting.owner
       get planting_path(planting)
+    end
+
+    it 'does not suggest logging one' do
+      expect(page).to have_no_css('#observations .notepad-ideas')
     end
 
     it 'offers to add, edit and delete' do

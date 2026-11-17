@@ -1124,6 +1124,7 @@ en:
     planted_out:
       after: The %{crop} planting went outdoors on %{planted}, %{days} after the usual last frost (%{usual_end}).
       before: The %{crop} planting went outdoors on %{planted}, %{days} before the usual last frost (%{usual_end}).
+    show_details: Show the dates and details
     timeline:
       annotation_out_after: Went outdoors %{days} after the usual last frost
       annotation_out_before: Went outdoors %{days} before the usual last frost
@@ -1177,7 +1178,8 @@ en:
         title: We can't say what frost it met
       in_season:
         body: The usual last frost is %{usual_end}, in %{days}. It has come as late as %{latest}.
-        title: In the usual frost danger
+        title: Planting is in frost danger
+        title_place: In the usual frost danger
       late_possible:
         body: It has come as late as %{latest}, %{days} from now. Keep an eye on the forecast.
         title: Past the usual last frost, but it can still come
@@ -4065,12 +4067,31 @@ en:
       which_garden: Which garden is it going in?
     plant_something: Plant something
     observations:
-      add: add
+      add: Log observation
+      add_harvest: harvest
       day: Day %{count}
       delete: Delete observation
       destroy:
         deleted: Observation deleted.
       edit: Edit observation
+      frost:
+        one: Frost
+        other: Frost for %{count} nights in a row
+      frost_low: Down to %{degrees} °C
+      frost_passed: Frost danger passed
+      frost_passed_note: In 9 years out of 10 the last frost here has come by this day.
+      harvested: Harvested
+      idea: Seen it flowering, wilting or with a disease? Log it to keep a record.
+      idea_go: Log it
+      job_done: Job done
+      killing_cold:
+        one: Too cold
+        other: Too cold for %{count} days in a row
+      killing_cold_note: Down to %{degrees} °C, at or below the %{limit} °C that kills %{crop}.
+      killing_heat:
+        one: Too hot
+        other: Too hot for %{count} days in a row
+      killing_heat_note: Up to %{degrees} °C, above the %{limit} °C that %{crop} takes.
       logged_by: "%{author} noticed"
       planted: Planted
     origin:
@@ -4178,29 +4199,27 @@ en:
       harvest_months: Harvest months
       harvest_months_legend: Highlighted months are when this crop is usually harvested here.
       harvest_months_unknown: No harvest months for this crop at this latitude yet.
-      harvests: Harvests
       heading: "%{crop} planting"
+      in_nursery: This is a seedling, still in the nursery.
       jobs: Jobs
       jobs_current: Planned
-      jobs_finished: Finished
       meta_description: "%{crop} planted by %{owner} in %{garden}."
       more_photos: More photos
       neighbours: World neighbours
       neighbours_explanation: Other %{crop} plantings at the same latitude.
-      no_harvests: No harvests recorded yet.
       no_harvests_prompt: 'Record your harvests here to improve crop predictions, and you''ll be able to compare with your garden next season.
 
         '
       no_jobs: Nothing is planned here.
-      no_observations: Nothing noticed yet. Note when it flowers, fruits, wilts or falls ill.
       no_photos: No photos yet.
       no_photos_prompt: Photos come from your Flickr account. Add one to track how this planting grows.
       no_seeds: No seeds saved yet.
       no_seeds_prompt: Save seeds from this planting to sow next season, or to trade with other members.
       notes: Notes
-      observations: Observations
       photos: Photos
       seeds_saved: Seeds saved
+      show_details: Show the dates and details
+      timeline: Timeline
       title: "%{crop} planting by %{owner}"
       view_all_plantings: All of %{owner}'s plantings
       weather: Weather
@@ -4254,6 +4273,7 @@ en:
       weather_note_past_survives: From %{from} to %{to}, the weather stayed within the range %{crop} grows in.
       weather_now_rain: 'Latest, %{date}: %{rain}'
       weather_now_temperature: 'Latest, %{date}: %{high} / %{low}'
+      weather_nursery: We don't show weather for plants that are still in the nursery.
       weather_optimal_range: Grows best %{range}
       weather_pending: We're fetching and calculating the weather history for this planting. It's collected overnight and runs about five days behind, so the first days of a new planting appear a few days after it's planted.
       weather_rain: Rain
@@ -4285,8 +4305,6 @@ en:
       submit: Transplant
       title: Transplant %{crop}
     descendants:
-      add: add
-    harvests:
       add: add
     photos:
       add: add

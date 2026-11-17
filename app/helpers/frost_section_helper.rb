@@ -3,6 +3,8 @@
 # What the frost section of a planting page says and draws, from a PlantingFrost. The working out is in PlantingFrost
 # and the words are in the locale files; this puts the two together.
 module FrostSectionHelper
+  include DateTextHelper
+
   # Outline icons, 24 by 24, one for each verdict.
   FROST_ICONS = {
     snow:    'M12 2v20M4.2 7l15.6 10M4.2 17L19.8 7',
@@ -16,6 +18,17 @@ module FrostSectionHelper
     before_season: :snow, in_season: :warning, late_possible: :clock, passed: :check,
     finished_clear: :check, finished_hit: :warning, finished_undated: :clock, rare: :sun
   }.freeze
+  # Each verdict as a weather note: the level that tints it and the icon.
+  FROST_VERDICT_NOTES = {
+    before_season:    { level: :cold, icon: 'snowflake' },
+    in_season:        { level: :caution, icon: 'exclamation-circle' },
+    late_possible:    { level: :caution, icon: 'exclamation-circle' },
+    passed:           { level: :success, icon: 'check-circle' },
+    finished_clear:   { level: :success, icon: 'check-circle' },
+    finished_hit:     { level: :caution, icon: 'exclamation-circle' },
+    finished_undated: { level: :neutral, icon: 'info-circle' },
+    rare:             { level: :neutral, icon: 'info-circle' }
+  }.freeze
   # Which count of days each verdict's sentence is about.
   FROST_VERDICT_DAYS = {
     before_season: :days_until_usual_start, in_season: :days_until_usual_end,
@@ -24,6 +37,11 @@ module FrostSectionHelper
 
   def frost_icon(verdict)
     outline_icon(FROST_ICONS.fetch(FROST_VERDICT_ICONS.fetch(verdict)))
+  end
+
+  # How the verdict note looks, in the weather notes' terms: { level:, icon: } for a Font Awesome icon.
+  def frost_verdict_note(verdict)
+    FROST_VERDICT_NOTES.fetch(verdict)
   end
 
   def frost_planting?(frost)
@@ -67,7 +85,7 @@ module FrostSectionHelper
   end
 
   def frost_date_text(date)
-    l(date, format: '%-d %b')
+    date_text(date, '%-d %b', '%-d %b %Y')
   end
 
   def frost_days(count)
@@ -89,7 +107,7 @@ module FrostSectionHelper
   # The title that fits: one for a verdict that is still far off, and one for a place rather than a planting.
   def frost_title_key(frost, key)
     if key == :before_season && !frost.starts_soon? then 'title_far'
-    elsif key == :passed && !frost_planting?(frost) then 'title_place'
+    elsif %i(passed in_season).include?(key) && !frost_planting?(frost) then 'title_place'
     else 'title'
     end
   end

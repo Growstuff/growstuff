@@ -2,6 +2,8 @@
 
 # What goes around a weather chart's data: the "now" line, the Y axis and the SVG itself.
 module WeatherChartFrameHelper
+  include DateTextHelper
+
   WEATHER_CHART_WIDTH = 600
   WEATHER_CHART_HEIGHT = 120 # also the charts' height in _plantings.scss
 
@@ -21,7 +23,7 @@ module WeatherChartFrameHelper
   def weather_now_temperatures(reading)
     return unless reading&.temp_max_c && reading.temp_min_c
 
-    t('plantings.show.weather_now_temperature', date: l(reading.date, format: :short),
+    t('plantings.show.weather_now_temperature', date: month_day_text(reading.date),
                                                 high: weather_degrees(reading.temp_max_c), low: weather_degrees(reading.temp_min_c))
   end
 
