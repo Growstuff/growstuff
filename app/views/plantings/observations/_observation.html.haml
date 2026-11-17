@@ -12,8 +12,9 @@
   - if can_manage
     .observation-actions
       = actions_menu('observation', id: observation.id, label: t('plantings.observations.actions')) do
-        = menu_link_to :edit, t('.edit'), planting_path(planting, anchor: 'observations'), class: 'observation-edit',
-                       data: { planting_dialog: 'observation', observation: observation_edit_data(observation) }
+        - edit_data = { planting_dialog: 'observation', observation: observation_edit_data(observation) }
+        - edit_path = planting_path(planting, anchor: 'observations')
+        = menu_link_to :edit, t('.edit'), edit_path, class: 'observation-edit', data: edit_data
         .dropdown-divider
         = link_to planting_observation_path(planting_slug: planting.slug, id: observation.id), method: :delete,
           class: 'dropdown-item text-danger observation-delete', data: { confirm: t('are_you_sure') } do

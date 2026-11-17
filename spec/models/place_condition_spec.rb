@@ -3,6 +3,50 @@
 require 'rails_helper'
 
 describe PlaceCondition do
+  describe '.for_planting' do
+    subject(:days) { described_class.for_planting(planting).pluck(:occurred_on) }
+
+    let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
+    let(:planting) do
+      create(:planting, garden:, owner: garden.owner, planted_at: Date.new(2026, 1, 10), finished: true, finished_at: Date.new(2026, 2, 10))
+    end
+
+    before do
+      [Date.new(2026, 1, 9), Date.new(2026, 1, 15), Date.new(2026, 2, 11)].each do |date|
+        create(:place_condition, latitude: -41.25, longitude: 174.75, occurred_on: date)
+      end
+      create(:place_condition, latitude: -30.0, longitude: 150.0, occurred_on: Date.new(2026, 1, 20))
+    end
+
+    it 'is the place\'s days while the planting lived' do
+      expect(days).to eq [Date.new(2026, 1, 15)]
+    end
+
+    context 'when the garden is somewhere safe from frost' do
+      before { garden.update_columns(frost_safe: true) } # rubocop:disable Rails/SkipsModelValidations
+
+      it { is_expected.to be_empty }
+    end
+
+    context 'when the garden has no place' do
+      before { garden.update_columns(latitude: nil, longitude: nil) } # rubocop:disable Rails/SkipsModelValidations
+
+      it { is_expected.to be_empty }
+    end
+
+    context 'when it began in the nursery' do
+      before do
+        nursery = create(:garden, owner: planting.owner).tap(&:make_nursery!)
+        create(:planting_history, planting:, garden: nursery, started_on: Date.new(2026, 1, 10), ended_on: Date.new(2026, 1, 20))
+        create(:place_condition, latitude: -41.25, longitude: 174.75, occurred_on: Date.new(2026, 1, 25))
+      end
+
+      it 'leaves out the days it was safe from frost' do
+        expect(days).to eq [Date.new(2026, 1, 25)]
+      end
+    end
+  end
+
   describe '.refresh' do
     subject(:refresh) { described_class.refresh(latitude, longitude) }
 
