@@ -45,7 +45,7 @@
       .row.g-2.align-items-center
         .col-auto
           = label_tag :identifier, t('devise_views.mastodon_address'), class: 'visually-hidden'
-          = text_field_tag :identifier, nil, form: 'mastodon-connect', placeholder: 'you@mastodon.social',
+          = text_field_tag :identifier, nil, form: 'mastodon-connect', placeholder: t('devise_views.mastodon_address_placeholder'),
                             class: 'form-control', required: true, autocomplete: 'off'
         .col-auto
           = submit_tag(@mastodon_auths&.any? ? t('devise_views.connect_another') : t('devise_views.connect_provider', provider: 'Mastodon'),

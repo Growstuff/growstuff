@@ -319,8 +319,9 @@ en:
         terms_of_service: Terms of Service
       mastodon:
         agree_to_tos_html: I agree to the %{tos_link}
-        identifier_label: Mastodon address
-        identifier_placeholder: alice@mastodon.social
+        identifier_hint: The address of your Mastodon server. You'll log in there, so we don't need your username.
+        identifier_label: Mastodon server
+        identifier_placeholder: mastodon.social
         permission_note: "We only ask who you are. We can't post for you."
         terms_of_service: Terms of Service
   auto_suggest:
@@ -2103,7 +2104,8 @@ en:
     connect_provider: Connect to %{provider}
     mastodon_accounts: 'Connected Mastodon accounts:'
     mastodon_help: Connect your Mastodon account to sign in with it and show it on your profile.
-    mastodon_address: Your Mastodon address
+    mastodon_address: Your Mastodon server
+    mastodon_address_placeholder: mastodon.social
     connect_another: Connect another account
     api_token: Your API token is
     regenerate: Regenerate
@@ -2354,7 +2356,7 @@ en:
     follow_error: Already following or error while following.
     followed: Followed %{name}
     invalid_location: Please enter a valid location
-    mastodon_instance_invalid: We couldn't connect to that Mastodon server. Check the address, which looks like you@mastodon.social, and try again.
+    mastodon_instance_invalid: We couldn't connect to that Mastodon server. Check the server address, which looks like mastodon.social, and try again.
     mastodon_needs_account: We don't know that Mastodon account yet. Join Growstuff or sign in, then connect Mastodon from your account settings.
     location_cleared: Location removed.
     location_unplaced_html: We can't find "%{location}" on the map. <a href="%{link}">Choose your location from the list</a> so we can show you what's growing near you.

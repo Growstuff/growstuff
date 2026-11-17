@@ -28,6 +28,30 @@ describe 'Starting to sign in with Mastodon' do
       expect(Rack::Utils.parse_query(URI.parse(response.location).query)['scope']).to eq 'read:accounts'
     end
 
+    context 'with just the server' do
+      let(:identifier) { 'mastodon.social' }
+
+      it 'sends the member to that server' do
+        expect(URI.parse(response.location).host).to eq 'mastodon.social'
+      end
+    end
+
+    context 'with a pasted profile address' do
+      let(:identifier) { 'https://mastodon.social/@alice' }
+
+      it 'sends the member to the server rather than the path' do
+        expect(URI.parse(response.location).host).to eq 'mastodon.social'
+      end
+    end
+
+    context 'with a server in capitals' do
+      let(:identifier) { 'Mastodon.Social' }
+
+      it 'sends the member to the lower case server' do
+        expect(URI.parse(response.location).host).to eq 'mastodon.social'
+      end
+    end
+
     context 'with a leading @' do
       let(:identifier) { ['@alice', 'mastodon.social'].join('@') }
 
