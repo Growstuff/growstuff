@@ -55,6 +55,7 @@ describe 'Noting an observation on a planting', :js do
       create(:observation, planting: planting, kind: 'fruiting', description: 'Green ones')
       visit planting_path(planting)
 
+      find('#observations .observation-actions .record-actions-toggle').click
       find('#observations .observation-edit').click
       within '[role=dialog]' do
         expect(page).to have_content 'Edit observation of lettuce'
@@ -73,6 +74,7 @@ describe 'Noting an observation on a planting', :js do
       create(:observation, planting: planting, kind: 'fruiting')
       visit planting_path(planting)
 
+      find('#observations .observation-actions .record-actions-toggle').click
       accept_confirm { find('#observations .observation-delete').click }
 
       expect(page).to have_content 'Observation deleted.'

@@ -4080,6 +4080,7 @@ en:
       which_garden: Which garden is it going in?
     plant_something: Plant something
     observations:
+      actions: Actions
       add: Log observation
       add_harvest: harvest
       damaging_wind:

@@ -43,14 +43,13 @@
               %p.observation-note.mb-0= observation.description
           - if can_manage
             .observation-actions
-              = link_to planting_path(planting, anchor: 'observations'), title: t('.edit'), 'aria-label': t('.edit'),
-                        class: 'btn btn-sm btn-link observation-edit',
-                        data: { planting_dialog: 'observation', observation: observation_edit_data(observation) } do
-                = icon 'fas', 'pen'
-              = button_to planting_observation_path(planting_slug: planting.slug, id: observation.id), method: :delete,
-                class: 'btn btn-sm btn-link text-danger observation-delete', title: t('.delete'),
-                data: { confirm: t('are_you_sure') }, 'aria-label': t('.delete') do
-                = icon 'fas', 'times'
+              = actions_menu('observation', id: observation.id, label: t('.actions')) do
+                = menu_link_to :edit, t('.edit'), planting_path(planting, anchor: 'observations'), class: 'observation-edit',
+                               data: { planting_dialog: 'observation', observation: observation_edit_data(observation) }
+                .dropdown-divider
+                = link_to planting_observation_path(planting_slug: planting.slug, id: observation.id), method: :delete,
+                  class: 'dropdown-item text-danger observation-delete', data: { confirm: t('are_you_sure') } do
+                  = menu_icon(:delete) + t('buttons.delete')
       - when :harvest
         -# A harvest is edited on its own page.
         - harvest = entry.record
@@ -67,10 +66,12 @@
             %p.observation-note.mb-0= harvest.to_s
           - if can?(:update, harvest)
             .observation-actions
-              = link_to edit_harvest_path(slug: harvest.slug), title: t('.edit_harvest'), 'aria-label': t('.edit_harvest'),
-                        class: 'btn btn-sm btn-link harvest-edit',
-                        data: { planting_dialog: 'harvest', harvest: harvest_edit_data(harvest) } do
-                = icon 'fas', 'pen'
+              = actions_menu('harvest', id: harvest.id, label: t('.actions')) do
+                = menu_link_to :edit, t('.edit_harvest'), edit_harvest_path(slug: harvest.slug), class: 'harvest-edit',
+                               data: { planting_dialog: 'harvest', harvest: harvest_edit_data(harvest) }
+                - if can?(:destroy, harvest)
+                  .dropdown-divider
+                  = menu_delete_button(harvest)
       - when :job
         -# A job that has been done. Open ones stay in the jobs section.
         - job = entry.record
