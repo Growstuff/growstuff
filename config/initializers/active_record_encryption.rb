@@ -21,3 +21,11 @@ encryption = Rails.application.config.active_record.encryption
   encryption[option] = ENV[variable].presence ||
                        Rails.application.key_generator.generate_key("active_record_encryption/#{option}").unpack1('H*')
 end
+
+# Some gems load ActiveRecord::Base while the Gemfile is required, which runs Rails' encryption
+# hook before this file has set the options above, so Active Record would never see them.
+# Hand them over directly when that has happened.
+{ primary_key: :primary_key, key_derivation_salt: :key_derivation_salt }.each_key do |option|
+  config = ActiveRecord::Encryption.config
+  config.public_send(:"#{option}=", encryption[option]) unless config.public_send(:"has_#{option}?")
+end
