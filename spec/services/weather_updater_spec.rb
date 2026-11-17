@@ -27,7 +27,7 @@ describe WeatherUpdater, type: :service do
     end
 
     it 'refreshes the planting\'s conditions' do
-      expect(PlantingCondition).to receive(:refresh).with(Planting.last, today:)
+      expect(PlantingCondition).to receive(:refresh).with(Planting.last)
       updater.update_all
     end
 

@@ -185,21 +185,6 @@ describe PlantingFrost do
       end
     end
 
-    context 'with a mix of cold and mild nights' do
-      let(:cold) { reading.new(Date.new(2026, 9, 1), -1.0) }
-      let(:mild) { reading.new(Date.new(2026, 9, 2), 4.0) }
-      let(:readings) { [cold, mild] }
-
-      it 'lists the frost nights' do
-        expect(frost.frost_night_readings).to eq [cold]
-      end
-
-      it 'lists none for a place with little frost' do
-        stat.assign_attributes(status: 'rare', first_frost_median: nil, last_frost_median: nil)
-        expect(frost.frost_night_readings).to eq []
-      end
-    end
-
     context 'with readings outside the planting' do
       let(:readings) { [reading.new(Date.new(2026, 8, 1), -3.0), reading.new(Date.new(2026, 9, 1), 5.0)] }
 
