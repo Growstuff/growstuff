@@ -271,6 +271,53 @@ describe MastodonPhotoSource do
     end
   end
 
+  context 'with a response larger than the limit' do
+    # Valid JSON, so only the size can make it fail.
+    let(:list_body) { "[#{' ' * described_class::MAX_RESPONSE_BYTES}]" }
+
+    it 'reports the server unavailable' do
+      expect { source.photos }.to raise_error(described_class::Rejected, 'unavailable')
+    end
+  end
+
+  context 'with several addresses' do
+    subject(:source) { described_class.new(authentication, resolver:, adapter: [:test, address_stubs]) }
+
+    let(:addresses) { %w(93.184.216.34 93.184.216.35) }
+    let(:address_stubs) do
+      Faraday::Adapter::Test::Stubs.new do |stub|
+        first_address.each { |reply| stub.get('/api/v1/accounts/111/statuses', &reply) }
+        stub.get('/api/v1/accounts/111/statuses') { [200, {}, list_body] }
+      end
+    end
+
+    context 'when the first cannot be reached' do
+      let(:first_address) { [-> { raise Faraday::ConnectionFailed, 'no route' }] }
+
+      it 'uses the next one' do
+        expect(source.photos[:photos].size).to eq 1
+      end
+    end
+
+    context 'when the first is reached but fails' do
+      let(:first_address) { [-> { [500, {}, ''] }] }
+
+      it 'does not try the next one' do
+        expect { source.photos }.to raise_error(described_class::Rejected, 'unavailable')
+      end
+    end
+
+    context 'when none can be reached' do
+      let(:address_stubs) do
+        Faraday::Adapter::Test::Stubs.new { |stub| stub.get('/api/v1/accounts/111/statuses') { raise Faraday::ConnectionFailed, 'no route' } }
+      end
+
+      it 'reports the server unavailable' do
+        expect { source.photos }.to raise_error(described_class::Rejected, 'unavailable')
+      end
+    end
+  end
+
   context 'with an invalid cursor' do
     it 'does not let a cursor change the request URL' do
       expect { source.photos(cursor: '../other') }.to raise_error(described_class::Rejected)

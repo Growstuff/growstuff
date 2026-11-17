@@ -18,6 +18,10 @@ class MastodonPhotoSource
   LICENSE_NAME = 'CC BY-SA 4.0'
   LICENSE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/'
   ID_FORMAT = /\A[0-9]+\z/
+  # A page of 40 statuses is a few hundred KB; this is well beyond that, and still small.
+  MAX_RESPONSE_BYTES = 2.megabytes
+  # Each failed connection can take the full open timeout, so only try a few addresses.
+  MAX_ADDRESSES = 3
 
   def initialize(authentication, resolver: Resolv, adapter: :net_http)
     @authentication = authentication
@@ -107,22 +111,49 @@ class MastodonPhotoSource
   def request(path, query = {})
     addresses = @resolver.getaddresses(@domain).map { |address| IPAddr.new(address) }
     reject!(:unavailable) if addresses.empty? || addresses.any? { |address| blocked?(address) }
-    # Pin the checked address, retaining the hostname for TLS verification. Do not
-    # follow redirects or send credentials to a URL supplied by a remote server.
-    connection = Faraday.new(url: "https://#{@domain}", proxy: nil) do |faraday|
+    JSON.parse(fetch_from_any(addresses.first(MAX_ADDRESSES), path, query))
+  rescue Faraday::Error, JSON::ParserError, Resolv::ResolvError, IPAddr::Error, SocketError
+    reject!(:unavailable)
+  end
+
+  # A server can have addresses we can't reach (an IPv6 one with no route from here, say),
+  # so try each in turn, and only give up when the last one fails to connect too.
+  def fetch_from_any(addresses, path, query)
+    addresses.each_with_index do |address, index|
+      return fetch(address, path, query)
+    rescue Faraday::ConnectionFailed
+      raise if index == addresses.size - 1
+    end
+  end
+
+  def fetch(address, path, query)
+    streamed = +''
+    response = connection(address).get(path, query) do |request|
+      # Give up as soon as the body is too big, instead of holding all of it in memory first.
+      request.options.on_data = proc { |chunk, _received, _env| stop_if_too_big(streamed << chunk) } if @adapter.first == :net_http
+    end
+    reject!(:unavailable) unless response.success?
+    # Other adapters (the test one) don't stream: they hand over the whole body.
+    stop_if_too_big(streamed.presence || response.body.to_s)
+  end
+
+  def stop_if_too_big(body)
+    reject!(:unavailable) if body.bytesize > MAX_RESPONSE_BYTES
+    body
+  end
+
+  # Pin the checked address, retaining the hostname for TLS verification. Do not
+  # follow redirects or send credentials to a URL supplied by a remote server.
+  def connection(address)
+    Faraday.new(url: "https://#{@domain}", proxy: nil) do |faraday|
       faraday.options.open_timeout = 5
       faraday.options.timeout = 10
       if @adapter.first == :net_http
-        faraday.adapter(*@adapter) { |http| http.ipaddr = addresses.first.to_s }
+        faraday.adapter(*@adapter) { |http| http.ipaddr = address.to_s }
       else
         faraday.adapter(*@adapter)
       end
     end
-    response = connection.get(path, query)
-    reject!(:unavailable) unless response.success?
-    JSON.parse(response.body)
-  rescue Faraday::Error, JSON::ParserError, Resolv::ResolvError, IPAddr::Error, SocketError
-    reject!(:unavailable)
   end
 
   def blocked?(address)
