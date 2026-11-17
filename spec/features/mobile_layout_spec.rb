@@ -66,8 +66,7 @@ describe 'Layout on a phone', :js, :phone do
 
   context 'with editable planting observations' do
     let(:planting) { create(:planting, owner: member, garden: member.gardens.first, planted_at: 10.days.ago) }
-    let(:edit_control) { find('.observation-edit').native.rect }
-    let(:delete_control) { find('.observation-delete').native.rect }
+    let(:menu_control) { find('.observation-actions .record-actions-toggle').native.rect }
 
     before do
       create(:observation, planting:, kind: 'disease_observed', description: 'Moth predation')
@@ -77,12 +76,8 @@ describe 'Layout on a phone', :js, :phone do
 
     it_behaves_like 'fits the screen'
 
-    it 'keeps edit and delete on the same row' do
-      expect(edit_control.y).to eq(delete_control.y)
-    end
-
-    it 'keeps the icon controls compact' do
-      expect([edit_control.width, delete_control.width].max).to be <= 44
+    it 'keeps the actions menu button compact' do
+      expect(menu_control.width).to be <= 44
     end
   end
 end
