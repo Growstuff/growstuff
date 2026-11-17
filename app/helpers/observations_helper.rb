@@ -7,13 +7,13 @@ module ObservationsHelper
   }.freeze
 
   # One line of the timeline: when, what kind of entry (:observation, :harvest, :job, :planted, :frost, :killing_cold,
-  # :killing_heat or :frost_passed) and what it is about. That is the Observation for an observation, the Harvest for a harvest,
+  # :killing_heat, :damaging_wind or :frost_passed) and what it is about. That is the Observation for an observation, the Harvest for a harvest,
   # the Job for a job done, the day for frost danger passing, the run of PlantingConditions for the weather kinds (see
   # #condition_runs), and nothing for the planting itself.
   TimelineEntry = Struct.new(:at, :type, :record)
 
   # Of entries on one day, the planting comes first in time, then the weather, the harvests, the jobs, then what was noticed.
-  TIMELINE_ORDER = %i(planted frost killing_cold killing_heat frost_passed harvest job observation).freeze
+  TIMELINE_ORDER = %i(planted frost killing_cold killing_heat damaging_wind frost_passed harvest job observation).freeze
 
   # The kinds of observation to choose from, with their wording. Observations with no kind are "other".
   def observation_kind_options
@@ -59,6 +59,26 @@ module ObservationsHelper
     conditions.group_by(&:kind).values.flat_map do |kind|
       kind.sort_by(&:occurred_on).chunk_while { |one, other| other.occurred_on == one.occurred_on + 1 }.to_a
     end
+  end
+
+  COMPASS_POINTS = %w(north north_east east south_east south south_west west north_west).freeze
+
+  # Where the wind blew from, in words: "south-west". Nil when we don't know.
+  def wind_direction_name(degrees)
+    return unless degrees
+
+    t("observations.compass.#{COMPASS_POINTS[((degrees % 360) / 45.0).round % 8]}")
+  end
+
+  # What a run of damaging wind days says of the strongest of them: "Gusts up to 112 km/h from the south-west, 8 to 14 °C that
+  # day."
+  def damaging_wind_note(run)
+    day = run.max_by { |condition| condition.value.to_f }
+    direction = wind_direction_name(day.direction_degrees)
+    gusts = t('observations.wind.gusts', speed: number_with_precision(day.value, precision: 0))
+    gusts = "#{gusts} #{t('observations.wind.from', direction:)}" if direction
+    temperature = t('observations.wind.temperature', low: frost_degrees(day.temp_min_c), high: frost_degrees(day.temp_max_c)) if day.temp_min_c && day.temp_max_c
+    "#{[gusts, temperature].compact.join(', ')}."
   end
 
   # How many days into the planting it was noticed, if we know when it was planted.

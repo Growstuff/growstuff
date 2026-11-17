@@ -3629,6 +3629,15 @@ en:
       community_guidelines: Community Guidelines
       copyright_infringement_policy: Copyright Infringement Policy
   observations:
+    compass:
+      east: east
+      north: north
+      north_east: north-east
+      north_west: north-west
+      south: south
+      south_east: south-east
+      south_west: south-west
+      west: west
     kinds:
       disease_observed: Disease observed
       flowering: Flowering
@@ -3636,6 +3645,10 @@ en:
       germination: Germination
       other: Other
       wilting: Wilting
+    wind:
+      from: from the %{direction}
+      gusts: Gusts up to %{speed} km/h
+      temperature: "%{low} to %{high} °C that day"
   photo_associations:
     update:
       updated: Photo updated.
@@ -4069,6 +4082,9 @@ en:
     observations:
       add: Log observation
       add_harvest: harvest
+      damaging_wind:
+        one: Damaging wind
+        other: Damaging wind for %{count} days in a row
       day: Day %{count}
       delete: Delete observation
       destroy:
