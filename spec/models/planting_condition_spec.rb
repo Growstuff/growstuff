@@ -24,8 +24,8 @@ describe PlantingCondition do
       reading(Date.new(2026, 8, 20), -1.5)
       reading(Date.new(2026, 8, 21), 6.0)
       reading(Date.new(2026, 8, 22), 1.0, 33.0)
-      reading(Date.new(2026, 8, 23), 8.0, 14.0, gust: 90.0, direction: 225.0)
-      reading(Date.new(2026, 8, 24), 8.0, 14.0, gust: 89.9)
+      reading(Date.new(2026, 8, 23), 8.0, 14.0, gust: 100.0, direction: 225.0)
+      reading(Date.new(2026, 8, 24), 8.0, 14.0, gust: 99.9)
     end
 
     it 'keeps the nights that reached the frost danger temperature' do
@@ -43,10 +43,10 @@ describe PlantingCondition do
       expect(kept).to include(['killing_heat', Date.new(2026, 8, 22), 33.0, 30.0])
     end
 
-    it 'keeps the days with gusts of 90 km/h or more, with where from and the temperatures' do
+    it 'keeps the days with gusts of 100 km/h or more, with where from and the temperatures' do
       refresh
       expect(planting.conditions.damaging_wind.pluck(:occurred_on, :value, :direction_degrees, :temp_min_c, :temp_max_c))
-        .to eq [[Date.new(2026, 8, 23), 90.0, 225.0, 8.0, 14.0]]
+        .to eq [[Date.new(2026, 8, 23), 100.0, 225.0, 8.0, 14.0]]
     end
 
     it 'does not duplicate a day when run again' do

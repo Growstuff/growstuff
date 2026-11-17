@@ -7,7 +7,7 @@
 class PlantingCondition < ApplicationRecord
   KINDS = %w(frost killing_cold killing_heat damaging_wind).freeze
   # Gusts at or above this, in kilometres an hour, are damaging whatever the crop.
-  DAMAGING_GUST_KMH = 90
+  DAMAGING_GUST_KMH = 100
 
   # A day of a kind, with the temperature it had and the limit it crossed.
   # Damaging wind days also have where the wind blew from and the day's temperatures.
