@@ -23,9 +23,9 @@ function ConnectFields() {
 const POLL_MS = 2000;
 
 // Adding a photo to a planting, garden, job or the like, as a dialog over the page. The
-// photos are the member's own, from Flickr, so if Flickr isn't connected (or the
-// connection has expired) the first step connects it, here, in a pop-up; the dialog
-// notices when that has happened. Then choose a photo (by album or tag, a page at a
+// photos are the member's own, from their connected Flickr or Mastodon accounts.
+// The server chooses the default source; a selector is offered when both are connected.
+// Without an account, the first step offers connection options. Choose a photo (by album or tag, a page at a
 // time), confirm it, and it is added and the page refreshed, so the page is never
 // left. `newUrl` is the menu item's own link, /photos/new?type=..&id=..[&label=..].
 export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}) {
@@ -46,7 +46,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
   const [chosen, setChosen] = useState(null);
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [source, setSource] = useState(target.get('source') === 'mastodon' ? 'mastodon' : 'flickr');
+  const [source, setSource] = useState(target.get('source') || '');
   const [account, setAccount] = useState(target.get('authentication_id') || '');
   const [licenseAccepted, setLicenseAccepted] = useState(false);
   const popup = useRef(null);
@@ -54,7 +54,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
 
   const load = useCallback(async (next, signal) => {
     const query = new URLSearchParams({type, id});
-    query.set('source', source);
+    if (source) query.set('source', source);
     if (account) query.set('authentication_id', account);
     if (next.cursor) query.set('cursor', next.cursor);
     if (next.set) query.set('set', next.set);
@@ -140,7 +140,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
     try {
       const {ok, status, data: result} = await postJson(createUrl, {
         authentication_id: data.authentication_id,
-        photo: {source_id: chosen.id, source, ...(source === 'mastodon' ? {status_id: chosen.status_id, license_accepted: licenseAccepted} : {})},
+        photo: {source_id: chosen.id, source: activeSource, ...(activeSource === 'mastodon' ? {status_id: chosen.status_id, license_accepted: licenseAccepted} : {})},
       });
       if (ok) {
         onAdded(result); // closes this dialog
@@ -154,7 +154,9 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
   }
 
   const ready = data && data.state === 'ready';
-  const mastodon = source === 'mastodon';
+  const activeSource = data?.source || source || 'flickr';
+  const mastodon = activeSource === 'mastodon';
+  const sources = data?.sources || [];
   const labels = data?.labels || {};
   const needsLicense = mastodon && chosen && !chosen.license_name;
   const steps = connectFirst ? ['Connect Flickr', 'Choose a photo', 'Confirm'] : ['Choose a photo', 'Confirm'];
@@ -187,11 +189,12 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
           <div className="modal-body plant-dialog-body">
             {data.labels && (
               <div className="photo-picker-filters mb-3">
-                <label htmlFor="photo-source">{labels.source}</label>
-                <select id="photo-source" className="form-select" value={source} disabled={loading || saving} onChange={(event) => changeSource(event.target.value)}>
-                  <option value="flickr">{labels.flickr}</option>
-                  <option value="mastodon">{labels.mastodon}</option>
-                </select>
+                {sources.length > 1 && <>
+                  <label htmlFor="photo-source">{labels.source}</label>
+                  <select id="photo-source" className="form-select" value={activeSource} disabled={loading || saving} onChange={(event) => changeSource(event.target.value)}>
+                    {sources.map((provider) => <option key={provider} value={provider}>{labels[provider]}</option>)}
+                  </select>
+                </>}
                 {mastodon && data.accounts?.length > 0 && (
                   <>
                     <label htmlFor="photo-account">{labels.account}</label>
