@@ -8,4 +8,12 @@ namespace :weather do
     saved = updater.update_all
     puts "Saved #{saved} days of weather using #{updater.calls_used.ceil} Open-Meteo calls"
   end
+
+  desc "Work out the frost nights and killing days of every planting from the weather we hold, " \
+       "finished ones too (the daily update does only current ones)"
+  task conditions: :environment do
+    plantings = Planting.where.not(planted_at: nil).joins(:garden).merge(Garden.located_for_weather).includes(:garden, crop: :parent)
+    plantings.find_each { |planting| PlantingCondition.refresh(planting) }
+    puts "Worked out conditions for #{plantings.count} plantings"
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_17_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1153,6 +1153,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
     t.index ["slug"], name: "index_plant_parts_on_slug", unique: true
   end
 
+  create_table "planting_conditions", force: :cascade do |t|
+    t.bigint "planting_id", null: false
+    t.string "kind", null: false, comment: "What the planting went through: frost, killing_cold or killing_heat."
+    t.date "occurred_on", null: false
+    t.float "value", comment: "The day's lowest air temperature for frost and killing cold, highest for killing heat, in degrees Celsius."
+    t.float "threshold", comment: "The limit the day crossed, in degrees Celsius, as it was when the day was recorded."
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planting_id", "kind", "occurred_on"], name: "index_planting_conditions_on_planting_kind_and_day", unique: true
+  end
+
   create_table "planting_histories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.date "ended_on", null: false
@@ -1400,6 +1411,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
   add_foreign_key "observations", "plantings"
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
+  add_foreign_key "planting_conditions", "plantings"
   add_foreign_key "planting_histories", "plantings"
   add_foreign_key "planting_seedlings", "plantings", on_delete: :cascade
   add_foreign_key "plantings", "alternate_names", on_delete: :nullify
