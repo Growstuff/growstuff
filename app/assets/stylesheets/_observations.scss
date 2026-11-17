@@ -96,10 +96,6 @@ $observation-heat-tint: #fdf0f2;
     gap: 0.25rem;
     margin-left: auto;
 
-    form {
-      margin: 0;
-    }
-
     // Keep icon controls compact despite mobile.scss's full-width section buttons.
     .btn {
       width: auto;

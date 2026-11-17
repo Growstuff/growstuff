@@ -4090,52 +4090,65 @@ en:
       actions: Actions
       add: Log observation
       add_harvest: harvest
-      damaging_wind:
-        one: Damaging wind
-        other: Damaging wind for %{count} days in a row
       day: Day %{count}
-      delete: Delete observation
       destroy:
         deleted: Observation deleted.
-      edit: Edit observation
-      edit_harvest: Edit harvest
-      extreme_heat:
-        one: Extreme heat
-        other: Extreme heat for %{count} days in a row
-      extreme_heat_note: A high of %{degrees} °C.
-      first_snow: First snow of the winter
-      first_snow_note: "%{amount} cm of snow fell."
-      frost:
-        one: Frost detected
-        other: Frost detected for %{count} nights in a row
-      frost_low: Overnight temperature fell to %{degrees} °C
-      frost_passed: Frost danger passed
-      frost_passed_note: In 9 years out of 10 the last frost here has come by this day.
-      harvested: Harvested
-      heavy_rain:
-        one: Heavy rain
-        other: Heavy rain for %{count} days in a row
-      heavy_rain_note: "%{amount} mm of rain in a day."
+      frost_passed:
+        note: In 9 years out of 10 the last frost here has come by this day.
+        title: Frost danger passed
+      harvest:
+        edit: Edit harvest
+        harvested: Harvested
       idea: Seen it flowering, wilting or with a disease? Log it to keep a record.
       idea_go: Log it
-      job_done: Job done
-      killing_cold:
-        one: Too cold
-        other: Too cold for %{count} days in a row
-      killing_cold_note: Down to %{degrees} °C, at or below the %{limit} °C that kills %{crop}.
-      killing_heat:
-        one: Too hot
-        other: Too hot for %{count} days in a row
-      killing_heat_note: Up to %{degrees} °C, above the %{limit} °C that %{crop} takes.
-      logged_by: "%{author} noticed"
-      planted: Planted
-      planted_from_packet_html: From %{packet}.
-      planted_in: Started in %{garden}.
-      planted_in_nursery: Sown in the nursery.
-      planted_packet_link: a seed packet we've recorded
-      planted_started_as: "Started as: %{kind}."
-      transplanted: Transplanted
-      transplanted_note_html: Moved from the nursery into %{garden}.
+      job:
+        done: Job done
+      observation:
+        edit: Edit observation
+        logged_by: "%{author} noticed"
+      planted:
+        from_packet_html: From %{packet}.
+        in: Started in %{garden}.
+        in_nursery: Sown in the nursery.
+        packet_link: a seed packet we've recorded
+        started_as: "Started as: %{kind}."
+        title: Planted
+      transplanted:
+        note_html: Moved from the nursery into %{garden}.
+        title: Transplanted
+      weather:
+        damaging_wind:
+          title:
+            one: Damaging wind
+            other: Damaging wind for %{count} days in a row
+        extreme_heat:
+          note: A high of %{degrees} °C.
+          title:
+            one: Extreme heat
+            other: Extreme heat for %{count} days in a row
+        first_snow:
+          note: "%{amount} cm of snow fell."
+          title: First snow of the winter
+        frost:
+          note: Overnight temperature fell to %{degrees} °C
+          title:
+            one: Frost detected
+            other: Frost detected for %{count} nights in a row
+        heavy_rain:
+          note: "%{amount} mm of rain in a day."
+          title:
+            one: Heavy rain
+            other: Heavy rain for %{count} days in a row
+        killing_cold:
+          note: Down to %{degrees} °C, at or below the %{limit} °C that kills %{crop}.
+          title:
+            one: Too cold
+            other: Too cold for %{count} days in a row
+        killing_heat:
+          note: Up to %{degrees} °C, above the %{limit} °C that %{crop} takes.
+          title:
+            one: Too hot
+            other: Too hot for %{count} days in a row
     origin:
       change: change
       crop_changed: This planting is now %{crop}, to match your packet. It was %{was}.

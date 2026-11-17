@@ -1,0 +1,10 @@
+-# A job that has been done. Open ones stay in the jobs section.
+- job = entry.record
+%li.observation.observation-job
+  %span.observation-icon= icon 'fas', 'circle-check'
+  = timeline_when(entry.at, planting)
+  .observation-body
+    %strong.observation-kind= job.name
+    %span.text-muted.small= t('.done')
+    - if job.description.present?
+      %p.observation-note.mb-0= job.description

@@ -1,0 +1,8 @@
+-# The planting itself: always there, and not something to edit.
+%li.observation.observation-planted
+  %span.observation-icon= icon 'fas', 'trowel'
+  = timeline_when(entry.at, planting)
+  .observation-body
+    %strong.observation-kind= t('.title')
+    - if (note = planted_note(planting))
+      %p.observation-note.mb-0= note
