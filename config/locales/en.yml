@@ -4099,6 +4099,12 @@ en:
         deleted: Observation deleted.
       edit: Edit observation
       edit_harvest: Edit harvest
+      extreme_heat:
+        one: Extreme heat
+        other: Extreme heat for %{count} days in a row
+      extreme_heat_note: A high of %{degrees} °C.
+      first_snow: First snow of the winter
+      first_snow_note: "%{amount} cm of snow fell."
       frost:
         one: Frost detected
         other: Frost detected for %{count} nights in a row
@@ -4106,6 +4112,10 @@ en:
       frost_passed: Frost danger passed
       frost_passed_note: In 9 years out of 10 the last frost here has come by this day.
       harvested: Harvested
+      heavy_rain:
+        one: Heavy rain
+        other: Heavy rain for %{count} days in a row
+      heavy_rain_note: "%{amount} mm of rain in a day."
       idea: Seen it flowering, wilting or with a disease? Log it to keep a record.
       idea_go: Log it
       job_done: Job done

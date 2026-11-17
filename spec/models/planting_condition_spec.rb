@@ -13,9 +13,21 @@ describe PlantingCondition do
     let(:cell) { planting.weather_cell }
     let(:kept) { planting.conditions.pluck(:kind, :occurred_on, :value, :threshold) }
 
-    def reading(date, low, high = 12.0, gust: 20.0, direction: 270.0)
-      create(:weather_reading, latitude: cell.first, longitude: cell.last, date:, temp_min_c: low, temp_max_c: high,
-                               wind_gust_max_kmh: gust, wind_direction_degrees: direction)
+    # `weather` overrides any column of the day's reading.
+    def reading(date, low, high = 12.0, **weather)
+      defaults = { temp_min_c: low, temp_max_c: high, wind_gust_max_kmh: 20.0, wind_direction_degrees: 270.0, rainfall_mm: 0.0,
+snowfall_cm: 0.0 }
+      create(:weather_reading, latitude: cell.first, longitude: cell.last, date:, **defaults, **weather)
+    end
+
+    # Mild, dry days with no snow, for the weather held before the planting.
+    def hold_readings(from, to, except: [])
+      now = Time.current
+      rows = (from..to).excluding(except).map do |date|
+        { latitude: cell.first, longitude: cell.last, date:, source: 'test', temp_min_c: 5.0, temp_max_c: 12.0, snowfall_cm: 0.0,
+          rainfall_mm: 0.0, created_at: now, updated_at: now }
+      end
+      WeatherReading.insert_all(rows) # rubocop:disable Rails/SkipsModelValidations
     end
 
     before do
@@ -24,8 +36,8 @@ describe PlantingCondition do
       reading(Date.new(2026, 8, 20), -1.5)
       reading(Date.new(2026, 8, 21), 6.0)
       reading(Date.new(2026, 8, 22), 1.0, 33.0)
-      reading(Date.new(2026, 8, 23), 8.0, 14.0, gust: 100.0, direction: 225.0)
-      reading(Date.new(2026, 8, 24), 8.0, 14.0, gust: 99.9)
+      reading(Date.new(2026, 8, 23), 8.0, 14.0, wind_gust_max_kmh: 100.0, wind_direction_degrees: 225.0)
+      reading(Date.new(2026, 8, 24), 8.0, 14.0, wind_gust_max_kmh: 99.9)
     end
 
     it 'keeps the nights that reached the frost danger temperature' do
@@ -49,9 +61,59 @@ describe PlantingCondition do
         .to eq [[Date.new(2026, 8, 23), 100.0, 225.0, 8.0, 14.0]]
     end
 
+    it 'keeps the days with 100 mm of rain or more' do
+      reading(Date.new(2026, 8, 25), 8.0, rainfall_mm: 100.0)
+      reading(Date.new(2026, 8, 26), 8.0, rainfall_mm: 99.9)
+      refresh
+      expect(planting.conditions.heavy_rain.pluck(:occurred_on, :value)).to eq [[Date.new(2026, 8, 25), 100.0]]
+    end
+
+    it 'keeps the days with a high over 40 °C, whatever the crop' do
+      reading(Date.new(2026, 8, 25), 20.0, 40.1)
+      reading(Date.new(2026, 8, 26), 20.0, 40.0)
+      refresh
+      expect(planting.conditions.extreme_heat.pluck(:occurred_on, :value)).to eq [[Date.new(2026, 8, 25), 40.1]]
+    end
+
     it 'does not duplicate a day when run again' do
       2.times { described_class.refresh(planting, today:) }
       expect(planting.conditions.count).to eq 5
+    end
+
+    context 'with the weather held from the start of the winter' do
+      before { hold_readings(Date.new(2026, 1, 1), Date.new(2026, 8, 17)) }
+
+      it 'keeps the first snowfall of the winter, in the southern hemisphere' do
+        reading(Date.new(2026, 8, 25), 0.0, 4.0, snowfall_cm: 3.0)
+        reading(Date.new(2026, 8, 26), 0.0, 4.0, snowfall_cm: 5.0)
+        refresh
+        expect(planting.conditions.first_snow.pluck(:occurred_on, :value)).to eq [[Date.new(2026, 8, 25), 3.0]]
+      end
+    end
+
+    context 'when snow fell before the planting went in' do
+      before do
+        hold_readings(Date.new(2026, 1, 1), Date.new(2026, 8, 17), except: [Date.new(2026, 8, 10)])
+        reading(Date.new(2026, 8, 10), 0.0, 4.0, snowfall_cm: 2.0)
+        reading(Date.new(2026, 8, 25), 0.0, 4.0, snowfall_cm: 3.0)
+      end
+
+      it 'is not the first of the winter' do
+        refresh
+        expect(planting.conditions.first_snow).to be_empty
+      end
+    end
+
+    context 'when we do not hold the weather from the start of the winter' do
+      before do
+        hold_readings(Date.new(2026, 7, 1), Date.new(2026, 8, 17))
+        reading(Date.new(2026, 8, 25), 0.0, 4.0, snowfall_cm: 3.0)
+      end
+
+      it 'cannot say it is the first, so keeps nothing' do
+        refresh
+        expect(planting.conditions.first_snow).to be_empty
+      end
     end
 
     context 'when a day kept earlier no longer counts' do
