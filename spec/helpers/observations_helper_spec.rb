@@ -51,8 +51,8 @@ describe ObservationsHelper do
 
   describe '#damaging_wind_note' do
     let(:run) do
-      [build(:planting_condition, kind: 'damaging_wind', value: 91.0, direction_degrees: 10.0, temp_min_c: 6.1, temp_max_c: 15.8),
-       build(:planting_condition, kind: 'damaging_wind', value: 112.4, direction_degrees: 225.0, temp_min_c: 8.0, temp_max_c: 14.0)]
+      [build(:place_condition, kind: 'damaging_wind', value: 91.0, direction_degrees: 10.0, temp_min_c: 6.1, temp_max_c: 15.8),
+       build(:place_condition, kind: 'damaging_wind', value: 112.4, direction_degrees: 225.0, temp_min_c: 8.0, temp_max_c: 14.0)]
     end
 
     it 'describes the strongest day, with where from and the temperatures' do
@@ -74,7 +74,7 @@ describe ObservationsHelper do
     let(:frost_passed_on) { nil }
     let(:histories) { [] }
     let(:observations) { [build(:observation, planting:, observed_at: Time.zone.local(2026, 5, 3, 9))] }
-    let(:conditions) { [build(:planting_condition, planting:, occurred_on: Date.new(2026, 5, 2))] }
+    let(:conditions) { [build(:place_condition, occurred_on: Date.new(2026, 5, 2))] }
 
     it 'lists the newest first' do
       expect(timeline.map(&:type)).to eq %i(observation frost planted)
@@ -89,7 +89,7 @@ describe ObservationsHelper do
     end
 
     context 'with a frost night on the day it was planted' do
-      let(:conditions) { [build(:planting_condition, planting:, occurred_on: Date.new(2026, 5, 1))] }
+      let(:conditions) { [build(:place_condition, occurred_on: Date.new(2026, 5, 1))] }
 
       it 'puts the frost above the planting' do
         expect(timeline.map(&:type)).to eq %i(observation frost planted)
@@ -139,8 +139,9 @@ describe ObservationsHelper do
 
     context 'with frost and killing cold on the same nights' do
       let(:conditions) do
-        %w(frost killing_cold).flat_map do |kind|
-          [2, 3].map { |day| build(:planting_condition, planting:, kind:, occurred_on: Date.new(2026, 5, day)) }
+        [2, 3].flat_map do |day|
+          [build(:place_condition, kind: 'frost', occurred_on: Date.new(2026, 5, day)),
+           build(:planting_condition, planting:, kind: 'killing_cold', occurred_on: Date.new(2026, 5, day))]
         end
       end
 
@@ -151,7 +152,7 @@ describe ObservationsHelper do
 
     context 'with frost on three nights in a row and another later' do
       let(:conditions) do
-        [2, 3, 4, 9].map { |day| build(:planting_condition, planting:, occurred_on: Date.new(2026, 5, day)) }
+        [2, 3, 4, 9].map { |day| build(:place_condition, occurred_on: Date.new(2026, 5, day)) }
       end
 
       it 'makes one entry for each run of nights' do

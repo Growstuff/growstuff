@@ -111,14 +111,6 @@ class PlantingFrost < FrostSeason
     day if day.between?(start_on, [age_end, today].min)
   end
 
-  # The readings of the nights that reached the frost danger temperature, oldest first. None for a place with no frost
-  # danger season to place them in.
-  def frost_night_readings
-    return [] unless @stat.dated?
-
-    night_readings.select { |reading| reading.temp_min_c <= THRESHOLD_C }
-  end
-
   # The planting on the timeline: its days somewhere safe from frost, if it began in one, then the planting outdoors.
   def planting_bands
     bands = [safe_band, *stay_bands]

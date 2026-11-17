@@ -3,8 +3,9 @@
 FactoryBot.define do
   factory :planting_condition do
     planting
-    kind { 'frost' }
+    kind { 'killing_cold' }
     occurred_on { Date.new(2026, 5, 2) }
-    value { -1.0 }
+    value { -4.0 }
+    threshold { -2.0 }
   end
 end

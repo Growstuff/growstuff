@@ -5,8 +5,12 @@ require 'rails_helper'
 describe PlantingsController, '#show observations' do
   include ActiveSupport::Testing::TimeHelpers
 
-  let(:planting) { create(:planting, planted_at: Date.new(2026, 1, 1)) }
+  let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
+  let(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: Date.new(2026, 1, 1)) }
+  let(:cell) { planting.weather_cell }
   let(:page) { Capybara.string(response.body) }
+
+  before { travel_to(Time.zone.local(2026, 11, 7, 12)) }
 
   context 'with none' do
     before { get planting_path(planting) }
@@ -126,12 +130,9 @@ describe PlantingsController, '#show observations' do
   end
 
   context 'with frost dates for the place', flipper: :planting_weather do
-    let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
     let(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: Date.new(2026, 8, 18)) }
-    let(:cell) { planting.weather_cell }
 
     before do
-      travel_to(Time.zone.local(2026, 11, 7, 12))
       create(:frost_stat, latitude: cell.first, longitude: cell.last, threshold_c: FrostCalculator::FROST_DANGER_C, status: 'frost',
                           first_frost_p10: 154, first_frost_median: 173, last_frost_median: 240, last_frost_p90: 273)
       get planting_path(planting)
@@ -162,9 +163,12 @@ describe PlantingsController, '#show observations' do
 
   context 'with heavy rain, extreme heat and first snow' do
     before do
-      create(:planting_condition, planting:, kind: 'heavy_rain', occurred_on: Date.new(2026, 1, 8), value: 112.0, threshold: 100.0)
-      create(:planting_condition, planting:, kind: 'extreme_heat', occurred_on: Date.new(2026, 1, 9), value: 41.3, threshold: 40.0)
-      create(:planting_condition, planting:, kind: 'first_snow', occurred_on: Date.new(2026, 1, 10), value: 3.0)
+      create(:place_condition, latitude: cell.first, longitude: cell.last, kind: 'heavy_rain', occurred_on: Date.new(2026, 1, 8),
+value: 112.0, threshold: 100.0)
+      create(:place_condition, latitude: cell.first, longitude: cell.last, kind: 'extreme_heat', occurred_on: Date.new(2026, 1, 9),
+value: 41.3, threshold: 40.0)
+      create(:place_condition, latitude: cell.first, longitude: cell.last, kind: 'first_snow', occurred_on: Date.new(2026, 1, 10),
+value: 3.0)
       get planting_path(planting)
     end
 
@@ -183,8 +187,8 @@ describe PlantingsController, '#show observations' do
 
   context 'with a day of damaging wind' do
     before do
-      create(:planting_condition, planting:, kind: 'damaging_wind', occurred_on: Date.new(2026, 1, 9), value: 104.0, threshold: 90.0,
-                                  direction_degrees: 180.0, temp_min_c: 11.1, temp_max_c: 13.7)
+      create(:place_condition, latitude: cell.first, longitude: cell.last, kind: 'damaging_wind', occurred_on: Date.new(2026, 1, 9),
+                               value: 104.0, threshold: 100.0, direction_degrees: 180.0, temp_min_c: 11.1, temp_max_c: 13.7)
       get planting_path(planting)
     end
 
@@ -207,7 +211,9 @@ describe PlantingsController, '#show observations' do
 
   context 'with frost on three nights in a row' do
     before do
-      [2, 3, 4].each { |day| create(:planting_condition, planting:, occurred_on: Date.new(2026, 1, day), value: day - 5.0) }
+      [2, 3, 4].each do |day|
+        create(:place_condition, latitude: cell.first, longitude: cell.last, occurred_on: Date.new(2026, 1, day), value: day - 5.0)
+      end
       get planting_path(planting)
     end
 
