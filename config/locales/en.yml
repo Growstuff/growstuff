@@ -4090,6 +4090,7 @@ en:
       destroy:
         deleted: Observation deleted.
       edit: Edit observation
+      edit_harvest: Edit harvest
       frost:
         one: Frost
         other: Frost for %{count} nights in a row
@@ -4110,6 +4111,11 @@ en:
       killing_heat_note: Up to %{degrees} °C, above the %{limit} °C that %{crop} takes.
       logged_by: "%{author} noticed"
       planted: Planted
+      planted_from_packet_html: From %{packet}.
+      planted_in: Started in %{garden}.
+      planted_in_nursery: Sown in the nursery.
+      planted_packet_link: a seed packet we've recorded
+      planted_started_as: "Started as: %{kind}."
     origin:
       change: change
       crop_changed: This planting is now %{crop}, to match your packet. It was %{was}.

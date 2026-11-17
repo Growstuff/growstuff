@@ -24,12 +24,15 @@ $observation-heat-tint: #fdf0f2;
     position: relative;
     display: flex;
     gap: 1rem;
-    padding: 0.25rem 0 1rem;
+    // The same room on every row, tinted or not, so the dates, titles and buttons line up down the list.
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
 
     // What was seen, as an icon on the line.
     .observation-icon {
       position: absolute;
-      top: 0;
+      top: 0.5rem;
       left: calc(-1.5rem - 15px);
       display: flex;
       align-items: center;
@@ -49,18 +52,6 @@ $observation-heat-tint: #fdf0f2;
 
     // Frost, harvests and days too hot come from the weather and the harvest records, not from the grower's notes, so they
     // sit on a faint tint of their own: pale blue for frost, pale yellow for a harvest, pale pink for heat.
-    &.observation-frost,
-    &.observation-harvest,
-    &.observation-hot {
-      margin-bottom: 0.5rem;
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.375rem;
-
-      .observation-icon {
-        top: 0.5rem;
-      }
-    }
-
     &.observation-frost {
       background: $observation-frost-tint;
     }

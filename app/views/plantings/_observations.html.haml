@@ -65,6 +65,12 @@
             - if harvest.plant_part_name.present?
               %span.text-muted.small= harvest.plant_part_name
             %p.observation-note.mb-0= harvest.to_s
+          - if can?(:update, harvest)
+            .observation-actions
+              = link_to edit_harvest_path(slug: harvest.slug), title: t('.edit_harvest'), 'aria-label': t('.edit_harvest'),
+                        class: 'btn btn-sm btn-link harvest-edit',
+                        data: { planting_dialog: 'harvest', harvest: harvest_edit_data(harvest) } do
+                = icon 'fas', 'pen'
       - when :job
         -# A job that has been done. Open ones stay in the jobs section.
         - job = entry.record
@@ -137,3 +143,5 @@
             %span.observation-day= t('.day', count: 0)
           .observation-body
             %strong.observation-kind= t('.planted')
+            - if (note = planted_note(planting))
+              %p.observation-note.mb-0= note

@@ -7,9 +7,9 @@ module ObservationsHelper
   }.freeze
 
   # One line of the timeline: when, what kind of entry (:observation, :harvest, :job, :planted, :frost, :killing_cold,
-  # :killing_heat, :damaging_wind or :frost_passed) and what it is about. That is the Observation for an observation, the Harvest for a harvest,
-  # the Job for a job done, the day for frost danger passing, the run of PlantingConditions for the weather kinds (see
-  # #condition_runs), and nothing for the planting itself.
+  # :killing_heat, :damaging_wind or :frost_passed) and what it is about. That is the Observation for an observation, the
+  # Harvest for a harvest, the Job for a job done, the day for frost danger passing, the run of PlantingConditions for the
+  # weather kinds (see #condition_runs), and nothing for the planting itself.
   TimelineEntry = Struct.new(:at, :type, :record)
 
   # Of entries on one day, the planting comes first in time, then the weather, the harvests, the jobs, then what was noticed.
@@ -27,10 +27,49 @@ module ObservationsHelper
     icon 'fas', observation_icon_name(kind)
   end
 
+  # What the "Planted" entry adds: where it was sown, if somewhere safe from frost like the nursery, and what it was started
+  # from: a seed packet we hold, or another way (a seedling, a cutting) when it says so. Nil when we know none of it.
+  def planted_note(planting)
+    sentences = [planted_place(planting), planted_origin(planting)].compact
+    safe_join(sentences, ' ') if sentences.any?
+  end
+
   # What the edit dialog starts from.
   def observation_edit_data(observation)
     { id: observation.id, kind: observation.kind, observed_on: observation.observed_at.to_date.iso8601,
       description: observation.description }
+  end
+
+  # What the harvest edit dialog starts from.
+  def harvest_edit_data(harvest)
+    { slug: harvest.slug, plant_part_id: harvest.plant_part_id, quantity: harvest.quantity&.to_f, unit: harvest.unit,
+      weight_quantity: harvest.weight_quantity&.to_f, weight_unit: harvest.weight_unit,
+      harvested_at: (harvest.harvested_at || harvest.created_at.to_date).iso8601, description: harvest.description }
+  end
+
+  def planted_place(planting)
+    garden = planting.in_nursery? ? planting.garden : planting.frost_safe_stay&.garden
+    return unless garden
+
+    garden.nursery? ? t('plantings.observations.planted_in_nursery') : t('plantings.observations.planted_in', garden: garden.name)
+  end
+
+  def planted_origin(planting)
+    if planting.parent_seed
+      packet = link_to(t('plantings.observations.planted_packet_link'), planting.parent_seed)
+      t('plantings.observations.planted_from_packet_html', packet:)
+    elsif planting.planted_from.present?
+      kind = t("plantings.origin.kinds.#{planted_from_key(planting.planted_from)}").downcase
+      t('plantings.observations.planted_started_as', kind: [kind, planted_seedling_details(planting)].compact_blank.join(' · '))
+    end
+  end
+
+  # Where a seedling came from, as the member put it: "Shop or garden centre · Kiwi Seedlings".
+  def planted_seedling_details(planting)
+    seedling = planting.seedling
+    return unless seedling
+
+    [(t("plantings.origin.seedling_sources.#{seedling.source}") if seedling.source), seedling.supplier].compact_blank.join(' · ').presence
   end
 
   def observation_icon_name(kind)
@@ -77,7 +116,10 @@ module ObservationsHelper
     direction = wind_direction_name(day.direction_degrees)
     gusts = t('observations.wind.gusts', speed: number_with_precision(day.value, precision: 0))
     gusts = "#{gusts} #{t('observations.wind.from', direction:)}" if direction
-    temperature = t('observations.wind.temperature', low: frost_degrees(day.temp_min_c), high: frost_degrees(day.temp_max_c)) if day.temp_min_c && day.temp_max_c
+    if day.temp_min_c && day.temp_max_c
+      temperature = t('observations.wind.temperature', low:  frost_degrees(day.temp_min_c),
+                                                       high: frost_degrees(day.temp_max_c))
+    end
     "#{[gusts, temperature].compact.join(', ')}."
   end
 

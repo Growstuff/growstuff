@@ -66,6 +66,22 @@ describe PlantingsController, '#show observations' do
     it 'no longer has a section of its own' do
       expect(page).to have_no_css('section#harvests')
     end
+
+    it 'gives the public no way to edit it' do
+      expect(page).to have_no_css('.observation-harvest .harvest-edit')
+    end
+  end
+
+  context 'with a harvest, when signed in as the owner' do
+    before do
+      create(:harvest, planting:, crop: planting.crop, owner: planting.owner, harvested_at: Date.new(2026, 1, 11))
+      sign_in planting.owner
+      get planting_path(planting)
+    end
+
+    it 'offers to edit it' do
+      expect(page).to have_css('.observation-harvest .harvest-edit[href$="/edit"]')
+    end
   end
 
   context 'with jobs' do
@@ -125,6 +141,18 @@ describe PlantingsController, '#show observations' do
 
     it 'lists the hot day' do
       expect(page).to have_css('.observation-problem', text: 'Too hot Up to 41 °C, above the 38 °C')
+    end
+  end
+
+  context 'with a day of damaging wind' do
+    before do
+      create(:planting_condition, planting:, kind: 'damaging_wind', occurred_on: Date.new(2026, 1, 9), value: 104.0, threshold: 90.0,
+                                  direction_degrees: 180.0, temp_min_c: 11.1, temp_max_c: 13.7)
+      get planting_path(planting)
+    end
+
+    it 'lists it with the gusts, where from and the temperatures' do
+      expect(page).to have_css('.observation-problem', text: 'Damaging wind Gusts up to 104 km/h from the south, 11.1 to 13.7 °C that day.')
     end
   end
 
