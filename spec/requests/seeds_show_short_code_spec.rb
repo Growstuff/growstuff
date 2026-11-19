@@ -15,6 +15,7 @@ describe 'Seed short code on the packet page', flipper: :planting_codes do
       get seed_path(seed)
     end
 
+    it('has the code row translated') { expect(page).to have_no_css('.packet-facts .translation_missing') }
     it('shows the code') { expect(page).to have_css('.fact-row .seedfacts--shortcode', text: 'T2B3') }
     it('explains it in a help popover') { expect(page).to have_css('.seedshortcode--help[data-bs-content*="give seeds or seedlings"]') }
   end

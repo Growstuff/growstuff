@@ -28,7 +28,7 @@
           - code_label = safe_join([t('.short_code'), code_help])
           = render layout: 'seeds/fact_row', locals: { seed:, label: code_label, display: 'shortcode' } do
             %strong= seed.short_code
-            %span= t('.short_code_description')
+            %span= t('seeds.facts.short_code_description')
 
         = render layout: 'seeds/fact_row',
                  locals: { seed:, label: t('.will_trade'), display: 'tradableto',
