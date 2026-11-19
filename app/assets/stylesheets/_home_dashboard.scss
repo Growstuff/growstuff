@@ -564,3 +564,36 @@ $dash-line: rgba(65, 63, 59, 0.15);
   .planting-tile { padding: 0.5rem 0.25rem; font-size: 0.85em; }
   .planting-tile-photo { width: 2.75rem; height: 2.75rem; font-size: 1.25rem; line-height: 2.75rem; }
 }
+
+// The to-do list that follows a new member round the site until they have
+// planted something or planned a job.
+.first-steps {
+  margin-bottom: 1.5rem;
+  padding: 12px 20px;
+  background: #fff;
+  border: 1px solid $dash-line;
+  border-left: 6px solid $green;
+  border-radius: 4px;
+
+  h2 { margin: 0 0 4px; padding: 0; font-size: 1.15rem; font-weight: 600; color: #413f3b; background: none; box-shadow: none; }
+}
+
+.first-steps-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid $dash-line; &:first-child { border-top: 0; } }
+  > li > div:nth-child(2) { flex: 1; min-width: 0; }
+  b, small { display: block; }
+  small { color: $dash-muted; }
+}
+
+.first-steps-box { flex: none; width: 22px; height: 22px; border: 2px solid $green; border-radius: 4px; }
+
+.first-steps-actions { display: flex; flex: none; flex-wrap: wrap; gap: 8px; }
+
+@media (max-width: 575px) {
+  .first-steps-list li { flex-wrap: wrap; }
+  .first-steps-actions { width: 100%; }
+}

@@ -1,0 +1,20 @@
+-# A to-do list that follows a new member round the site until they have
+-# planted something or planned a job (see HomeHelper#first_steps_bar?).
+%aside.first-steps{ 'aria-labelledby': 'first-steps-title' }
+  %h2#first-steps-title= t('first_steps.title')
+  %ul.first-steps-list
+    %li
+      %span.first-steps-box{ 'aria-hidden': 'true' }
+      %div
+        %b= t('first_steps.plant')
+        %small= t('first_steps.plant_note')
+      .first-steps-actions
+        = link_to t('first_steps.pick_crop'), root_path(anchor: 'suggestions'), class: 'btn btn-success btn-sm'
+        = link_to t('first_steps.log_planting'), new_planting_path, class: 'btn btn-outline-success btn-sm'
+    %li
+      %span.first-steps-box{ 'aria-hidden': 'true' }
+      %div
+        %b= t('first_steps.job')
+        %small= t('first_steps.job_note')
+      .first-steps-actions
+        = link_to t('first_steps.add_job'), new_job_path, class: 'btn btn-outline-success btn-sm'

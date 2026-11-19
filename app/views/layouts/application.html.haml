@@ -28,6 +28,7 @@
           %small= yield(:subtitle)
 
         = render "shared/flash_messages", flash: flash
+        = render 'shared/first_steps' if first_steps_bar?
         %main= yield
 
     -# Every "add photo" link opens its dialog over the page (see PhotoDialog), and

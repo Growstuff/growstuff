@@ -79,6 +79,17 @@ module HomeHelper
     react_component('PlantPicker', props, class: options[:wrapper_class])
   end
 
+  # The first-steps bar follows a signed-in member round the site until they
+  # have planted something or planned a job. It stays off the home page, which
+  # has the same steps in full, and off the forms where they are doing it.
+  def first_steps_bar?
+    return false unless member_signed_in? && current_member.tos_agreement?
+    return false if controller_name == 'home' && action_name == 'index'
+    return false if %w(plantings jobs).include?(controller_name) && %w(new create).include?(action_name)
+
+    current_member.first_steps_todo?
+  end
+
   # A green-headed white box on the home page: a title, an optional link or
   # button on the right of the header, and whatever the block holds. Pass id:
   # to make the section a target for in-page links.

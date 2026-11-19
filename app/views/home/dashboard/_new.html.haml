@@ -6,6 +6,7 @@
   - steps = [[t('home.dashboard.step_join'), nil, true],
     [t('home.dashboard.step_location'), :location, dashboard.located?, t('home.dashboard.step_location_note')],
     [t('home.dashboard.step_plant'), :plant, false, t('home.dashboard.step_plant_note')],
+    [t('home.dashboard.step_job'), new_job_path, current_member.jobs.any?, t('home.dashboard.step_job_note')],
     [t('home.dashboard.step_photo'), (new_photo_path(type: 'garden', id: dashboard.gardens.first.id) if dashboard.gardens.any?), current_member.photos.any?, t('home.dashboard.step_photo_note')]]
   - todo_count = current_member.setup_rows_count
   - steps.each_with_index do |(label, path, done, note), index|
@@ -26,7 +27,7 @@
 
 - crops = dashboard.easy_to_sow
 - if crops.any? || dashboard.dismissed_count.positive? || !dashboard.suggestions_enabled?
-  = home_section(t('home.dashboard.easy_to_sow', month: current_month_name), action: plant_picker(dashboard, label: t('home.index.plant'), button_class: 'home-section-add')) do
+  = home_section(t('home.dashboard.easy_to_sow', month: current_month_name), id: 'suggestions', action: plant_picker(dashboard, label: t('home.index.plant'), button_class: 'home-section-add')) do
     .home-crops
       = render partial: 'home/dashboard/crop_card', collection: crops, as: :crop, locals: { dashboard: }
     = render 'home/dashboard/hidden_suggestions', dashboard:
