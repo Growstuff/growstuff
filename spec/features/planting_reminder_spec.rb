@@ -95,6 +95,14 @@ describe "Planting reminder email" do
       end
     end
 
+    context "when the last 30 days were more than a degree colder than usual" do
+      before { create_climate(recent_mean: 8.5) }
+
+      it "says how much colder" do
+        expect(mail_body).to have_content "1.5 °C below the usual 10.0 °C for those dates"
+      end
+    end
+
     context "when the last 30 days were close to usual" do
       before { create_climate(recent_mean: 10.2) }
 

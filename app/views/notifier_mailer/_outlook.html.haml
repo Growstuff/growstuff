@@ -9,7 +9,7 @@
     - if outlook.soil
       - soil = weather_summary([outlook.soil])[:soil_temp]
       %p= t('notifier_mailer.outlook.soil_temp', soil: soil, date: l(outlook.soil.date, format: '%-d %B'))
-    - if outlook.warm_spell?
+    - if outlook.spell?
       %p= climate_air_recent(outlook.climate)
     - if outlook.recent.any? && (figures = weather_figures(weather_summary(outlook.recent)))
       %p= t('notifier_mailer.outlook.recent_weather', from: l(outlook.recent.first.date, format: '%-d %B'), to: l(outlook.recent.last.date, format: '%-d %B'), figures: figures)

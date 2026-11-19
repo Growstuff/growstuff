@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # What the planting reminder email says about where a member gardens and what the weather is doing there:
-# the season, the last two weeks, the next two weeks as a year ago had them, the soil temperature, a warm last
+# the season, the last two weeks, the next two weeks as a year ago had them, the soil temperature, a warm or cold last
 # 30 days, and crops to sow. All of it hangs on the member's location, so #located? is false when they haven't given
 # one. Weather is only there for places the daily update collects it for, so each part may be missing.
 class PlantingReminderOutlook
@@ -9,8 +9,8 @@ class PlantingReminderOutlook
 
   DAYS = 14
   CROPS = 3
-  # How many degrees warmer than usual the last 30 days must be for the email to say so.
-  WARM_SPELL_C = 1.0
+  # How many degrees warmer or colder than usual the last 30 days must be for the email to say so.
+  SPELL_C = 1.0
 
   def initialize(member, today: Time.zone.today)
     @member = member
@@ -60,10 +60,21 @@ class PlantingReminderOutlook
     @climate
   end
 
-  # Whether the average air temperature of the last 30 days is more than WARM_SPELL_C above the usual for those dates.
+  # Whether the average air temperature of the last 30 days is more than SPELL_C above the usual for those dates.
   def warm_spell?
     difference = climate&.air_recent_difference
-    difference.present? && difference > WARM_SPELL_C
+    difference.present? && difference > SPELL_C
+  end
+
+  # Whether it is more than SPELL_C below.
+  def cold_spell?
+    difference = climate&.air_recent_difference
+    difference.present? && difference < -SPELL_C
+  end
+
+  # Whether the last 30 days were warm or cold enough to say so.
+  def spell?
+    warm_spell? || cold_spell?
   end
 
   # Crops gardeners at this latitude are sowing now, leaving out what the member grows or has hidden.

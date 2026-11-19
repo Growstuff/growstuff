@@ -40,6 +40,7 @@ describe PlantingReminderOutlook do
     it { expect(outlook.crops).to eq [] }
     it { expect(outlook.climate).to be_nil }
     it { is_expected.not_to be_warm_spell }
+    it { is_expected.not_to be_cold_spell }
   end
 
   context 'with a location' do
@@ -87,7 +88,7 @@ describe PlantingReminderOutlook do
       expect(outlook.crops).to eq [crop]
     end
 
-    describe '#warm_spell?' do
+    describe 'a warm or cold spell' do
       # Two past years of 10 degrees in every month, and the 30 days to 25 October at the cell the member is in.
       before do
         [2024, 2025].each do |year|
@@ -100,6 +101,8 @@ describe PlantingReminderOutlook do
         let(:recent_mean) { 11.1 }
 
         it { is_expected.to be_warm_spell }
+        it { is_expected.not_to be_cold_spell }
+        it { is_expected.to be_spell }
       end
 
       context 'with the last 30 days exactly a degree above usual' do
@@ -108,15 +111,24 @@ describe PlantingReminderOutlook do
         it { is_expected.not_to be_warm_spell }
       end
 
-      context 'with the last 30 days colder than usual' do
-        let(:recent_mean) { 7.0 }
+      context 'with the last 30 days more than a degree colder than usual' do
+        let(:recent_mean) { 8.9 }
 
+        it { is_expected.to be_cold_spell }
         it { is_expected.not_to be_warm_spell }
+        it { is_expected.to be_spell }
+      end
+
+      context 'with the last 30 days exactly a degree colder than usual' do
+        let(:recent_mean) { 9.0 }
+
+        it { is_expected.not_to be_cold_spell }
+        it { is_expected.not_to be_spell }
       end
     end
 
     context 'without climate data for the place' do
-      it { is_expected.not_to be_warm_spell }
+      it { is_expected.not_to be_spell }
     end
   end
 end
