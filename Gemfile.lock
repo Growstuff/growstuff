@@ -456,7 +456,7 @@ GEM
       method_source (~> 1.0)
       reline (>= 0.6.0)
     public_suffix (7.0.5)
-    puma (8.1.0)
+    puma (8.1.1)
       nio4r (~> 2.0)
     query_diet (0.7.3)
     racc (1.8.1)
