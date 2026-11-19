@@ -22,14 +22,6 @@ module ClimateVerdictHelper
     { title: t("climate.air.verdicts.#{comparison}"), body:, recent: climate_air_recent(climate) }
   end
 
-  private
-
-  # How the air compares with usual, in the locale's sentence for a prefix such as 'body' or 'recent': close, above or below.
-  def climate_air_sentence(prefix, comparison, difference, **values)
-    direction = difference.negative? ? 'below' : 'above'
-    t("climate.air.#{prefix}_#{comparison == :close ? 'close' : direction}", difference: difference.abs, **values)
-  end
-
   # The sentence about the latest 30 days' air temperature, or nil with nothing to compare.
   def climate_air_recent(climate)
     comparison = climate.air_recent_comparison
@@ -38,5 +30,13 @@ module ClimateVerdictHelper
     from, to = climate.recent_dates.minmax.map { |date| l(date, format: '%-d %B') }
     climate_air_sentence('recent', comparison, climate.air_recent_difference, air: climate.air_recent, usual: climate.air_recent_usual,
                                                                               from:, to:)
+  end
+
+  private
+
+  # How the air compares with usual, in the locale's sentence for a prefix such as 'body' or 'recent': close, above or below.
+  def climate_air_sentence(prefix, comparison, difference, **values)
+    direction = difference.negative? ? 'below' : 'above'
+    t("climate.air.#{prefix}_#{comparison == :close ? 'close' : direction}", difference: difference.abs, **values)
   end
 end
