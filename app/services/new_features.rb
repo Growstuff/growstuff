@@ -36,7 +36,19 @@ class NewFeatures
     Feature.new(added_on: Date.new(2026, 11, 10), title: 'Growing requirements', path: :crops,
                 description: 'See what a crop needs on its page, including soil pH, crop cycle, altitude and light, from EcoCrop.'),
     Feature.new(added_on: Date.new(2026, 11, 10), title: 'Gardens safe from frost', path: :gardens,
-                description: 'Mark a garden as safe from frost, such as indoors or heated, so its plantings are not counted as at risk.')
+                description: 'Mark a garden as safe from frost, such as indoors or heated, so its plantings are not counted as at risk.'),
+    Feature.new(added_on: Date.new(2026, 11, 19), title: 'Observations on plantings', path: :plantings,
+                description: 'Make notes on a planting (germination, wilting, disease) as it grows.'),
+    Feature.new(added_on: Date.new(2026, 11, 19), title: 'Planting timeline', path: :plantings,
+                description: 'Weather events affecting the planting, like rain or frost, high winds or extreme temperatures.'),
+    Feature.new(added_on: Date.new(2026, 11, 19), title: 'Growing degree days', path: :plantings,
+                description: 'See how much warmth a planting has had since it started, as growing degree days, to calculate its growth progress.'),
+    Feature.new(added_on: Date.new(2026, 11, 19), title: 'Planting short codes', path: :plantings,
+                description: 'Every planting gets a short code, so you can tell plantings apart on the plant labels you write.'),
+    Feature.new(added_on: Date.new(2026, 11, 19), title: 'Photo import from Mastodon', path: :new_photo,
+                description: 'Import photos from Mastodon or another Fediverse server.'),
+    Feature.new(added_on: Date.new(2026, 11, 19), title: 'Sign in with Mastodon, GitHub or Bluesky', path: :edit_member_registration,
+                description: 'Connect your Mastodon, GitHub or Bluesky account, and use it to sign in to Growstuff.')
   ].freeze
 
   # The features added after `date`, oldest first, and in the order they are listed for the same day.

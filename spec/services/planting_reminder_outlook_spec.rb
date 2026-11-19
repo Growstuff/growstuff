@@ -11,21 +11,20 @@ describe PlantingReminderOutlook do
   describe '#new_features' do
     before { member.update_columns(created_at: Date.new(2025, 1, 1)) }
 
+    let(:last_feature_on) { NewFeatures::ALL.map(&:added_on).max }
+
     it 'lists what was added since the last reminder' do
       member.update_columns(planting_reminder_sent_at: Date.new(2026, 10, 20))
-      expect(outlook.new_features.map(&:title)).to eq [
-        'Seed library', 'Nursery garden', 'Jobs', 'Weather data', 'Frost danger', 'Optimal climate for plantings',
-        'Link plantings to their seeds', 'Seed packet data', 'Volunteer plantings', 'Growing requirements', 'Gardens safe from frost'
-      ]
+      expect(outlook.new_features).to eq NewFeatures.since(Date.new(2026, 10, 20))
     end
 
     it 'is empty when the last reminder came after every feature' do
-      member.update_columns(planting_reminder_sent_at: Date.new(2026, 11, 10))
+      member.update_columns(planting_reminder_sent_at: last_feature_on)
       expect(outlook.new_features).to eq []
     end
 
     it 'counts from when they joined if they never had a reminder' do
-      member.update_columns(created_at: Date.new(2026, 11, 10))
+      member.update_columns(created_at: last_feature_on)
       expect(outlook.new_features).to eq []
     end
   end
