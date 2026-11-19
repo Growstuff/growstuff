@@ -1055,6 +1055,15 @@ en:
       top_level_crops: Top level crops
       yes: 'Yes'
   edit_crop: Edit crop
+  first_steps:
+    add_job: Add a job
+    job: Or plan a job
+    job_note: Something you want to do in the garden, like sowing, watering or pruning
+    log_planting: Log what's growing
+    pick_crop: Pick a crop
+    plant: Add a planting to your garden
+    plant_note: Pick a crop to plant from the suggestions, or log what is already in your garden
+    title: Your first steps
   flash:
     photo_associations:
       destroy:
@@ -1567,7 +1576,7 @@ en:
       do_it: Do it
       done: Done
       easy_to_sow: Easy to sow in %{month} near you
-      first_plant: Let's get your first plant in. It takes about a minute.
+      first_plant: Let's get your first plant in. Pick a crop from the suggestions, or log what is already in your garden. It takes about a minute.
       first_year: Your first year
       following: following
       friends: My friends & neighbours
@@ -1646,7 +1655,9 @@ en:
       step_photo_note: Optional, but it makes your garden yours
       step_plant: Add your first plant
       step_plant_button: Plant something
-      step_plant_note: Pick from what suits this month
+      step_job: Or plan a job
+      step_job_note: Something you want to do in the garden, like sowing, watering or pruning
+      step_plant_note: Pick from the suggestions below, or log what is already in your garden
       stop_suggesting: Stop suggesting
       suggestions_off: Crop suggestions are off.
       this_week: This week

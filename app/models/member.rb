@@ -323,6 +323,12 @@ class Member < ApplicationRecord
     setup_todo_count.positive?
   end
 
+  # Nothing planted and no job planned yet: the first-steps list stays with
+  # them until they do either.
+  def first_steps_todo?
+    !plantings.exists? && !jobs.exists?
+  end
+
   def last_sign_in_method?(authentication)
     return false unless email.blank? && Authentication::EMAIL_OPTIONAL_PROVIDERS.include?(authentication.provider)
 

@@ -92,6 +92,26 @@ describe Member do
     end
   end
 
+  describe '#first_steps_todo?' do
+    subject { member.first_steps_todo? }
+
+    let(:member) { create(:member) }
+
+    it { is_expected.to be true }
+
+    context 'with a planting' do
+      before { create(:planting, owner: member) }
+
+      it { is_expected.to be false }
+    end
+
+    context 'with a job' do
+      before { create(:job, owner: member) }
+
+      it { is_expected.to be false }
+    end
+  end
+
   context 'no TOS agreement' do
     let(:member) { build(:no_tos_member) }
 
