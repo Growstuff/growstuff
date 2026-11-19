@@ -14,29 +14,6 @@ module ClimateHelper
     outline_icon(ICONS.fetch(measure))
   end
 
-  # The banner's headline and sentence for the rain, or nil with nothing to compare.
-  def climate_rain_verdict(climate)
-    comparison = climate.rain_comparison
-    return unless comparison
-
-    values = { rain: climate_figure(:rain, climate.rain_this_year), usual: climate_figure(:rain, climate.usual_rain_to_date),
-               percent: (climate.rain_share * 100).round }
-    { title: t("climate.rain.verdicts.#{comparison}"), body: t('climate.rain.body', **values) }
-  end
-
-  # The banner's headline and sentence for the air temperature, or nil with nothing to compare.
-  def climate_air_verdict(climate)
-    comparison = climate.air_comparison
-    return unless comparison
-
-    difference = climate.air_difference
-    key = if comparison == :close then 'body_close'
-          else difference.negative? ? 'body_below' : 'body_above'
-          end
-    values = { air: climate.air_this_year, usual: climate.air_usual_to_date, difference: difference.abs }
-    { title: t("climate.air.verdicts.#{comparison}"), body: t("climate.air.#{key}", **values) }
-  end
-
   # The figures under the rain chart: { label:, value:, note: }.
   def climate_rain_cards(climate)
     [

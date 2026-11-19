@@ -5,3 +5,5 @@
     %div
       %p.climate-verdict-title= verdict[:title]
       %p.climate-verdict-body= verdict[:body]
+      - if verdict[:recent]
+        %p.climate-verdict-body= verdict[:recent]

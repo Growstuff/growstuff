@@ -65,6 +65,11 @@ describe ClimateUpdater, type: :service do
       expect(ClimateMonth.find_by(year: 2025, month: 2).rain_mm).to eq 56.0
     end
 
+    it 'saves the average of the last 30 days the API has' do
+      updater.update_all
+      expect(ClimateRecent.pick(:starts_on, :ends_on, :temp_mean_c)).to eq [Date.new(2026, 9, 27), Date.new(2026, 10, 26), 10.0]
+    end
+
     it 'counts the calls used' do
       updater.update_all
       expect(updater.calls_used).to be > 700
@@ -92,7 +97,10 @@ describe ClimateUpdater, type: :service do
   end
 
   context 'when the place already has its months' do
-    before { create(:climate_month, latitude: -41.25, longitude: 174.75) }
+    before do
+      create(:climate_month, latitude: -41.25, longitude: 174.75)
+      create(:climate_recent, latitude: -41.25, longitude: 174.75)
+    end
 
     it 'leaves it alone' do
       expect(updater.update_all).to eq 0
@@ -101,6 +109,19 @@ describe ClimateUpdater, type: :service do
     it 'makes no calls' do
       expect(client).not_to receive(:daily)
       updater.update_all
+    end
+  end
+
+  context 'when the place has its months but no average for the latest 30 days' do
+    before { create(:climate_month, latitude: -41.25, longitude: 174.75, year: 2026, month: 10) }
+
+    it 'brings them up to date' do
+      expect(updater.update_all).to eq 1
+    end
+
+    it 'saves the average' do
+      updater.update_all
+      expect(ClimateRecent.count).to eq 1
     end
   end
 
@@ -119,6 +140,17 @@ describe ClimateUpdater, type: :service do
     it 'saves those months' do
       updater.update_all
       expect(ClimateMonth.where(year: 2026).count).to eq 3
+    end
+
+    it 'saves the average of the last 30 days' do
+      updater.update_all
+      expect(ClimateRecent.pick(:ends_on, :days)).to eq [Date.new(2026, 10, 26), 30]
+    end
+
+    it 'replaces the last average' do
+      create(:climate_recent, latitude: -41.25, longitude: 174.75, ends_on: Date.new(2026, 10, 1), temp_mean_c: 3.0)
+      updater.update_all
+      expect(ClimateRecent.pluck(:temp_mean_c)).to eq [10.0]
     end
 
     it 'leaves the frost dates alone' do

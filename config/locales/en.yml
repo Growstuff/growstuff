@@ -376,6 +376,9 @@ en:
         soil_note: mean this month, top 7 cm
         warmest: Warmest month
       chart: Air temperature each month, this year and usually
+      recent_above: "In the 30 days from %{from} to %{to} the average was %{air} °C, which is %{difference} °C above the usual %{usual} °C for those dates."
+      recent_below: "In the 30 days from %{from} to %{to} the average was %{air} °C, which is %{difference} °C below the usual %{usual} °C for those dates."
+      recent_close: "In the 30 days from %{from} to %{to} the average was %{air} °C, close to the usual %{usual} °C for those dates."
       records: Records in the last %{count} years
       soil_chart: Soil temperature each month, this year and usually
       title: Temperature
