@@ -8,8 +8,9 @@ describe 'Suggestions' do
   describe 'on my garden page' do
     before { visit garden_path(member.gardens.first) }
 
+    # The first steps bar above the page links to the suggestions, so look in the page itself.
     it 'has no suggestions link without a location' do
-      expect(page).to have_no_link href: suggestions_path
+      expect(page.find('main')).to have_no_link href: suggestions_path
     end
   end
 
