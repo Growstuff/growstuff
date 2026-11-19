@@ -4,17 +4,26 @@ require 'rails_helper'
 
 describe NewFeatures do
   describe '.since' do
-    it 'lists features added to the list after the date' do
-      expect(described_class.since(Date.new(2026, 10, 30)).map(&:title)).to eq [
-        'Seed library', 'Nursery garden', 'Jobs', 'Weather data', 'Frost danger', 'Optimal climate for plantings',
-        'Link plantings to their seeds', 'Seed packet data', 'Volunteer plantings', 'Growing requirements', 'Gardens safe from frost'
-      ]
+    let(:old) { described_class::Feature.new(added_on: Date.new(2026, 1, 1), title: 'Old', description: '', path: :seeds) }
+    let(:newer) { described_class::Feature.new(added_on: Date.new(2026, 2, 1), title: 'Newer', description: '', path: :seeds) }
+    let(:newest) { described_class::Feature.new(added_on: Date.new(2026, 3, 1), title: 'Newest', description: '', path: :seeds) }
+
+    before { stub_const('NewFeatures::ALL', [newest, old, newer]) }
+
+    it 'lists features added after the date, oldest first' do
+      expect(described_class.since(Date.new(2025, 12, 31)).map(&:title)).to eq %w(Old Newer Newest)
     end
 
     it 'leaves out features added on or before the date' do
-      expect(described_class.since(Date.new(2026, 11, 10))).to eq []
+      expect(described_class.since(Date.new(2026, 2, 1)).map(&:title)).to eq %w(Newest)
     end
 
+    it 'is empty when nothing was added after the date' do
+      expect(described_class.since(Date.new(2026, 3, 1))).to eq []
+    end
+  end
+
+  describe '::ALL' do
     it 'links to a route that exists' do
       routes = Rails.application.routes.url_helpers
       expect(described_class::ALL.map { |feature| routes.respond_to?("#{feature.path}_path") }).to all(be true)
