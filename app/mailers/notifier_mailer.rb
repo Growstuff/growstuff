@@ -3,6 +3,7 @@
 class NotifierMailer < ApplicationMailer
   default from: "Growstuff <#{ENV.fetch('GROWSTUFF_EMAIL', nil)}>"
   helper PlantingWeatherHelper
+  helper ClimateVerdictHelper
 
   def verifier
     unless ENV['RAILS_SECRET_TOKEN']
