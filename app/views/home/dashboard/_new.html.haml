@@ -27,7 +27,7 @@
 
 - crops = dashboard.easy_to_sow
 - if crops.any? || dashboard.dismissed_count.positive? || !dashboard.suggestions_enabled?
-  = home_section(t('home.dashboard.easy_to_sow', month: current_month_name), id: 'suggestions', action: plant_picker(dashboard, label: t('home.index.plant'), button_class: 'home-section-add')) do
+  = home_section(t('home.dashboard.easy_to_sow', month: current_month_name), action: plant_picker(dashboard, label: t('home.index.plant'), button_class: 'home-section-add')) do
     .home-crops
       = render partial: 'home/dashboard/crop_card', collection: crops, as: :crop, locals: { dashboard: }
     = render 'home/dashboard/hidden_suggestions', dashboard:

@@ -10,6 +10,3 @@
   = render 'home/dashboard/location_picker', label: t('home.dashboard.set_location'), button_class: 'btn btn-success'
 - else
   = render 'home/dashboard/hidden_suggestions', dashboard: @dashboard
-  - if @dashboard.suggestions_enabled?
-    .home-suggestion-links
-      = render 'home/dashboard/stop_suggesting'

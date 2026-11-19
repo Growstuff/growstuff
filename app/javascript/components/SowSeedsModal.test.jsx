@@ -12,7 +12,10 @@ vi.mock('./CropDetails', () => ({default: ({slug}) => <p>Details of {slug}</p>})
 vi.mock('./SeedPacket', () => ({default: ({packet}) => <p>Packet {packet.name}</p>}));
 
 const nursery = {id: 1, name: 'Nursery'};
-const gardens = [{id: 10, name: 'Front', slug: 'front'}, {id: 20, name: 'Back', slug: 'back'}];
+const gardens = [
+  {id: 10, name: 'Front', slug: 'front', layout_path: '/members/ann/gardens/front/layout'},
+  {id: 20, name: 'Back', slug: 'back', layout_path: '/members/ann/gardens/back/layout'},
+];
 const seeds = [{id: 3, crop_id: 5, crop_slug: 'tomato', name: 'Roma tomato', saved: '2024', quantity: 20, plant_before: null}];
 
 function stubFetch(response = {ok: true, status: 201, data: {garden: {id: 1}}}) {
@@ -93,6 +96,31 @@ describe('SowSeedsModal', () => {
     expect(screen.getByLabelText('Search your seeds')).toBeInTheDocument();
   });
 
+  describe('without a nursery', () => {
+    async function toStepTwo() {
+      setup({nursery: null});
+      await userEvent.click(screen.getByRole('button', {name: /Roma tomato/}));
+    }
+
+    it('leaves out the choice of nursery', async () => {
+      await toStepTwo();
+      expect(screen.queryByText('Into the nursery')).not.toBeInTheDocument();
+    });
+
+    it('asks which garden', async () => {
+      await toStepTwo();
+      expect(screen.getByLabelText('Which garden?')).toBeInTheDocument();
+    });
+
+    it('sows into the first garden', async () => {
+      const fetch = stubFetch();
+      await toStepTwo();
+      await next();
+      await userEvent.click(screen.getByRole('button', {name: 'Sow into Front'}));
+      expect(JSON.parse(fetch.mock.calls[0][1].body).planting.garden_id).toBe(10);
+    });
+  });
+
   describe('sowing into the nursery', () => {
     async function sow() {
       await userEvent.click(screen.getByRole('button', {name: /Roma tomato/}));
@@ -161,7 +189,7 @@ describe('SowSeedsModal', () => {
       await userEvent.click(screen.getByLabelText('Straight into a garden'));
       await next();
       await userEvent.click(screen.getByRole('button', {name: 'Sow into Front'}));
-      expect(await screen.findByRole('link', {name: 'Place on the garden layout'})).toHaveAttribute('href', '/gardens/front/layout');
+      expect(await screen.findByRole('link', {name: 'Place on the garden layout'})).toHaveAttribute('href', '/members/ann/gardens/front/layout');
     });
   });
 });

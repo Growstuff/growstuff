@@ -83,6 +83,12 @@ module HomeHelper
   # have planted something or planned a job. It stays off the home page, which
   # has the same steps in full, and off the forms where they are doing it.
   def first_steps_bar?
+    return @first_steps_bar if defined?(@first_steps_bar)
+
+    @first_steps_bar = first_steps_bar_wanted?
+  end
+
+  def first_steps_bar_wanted?
     return false unless member_signed_in? && current_member.tos_agreement?
     return false if controller_name == 'home' && action_name == 'index'
     return false if %w(plantings jobs).include?(controller_name) && %w(new create).include?(action_name)

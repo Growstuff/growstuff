@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :plant_parts
 
   devise_for :members, controllers: {
+    confirmations:      "confirmations",
     registrations:      "registrations",
     passwords:          "passwords",
     sessions:           "sessions",

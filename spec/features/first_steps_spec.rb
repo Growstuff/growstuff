@@ -14,7 +14,8 @@ describe 'first steps list' do
     before { visit crops_path }
 
     it { is_expected.to have_css steps }
-    it { is_expected.to have_link href: new_job_path }
+    it { is_expected.to have_css '[data-react-component="FirstStepsPlanter"]', visible: :all }
+    it { is_expected.to have_link href: suggestions_path }
   end
 
   context 'when on the home page, which has the steps in full' do
