@@ -3,6 +3,21 @@
 require 'rails_helper'
 
 describe GardensHelper do
+  describe '#first_steps_planter_props' do
+    subject(:props) { helper.first_steps_planter_props(member, label: 'Log', button_class: 'btn') }
+
+    let(:member) { create(:member) }
+    let(:garden) { member.gardens.first }
+
+    it 'lists their garden with the path to its layout' do
+      expect(props[:gardens]).to contain_exactly(a_hash_including(id: garden.id, layout_path: "/members/#{member.slug}/gardens/#{garden.slug}/layout"))
+    end
+
+    it 'has no nursery to sow into' do
+      expect(props).not_to have_key(:garden)
+    end
+  end
+
   describe "garden description" do
     it "is missing" do
       garden = create(:garden,

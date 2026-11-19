@@ -565,35 +565,40 @@ $dash-line: rgba(65, 63, 59, 0.15);
   .planting-tile-photo { width: 2.75rem; height: 2.75rem; font-size: 1.25rem; line-height: 2.75rem; }
 }
 
-// The to-do list that follows a new member round the site until they have
-// planted something or planned a job.
+// The bar that follows a new member round the site until they have planted
+// something or planned a job. The same shape as the jobs bar (.notepad-ideas):
+// an icon, a line saying what to do, and the ways to do it as links on the right.
 .first-steps {
-  margin-bottom: 1.5rem;
-  padding: 12px 20px;
-  background: #fff;
-  border: 1px solid $dash-line;
-  border-left: 6px solid $green;
+  align-items: center;
+  background: lighten($green, 50%);
+  border: 1px solid lighten($green, 30%);
   border-radius: 4px;
-
-  h2 { margin: 0 0 4px; padding: 0; font-size: 1.15rem; font-weight: 600; color: #413f3b; background: none; box-shadow: none; }
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.12);
+  color: #413f3b;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  margin: 1rem 0;
+  min-height: 52px;
+  padding: 0.4rem 0.9rem;
 }
 
-.first-steps-list {
-  margin: 0;
+// The jobs list's snail, still and facing the words.
+.first-steps-snail { flex: none; height: 36px; transform: scaleX(-1); width: 54px; }
+
+.first-steps-text { flex: 1 1 20rem; }
+
+.first-steps-actions { align-items: center; display: flex; flex: none; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
+
+.first-steps-go {
+  background: none;
+  border: 0;
+  color: darken($green, 10%);
+  font: inherit;
+  font-weight: 700;
   padding: 0;
-  list-style: none;
+  text-decoration: none;
+  white-space: nowrap;
 
-  li { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid $dash-line; &:first-child { border-top: 0; } }
-  > li > div:nth-child(2) { flex: 1; min-width: 0; }
-  b, small { display: block; }
-  small { color: $dash-muted; }
-}
-
-.first-steps-box { flex: none; width: 22px; height: 22px; border: 2px solid $green; border-radius: 4px; }
-
-.first-steps-actions { display: flex; flex: none; flex-wrap: wrap; gap: 8px; }
-
-@media (max-width: 575px) {
-  .first-steps-list li { flex-wrap: wrap; }
-  .first-steps-actions { width: 100%; }
+  &:hover { color: darken($green, 20%); text-decoration: underline; }
 }
