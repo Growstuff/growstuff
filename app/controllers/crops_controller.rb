@@ -52,9 +52,12 @@ class CropsController < ApplicationController
 
     # To be further split: As we add more short codes and this becomes a 'find anything' search box,
     # move to own controller.
-    if request.format.html? && current_member && @term.to_s.match?(/\A[2-9A-HJ-NP-Z]{4}\z/)
-      planting = current_member.plantings.find_by(short_code: @term)
+    if request.format.html? && current_member
+      planting = current_member.plantings.find_by(short_code: @term) if @term.to_s.match?(/\A[2-9A-HJ-NP-Z]{4}\z/)
       return redirect_to planting_path(planting) if planting
+
+      seed = current_member.seeds.find_by(short_code: @term) if @term.to_s.match?(Seed::SHORT_CODE_FORMAT)
+      return redirect_to seed_path(slug: seed.slug) if seed
     end
 
     @crops = CropSearchService.search(@term,

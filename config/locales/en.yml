@@ -233,7 +233,7 @@ en:
         garden_stall: A page where members offer spare seedlings and seeds to friends. Switch on once all the parts are deployed.
         job_ideas: Suggested jobs for members, from their past jobs and plantings, crop templates and what gardeners nearby are doing.
         planting_weather: Temperature and rainfall charts on each planting, from daily weather for the garden's area.
-        planting_codes: Shows planting codes to the planting owner and collaborators in its garden.
+        planting_codes: Shows planting codes to the planting owner and collaborators in its garden, and seed packet codes to the packet's owner.
       index:
         disabled: 'Off'
         enabled: 'On'
@@ -253,7 +253,7 @@ en:
         garden_stall: Garden stall
         job_ideas: Job ideas
         planting_weather: Planting weather
-        planting_codes: Planting codes
+        planting_codes: Planting and seed packet codes
       update:
         disabled: "%{feature} is now off."
         enabled: "%{feature} is now on."
@@ -4776,6 +4776,10 @@ en:
       heading: The packet
       save: Save
       set_location: Set Location
+      short_code: Short code
+      short_code_description: for your seed packet
+      short_code_help: Write this code on your seed packet, and you can find this exact packet here later, even in a large collection. If you give seeds or seedlings to someone else, write it on theirs too, so you can keep track of where they went.
+      short_code_help_label: What is the short code for?
       unknown: Unknown
       will_trade: Will trade
       year_saved: Year saved
