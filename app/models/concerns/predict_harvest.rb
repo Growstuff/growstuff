@@ -124,13 +124,6 @@ module PredictHarvest
       planted_at + crop.median_days_to_first_harvest.days if crop.median_days_to_first_harvest.present? && planted_at.present?
     end
 
-    # Whether a first harvest on this day comes after the planting is expected to have finished,
-    # going by the crop's median lifespan. Then the heat figures don't fit how this crop is
-    # usually grown here, and the median days are the better guide.
-    def outlives_median_lifespan?(date)
-      date.present? && finish_predicted_at.present? && date.to_date > finish_predicted_at.to_date
-    end
-
     # The temperature below which this crop barely grows.
     def heat_base
       crop.ecocrop_heat_data&.tmin || CropDuration::DEFAULT_BASE
@@ -142,14 +135,15 @@ module PredictHarvest
       heat = crop.ecocrop_heat_data
       return unless heat && planted_at.present? && weather_located?
 
-      predicted = Rails.cache.fetch("#{cache_key_with_version}/heat_predicted_first_harvest_at", expires_in: 8.hours) do
+      Rails.cache.fetch("#{cache_key_with_version}/heat_predicted_first_harvest_at", expires_in: 8.hours) do
         degree_days = GrowingDegreeDays.new(base: heat.tmin)
         observed = weather_cell_readings.select(*WeatherReading::CHARTED).between(planted_at, Time.zone.today).order(:date).to_a
+        # Without a reading yet, ask from the day before planting: the default would ask when the planting is due, which
+        # depends on this date.
+        to_come = projected_weather_readings(after: observed.last&.date || (planted_at - 1), through: planted_at + heat.gmax)
         degree_days.date_reaching(heat.first_harvest_degree_days, observed) ||
-          degree_days.date_reaching(heat.first_harvest_degree_days,
-                                    observed + expected_weather_readings(after: observed.last&.date, through: planted_at + heat.gmax))
+          degree_days.date_reaching(heat.first_harvest_degree_days, observed + to_come)
       end
-      predicted unless outlives_median_lifespan?(predicted)
     end
   end
 end
