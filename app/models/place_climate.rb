@@ -30,11 +30,13 @@ class PlaceClimate
     return unless place.weather_located?
 
     months = ClimateMonth.at(*place.weather_cell).to_a
-    new(months, today:) if months.any?
+    new(months, today:, recent: ClimateRecent.at(*place.weather_cell).first) if months.any?
   end
 
-  def initialize(months, today:)
+  # recent: the ClimateRecent of the cell, if we hold one.
+  def initialize(months, today:, recent: nil)
     @today = today
+    @recent = recent
     @past = months.reject { |month| month.year >= today.year }.group_by(&:month)
     @year = months.select { |month| month.year == today.year }.index_by(&:month)
   end
@@ -104,14 +106,33 @@ class PlaceClimate
 
   # :cooler, :a_little_cooler, :close, :a_little_warmer or :warmer than usual, or nil.
   def air_comparison
-    difference = air_difference
-    return unless difference
+    compare_air(air_difference)
+  end
 
-    direction = difference.negative? ? 'cooler' : 'warmer'
-    if difference.abs < AIR_CLOSE then :close
-    elsif difference.abs < AIR_A_LITTLE then :"a_little_#{direction}"
-    else direction.to_sym
-    end
+  # The latest 30 days' average air temperature, and the dates they cover, or nil when we have none.
+  def air_recent
+    @recent&.temp_mean_c
+  end
+
+  def recent_dates
+    @recent.starts_on..@recent.ends_on if @recent
+  end
+
+  # What the average air temperature usually is over those dates: each day takes the usual for its month.
+  def air_recent_usual
+    return unless recent_dates
+
+    usuals = recent_dates.filter_map { |date| usual(:air)[date.month] }
+    (usuals.sum / usuals.size).round(1) if usuals.any?
+  end
+
+  def air_recent_difference
+    (air_recent - air_recent_usual).round(1) if air_recent && air_recent_usual
+  end
+
+  # :cooler, :a_little_cooler, :close, :a_little_warmer or :warmer than usual for the latest 30 days, or nil.
+  def air_recent_comparison
+    compare_air(air_recent_difference)
   end
 
   # The month number with the most or least of a measure, usually, and the figure: [month, value].
@@ -139,6 +160,17 @@ class PlaceClimate
   end
 
   private
+
+  # How far a difference in air temperature is from usual, as the symbol air_comparison gives, or nil with none.
+  def compare_air(difference)
+    return unless difference
+
+    direction = difference.negative? ? 'cooler' : 'warmer'
+    if difference.abs < AIR_CLOSE then :close
+    elsif difference.abs < AIR_A_LITTLE then :"a_little_#{direction}"
+    else direction.to_sym
+    end
+  end
 
   def average(values)
     (values.sum / values.size).round(1) if values.any?

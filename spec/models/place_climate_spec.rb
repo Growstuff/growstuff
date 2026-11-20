@@ -80,6 +80,45 @@ describe PlaceClimate do
     end
   end
 
+  describe 'the latest 30 days' do
+    subject(:climate) { described_class.new(months, today:, recent:) }
+
+    # From 20 June to 19 July: 11 days of a June that is usually 17 degrees and 19 of a July that is usually 9.
+    let(:recent) { build(:climate_recent, starts_on: Date.new(2026, 6, 20), ends_on: Date.new(2026, 7, 19), temp_mean_c: 13.4) }
+
+    it 'has the average' do
+      expect(climate.air_recent).to eq 13.4
+    end
+
+    it 'takes the usual for each day from its month' do
+      expect(climate.air_recent_usual).to eq 11.9
+    end
+
+    it 'finds the difference' do
+      expect(climate.air_recent_difference).to eq 1.5
+    end
+
+    it 'is warmer than usual for a difference over a degree' do
+      expect(climate.air_recent_comparison).to eq :warmer
+    end
+
+    it 'has the dates' do
+      expect(climate.recent_dates).to eq Date.new(2026, 6, 20)..Date.new(2026, 7, 19)
+    end
+
+    context 'with an average a little below usual' do
+      let(:recent) { build(:climate_recent, starts_on: Date.new(2026, 6, 20), ends_on: Date.new(2026, 7, 19), temp_mean_c: 11.4) }
+
+      it { expect(climate.air_recent_comparison).to eq :a_little_cooler }
+    end
+
+    context 'without the latest 30 days' do
+      let(:recent) { nil }
+
+      it { expect(climate.air_recent_comparison).to be_nil }
+    end
+  end
+
   describe 'the air temperature' do
     it 'averages this year so far, weighted by the days' do
       expect(climate.air_this_year).to eq 17.6

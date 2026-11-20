@@ -411,6 +411,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_20_000000) do
     t.index ["latitude", "longitude", "year", "month"], name: "index_climate_months_on_cell_year_and_month", unique: true
   end
 
+  create_table "climate_recents", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "days", null: false, comment: "How many of the days had an air temperature."
+    t.date "ends_on", null: false, comment: "The last day we had weather for."
+    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.date "starts_on", null: false, comment: "The first day of the 30."
+    t.float "temp_mean_c", comment: "The average of those days' mean air temperature."
+    t.datetime "updated_at", null: false
+    t.index ["latitude", "longitude"], name: "index_climate_recents_on_cell", unique: true
+  end
+
   create_table "climate_requests", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."

@@ -68,15 +68,16 @@ module WeatherInvitationHelper
       note: t('home.weather_invitation.ready.rain.note', percent: (climate.rain_share * 100).round) }
   end
 
+  # The temperature is for the last 30 days, not the year, so the front page says how it is going now.
   def weather_invitation_air(climate)
-    comparison = climate&.air_comparison
+    comparison = climate&.air_recent_comparison
     return unless comparison
 
-    difference = climate.air_difference
+    difference = climate.air_recent_difference
     key = if comparison == :close then 'note_close'
           else difference.negative? ? 'note_below' : 'note_above'
           end
-    { title: t("home.weather_invitation.ready.air.#{comparison}"),
-      note: t("home.weather_invitation.ready.air.#{key}", difference: difference.abs) }
+    title = t("home.weather_invitation.ready.recent_air.#{comparison}")
+    { title:, note: t("home.weather_invitation.ready.recent_air.#{key}", difference: difference.abs) }
   end
 end

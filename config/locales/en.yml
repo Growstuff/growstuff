@@ -376,6 +376,9 @@ en:
         soil_note: mean this month, top 7 cm
         warmest: Warmest month
       chart: Air temperature each month, this year and usually
+      recent_above: "In the 30 days from %{from} to %{to} the average was %{air} °C, which is %{difference} °C above the usual %{usual} °C for those dates."
+      recent_below: "In the 30 days from %{from} to %{to} the average was %{air} °C, which is %{difference} °C below the usual %{usual} °C for those dates."
+      recent_close: "In the 30 days from %{from} to %{to} the average was %{air} °C, close to the usual %{usual} °C for those dates."
       records: Records in the last %{count} years
       soil_chart: Soil temperature each month, this year and usually
       title: Temperature
@@ -1750,15 +1753,6 @@ en:
           note: compared with usual
           title: How wet this year has been
       ready:
-        air:
-          a_little_cooler: A little cooler than usual
-          a_little_warmer: A little warmer than usual
-          close: Close to usual this year
-          cooler: Cooler than usual
-          note_above: "%{difference} °C above the usual this year"
-          note_below: "%{difference} °C below the usual this year"
-          note_close: "%{difference} °C from the usual this year"
-          warmer: Warmer than usual
         frost:
           before_season: Usual frost danger starts %{date}
           in_season: Usual frost danger ends %{date}
@@ -1770,6 +1764,15 @@ en:
           drier: Drier than usual this year
           note: "%{percent}% of the usual by this date"
           wetter: Wetter than usual this year
+        recent_air:
+          a_little_cooler: A little cooler than usual lately
+          a_little_warmer: A little warmer than usual lately
+          close: Close to usual lately
+          cooler: Cooler than usual lately
+          note_above: "%{difference} °C above the usual over the last 30 days"
+          note_below: "%{difference} °C below the usual over the last 30 days"
+          note_close: "%{difference} °C from the usual over the last 30 days"
+          warmer: Warmer than usual lately
       see: See your place
       title: Weather at your place
     why_join:

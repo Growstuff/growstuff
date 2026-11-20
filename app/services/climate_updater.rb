@@ -128,8 +128,10 @@ class ClimateUpdater
     (requests.keys - known).map { |latitude, longitude| Cell.new(latitude, longitude, 0, nil) }
   end
 
+  # The cells whose latest months are a week old, and those with months but no average for the latest 30 days yet.
   def cells_to_refresh
     stale = ClimateMonth.group(:latitude, :longitude).having('MAX(updated_at) < ?', @today - STALE_DAYS).pluck(:latitude, :longitude)
+    stale |= ClimateMonth.distinct.pluck(:latitude, :longitude) - ClimateRecent.pluck(:latitude, :longitude)
     cells.select { |cell| stale.include?([cell.latitude, cell.longitude]) }
   end
 
@@ -148,6 +150,7 @@ class ClimateUpdater
     ClimateMonth.transaction do
       ClimateMonth.at(cell.latitude, cell.longitude).where('make_date(year, month, 1) >= ?', from).delete_all
       save_months(cell, daily)
+      save_recent(cell, daily)
     end
   end
 
@@ -186,6 +189,7 @@ class ClimateUpdater
       save_frost(cell, daily.transform_values { |day| day[:temp_min_c] }.compact)
       ClimateMonth.at(cell.latitude, cell.longitude).delete_all
       save_months(cell, daily)
+      save_recent(cell, daily)
     end
   end
 
@@ -193,6 +197,13 @@ class ClimateUpdater
     ClimateSummary.new(daily).months.each do |month|
       month.update!(latitude: cell.latitude, longitude: cell.longitude)
     end
+  end
+
+  # The average of the latest days, replacing the last one. Both fetches end on the latest day, so it is always among them.
+  def save_recent(cell, daily)
+    ClimateRecent.at(cell.latitude, cell.longitude).delete_all
+    recent = ClimateRecent.from_days(daily)
+    recent&.update!(latitude: cell.latitude, longitude: cell.longitude)
   end
 
   def save_frost(cell, minimums)

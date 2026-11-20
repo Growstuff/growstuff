@@ -14,6 +14,15 @@ describe "Planting reminder email" do
     { host: 'localhost', port: 8080 }
   end
 
+  # Two past years of 10 degrees in every month, and the last 30 days at the average given, in the member's weather cell.
+  def create_climate(recent_mean:)
+    [2024, 2025].each do |year|
+      (1..12).each { |month| create(:climate_month, latitude: -41.25, longitude: 174.75, year:, month:, temp_mean_c: 10.0) }
+    end
+    create(:climate_recent, latitude: -41.25, longitude: 174.75, starts_on: Time.zone.today - 30, ends_on: Time.zone.today - 1,
+                            temp_mean_c: recent_mean)
+  end
+
   it "has a greeting" do
     expect(mail).to have_content "Hello"
   end
@@ -76,6 +85,30 @@ describe "Planting reminder email" do
     it "gives the dates the weather is from" do
       date = Time.zone.today - 3
       expect(mail_body).to have_content "From #{date.day} #{date.strftime('%B')} to #{date.day} #{date.strftime('%B')}"
+    end
+
+    context "when the last 30 days were more than a degree warmer than usual" do
+      before { create_climate(recent_mean: 11.5) }
+
+      it "says how much warmer" do
+        expect(mail_body).to have_content "1.5 °C above the usual 10.0 °C for those dates"
+      end
+    end
+
+    context "when the last 30 days were more than a degree colder than usual" do
+      before { create_climate(recent_mean: 8.5) }
+
+      it "says how much colder" do
+        expect(mail_body).to have_content "1.5 °C below the usual 10.0 °C for those dates"
+      end
+    end
+
+    context "when the last 30 days were close to usual" do
+      before { create_climate(recent_mean: 10.2) }
+
+      it "leaves out the 30 days" do
+        expect(mail_body).to have_no_content "In the 30 days from"
+      end
     end
 
     context "when the readings have only a temperature" do
