@@ -30,14 +30,14 @@ describe "Display a planting", :js do
 
       it { expect(page).to have_text '28%' }
       it { expect(page).to have_text 'day 14 of 50' }
-      it { expect(page).to have_css '.planting-timeline-event', text: I18n.l(2.weeks.ago.to_date) }
+      it { expect(page).to have_css ".planting-timeline-event time[datetime='#{planting.planted_at.iso8601}']" }
       it { expect(page).to have_css '.planting-timeline-event--expected .planting-timeline-name', text: 'Finished' }
     end
 
     context 'Annual finished' do
       let(:planting) { create(:annual_planting, planted_at: 100.days.ago, finished: true, finished_at: 1.day.ago) }
 
-      it { expect(page).to have_css '.planting-timeline-event', text: I18n.l(planting.planted_at) }
+      it { expect(page).to have_css ".planting-timeline-event time[datetime='#{planting.planted_at.iso8601}']" }
     end
 
     context 'Planting with harvests' do

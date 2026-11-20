@@ -118,7 +118,7 @@ describe "Planting a crop", :js do
 
         expect(page).to have_content "planting was successfully created"
         expect(page).to have_no_content "0%"
-        expect(page).to have_css '.planting-timeline-event--expected', text: I18n.l(@a_future_date)
+        expect(page).to have_css ".planting-timeline-event--expected time[datetime='#{@a_future_date.iso8601}']"
         expect(page).to have_no_content "Finishes"
       end
 
@@ -225,7 +225,7 @@ describe "Planting a crop", :js do
       end
       expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "Finished"
-      expect(page).to have_content "2014-08-30"
+      expect(page).to have_css '.planting-timeline-event time[datetime="2014-08-30"]'
       expect(page).to have_content "4 of 5"
 
       # shouldn't be on the page
