@@ -12,15 +12,18 @@ module PredictPlanting
     end
 
     # dates
+
+    # When the planting is expected to finish: the day its crop's plantings usually finish, but never before the planting
+    # has had its harvests. The first comes from the heat the garden's weather gives it, so a crop that most people stop
+    # recording early still shows as growing until it has had the heat it needs. Nil when the crop has no usual finish.
+    # Every progress bar, badge and date for a planting's finish reads this one date.
     def finish_predicted_at
       return @finish_predicted_at if defined?(@finish_predicted_at)
 
-      @finish_predicted_at = if planted_at.blank? || failed?
+      @finish_predicted_at = if planted_at.blank? || failed? || median_finish_at.nil?
                                nil
-                             elsif crop.median_lifespan.present?
-                               planted_at + crop.median_lifespan.days
-                             elsif crop.parent.present? && crop.parent.median_lifespan.present?
-                               planted_at + crop.parent.median_lifespan.days
+                             else
+                               [median_finish_at, harvests_finish_at].compact.max
                              end
     end
 
@@ -30,10 +33,10 @@ module PredictPlanting
 
       @expected_lifespan = if actual_lifespan.present?
                              actual_lifespan
-                           elsif crop.median_lifespan.present?
-                             crop.median_lifespan
-                           elsif crop.parent.present? && crop.parent.median_lifespan.present?
-                             crop.parent.median_lifespan
+                           elsif finish_predicted_at.present?
+                             (finish_predicted_at - planted_at).to_i
+                           else
+                             median_lifespan_days
                            end
     end
 
@@ -116,6 +119,23 @@ module PredictPlanting
     end
 
     private
+
+    # The crop's median lifespan, or its parent's when the crop has none.
+    def median_lifespan_days
+      crop.median_lifespan.presence || crop.parent&.median_lifespan.presence
+    end
+
+    def median_finish_at
+      planted_at + median_lifespan_days.days if median_lifespan_days.present?
+    end
+
+    # The day the harvests we predict are done: the last of the heat-predicted first harvest and the median last
+    # harvest. Only for an annual, which is grown to a finish.
+    def harvests_finish_at
+      return unless crop.annual?
+
+      [heat_predicted_first_harvest_at, last_harvest_predicted_at].compact.max
+    end
 
     def calculate_percentage_grown
       return 0 if age_in_days.to_i < 0
