@@ -21,6 +21,10 @@ class Seed < ApplicationRecord
                    'traded from another person', 'my own seed saving', 'other/unknown'].freeze
   # A seed packet dated outside this is a typo, not a plan.
   PLANT_BEFORE_YEARS = (1900..2100)
+  # Four characters to write on a packet. The first is the crop's letter, so it
+  # is always a letter and O and I cannot be mistaken for 0 and 1. The other
+  # three leave out the look-alikes, as plantings' codes do.
+  SHORT_CODE_FORMAT = /\A[A-Z][2-9A-HJ-NP-Z]{3}\z/
 
   #
   # Relationships
@@ -52,12 +56,17 @@ class Seed < ApplicationRecord
   validates :how_to_sow, length: { maximum: 2_000 }
   validate :sow_months_are_months
 
+  before_validation :assign_short_code
+
   # What packets say about a crop is kept on the crop, and on the crop it is a variety of.
   after_commit :update_crop_medians, on: %i(create update destroy)
   validates :row_spacing, allow_nil:    true,
                           numericality: { only_integer: true, greater_than: 0 }
   validates :variety, :batch_number, length: { maximum: 100 }
   validate :plant_before_year_is_a_year
+  # Packets saved before codes existed have none, so a missing code is fine.
+  validates :short_code, allow_nil: true, format: { with: SHORT_CODE_FORMAT },
+                         uniqueness: { scope: :owner_id }
   validates :tradable_to, allow_blank: false,
                           inclusion:   { in: TRADABLE_TO_VALUES, message: :tradable_to_inclusion }
   validates :organic, allow_blank: false,
@@ -69,6 +78,27 @@ class Seed < ApplicationRecord
   validates :hardiness, inclusion: { in: HARDINESS_VALUES, message: :hardiness_inclusion }
   validates :source, allow_blank: true,
                      inclusion:   { in: SOURCE_VALUES, message: :source_inclusion }
+
+  # The crop's first letter and three random characters, such as T4K9 for a
+  # tomato. A crop whose name has no letter in A to Z gets a random letter. Not
+  # the same as any of the owner's plantings' codes, as one search box finds both.
+  def self.generate_short_code(owner: nil, crop: nil)
+    letter = short_code_letter(crop)
+    loop do
+      code = random_short_code(letter)
+      next if owner && [self, Planting].any? { |klass| klass.exists?(owner_id: owner.id, short_code: code) }
+
+      break code
+    end
+  end
+
+  def self.random_short_code(letter)
+    letter + Array.new(3) { Planting::SHORT_CODE_CHARS.sample }.join
+  end
+
+  def self.short_code_letter(crop)
+    I18n.transliterate(crop&.name.to_s)[/[A-Za-z]/]&.upcase || Planting::SHORT_CODE_CHARS.grep(/[A-Z]/).sample
+  end
 
   #
   # Photos
@@ -200,6 +230,11 @@ class Seed < ApplicationRecord
   end
 
   private
+
+  # Kept when the packet's crop is changed later, as it may already be written on the packet.
+  def assign_short_code
+    self.short_code ||= self.class.generate_short_code(owner:, crop:)
+  end
 
   def update_crop_medians
     return unless destroyed? || previously_new_record? || saved_changes.keys.intersect?(MEDIAN_FIELDS)

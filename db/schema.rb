@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_19_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_20_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1336,6 +1336,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_19_000000) do
     t.integer "quantity"
     t.integer "row_spacing", comment: "Centimetres between rows, as printed on the packet."
     t.date "saved_at"
+    t.string "short_code", limit: 10
     t.string "slug"
     t.integer "sow_months", default: [], null: false, comment: "The months, 1 to 12, the packet says to sow in. Empty when it says nothing.", array: true
     t.string "source"
@@ -1343,6 +1344,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_19_000000) do
     t.datetime "updated_at", precision: nil
     t.string "variety"
     t.index ["crop_id"], name: "index_seeds_on_crop_id"
+    t.index ["owner_id", "short_code"], name: "index_seeds_on_owner_id_and_short_code", unique: true
     t.index ["owner_id"], name: "index_seeds_on_owner_id"
     t.index ["parent_planting_id"], name: "index_seeds_on_parent_planting_id"
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
