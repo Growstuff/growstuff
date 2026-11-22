@@ -14,6 +14,8 @@ describe "photos/new" do
     end
     assign(:photos, photos)
     assign(:flickr_auth, create(:flickr_authentication, member: @member))
+    assign(:source, 'flickr')
+    assign(:sources, ['flickr'])
   end
 
   context "user has no photosets" do
@@ -69,6 +71,27 @@ describe "photos/new" do
 
     it "does not add a label to the search form" do
       assert_select "form input[name=label]", false
+    end
+  end
+
+  %i(en de es fr ja zh).each do |locale|
+    context "with the #{locale} locale" do
+      it 'offers to connect an account without Flickr authentication' do
+        assign(:flickr_auth, nil)
+        assign(:sources, %w(flickr mastodon))
+
+        I18n.with_locale(locale) { render }
+
+        expect(rendered).to have_button(I18n.t('photos.new.connect', locale: locale))
+      end
+
+      it 'offers to reconnect an expired Flickr account' do
+        assign(:please_reconnect_flickr, true)
+
+        I18n.with_locale(locale) { render }
+
+        expect(rendered).to have_button(I18n.t('photos.new.reconnect', locale: locale))
+      end
     end
   end
 end

@@ -3,20 +3,20 @@
     = f.hidden_field :conversation_id, value: @conversation.id
   - elsif @recipient.present?
     %p
-      To
+      = t('.to')
       = link_to @recipient, @recipient
       = render 'members/tiny', member: @recipient
     = f.hidden_field :recipient_id, value: @recipient.id
     - if @seed
       = f.hidden_field :seed_id, value: @seed.id
       %p
-        About
-        = link_to "#{@seed.crop_name} seeds", seed_path(@seed)
+        = t('.about')
+        = link_to t('.crop_seeds', crop: @seed.crop_name), seed_path(@seed)
     = f.text_field :subject, value: @subject, class: 'form-control', maxlength: 255, required: true
 
-  = f.text_area :body, value: @body, rows: 12, label: "Type your message here", required: true
+  = f.text_area :body, value: @body, rows: 12, label: t('.type_your_message'), required: true
   %span.form-text= render partial: "shared/markdown_help"
 
   .card-footer
-    = link_to 'cancel', conversations_path, class: 'btn'
-    .float-end= f.submit "Send", class: 'btn btn-primary'
+    = link_to t('.cancel'), conversations_path, class: 'btn'
+    .float-end= f.submit t('.send'), class: 'btn btn-primary'

@@ -1,0 +1,10 @@
+-# A yellow bar over the front page when there are jobs today or tomorrow, or
+-# job ideas to look at. Only while the job ideas feature is on for ideas.
+- dashboard = local_assigns[:dashboard] || MemberDashboard.new(current_member)
+- count = dashboard.jobs_today_or_tomorrow_count
+- if count.positive?
+  .home-ideas
+    = render 'jobs/ideas_banner', count: count, href: member_jobs_path(current_member), open: false,
+      text: t('home.dashboard.jobs_today', count: count), go: t('home.dashboard.jobs_today_go')
+- else
+  = render 'home/dashboard/ideas'

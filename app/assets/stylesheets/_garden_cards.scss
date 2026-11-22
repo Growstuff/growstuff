@@ -11,6 +11,7 @@ $garden-card-line: #e6e6e6;
   .garden-card-content {
     flex: 1;
     min-width: 0;
+    max-width: 100%;
   }
 
   .garden-card-section + .garden-card-section {
@@ -38,6 +39,36 @@ $garden-card-line: #e6e6e6;
     .chip {
       margin: 0 0.5rem 0.5rem 0;
     }
+  }
+
+  // Let long names shrink within their column without clipping the menu.
+  .garden-card-chips > *,
+  .planting-row-crop,
+  .planting-row-chip,
+  .planting-row-chip > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .crop-chip {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+
+    .crop-icon {
+      flex-shrink: 0;
+    }
+
+    &::after {
+      flex-shrink: 0;
+    }
+  }
+
+  .crop-chip-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
@@ -129,35 +160,6 @@ $garden-card-line: #e6e6e6;
   .planting-row-note {
     color: $garden-card-muted;
     font-size: 0.85rem;
-  }
-
-  .planting-progress .progress {
-    height: 0.5rem;
-    margin: 0;
-  }
-
-  // Ticks for harvests sit over the bar, a little taller than it (so they stand
-  // out from the fill), which is why they are not inside .progress, which clips.
-  .planting-progress-track {
-    position: relative;
-  }
-
-  .harvest-tick {
-    position: absolute;
-    top: -3px;
-    bottom: -3px;
-    width: 3px;
-    margin-left: -1px;
-    border-radius: 1px;
-    background: #3e2723;
-  }
-
-  .planting-progress-labels {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.15rem;
-    color: $garden-card-muted;
-    font-size: 0.8rem;
   }
 }
 

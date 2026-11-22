@@ -1,6 +1,6 @@
 -# With readonly there is nothing to change: no tick box, no dragging, no editing.
 - readonly = local_assigns[:readonly]
-.notepad-job{ class: ('done' if job.finished), draggable: (readonly ? nil : 'true'), data: (readonly ? {} : { url: job_path(job), id: job.id }) }
+.notepad-job{ class: ('done' if job.finished), draggable: (readonly ? nil : 'true'), data: (readonly ? {} : { url: job_path(job), id: job.id, due_date: job.due_date.to_s }) }
   - unless readonly
     - label = t(job.finished ? 'jobs.pad.uncross' : 'jobs.pad.cross_off', job: job.name)
     = button_to '', job_path(job), method: :patch, params: { job: { finished: job.finished ? 0 : 1 } },

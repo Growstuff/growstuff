@@ -21,6 +21,7 @@ describe "footer" do
       expect(page).to have_link 'Community Guidelines', href: '/policy/community'
       expect(page).to have_link 'Support', href: '/support'
       expect(page).to have_link 'Contact', href: '/about/contact'
+      expect(page).to have_link 'Donate - Buy us a coffee', href: 'https://ko-fi.com/jennyscottthompson'
     end
   end
 end

@@ -10,9 +10,11 @@ class CropsController < ApplicationController
   responders :flash
 
   def index
-    @crops = Crop.search_by_name(nil).paginate(page: params[:page], per_page: 100)
+    @filter = CropFilter.new(current_member, params)
+    @crops = @filter.apply(Crop.search_by_name(nil)).paginate(page: params[:page], per_page: 100)
     if request.format.csv? || request.format.rss?
-      @crops = @crops.includes(:parent, :scientific_names, :seeds, :harvests, :creator, :plantings)
+      @crops = @crops.includes(:parent, :scientific_names, :creator)
+      @seed_counts = Seed.where(crop_id: @crops.map(&:id)).group(:crop_id).count
     end
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
@@ -47,6 +49,16 @@ class CropsController < ApplicationController
 
   def search
     @term = params[:term]
+
+    # To be further split: As we add more short codes and this becomes a 'find anything' search box,
+    # move to own controller.
+    if request.format.html? && current_member
+      planting = current_member.plantings.find_by(short_code: @term) if @term.to_s.match?(/\A[2-9A-HJ-NP-Z]{4}\z/)
+      return redirect_to planting_path(planting) if planting
+
+      seed = current_member.seeds.find_by(short_code: @term) if @term.to_s.match?(Seed::SHORT_CODE_FORMAT)
+      return redirect_to seed_path(slug: seed.slug) if seed
+    end
 
     @crops = CropSearchService.search(@term,
                                       page:           params[:page],
@@ -260,8 +272,9 @@ class CropsController < ApplicationController
 
   def crop_params
     params.require(:crop).permit(
+      *(:hardiness_by_hand if can?(:wrangle, Crop)),
       :name, :en_wikipedia_url, :en_youtube_url,
-      :parent_id, :perennial, :icon,
+      :parent_id, :perennial, :harvest_style, :icon,
       :request_notes, :reason_for_rejection,
       :rejection_notes,
       :description,

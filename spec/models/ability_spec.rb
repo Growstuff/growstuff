@@ -295,6 +295,20 @@ describe Ability do
         ability.should be_able_to(:destroy, job_in_garden)
       end
     end
+
+    context 'garden owner' do
+      let(:garden) { create(:garden, owner: member) }
+      let(:collaborator) { create(:member) }
+      let(:job_in_garden) { create(:job, owner: collaborator, garden:) }
+
+      it 'can update jobs in their garden created by collaborators' do
+        ability.should be_able_to(:update, job_in_garden)
+      end
+
+      it 'can destroy jobs in their garden created by collaborators' do
+        ability.should be_able_to(:destroy, job_in_garden)
+      end
+    end
   end
 
   context 'seeds' do
@@ -341,6 +355,30 @@ describe Ability do
 
     it 'can create a photo' do
       ability.should be_able_to(:create, Photo)
+    end
+
+    context 'when a crop wrangler' do
+      let(:member) { create(:crop_wrangling_member) }
+
+      it 'can delete a photo from Flickr that cropbot owns' do
+        ability.should be_able_to(:destroy, create(:photo, author_name: 'Pat Photo'))
+      end
+
+      it 'can refresh any photo' do
+        ability.should be_able_to(:refresh, other_photo)
+      end
+
+      it "cannot delete another member's own photo" do
+        ability.should_not be_able_to(:destroy, other_photo)
+      end
+    end
+
+    it 'can refresh their own photo' do
+      ability.should be_able_to(:refresh, photo)
+    end
+
+    it "cannot refresh another member's photo" do
+      ability.should_not be_able_to(:refresh, other_photo)
     end
 
     it 'can manage their own photo' do

@@ -23,6 +23,11 @@ module PredictHarvest
       @first_harvest_predicted_at = heat_predicted_first_harvest_at || days_predicted_first_harvest_at
     end
 
+    # Days from planting to when the first harvest is expected, if it is.
+    def predicted_days_to_first_harvest
+      (first_harvest_predicted_at.to_date - planted_at.to_date).to_i if first_harvest_predicted_at
+    end
+
     def last_harvest_predicted_at
       return @last_harvest_predicted_at if defined?(@last_harvest_predicted_at)
 
@@ -91,6 +96,23 @@ module PredictHarvest
       end
     end
 
+    # The growing degree days this planting has had, from the day it was planted to its last day of weather so far,
+    # or nil for a perennial, which isn't grown to a harvest by heat, or when it has no planting date, no place
+    # for the weather, no temperatures were collected for its days, or it hasn't been planted yet. A cold season adds
+    # up to a low number, but missing weather isn't zero.
+    def heat_so_far
+      return if crop.perennial || planted_at.blank? || !weather_located? || planned?
+
+      readings = weather_cell_readings.select(*WeatherReading::CHARTED).between(planted_at, weather_last_day)
+                                      .select { |reading| reading.temp_max_c && reading.temp_min_c }
+      GrowingDegreeDays.new(base: heat_base).total(readings).round if readings.any?
+    end
+
+    # The growing degree days the crop needs to a first harvest: the figure a wrangler set, else EcoCrop's, else nil.
+    def heat_needed
+      (crop.growing_degree_days_figure || crop.ecocrop_heat_data&.first_harvest_degree_days)&.round
+    end
+
     private
 
     def harvests_with_dates
@@ -102,6 +124,11 @@ module PredictHarvest
       planted_at + crop.median_days_to_first_harvest.days if crop.median_days_to_first_harvest.present? && planted_at.present?
     end
 
+    # The temperature below which this crop barely grows.
+    def heat_base
+      crop.ecocrop_heat_data&.tmin || CropDuration::DEFAULT_BASE
+    end
+
     # When the heat this crop needs for a first harvest has been felt in the garden's weather, so far
     # and as expected, or nil when we don't know the heat it needs or have no weather for the garden.
     def heat_predicted_first_harvest_at
@@ -111,9 +138,11 @@ module PredictHarvest
       Rails.cache.fetch("#{cache_key_with_version}/heat_predicted_first_harvest_at", expires_in: 8.hours) do
         degree_days = GrowingDegreeDays.new(base: heat.tmin)
         observed = weather_cell_readings.select(*WeatherReading::CHARTED).between(planted_at, Time.zone.today).order(:date).to_a
+        # Without a reading yet, ask from the day before planting: the default would ask when the planting is due, which
+        # depends on this date.
+        to_come = projected_weather_readings(after: observed.last&.date || (planted_at - 1), through: planted_at + heat.gmax)
         degree_days.date_reaching(heat.first_harvest_degree_days, observed) ||
-          degree_days.date_reaching(heat.first_harvest_degree_days,
-                                    observed + expected_weather_readings(after: observed.last&.date, through: planted_at + heat.gmax))
+          degree_days.date_reaching(heat.first_harvest_degree_days, observed + to_come)
       end
     end
   end

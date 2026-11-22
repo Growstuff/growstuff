@@ -2,15 +2,17 @@
 
 # When a template's jobs would fall for someone who plants a crop out on a day.
 # Used to preview a template. Sowing is taken to be the same day, and the first
-# harvest is worked out from the crop's median days to first harvest, if known.
+# harvest is the day given for a planting that has one, or else worked out from the
+# crop's median days to first harvest, if known.
 class CropJobSchedule
   Entry = Struct.new(:step, :date, :past) do
     alias_method :past?, :past
   end
 
-  def initialize(template, planting_out_on:, today: Time.zone.today)
+  def initialize(template, planting_out_on:, first_harvest_on: nil, today: Time.zone.today)
     @template = template
     @planting_out_on = planting_out_on
+    @first_harvest_on = first_harvest_on
     @today = today
   end
 
@@ -29,10 +31,14 @@ class CropJobSchedule
   def anchor_date(anchor)
     case anchor
     when 'first_harvest'
-      days = @template.crop.median_days_to_first_harvest
-      @planting_out_on + days.days if days
+      @first_harvest_on || median_first_harvest_on
     else
       @planting_out_on
     end
+  end
+
+  def median_first_harvest_on
+    days = @template.crop.median_days_to_first_harvest
+    @planting_out_on + days.days if days
   end
 end

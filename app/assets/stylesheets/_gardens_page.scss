@@ -209,10 +209,11 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
   @media (max-width: 767px) {
     .garden-card-body {
       flex-direction: column;
+      align-items: stretch;
     }
 
     .planting-row {
-      grid-template-columns: 44px 1fr;
+      grid-template-columns: 44px minmax(0, 1fr);
 
       .planting-row-status {
         grid-column: 1 / -1;
@@ -432,12 +433,6 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
       height: 16px;
     }
   }
-
-  // Beside a fact's name the pencil stays small, as in the design.
-  .fact-card h3 .edit-link .editable .menu-icon {
-    width: 12px;
-    height: 12px;
-  }
 }
 
 // The garden's photo leads the panel, edge to edge across the top.
@@ -638,13 +633,6 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     a {
       font-size: 13px;
     }
-  }
-
-  .garden-temperatures {
-    margin: 0;
-    padding-top: 10px;
-    border-top: 1px solid rgba(65, 63, 59, 0.15);
-    font-size: 13px;
   }
 
   .garden-gardens .section-header {

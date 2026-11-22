@@ -1,0 +1,25 @@
+-# Who took the photo, when they are a member: their name, where they are, and how
+-# much they grow.
+%section.photo-panel
+  %h2.photo-panel-head= t('.heading')
+  .photo-panel-body
+    .photo-photographer
+      = render 'photos/initial', member: member, size: 'large'
+      .photo-photographer-name
+        = link_to member.login_name, member_path(member), class: 'photo-photographer-link'
+        %small.text-muted
+          - if member.location.present?
+            = link_to member.location, place_path(member.location), class: 'text-reset'
+            &middot;
+          = t('.joined', time: time_ago_in_words(member.created_at))
+    .photo-photographer-stats
+      = link_to member_plantings_path(member), class: 'photo-stat' do
+        %strong= member.plantings.count
+        = t('.plantings')
+      = link_to member_harvests_path(member), class: 'photo-stat' do
+        %strong= member.harvests.count
+        = t('.harvests')
+      = link_to member_seeds_path(member), class: 'photo-stat' do
+        %strong= member.seeds.count
+        = t('.seeds')
+    = link_to t('.gardens', name: member.login_name), member_gardens_path(member), class: 'btn btn-primary'

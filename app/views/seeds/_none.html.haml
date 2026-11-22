@@ -1,13 +1,16 @@
 -# A crop chosen with nothing in it. Says where it looked, and where else to try.
 .seed-none
-  %h2 No #{@search_crop.name} seeds #{@owner ? "from #{@owner}" : 'here'}
+  - if @owner
+    %h2= t('.title_from_owner', crop: @search_crop.name, owner: @owner)
+  - else
+    %h2= t('.title_here', crop: @search_crop.name)
   %p
     - if @other_count.positive?
       = render 'seeds/other_tab'
     - else
-      We looked in stock and in finished packets.
+      = t('.looked_everywhere')
   .seed-none-actions
     - if @owner.blank? || @owner == current_member
-      = link_to "Add #{@search_crop.name} seeds", new_seed_path(crop_id: @search_crop.id), class: 'btn btn-primary', data: { record_dialog: 'seeds', crop_id: @search_crop.id, crop_name: @search_crop.name }
+      = link_to t('.add_seeds', crop: @search_crop.name), new_seed_path(crop_id: @search_crop.id), class: 'btn btn-primary', data: { record_dialog: 'seeds', crop_id: @search_crop.id, crop_name: @search_crop.name }
     - if @owner.present?
-      = link_to "See #{@search_crop.name} seeds from everyone", seeds_path(crop: @search_crop.slug), class: 'btn btn-outline-primary'
+      = link_to t('.see_everyone', crop: @search_crop.name), seeds_path(crop: @search_crop.slug), class: 'btn btn-outline-primary'

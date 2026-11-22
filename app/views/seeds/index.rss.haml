@@ -2,21 +2,21 @@
 %rss{ version: 2.0 }
   %channel
     %title
-      Recent seeds from #{@owner ||= 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})
+      = t('seeds.ui.feed_title', owner: @owner || t('seeds.ui.all_members'), site_name: ENV['GROWSTUFF_SITE_NAME'])
     %link= seeds_url
     - @seeds.each do |seed|
       %item
-        %title #{seed.owner_login_name}'s #{seed.crop_name} seeds
+        %title= t('seeds.ui.record_title', owner: seed.owner_login_name, crop: seed.crop_name)
         %pubdate= seed.created_at.to_fs(:rfc822)
         %description
           :escaped
-            <p>Quantity: #{seed.quantity ||= 'unknown' }</p>
-            <p>Plant before: #{seed.plant_before_year || 'unknown'}</p>
-            <p>Organic? #{seed.organic}</p>
-            <p>GMO? #{seed.gmo}</p>
-            <p>Heirloom? #{seed.heirloom}</p>
+            <p>#{t('seeds.ui.feed_field', label: t('seeds.ui.quantity'), value: seed.quantity || t('seeds.ui.unknown'))}</p>
+            <p>#{t('seeds.ui.feed_field', label: t('seeds.ui.plant_before'), value: seed.plant_before_year || t('seeds.ui.unknown'))}</p>
+            <p>#{t('seeds.ui.feed_field', label: t('seeds.ui.organic'), value: seed.organic)}</p>
+            <p>#{t('seeds.ui.feed_field', label: t('seeds.ui.gmo'), value: seed.gmo)}</p>
+            <p>#{t('seeds.ui.feed_field', label: t('seeds.ui.heirloom'), value: seed.heirloom)}</p>
           - if seed.tradable
             :escaped
-              <p>Will trade #{seed.tradable_to} from #{seed.location || 'unknown location'}</p>
+              <p>#{t('seeds.ui.feed_trade', trade_scope: t("seeds.ui.trade_scopes.#{seed.tradable_to}"), location: seed.location || t('seeds.ui.unknown_location'))}</p>
         %link= seed_url(slug: seed.slug)
         %guid= seed_url(slug: seed.slug)

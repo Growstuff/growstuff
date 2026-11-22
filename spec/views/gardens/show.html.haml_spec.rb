@@ -35,7 +35,16 @@ describe "gardens/show" do
     end
 
     it 'lists the actions in the order the design has them' do
-      expect(rendered).to match(/Edit.*Add photo from Flickr.*Plant something here.*New job.*Make this a nursery.*Mark as inactive/m)
+      actions = Nokogiri::HTML(rendered).css('.garden-actions .dropdown-menu > a.dropdown-item').pluck('href')
+
+      expect(actions.first(6)).to eq([
+        edit_garden_path(@garden),
+        view.new_photo_path_for(@garden),
+        new_planting_path(garden_id: @garden.id),
+        new_job_path(garden_id: @garden.id),
+        make_nursery_garden_path(@garden),
+        garden_path(@garden, garden: { active: 0 })
+      ])
     end
 
     it 'leaves out the sign-up banner' do
@@ -262,8 +271,8 @@ describe "gardens/show" do
       render
     end
 
-    it 'shows both temperatures on one line' do
-      assert_select '.garden-temperatures', text: /hottest 31\.4°C, coldest 3\.1°C/
+    it 'does not show the legacy temperature summary' do
+      assert_select '.garden-temperatures', count: 0
     end
   end
 
@@ -479,6 +488,73 @@ describe "gardens/show" do
       render
 
       assert_select ".garden-layout-section", count: 0
+    end
+  end
+
+  context 'when the garden is frost protected' do
+    before do
+      owner = create(:member)
+      controller.stub(:current_user) { owner }
+      allow(view).to receive_messages(member_signed_in?: true, current_member: owner)
+      assign(:garden, create(:garden, owner:, frost_safe: true))
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'says so' do
+      expect(rendered).to have_css '.garden-frost-protected'
+    end
+  end
+
+  context 'when the garden is a nursery' do
+    let(:owner) { create(:member) }
+    let(:garden) { create(:garden, owner:, nursery: true) }
+
+    before do
+      controller.stub(:current_user) { owner }
+      allow(view).to receive_messages(member_signed_in?: true, current_member: owner)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'shows the nursery badge' do
+      assert_select '.badge.text-bg-success', text: I18n.t('gardens.header.nursery')
+    end
+
+    it 'shows the nursery hint' do
+      expect(rendered).to have_content I18n.t('gardens.header.nursery_hint')
+    end
+  end
+
+  context 'when the garden is inactive and viewed by its owner' do
+    let(:owner) { create(:member) }
+    let(:garden) { create(:inactive_garden, owner:) }
+
+    before do
+      controller.stub(:current_user) { owner }
+      allow(view).to receive_messages(member_signed_in?: true, current_member: owner)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'shows the localized inactive warning notice' do
+      expect(rendered).to have_content I18n.t('gardens.show.inactive_notice')
+    end
+
+    it 'shows the localized set to active link' do
+      assert_select '.alert.alert-warning a[href=?]', edit_garden_path(garden), text: I18n.t('gardens.show.set_active')
+    end
+
+    it 'shows the localized to plant message' do
+      expect(rendered).to have_content I18n.t('gardens.show.to_plant')
     end
   end
 end

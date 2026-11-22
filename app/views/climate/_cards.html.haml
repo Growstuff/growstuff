@@ -1,0 +1,7 @@
+-# Figures under a chart, as { label:, value:, note: }.
+.climate-cards
+  - cards.each do |card|
+    .climate-card
+      .climate-card-label= card[:label]
+      .climate-card-value= card[:value]
+      .climate-card-note= card[:note]

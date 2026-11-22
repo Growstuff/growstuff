@@ -1,0 +1,75 @@
+- content_for :title, t('.title')
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item.active= t('.title')
+
+%h1= t('.title')
+%p.text-muted= t('.intro', matched: @counts[:matched], total: @counts[:all])
+
+%p.text-muted= t('.how_to_link')
+
+%ul.nav.nav-tabs.mb-3
+  %li.nav-item
+    = link_to t('.all'), admin_ecocrop_data_path(q: @query.presence), class: "nav-link #{'active' if @filter.nil?}"
+  - Admin::EcocropDataController::FILTERS.each do |filter|
+    %li.nav-item
+      = link_to t(".#{filter}"), admin_ecocrop_data_path(filter:, q: @query.presence),
+                class: "nav-link #{'active' if @filter == filter}"
+
+= form_with url: admin_ecocrop_data_path, method: :get, class: 'row g-2 mb-3' do |form|
+  = hidden_field_tag :filter, @filter if @filter
+  .col-md-6
+    = form.search_field :q, value: @query, class: 'form-control', placeholder: t('.search_placeholder'), 'aria-label': t('.search_placeholder')
+  .col-auto
+    = form.submit t('.search'), class: 'btn btn-primary', name: nil
+
+- if @records.empty?
+  %p= t('.none')
+- else
+  %table.table.ecocrop-data-table
+    %thead
+      %tr
+        %th= t('.scientific_name')
+        %th= t('.common_names')
+        %th= t('.heat_data')
+        %th= t('.crops')
+        %th
+    %tbody
+      - @records.each do |record|
+        %tr
+          %td
+            %em= record.scientificname
+            %small.text-muted= record.ecoportcode
+          %td
+            .d-flex.flex-wrap.gap-1
+              - Array(record.comname).first(5).each do |name|
+                = link_name_button(record, name)
+          %td= record.heat_data? ? t('.yes_heat_data') : t('.no_heat_data')
+          %td
+            - if record.crops.empty?
+              %span.text-muted= t('.unmatched_crop')
+              - @suggestions.fetch(record.id, []).each do |crop|
+                = button_to admin_link_ecocrop_data_path(record), params: { crop_id: crop.id }, class: 'btn btn-success btn-sm mt-1 d-block',
+                            title: t('.suggestion_title', crop: crop.name, record: record.scientificname) do
+                  = t('.suggestion', crop: crop.name)
+            - else
+              - record.crops.sort_by(&:name).each do |crop|
+                %div
+                  = link_to crop.name, crop
+                  = button_to t('.unlink'), admin_link_ecocrop_data_path(record), method: :delete, params: { crop_id: crop.id },
+                              class: 'btn btn-link btn-sm p-0 ms-1', form_class: 'd-inline'
+                  - missing = record.new_common_names_for(crop).size
+                  - if missing.positive?
+                    %button.btn.btn-link.btn-sm.p-0.ms-1{ type: 'button', data: ecocrop_link_data(record, crop:) }
+                      = t('.copy_names', count: missing)
+          %td
+            %button.btn.btn-outline-primary.btn-sm{ type: 'button', data: ecocrop_link_data(record) }
+              = t('.link')
+            - if record.crops.empty?
+              %button.btn.btn-outline-secondary.btn-sm.mt-1{ type: 'button', data: ecocrop_create_data(record) }
+                = t('.create_crop')
+  = will_paginate @records
+
+= render 'link_modal'
+= render 'create_modal'

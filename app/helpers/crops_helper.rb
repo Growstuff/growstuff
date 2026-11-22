@@ -11,11 +11,11 @@ module CropsHelper
   # the median of members' seed packets.
   def growing_facts(crop)
     [
-      { title: 'Row Spacing', set: growing_cm(crop.row_spacing.presence), median: growing_cm(crop.median_row_spacing) },
-      { title:  'Germination',
+      { title: I18n.t('crops.growing_facts.row_spacing'), set: growing_cm(crop.row_spacing.presence), median: growing_cm(crop.median_row_spacing) },
+      { title:  I18n.t('crops.growing_facts.germination'),
         set:    growing_days(crop.germination_days_min, crop.germination_days_max),
         median: growing_days(crop.median_germination_days_min, crop.median_germination_days_max) },
-      { title:  'Days until maturity',
+      { title:  I18n.t('crops.growing_facts.days_until_maturity'),
         set:    growing_days(crop.days_until_maturity_min, crop.days_until_maturity_max),
         median: growing_days(crop.median_days_until_maturity_min, crop.median_days_until_maturity_max) }
     ]
@@ -24,10 +24,11 @@ module CropsHelper
   # How big the plant gets, as one fact: "10cm × 5cm" under "Height × spread", or just the one
   # of them when only one is known; nil when neither is.
   def size_fact(crop)
-    sizes = { 'Height' => crop.height, 'Spread' => crop.spread }.compact_blank
+    sizes = { I18n.t('crops.predictions.height') => crop.height, I18n.t('crops.predictions.spread') => crop.spread }.compact_blank
     return if sizes.empty?
 
-    { title: sizes.size == 2 ? 'Height × spread' : sizes.keys.first, value: sizes.values.map { |value| "#{value}cm" }.join(' × ') }
+    title = sizes.size == 2 ? I18n.t('crops.predictions.height_spread') : sizes.keys.first
+    { title: title, value: sizes.values.map { |value| "#{value}cm" }.join(' × ') }
   end
 
   # "45cm" or "37.5cm"; nil when there is none.

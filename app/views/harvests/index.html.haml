@@ -1,12 +1,12 @@
 - content_for(:title) do
   = title('harvests', @owner, @crop, @planting)
-- content_for :meta_description, "Browse and search for harvests."
+- content_for :meta_description, t('harvests.listing.meta_description')
 - content_for :breadcrumbs do
   - if @owner
-    %li.breadcrumb-item= link_to 'Harvests', harvests_path
-    %li.breadcrumb-item.active= link_to "#{@owner}'s harvests", member_harvests_path(@owner)
+    %li.breadcrumb-item= link_to t('harvests.breadcrumbs.harvests'), harvests_path
+    %li.breadcrumb-item.active= link_to t('harvests.breadcrumbs.owner_harvests', owner: @owner), member_harvests_path(@owner)
   - else
-    %li.breadcrumb-item.active= link_to "Harvests", harvests_path
+    %li.breadcrumb-item.active= link_to t('harvests.breadcrumbs.harvests'), harvests_path
 .row
   .col-md-2
     %h1

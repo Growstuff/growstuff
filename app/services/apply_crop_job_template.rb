@@ -20,7 +20,8 @@ class ApplyCropJobTemplate
   def pending
     return [] if @planting.planted_at.blank?
 
-    schedule = CropJobSchedule.new(@template, planting_out_on: @planting.planted_at.to_date, today: @today)
+    schedule = CropJobSchedule.new(@template, planting_out_on: @planting.planted_at.to_date,
+                                              first_harvest_on: @planting.first_harvest_predicted_at&.to_date, today: @today)
     schedule.entries.select { |entry| entry.date && !entry.past? && applied_step_ids.exclude?(entry.step.id) }
   end
 

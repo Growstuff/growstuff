@@ -48,6 +48,8 @@ class GardensController < DataController
       id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
     ).order(:name)
     @photo_count = @garden.photos.count
+    # Behind the planting_weather feature switch, with the planting's weather. A nursery has no climate of its own to show.
+    load_weather if Feature.enabled?(:planting_weather, current_member) && !@garden.nursery?
     @photos = @garden.photos.includes(:owner).order(created_at: :desc, id: :desc).limit(PHOTOS_SHOWN)
     @suggestion_count = MemberDashboard.new(current_member).easy_to_sow(40).size if @garden.active && @garden.owner == current_member
     respond_with(@garden)
@@ -152,17 +154,14 @@ class GardensController < DataController
     redirect_to @garden, notice: t('gardens.nursery_stopped')
   end
 
-  def fetch_wikidata
-    if @garden.populate_wikidata_info
-      @garden.save
-      flash[:notice] = "Wikidata information updated."
-    else
-      flash[:alert] = "Could not find Wikidata information for this location."
-    end
-    redirect_to @garden
-  end
-
   private
+
+  # Use the garden's own weather cell, as the place page does, rather than Wikidata's city records.
+  def load_weather
+    @frost = FrostSeason.for(@garden)
+    @climate = PlaceClimate.for(@garden)
+    ClimateRequest.record(@garden) if member_signed_in? && !@climate
+  end
 
   # A member who can look after the garden gets a to-do list of their own jobs
   # for it. Everyone else sees the jobs people have planned there, as cards.
@@ -318,9 +317,8 @@ class GardensController < DataController
 
   def garden_params
     params.require(:garden).permit(
-      :name, :slug, :description, :active,
+      :name, :slug, :description, :active, :frost_safe,
       :area, :area_unit, :garden_type_id,
-      :lowest_temp_c, :highest_temp_c,
       :grid_columns, :grid_rows
     )
   end

@@ -29,7 +29,7 @@ describe 'Adding a photo as JSON' do
         choose_photos
 
         expect(response).to have_http_status(:ok)
-        expect(response.parsed_body).to eq('state' => 'connect', 'connect_url' => '/members/auth/flickr')
+        expect(response.parsed_body).to include('state' => 'connect', 'connect_url' => '/members/auth/flickr')
       end
 
       it 'says to reconnect when the Flickr token has gone stale' do
@@ -56,6 +56,25 @@ describe 'Adding a photo as JSON' do
                                   'sets' => [{ 'id' => '77', 'title' => 'Spring' }])
           expect(body['photos'].first).to include('id' => '1234', 'title' => 'Cabbage')
           expect(body['photos'].first['thumb_url']).to start_with('https://')
+        end
+
+        it 'defaults to Flickr' do
+          choose_photos
+          expect(response.parsed_body['source']).to eq 'flickr'
+        end
+
+        it 'offers only the connected Flickr source' do
+          choose_photos
+          expect(response.parsed_body['sources']).to eq ['flickr']
+        end
+
+        context 'with Mastodon also connected' do
+          before { create(:mastodon_authentication, member:) }
+
+          it 'offers both connected sources' do
+            choose_photos
+            expect(response.parsed_body['sources']).to eq %w(flickr mastodon)
+          end
         end
       end
     end
@@ -97,7 +116,7 @@ describe 'Adding a photo as JSON' do
 
       expect { add_photo }.not_to(change(Photo, :count))
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.parsed_body['errors']).to have_key('title')
     end
   end

@@ -3,22 +3,11 @@
 module SeedsHelper
   include SeedFiltersHelper
 
-  def display_seed_quantity(seed)
-    if seed.quantity.nil?
-      'seeds'
-    else
-      pluralize(seed.quantity, 'seed')
-    end
-  end
+  # A packet's code is for its owner to write on it, so nobody else is shown it.
+  def seed_code_visible?(seed)
+    return false unless current_member && Feature.enabled?(:planting_codes, current_member)
 
-  def display_seed_description(seed)
-    if seed.description.present?
-      return truncate(seed.description, length: 130, separator: ' ', omission: '... ') do
-        link_to "Read more", seed_path(seed)
-      end
-    end
-
-    ''
+    seed.short_code.present? && seed.owner_id == current_member.id
   end
 
   # Kilometres from the signed-in member to a seed's owner, or nil when either

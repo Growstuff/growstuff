@@ -33,6 +33,12 @@ Rails.application.configure do
   # Store uploaded files on the local file system in a temporary directory
   config.active_storage.service = :test
 
+  # Public, test-only keys: CI must exercise encrypted attributes without access
+  # to deployment credentials. Never use these keys outside the test environment.
+  config.active_record.encryption.primary_key = 'test-primary-key-0000000000000000'
+  config.active_record.encryption.deterministic_key = 'test-deterministic-key-00000000000'
+  config.active_record.encryption.key_derivation_salt = 'test-key-derivation-salt-00000000'
+
   config.action_mailer.perform_caching = false
 
   # Tell Action Mailer not to deliver emails to the real world.

@@ -63,4 +63,21 @@ describe 'Layout on a phone', :js, :phone do
 
     it_behaves_like 'fits the screen'
   end
+
+  context 'with editable planting observations' do
+    let(:planting) { create(:planting, owner: member, garden: member.gardens.first, planted_at: 10.days.ago) }
+    let(:menu_control) { find('.observation-actions .record-actions-toggle').native.rect }
+
+    before do
+      create(:observation, planting:, kind: 'disease_observed', description: 'Moth predation')
+      login_as member
+      visit planting_path(planting)
+    end
+
+    it_behaves_like 'fits the screen'
+
+    it 'keeps the actions menu button compact' do
+      expect(menu_control.width).to be <= 44
+    end
+  end
 end

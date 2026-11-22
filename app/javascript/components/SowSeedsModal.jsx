@@ -41,7 +41,8 @@ function Choices({id, legend, choices, value, onChange}) {
 // "Sow seeds", in steps: which seeds (a packet of your own, new seeds, or
 // seedlings you were given), then where and when, then any notes. Choosing the
 // seeds goes straight on to the next step. Sowing from a packet takes the seeds
-// out of it.
+// out of it. With no nursery (a new member's first planting) they go straight
+// into a garden, and the choice of where is left out.
 export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}) {
   const [step, setStep] = useState(1);
   const [source, setSource] = useState(seeds.length > 0 ? 'mine' : 'new');
@@ -50,7 +51,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
   const [crop, setCrop] = useState(null);
   const [when, setWhen] = useState('today');
   const [customDate, setCustomDate] = useState('');
-  const [where, setWhere] = useState('nursery');
+  const [where, setWhere] = useState(nursery ? 'nursery' : 'garden');
   const [gardenId, setGardenId] = useState(gardens.length > 0 ? String(gardens[0].id) : '');
   const [quantity, setQuantity] = useState(6);
   const [note, setNote] = useState('');
@@ -140,7 +141,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
           </div>
           <h3 className="h5">Where in the garden did you put them?</h3>
           <p>Add it to the garden layout to remember where it is. You can do this later from the garden.</p>
-          <a className="btn btn-success" href={`/gardens/${placing.garden.slug}/layout`}>Place on the garden layout</a>{' '}
+          <a className="btn btn-success" href={placing.garden.layout_path}>Place on the garden layout</a>{' '}
           <button type="button" className="btn btn-outline-success" onClick={() => onSown(placing.saved)}>Not now</button>
         </div>
       </Modal>
@@ -185,18 +186,22 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
                 onDate={(event) => setCustomDate(event.target.value)}
                 hint={sownOn > today ? 'Seeds can only be sown up to today.' : sownOn}
               />
-              <Choices
-                id="sow-where"
-                legend="Where are you sowing them?"
-                choices={[['nursery', 'Into the nursery'], ['garden', 'Straight into a garden']]}
-                value={where}
-                onChange={setWhere}
-              />
-              <p className="form-text">
-                {where === 'nursery'
-                  ? 'They stay in the nursery as seedlings until you transplant them.'
-                  : 'They go in as a planting, with no nursery stage.'}
-              </p>
+              {nursery && (
+                <>
+                  <Choices
+                    id="sow-where"
+                    legend="Where are you sowing them?"
+                    choices={[['nursery', 'Into the nursery'], ['garden', 'Straight into a garden']]}
+                    value={where}
+                    onChange={setWhere}
+                  />
+                  <p className="form-text">
+                    {where === 'nursery'
+                      ? 'They stay in the nursery as seedlings until you transplant them.'
+                      : 'They go in as a planting, with no nursery stage.'}
+                  </p>
+                </>
+              )}
               {where === 'garden' && (
                 gardens.length > 0 ? (
                   <>

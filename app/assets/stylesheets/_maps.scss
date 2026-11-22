@@ -7,3 +7,9 @@
   height: 250px;
   z-index: 2;
 }
+
+// The box that looks up another place, on the places pages: one row, wide enough to read what is typed, and clear of what follows.
+.place-search {
+  margin: 0.25rem 0 1.5rem;
+  max-width: 34rem;
+}

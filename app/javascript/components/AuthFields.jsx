@@ -72,7 +72,7 @@ export function FormErrors({messages}) {
 
 // The foot of both dialogs: the submit button, the way in with Bluesky when
 // it is switched on (`onBluesky` given), and the link across to the other dialog.
-export function AuthFooter({busy, label, busyLabel, prompt, switchLabel, switchHref, onSwitch, onBluesky}) {
+export function AuthFooter({busy, label, busyLabel, prompt, switchLabel, switchHref, onSwitch, onBluesky, onMastodon, onGithub, githubLabel}) {
   return (
     <div className="modal-footer d-block">
       <button type="submit" className="btn btn-success btn-lg w-100" disabled={busy} aria-busy={busy}>
@@ -81,6 +81,16 @@ export function AuthFooter({busy, label, busyLabel, prompt, switchLabel, switchH
       {onBluesky ? (
         <button type="button" className="btn btn-outline-dark btn-lg w-100 mt-3" onClick={onBluesky}>
           <i className="fab fa-bluesky bluesky-icon" aria-hidden="true" /> Continue with Bluesky
+        </button>
+      ) : null}
+      {onMastodon ? (
+        <button type="button" className="btn btn-outline-dark btn-lg w-100 mt-3" onClick={onMastodon}>
+          <i className="fab fa-mastodon" aria-hidden="true" /> Continue with Mastodon
+        </button>
+      ) : null}
+      {onGithub ? (
+        <button type="button" className="btn btn-outline-dark btn-lg w-100 mt-3" onClick={onGithub}>
+          <i className="fab fa-github" aria-hidden="true" /> {githubLabel}
         </button>
       ) : null}
       <p className="text-center fs-5 mb-0 mt-3">

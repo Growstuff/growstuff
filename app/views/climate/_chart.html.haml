@@ -1,0 +1,11 @@
+-# A column chart of the usual figure for each month with this year's in front of it, and what the colours mean. Each
+-# measure has its own colours: see _climate.scss.
+.climate-figure{ class: "climate-figure--#{measure}" }
+  = climate_chart(climate, measure)
+  %ul.climate-legend
+    %li
+      %span.climate-key.climate-key--usual
+      = t('climate.chart.legend.usual')
+    %li
+      %span.climate-key.climate-key--year
+      = t('climate.chart.legend.year')

@@ -1,0 +1,9 @@
+.crop-post
+  = link_to post_path(post), class: 'crop-post-thumbnail', tabindex: -1, 'aria-hidden': 'true' do
+    = image_tag post_thumbnail_path(post), alt: ''
+  .crop-post-content
+    %h3.h5= link_to post.subject, post_path(post), lang: post.language.to_s
+    %p.text-muted
+      = link_to post.author.login_name, member_path(post.author)
+      = " · #{ago_in_words(post.created_at)}"
+    %p{ lang: post.language.to_s }= post_stripped_tags(post)

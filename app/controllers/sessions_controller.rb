@@ -3,6 +3,12 @@
 class SessionsController < Devise::SessionsController
   respond_to :html, :json
 
+  # Confirming an account lands here with the name they signed up with, so
+  # all that is left to type is the password.
+  def new
+    super { |resource| resource.login = params[:login] if params[:login].present? }
+  end
+
   def create
     super do |_resource|
       flash[:notice] = t('devise.sessions.signed_in') if request.format.json?

@@ -1,3 +1,3 @@
 = link_to image_tag(garden_image_path(garden),
-                    alt: "Image of #{garden.name}", class: 'img-responsive'),
+                    alt: t('gardens.image_alt', name: garden.name), class: 'img-responsive'),
           garden_path(garden)

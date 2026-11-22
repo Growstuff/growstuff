@@ -1,1 +1,1 @@
-#{link_to event_model.member, event_model.member} liked #{link_to event_model.likeable.class.name.downcase, (event_model.likeable.is_a?(Job) ? member_jobs_path(event_model.likeable.owner) : event_model.likeable)}
+= t('likes.description_html', member: link_to(event_model.member, event_model.member), item: link_to(event_model.likeable.model_name.human(count: 1), (event_model.likeable.is_a?(Job) ? member_jobs_path(event_model.likeable.owner) : event_model.likeable)))

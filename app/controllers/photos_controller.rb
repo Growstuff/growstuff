@@ -4,7 +4,7 @@ class PhotosController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
   before_action :set_crop_and_planting, only: :index
   after_action :expire_homepage, only: %i(create destroy)
-  load_and_authorize_resource
+  load_and_authorize_resource except: :create
   respond_to :html, :json
   responders :flash
 
@@ -27,8 +27,6 @@ class PhotosController < ApplicationController
   end
 
   def show
-    @crops = Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: @photo })
-    @comment = Comment.new(commentable: @photo)
     respond_with(@photo)
   end
 
@@ -38,8 +36,22 @@ class PhotosController < ApplicationController
     @type = params[:type]
     @id = params[:id]
     @label = params[:label]
+    @mastodon_auths = current_member.authentications.where(provider: 'mastodon').order(:id)
+    @sources = []
+    @sources << 'flickr' if current_member.auth('flickr').present?
+    @sources << 'mastodon' if @mastodon_auths.any?
+    # With no account connected, offer both connection paths instead of an empty picker.
+    @sources = %w(flickr mastodon) if @sources.empty?
+    @source = @sources.include?(params[:source]) ? params[:source] : @sources.first
+    if @source == 'mastodon'
+      authorize! :update, @item
+      @picker = mastodon_picker_json.merge(picker_options)
+      return render json: @picker if request.format.json?
+
+      return render :new
+    end
     retrieve_from_flickr
-    return render json: flickr_picker_json if request.format.json?
+    return render json: flickr_picker_json.merge(picker_options) if request.format.json?
 
     respond_with @photo
   end
@@ -49,11 +61,20 @@ class PhotosController < ApplicationController
   end
 
   def create
+    # Import options (status_id and license_accepted) are not Photo attributes.
+    # Authorize here instead of letting CanCan mass-assign the incoming params.
+    authorize! :create, Photo
     ActiveRecord::Base.transaction do
-      @photo = find_or_create_photo_from_flickr_photo
       @item = item_to_link_to
       raise "Could not find this #{type} owned by you" unless @item
 
+      @photo = if params.dig(:photo, :source) == 'mastodon'
+                 authorize! :update, @item
+                 mastodon_source.import(status_id: params.dig(:photo, :status_id), attachment_id: params.dig(:photo, :source_id),
+                                        license_accepted: params.dig(:photo, :license_accepted))
+               else
+                 find_or_create_photo_from_flickr_photo
+               end
       @photo.save! if @photo.present?
       link_photo_to_item
     end
@@ -64,11 +85,28 @@ class PhotosController < ApplicationController
     raise unless request.format.json?
 
     render json: { errors: e.record.errors }, status: :unprocessable_content
+  rescue MastodonPhotoSource::Rejected => e
+    if request.format.json?
+      render json: { errors: { base: [t("photos.import_picker.#{e.reason}")] } }, status: :unprocessable_content
+    else
+      redirect_to new_photo_path(type: params[:type], id: params[:id], label: params[:label], source: 'mastodon',
+                                 authentication_id: params[:authentication_id]), alert: t("photos.import_picker.#{e.reason}")
+    end
   end
 
   def update
-    @photo.update(photo_params)
+    @photo.update(update_params)
     respond_with @photo
+  end
+
+  # Reads the photo again from Flickr: see Photo#refresh_from_flickr!.
+  def refresh
+    @photo.refresh_from_flickr!
+    redirect_to @photo, notice: t('.refreshed')
+  rescue FlickrPublicPhoto::Rejected => e
+    redirect_to @photo, alert: t(".#{e.reason}")
+  rescue ActiveRecord::RecordInvalid
+    redirect_to @photo, alert: t('.unavailable')
   end
 
   def destroy
@@ -77,6 +115,33 @@ class PhotosController < ApplicationController
   end
 
   private
+
+  def picker_options
+    { source: @source, sources: @sources, accounts: @mastodon_auths.map { |auth| { id: auth.id, name: auth.name } },
+      labels: t('photos.import_picker'), connect_mastodon_url: "#{edit_member_registration_path}#apps" }
+  end
+
+  def mastodon_authentication
+    auths = current_member.authentications.where(provider: 'mastodon').order(:id)
+    params[:authentication_id].present? ? auths.find(params[:authentication_id]) : auths.first
+  end
+
+  def mastodon_source
+    auth = mastodon_authentication
+    raise MastodonPhotoSource::Rejected, :invalid_photo unless auth
+
+    MastodonPhotoSource.new(auth)
+  end
+
+  def mastodon_picker_json
+    auth = mastodon_authentication
+    return { state: 'connect', source: 'mastodon' } unless auth
+
+    { state: 'ready', source: 'mastodon', authentication_id: auth.id, name: auth.name, sets: [],
+      **MastodonPhotoSource.new(auth).photos(cursor: params[:cursor], tag: params[:tag]) }
+  rescue MastodonPhotoSource::Rejected => e
+    { state: 'unavailable', source: 'mastodon', error: t("photos.import_picker.#{e.reason}") }
+  end
 
   # For the React garden cards: what the "add photo" dialog needs to show, as
   # the page does. Not connected (or the connection has gone stale) sends you to
@@ -105,6 +170,11 @@ class PhotosController < ApplicationController
     photo = { id: @photo.id, url: photo_path(@photo), title: @photo.title,
               thumbnail_url: @photo.thumbnail_url, fullsize_url: @photo.fullsize_url }
     render json: { photo:, garden: card }, status: :created
+  end
+
+  # The title is ours to change; the rest is the photo as Flickr describes it.
+  def update_params
+    params.require(:photo).permit(:title)
   end
 
   def photo_params

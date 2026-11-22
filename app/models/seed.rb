@@ -13,13 +13,18 @@ class Seed < ApplicationRecord
   ORGANIC_VALUES = ['certified organic', 'non-certified organic', 'conventional/non-organic', 'unknown'].freeze
   GMO_VALUES = ['certified GMO-free', 'non-certified GMO-free', 'GMO', 'unknown'].freeze
   HEIRLOOM_VALUES = %w(heirloom hybrid unknown).freeze
+  HARDINESS_VALUES = Hardiness::VALUES
   # What a packet says that the crop keeps the median of.
   MEDIAN_FIELDS = %w(crop_id row_spacing sow_months germination_days_min germination_days_max
-                     days_until_maturity_min days_until_maturity_max).freeze
+                     days_until_maturity_min days_until_maturity_max hardiness).freeze
   SOURCE_VALUES = ['seed catalogue', 'retail outlet', 'seed bank or similar institution',
                    'traded from another person', 'my own seed saving', 'other/unknown'].freeze
   # A seed packet dated outside this is a typo, not a plan.
   PLANT_BEFORE_YEARS = (1900..2100)
+  # Four characters to write on a packet. The first is the crop's letter, so it
+  # is always a letter and O and I cannot be mistaken for 0 and 1. The other
+  # three leave out the look-alikes, as plantings' codes do.
+  SHORT_CODE_FORMAT = /\A[A-Z][2-9A-HJ-NP-Z]{3}\z/
 
   #
   # Relationships
@@ -51,12 +56,17 @@ class Seed < ApplicationRecord
   validates :how_to_sow, length: { maximum: 2_000 }
   validate :sow_months_are_months
 
+  before_validation :assign_short_code
+
   # What packets say about a crop is kept on the crop, and on the crop it is a variety of.
   after_commit :update_crop_medians, on: %i(create update destroy)
   validates :row_spacing, allow_nil:    true,
                           numericality: { only_integer: true, greater_than: 0 }
   validates :variety, :batch_number, length: { maximum: 100 }
   validate :plant_before_year_is_a_year
+  # Packets saved before codes existed have none, so a missing code is fine.
+  validates :short_code, allow_nil: true, format: { with: SHORT_CODE_FORMAT },
+                         uniqueness: { scope: :owner_id }
   validates :tradable_to, allow_blank: false,
                           inclusion:   { in: TRADABLE_TO_VALUES, message: :tradable_to_inclusion }
   validates :organic, allow_blank: false,
@@ -65,8 +75,30 @@ class Seed < ApplicationRecord
                   inclusion:   { in: GMO_VALUES, message: :gmo_inclusion }
   validates :heirloom, allow_blank: false,
                        inclusion:   { in: HEIRLOOM_VALUES, message: :heirloom_inclusion }
+  validates :hardiness, inclusion: { in: HARDINESS_VALUES, message: :hardiness_inclusion }
   validates :source, allow_blank: true,
                      inclusion:   { in: SOURCE_VALUES, message: :source_inclusion }
+
+  # The crop's first letter and three random characters, such as T4K9 for a
+  # tomato. A crop whose name has no letter in A to Z gets a random letter. Not
+  # the same as any of the owner's plantings' codes, as one search box finds both.
+  def self.generate_short_code(owner: nil, crop: nil)
+    letter = short_code_letter(crop)
+    loop do
+      code = random_short_code(letter)
+      next if owner && [self, Planting].any? { |klass| klass.exists?(owner_id: owner.id, short_code: code) }
+
+      break code
+    end
+  end
+
+  def self.random_short_code(letter)
+    letter + Array.new(3) { Planting::SHORT_CODE_CHARS.sample }.join
+  end
+
+  def self.short_code_letter(crop)
+    I18n.transliterate(crop&.name.to_s)[/[A-Za-z]/]&.upcase || Planting::SHORT_CODE_CHARS.grep(/[A-Z]/).sample
+  end
 
   #
   # Photos
@@ -108,7 +140,6 @@ class Seed < ApplicationRecord
   # Scopes
   default_scope { joins(:owner).merge(Member.kept) } # Ensure owner exists
   scope :tradable, -> { where.not(tradable_to: 'nowhere') }
-  scope :interesting, -> { tradable.has_location }
   scope :has_location, -> { joins(:owner).where.not('members.location': nil) }
   scope :recent, -> { order(created_at: :desc) }
   scope :active, -> { where('seeds.finished <> true').where('seeds.finished_at IS NULL OR seeds.finished_at < ?', Time.zone.now) }
@@ -200,10 +231,18 @@ class Seed < ApplicationRecord
 
   private
 
+  # Kept when the packet's crop is changed later, as it may already be written on the packet.
+  def assign_short_code
+    self.short_code ||= self.class.generate_short_code(owner:, crop:)
+  end
+
   def update_crop_medians
     return unless destroyed? || previously_new_record? || saved_changes.keys.intersect?(MEDIAN_FIELDS)
 
-    Crop.where(id: [crop_id, saved_change_to_crop_id&.first].compact).with_parents.find_each(&:update_seed_medians)
+    Crop.where(id: [crop_id, saved_change_to_crop_id&.first].compact).with_parents.find_each do |crop|
+      crop.update_seed_medians
+      crop.update_hardiness
+    end
   end
 
   def sow_months_are_months

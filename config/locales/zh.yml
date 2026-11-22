@@ -1,4 +1,33 @@
+---
 zh:
+  likes:
+    description_html: '%{member}赞了%{item}'
+  shared:
+    flash_messages:
+      close: 关闭
+    markdown_help:
+      instructions: 您可以使用 Markdown 设置文本格式。
+      examples: '例如，*斜体*、**粗体**，或[这样的链接](http://to.some.site.com/)。'
+      crop_links: '作物快捷链接：[红薯](crop)。'
+      member_links: '成员快捷链接：@用户名 或 [用户名](member)。'
+    record_parent:
+      growing_in_html: 在%{garden}中生长
+    signin_signup:
+      sign_in: 登录
+      sign_up: 注册
+      prompt_html: '请%{sign_in}或%{sign_up}，以便%{purpose}。'
+    editable:
+      date:
+        when: 何时？
+      form:
+        edit: 编辑%{field}
+        minimum: 最小
+        maximum: 最大
+        when: 何时？
+  timeline:
+    likeables:
+      post:
+        view_post: 查看帖子
   activerecord:
     errors:
       messages:
@@ -14,10 +43,10 @@ zh:
         grid_too_small_for_plantings: 太小：一些植物会掉到床外。先把他们搬走。
         harvest_after_planted: 种植前不能收获
         no_newlines: 不得包含换行符
-        not_a_valid_area_unit: '%{value} 不是有效的区域单位'
-        not_a_valid_planting_method: '%{value} 不是有效的种植方法'
-        not_a_valid_sunniness: '%{value} 不是有效的阳光强度值'
-        not_a_valid_unit: '%{value} 不是有效单位'
+        not_a_valid_area_unit: "%{value} 不是有效的区域单位"
+        not_a_valid_planting_method: "%{value} 不是有效的种植方法"
+        not_a_valid_sunniness: "%{value} 不是有效的阳光强度值"
+        not_a_valid_unit: "%{value} 不是有效单位"
         not_a_valid_wikipedia_url: 不是有效的英文维基百科 URL
         not_a_valid_youtube_url: 不是有效的 YouTube 网址
         one_nursery_per_member: 已经存在；一名会员只能拥有一个托儿所
@@ -27,6 +56,12 @@ zh:
         same_crop_required: 必须是同一种作物
         same_owner_required: 收获必须与种植相同，或者是该花园的合作者
         too_many_plants: 布局上的植物最多可以有 %{limit} 个植物
+        cannot_be_stall_owner: 不能是摊位的主人
+        not_in_future: 不可能在未来
+        not_confirmed_in_area: 勾选您位于 %{place} 中。
+        outside_area: 这个摊位只适合%{place}附近的人。
+        owner_unplaced: 园丁还没有说他们在哪里。
+        stall_closed: 摊位关门了。
       models:
         crop_job_step:
           attributes:
@@ -60,6 +95,8 @@ zh:
               source_inclusion: 你必须说种子是从哪里来的，或者你不知道
             tradable_to:
               tradable_to_inclusion: 您只能在任何地方、本地、国内或国际上交易种子
+            hardiness:
+              hardiness_inclusion: 你必须说种子是嫩的、半耐寒的、耐寒的还是你不知道的
     models:
       comment:
         one: 评论
@@ -98,26 +135,181 @@ zh:
         enable_planting_reminders: 每周向需要的会员发送种植提醒电子邮件。
         job_ideas: 为会员推荐工作，包括他们过去的工作和种植情况、作物模板以及附近园丁正在做的事情。
         planting_weather: 每种植物的温度和降雨量图表，来自花园区域的每日天气。
+        garden_stall: 会员向朋友提供备用树苗和种子的页面。部署完所有部件后打开电源。
+        planting_codes: 向花园中的种植所有者和合作者展示种植规范。
       index:
+        disabled: 离开
+        enabled: 在
         feature: 特征
         intro: 为每个人打开或关闭功能。
-        'off': 离开
-        'on': 在
         state: 状态
         switch_off: 关闭
         switch_on: 打开
         title: 特征
+        members: 为会员启用
+        login_name: 用户名
+        add_member: 为会员启用
+        remove_member: 删除补助金
       names:
         enable_harvest_reminders: 收获提醒
         enable_planting_reminders: 种植提醒
         job_ideas: 工作思路
         planting_weather: 播种天气
+        garden_stall: 花园摊位
+        planting_codes: 种植代码
       update:
-        'off': '%{feature} 现已关闭。'
-        'on': '%{feature} 现已开启。'
+        disabled: "%{feature} 现已关闭。"
+        enabled: "%{feature} 现已开启。"
+      member_not_found: 未找到会员。输入现有的用户名。
+    climate_coverage:
+      all: 全部
+      gardens:
+        cell: 气象细胞
+        climate: 气候数据
+        fetched: 最后获取的
+        garden: 花园
+        inactive: 不活跃
+        kind: 种类
+        location: 地点
+        nursery: 苗圃
+        owner: 所有者
+        title: 花园气候数据
+      intro: 我们是否保存每个位置所属的天气网格单元的气候数据（降雨、温度和霜冻）。数据是针对正在使用的花园和当前种植的花园获取的。当一周没有获取数据时，数据就已过时，当该单元中没有花园或植物使用时，就会发生这种情况。当成员自己的位置或他们的任何花园处于覆盖状态时，该成员就会受到覆盖。
+      members:
+        climate: 气候数据
+        gardens: 花园
+        gardens_covered: "%{covered}（共 %{located}）已更新"
+        gardens_stale:
+          one: "%{count} 已过时"
+          other: "%{count} 已过时"
+        location: 地点
+        member: 成员
+        own: 自己的位置
+        title: 会员气候数据
+      statuses:
+        covered: 最新
+        missing: 还没有数据
+        stale: 已过时
+        unlocated: 地图上没有位置
+    ecocrop_data:
+      create_crop:
+        created: "%{crop} 是从 %{record} 创建的。"
+        name_blank: 给新作物命名。
+        name_taken: 名为 %{name} 的作物已经存在。
+      create_modal:
+        cancel: 取消
+        close: 关闭
+        create: 创建作物
+        hint: 根据该 EcoCrop 记录制作作物。它是经批准创建的，科学名称如下，并链接到记录。
+        name: 作物名称
+        names_hint: 这些名称保留为英文的备用名称。括号中带有注释的名称不会被勾选，因为它们通常来自另一种语言或地点。取消选中任何其他非英语或不正确的内容。
+        names_legend: 其他常用名称
+        title: 创建作物
+        wikipedia_hint: 经批准的作物需要一种。这是根据学名猜测的，因此请检查页面是否是正确的植物。
+        wikipedia_url: 英文维基百科页面
+      details:
+        category: 类别
+        common_names: 常用名称
+        family: 家庭
+        life_form: 生命形式
+      index:
+        all: 全部
+        common_names: 常用名称
+        copy_names:
+          one: 复制 1 个姓名
+          other: 复制%{count}个名字
+        create_crop: 创建作物
+        crops: 配套作物
+        heat_data: 热度数据
+        how_to_link: 单击常用名称以搜索其所属的作物，然后确认链接。
+        intro: "%{total} EcoCrop 记录中的 %{matched} 条与作物相匹配。"
+        link: 链接作物
+        matched: 匹配的
+        no_heat_data: 丢失的
+        none: 这里没有 EcoCrop 记录。
+        scientific_name: 学名
+        search: 搜索
+        search_placeholder: 学名或俗名
+        suggestion: 链接%{crop}
+        suggestion_title: "%{crop} 的命名类似于 %{record} 的通用名称"
+        title: 生态作物数据
+        unlink: 取消链接
+        unmatched: 无与伦比
+        unmatched_crop: 与作物不匹配
+        yes_heat_data: 完全的
+      link:
+        failed: "%{crop} 无法链接。"
+        linked:
+          one: "%{crop} 现已链接到 %{record}，并添加了 1 个备用名称。"
+          other: "%{crop} 现在链接到 %{record}，并添加了 %{count} 备用名称。"
+          zero: "%{crop} 现在链接到 %{record}。"
+      link_modal:
+        back: 选择不同的作物
+        cancel: 取消
+        close: 关闭
+        confirm: 将裁剪 %{crop} 链接到 %{record}？
+        confirm_button: 是的，链接一下
+        hint: 搜索此 EcoCrop 记录描述的作物。作物有一个记录，因此链接它会取代它拥有的任何记录。
+        names_hint: 这些名称将作为英文的备用名称添加到作物中。括号中带有注释的名称不会被勾选，因为它们通常来自另一种语言或地点。取消选中任何其他非英语或不正确的内容。
+        names_legend: 同时复制这些常用名称
+        none: 没有找到农作物
+        search_label: 作物名称
+        title: 链接作物
+      unlink:
+        unlinked: "%{crop} 不再链接到 %{record}。"
+    members:
+      bulk_ban:
+        banned: 选定的成员已被禁止。
+        none_selected: 没有选择任何成员。
+  authentications:
+    connected:
+      connected_title: Flickr已连接
+      not_connected_title: Flickr未连接
+      connected_heading: 已连接Flickr
+      connected_help: 您可以关闭此窗口并继续选择照片。
+      not_connected_heading: 未能连接Flickr
+      not_connected_help: 您可以关闭此窗口并重试。
+      close_window: 关闭此窗口
+    sign_in:
+      bluesky:
+        terms_of_service: "服务条款"
+        agree_to_tos_html: "我同意%{tos_link}"
+        contacting: "正在连接 Bluesky…"
+        handle_label: "Bluesky 账号"
+        handle_placeholder: "alice.bsky.social"
+      mastodon:
+        agree_to_tos_html: "我同意%{tos_link}"
+        identifier_label: "Mastodon 地址"
+        identifier_placeholder: "alice@mastodon.social"
+        permission_note: "我们仅确认您的身份，不会代表您发帖。"
+        terms_of_service: "服务条款"
   alternate_names:
     created: 备用名称已成功创建。
     deleted: 备用名称已成功删除。
+    edit:
+      added_by_html: 由 %{creator_link} 在 %{time_ago} 前添加。
+      title: 编辑备用名称
+    form:
+      crop: 作物
+      crop_wrangling_guide: 作物管理指南
+      crop_wrangling_guide_intro_html: 有关详细的作物整理指南，请参阅 Growstuff wiki 上的%{guide_link}。
+      errors:
+        one: "1 个错误导致此备用名称无法保存："
+        other: "%{count} 个错误导致此备用名称无法保存："
+      name: 名称
+      save: 保存
+    index:
+      alternate_name: 备用名称
+      crop: 作物
+      new_alternate_name: 新建备用名称
+      show: 显示
+      title: 备用名称列表
+    new:
+      title: 新建备用名称
+    show:
+      alternate_name_label: "备用名称："
+      back: 返回
+      crop_label: "作物："
     updated: 备用名称已成功更新。
   application_helper:
     title:
@@ -157,9 +349,50 @@ zh:
     unlike: 删除喜欢
     view: 看法
     write_blog_post: 写博客文章
+    add_observation: 添加观察
+  comments:
+    comments:
+      empty: 暂无评论
+    description:
+      activity_html: "在%{subject}上%{comment}"
+      commented: 发表了评论
+    form:
+      errors:
+        one: "%{count}个错误导致此评论无法保存："
+        other: "%{count}个错误导致此评论无法保存："
+      your_comment: 您的评论：
+      post_comment: 发表评论
+    single:
+      attribution_html: "由%{author}发表于%{date}"
+      deleted_member: 已删除的成员
+      edited_at: "编辑于%{date}"
+    edit:
+      title: 编辑评论
+      subject_html: "编辑对%{subject}的评论"
+    index:
+      title: 评论
+      meta_description: 浏览和搜索评论。
+      feed_title: "所有文章的最新评论（%{site}）"
+      item_title: "%{author}对%{subject}的评论"
+      item_description_html: "对%{subject}的评论"
+    new:
+      title: 新评论
+    edit_modal:
+      save: 保存
+      title: 编辑评论
+      your_comment: 你的评论
+    inline_form:
+      add_comment: 添加评论
+      post_comment: 发表评论
   community_gardens:
     collaborate: 与您的团队合作
     collaborate_text: 邀请其他园丁在您的花园地块上进行合作。分享工作，分享收获，作为一个社区共同成长。
+    features:
+      add_collaborators: 添加协作者到您的花园地块
+      get_advice_and_support: 从我们的园丁社区获得建议和支持
+      keep_notes: 记录您社区的进展
+      see_other_gardens: 了解其他社区花园种植什么
+      track_plantings_and_harvests: 追踪您所有的种植和收获
     features_title: 社区花园的特点
     get_started: 今天开始
     get_started_text: 注册 Growstuff 是免费且简单的。创建一个帐户，立即开始跟踪您的花园。
@@ -169,6 +402,26 @@ zh:
     meta_description: 管理您的社区花园，跟踪您的种植情况，并与其他园丁合作。
     sign_up: 免费注册
     title: Growstuff 社区花园
+  conversations:
+    index:
+      boxes:
+        inbox: 收件箱
+        sent: 已发信息
+        trash: 回收站
+      breadcrumb_conversations: 对话
+      delete: 删除
+      restore: 恢复
+      select_for_deletion: 选择删除
+      time_ago: "%{time}前"
+      title: 收件箱
+    show:
+      about: 关于
+      breadcrumb_conversations: 对话
+      participants: 参与者
+      reply_publicly: 回复
+      send_private_message: 发送私信
+      private_reply_hint: 此消息仅对上方列出的参与者可见，不会显示在公开话题中。
+      sent_on: "于 %{date}"
   crop_companions:
     created: 同伴已成功创建。
     deleted: 同伴被成功摧毁。
@@ -207,17 +460,229 @@ zh:
         draft: 草稿
         published: 已发表
     saved: 作业模板已保存。
-  comments:
-    inline_form:
-      add_comment: 添加评论
-      post_comment: 发表评论
   crops:
+    image_alt: "%{crop}的图片"
+    add_photos_from_flickr: 从Flickr添加照片
+    alternate_names:
+      heading: 又名
+      edit: 编辑
+      delete: 删除
+      confirm_delete: 您确定吗？
+    crop:
+      median_lifespan_html:
+        one: "生命周期中位数：<strong>%{count}</strong>天"
+        other: "生命周期中位数：<strong>%{count}</strong>天"
+      first_harvest_html:
+        one: "预计首次收获在种植后<strong>%{count}</strong>天"
+        other: "预计首次收获在种植后<strong>%{count}</strong>天"
+      last_harvest_html:
+        one: "预计最后收获在种植后<strong>%{count}</strong>天"
+        other: "预计最后收获在种植后<strong>%{count}</strong>天"
+    crop_list:
+      name: 名称
+      plantings: 种植记录
+    ecocrop_data:
+      title: 生态需求
+      source_html: "来自联合国粮农组织EcoCrop数据库的%{name} %{authority}数据"
+      family: 科 / 分类
+      killing_temperature: 致死温度
+      growth_temperature: "生长期：%{temperature} °C"
+      rest_temperature: "休眠期：%{temperature} °C"
+      life_form: 生活型
+      life_span: 生命周期
+      habit: 生长习性
+      soil_depth: 最适土层深度
+      soil_texture: 最适土壤质地
+      soil_fertility: 最适土壤肥力
+      soil_drainage: 最适土壤排水条件
+      soil_salinity: 最适土壤盐度
+      photoperiod: 光周期
+      licence_html: "依据%{licence}许可使用。"
+      citation_html: "联合国粮食及农业组织（2025）ECOCROP，作物生态需求数据库。第1版。%{fao}。通过CGIAR气候行动数据中心访问，%{hub}。"
+    info:
+      variety_html: "%{parent}的一个品种"
+      how_to_sow: "如何播种%{crop}："
+      sun_requirement: "%{crop}的日照需求："
+      plant_in: "种植条件：%{conditions}"
+      no_description: 暂无描述。
+      add_description: 添加描述。
+      plantings:
+        one: 种植记录
+        other: 种植记录
+      harvests:
+        one: 收获记录
+        other: 收获记录
+      seed_packets:
+        one: 种子包
+        other: 种子包
+    job_templates:
+      sign_up: 注册以跟踪这些任务并获取其他建议。
+    openfarm_data:
+      grown_for: 种植用途
+      harvested:
+        one: "已收获%{count}次"
+        other: "已收获%{count}次"
+    photos:
+      title: 照片
+      group: "%{crop}的%{model}"
+      more: 更多照片
+    popover:
+      planted:
+        one: "已种植%{count}次"
+        other: "已种植%{count}次"
+    posts:
+      title: "大家对%{crop}的讨论"
+      empty: "还没有人发布关于%{crop}的帖子。"
+      join_html: "%{sign_in}或%{sign_up}，分享种植%{crop}的技巧和经验。"
+      sign_in: 登录
+      sign_up: 注册
+      post: 发布帖子
+    scientific_names:
+      empty: 尚未记录学名
+      edit: 编辑
+      delete: 删除
+      confirm_delete: 您确定吗？
+    search_bar:
+      search: 搜索
+      crops: 搜索作物
+    predictions:
+      annual_hint: 在一年或更短时间内生存并繁殖
+      perennial_hint: 存活两年以上
+      title: "%{crop}的种植资料"
+      add_attributes: 添加更多属性
+      median_lifespan: 生命周期中位数
+      insufficient_lifespan_data: 我们还没有足够的数据来计算生命周期中位数。
+      weeks:
+        one: "%{count}周"
+        other: "%{count}周"
+      degree_days: 生长度日
+      height: 高度
+      spread: 冠幅
+      height_spread: 高度 × 冠幅
+      first_harvest: 预计首次收获
+      last_harvest: 预计最后收获
+      harvest_style: 收获方式
+      weeks_after_planting:
+        one: 周后收获（从种植日起）
+        other: 周后收获（从种植日起）
+    harvest_style:
+      single:
+        value: 每株一次
+        description: 收获整株植物
+      repeated:
+        value: 每株多次
+        description: 每株植物可持续收获
+    data_improvement:
+      title: 数据完善
+      missing: "缺少%{field}的作物"
+      tabs:
+        photos: 照片
+        descriptions: 描述
+        youtube: YouTube视频
+        alternate_names: 别名
+        wikidata: 维基数据标识符
+        public_food_key: Public Food Key
+        row_spacing: 行距
+        sun_requirements: 日照需求
+        height: 高度
+    hierarchy:
+      title: 作物分类层级
+      intro_html: "本页显示我们%{database}中所有作物的层级树。"
+      database: 作物数据库
+    history:
+      title: "%{crop}的编辑历史"
+      back: "返回%{crop}"
+      empty: 此作物暂无编辑记录。
+      time_ago: "%{time}前"
+      made_by_html: "由%{member}编辑"
+      events:
+        create: 创建
+        update: 更新
+        destroy: 删除
+    search_page:
+      title: 作物搜索
+      search: 搜索
+      matching: '与“%{term}”匹配的作物'
+      found:
+        one: "共找到%{count}项结果"
+        other: "共找到%{count}项结果"
+      label: 搜索作物：
+      placeholder: 搜索作物
+      crop: 作物
+      no_results: 未找到结果
+      no_matches: '抱歉，未找到与“%{term}”匹配的作物。'
+      browse: 浏览我们的作物数据库
+      add: 添加新作物
+      try_adding_html: "请尝试%{browse}或%{add}。"
+      try_browsing_html: "请尝试%{browse}。"
+    show:
+      meta_description: "了解如何种植%{crop}。"
+      last_edited_by_html: "最后由%{editor}于%{date}编辑。"
+      last_edited: "最后编辑于%{date}。"
+      view_history: 查看历史
+    growing_fact:
+      median_of_packets: 会员种子包中位数
+      members_packets: "会员种子包：%{median}"
+    growing_facts:
+      days_until_maturity: 成熟天数
+      germination: 发芽
+      median_of_packets: 会员种子包中位数
+      members_packets_hemispheres: "会员种子包：南半球 %{south}，北半球 %{north}"
+      northern_hemisphere: 北半球
+      row_spacing: 行距
+      southern_hemisphere: 南半球
+      when_to_sow: 播种时间
+    find_seeds:
+      empty: 目前Growstuff上没有可供交易的种子。
+      list_seeds: 登记 %{crop} 种子以供交易
+      purchase_via_ebay: 通过 eBay 购买种子
+      trade_seeds: 登记您的种子以供交易
+      view_all: "查看所有 %{crop} 种子"
+      will_trade: "%{owner} 将在 %{tradable_to} 范围内交易。"
+    alternate_name_modal:
+      add_title: 为%{crop}添加别名
+      cancel: 取消
+      close: 关闭
+      edit_title: 编辑别名
+      language: 语言
+      name: 名称
+      save: 保存
+    approval_status_message:
+      pending_title: 该作物目前正在等待审核。
+      rejected_message: 该作物因以下原因被拒绝：%{reason}
+      request_notes: 请求备注：%{notes}
+      requested_by: 该作物由 %{requester} 在 %{time_ago}前请求添加。
+    fields:
+      hardiness:
+        from_packets: 从会员的种子包中计算
+        help: 作物能耐受多少霜冻。无论种子包上怎么写，选择一个级别以保持固定。
+        label: 耐寒性
     harvests:
       empty: 还没有人收获过这种作物。
-      harvest_crop: "收获 %{crop}"
+      harvest_crop: 收获 %{crop}
       harvested: "%{owner} 收获了 %{quantity}。"
-      track_harvests: "记录您的 %{crop} 收获"
-      view_all: "查看所有 %{crop} 收获"
+      track_harvests: 记录您的 %{crop} 收获
+      view_all: 查看所有 %{crop} 收获
+    index:
+      subtitle: "%{crops_size} 总计"
+      title: 浏览农作物
+      meta_description: 浏览和搜索作物。
+      wrangle: 管理作物
+      add_crop: 添加新作物
+      crops: 作物
+      formats: 本页数据提供以下格式：
+      feed_title: "最近添加的作物（%{site}）"
+      log_in: 登录
+      log_in_to_suggest: 缺少农作物吗？您可以在登录时推荐新作物。
+      no_matches: 没有作物与这些过滤器相匹配。
+    join_banner:
+      heading: Growstuff 是一个免费的、由社区运营的网站，面向种植食物的人们。
+      prompt: 注册即可记录您自己的 %{crops}。
+      text: 记录您种植和收获的内容，寻找种子进行交换，并了解您附近种植的植物。
+    plantings:
+      empty: 还没有人种植过这种作物。
+      plant_crop: 种植 %{crop}
+      track_plantings: 记录您的 %{crop} 种植
     nutritional_data:
       carbohydrate: 碳水化合物
       energy: 能量
@@ -229,19 +694,11 @@ zh:
       sugars: "- 糖"
       summary: "%{food_name} 每 100 克的营养数据摘要。"
       title: 营养数据
-    approval_status_message:
-      pending_title: "该作物目前正在等待审核。"
-      rejected_message: "该作物因以下原因被拒绝：%{reason}"
-      request_notes: "请求备注：%{notes}"
-      requested_by: "该作物由 %{requester} 在 %{time_ago}前请求添加。"
-    alternate_name_modal:
-      add_title: 为%{crop}添加别名
-      cancel: 取消
-      close: 关闭
-      edit_title: 编辑别名
-      language: 语言
-      name: 名称
-      save: 保存
+    requested:
+      link: 您有 %{number_crops} 作物等待批准
+      heading: 您申请添加的作物
+      subtitle: 待批准
+      title: 要求的作物
     scientific_name_modal:
       add_title: 为%{crop}添加学名
       cancel: 取消
@@ -252,45 +709,446 @@ zh:
       name: 学名
       save: 保存
       wikidata_id: 维基数据 ID
-    index:
-      subtitle: '%{crops_size} 总计'
-      title: 浏览农作物
-    join_banner:
-      heading: Growstuff 是一个免费的、由社区运营的网站，面向种植食物的人们。
-      prompt: 注册即可记录您自己的 %{crops}。
-      text: 记录您种植和收获的内容，寻找种子进行交换，并了解您附近种植的植物。
-    requested:
-      link: 您有 %{number_crops} 作物等待批准
-      subtitle: 待批准
-      title: 要求的作物
     search: 搜索农作物
+    edit:
+      added_by_html: 由 %{creator_link} 在 %{time_ago} 前添加。
+      approved_by_html: 由 %{approver_link} 批准。
+      requested_by_html: 由 %{requester_link} 在 %{time_ago} 前请求。
+      status_by_html: '状态：由 %{creator_link} 设置为 %{status}。'
+      status_html: '状态：%{status}。'
+      title: '编辑作物：%{name}'
+    new:
+      edible_only: Growstuff 数据库仅包含可食用作物。将来我们希望能支持其他作物，但目前如果您的建议不可食用，我们将无法添加。
+      intro: 感谢您抽出宝贵时间推荐作物！我们的作物数据库由志愿者管理，非常感谢您的帮助。推荐新作物时，请考虑以下事项：
+      new_crop: 新建作物
+      search_our_crops: 搜索我们的作物
+      search_suggestion_html: 首先，您可能需要%{search_link}以确保我们尚未添加该作物（可能是以别名存在）。
+      suggest_crop: 推荐作物
+      wikipedia_requirement: 目前，我们只添加有维基百科页面的作物。如果您想添加没有独立维基百科词条的特定作物品种，请改用该作物更通用的名称，并将品种名称写在备注/描述中。
+    form:
+      approve_and_save: 批准并保存
+      errors:
+        one: 1 个错误导致此作物无法保存：
+        other: "%{count} 个错误导致此作物无法保存："
+      reject: 拒绝
+      save: 保存
+    fields:
+      harvest_style:
+        blank: 不知道
+        heading: 收获方式
+        hint: 每株植物一次，如生菜：收获整株植物。每株植物多次，如番茄。
+        label: 如何收获植物
+        parent: '父级：%{style}'
+      alternate_name_with_index: '别名 %{index}：'
+      alternate_names: 别名
+      alternate_names_hint: 作物的别名。
+      basic_information: 基本信息
+      comments: 评论
+      crop_request_notes: 作物请求备注
+      crop_wrangling_guide: 作物管理指南
+      crop_wrangling_guide_intro_html: 有关详细的作物管理准则，请参阅 Growstuff wiki 上的%{guide_link}。
+      currently: '当前：'
+      data: 数据
+      days_until_maturity_max: 成熟天数，最多
+      days_until_maturity_min: 成熟天数，至少
+      description: 描述
+      en_wikipedia_url: 维基百科 URL
+      en_wikipedia_url_hint: 该作物在英文维基百科上的页面链接（必填）。
+      en_youtube_url: YouTube URL
+      en_youtube_url_hint: 关于该作物的英语 YouTube 视频链接。
+      germination_days_max: 发芽天数，最多
+      germination_days_min: 发芽天数，至少
+      growing: 种植
+      growing_degree_days: 积温（度日）
+      height: 高度 (cm)
+      icon: 图标
+      icon_blank: '无：使用父级作物的图标'
+      icon_hint: 可选。显示用于此作物及其所有没有自己图标的品种。
+      lifespan: 寿命
+      lifespan_annual: 一年生
+      lifespan_annual_hint: 在一年或更短时间内生存并繁殖
+      lifespan_perennial: 多年生
+      lifespan_perennial_hint: 存活两年以上
+      months_to_sow: 播种月份
+      months_to_sow_hint: 勾选南半球的月份：北半球相差六个月。
+      name:
+        hint: 作物的常用英文名称（必填）。
+        label: 名称
+        wranglers_hint: '管理员：请确保这是单数形式，并且仅专有名词首字母大写。'
+      parent_crop: 父级作物
+      parent_crop_hint: 可选。用于设置品种等的作物层次结构。
+      parent_value: '父级：%{value}'
+      public_food_key: Australian Food Composition Database Public Food Key
+      rejection_notes_hint: 如果上述原因不适用，请提供拒绝此作物请求的其他说明。
+      requester_submission_notice: 提交此表单后，您的建议将发送给我们的志愿作物管理员团队进行审核。我们将尽快告知您结果。
+      row_spacing: 行距 (cm)
+      scientific_name_with_index: '学名 %{index}：'
+      scientific_names: 学名
+      scientific_names_hint: 搜索 GBIF 以确定作物的学名。
+      search_wikipedia: 搜索维基百科
+      sowing_method: 播种方式
+      spread: 冠幅/株距 (cm)
+      sun_requirements: 光照需求
+      hardiness:
+        from_packets: 从会员的种子包中算出来
+        help: 作物需要多少霜冻。无论种子包上有什么说明，请选择一个级别来保留它。
+        label: 坚韧
+    wrangle:
+      edit: 编辑
+      add_scientific_name: 添加学名
+      add_alternate_name: 添加别名
+      fetch_gbif: 从GBIF获取数据
+      manage_companions: 管理伴生作物
+      job_templates: 任务模板
+      add: 添加
+      add_crop: 添加作物
+      all_crops: 所有作物
+      approved: 已批准
+      clear: 清除
+      crop_wranglers: 作物管理员
+      crops: 作物
+      full_crop_hierarchy: 完整作物层次结构
+      merge_crops: 合并作物
+      not_applicable: 无
+      pending_approval: 待批准
+      recently_edited: 最近编辑
+      rejected: 已拒绝
+      search_aria_label: 搜索作物
+      search_button: 搜索
+      search_placeholder: 按名称搜索作物
+      template: 模板
+      th_added_by: 添加者
+      th_alternate_names: 别名
+      th_child_crops: 子作物
+      th_growing_degree_days: 积温
+      th_height: 高度
+      th_icon: 图标
+      th_job_templates: 任务模板
+      th_name: 名称
+      th_rejected_by: 拒绝者
+      th_requested_by: 请求者
+      th_row_spacing: 行距
+      th_scientific_names: 学名
+      th_spread: 冠幅
+      th_updated: 更新时间
+      th_youtube: YouTube
+      time_ago: '%{time}前'
+      title: 作物整理
+      top_level_crops: 顶级作物
+      yes: 是
+    ecocrop_facts:
+      absolute_ph: 土壤绝对pH值
+      absolute_rainfall: 绝对降雨量
+      absolute_temperature: 绝对温度
+      crop_cycle: 作物周期
+      max_altitude: 最大海拔高度
+      optimal_light: 最佳光线
+      optimal_ph: 最佳土壤 pH 值
+      optimal_rainfall: 最佳降雨量
+      optimal_temperature: 最佳温度
+      source: 粮农组织生态作物
+      to: 到
+      units:
+        celsius: "℃"
+        days: 天
+        metres: 米
+        rainfall: 毫米/年
+    ecocrop_find_modal:
+      back: 选择不同的记录
+      cancel: 取消
+      close: 关闭
+      confirm: 将 %{crop} 链接到 %{record}？
+      confirm_button: 是的，链接一下
+      hint: 按常用名或学名搜索 EcoCrop 记录。
+      linked_to: 已链接至 %{crops}
+      names_hint: 这些名称将作为英文的备用名称添加到作物中。括号中带有注释的名称不会被勾选，因为它们通常来自另一种语言或地点。取消选中任何其他非英语或不正确的内容。
+      names_legend: 同时复制这些常用名称
+      none: 未找到 EcoCrop 记录
+      search_label: 通用名
+      title: 查找 %{crop} 的 EcoCrop 记录
+    ecocrop_link:
+      find: 查找 EcoCrop 数据
+      inherited: 该作物没有自己的 EcoCrop 记录，因此它使用其父项的记录：%{record}。
+      none: 该作物未链接到任何 EcoCrop 数据。
+      title: 生态作物数据
+    filters:
+      apply: 筛选
+      clear: 清除过滤器
+      ecocrop: 生态作物数据
+      ecocrop_linked: 链接
+      ecocrop_unlinked: 未链接
+      friends: 由我关注的人成长
+      history: 我以前长过这个吗？
+      history_before: 是的，我有
+      history_never: 不，从来没有
+      needs_location: 设置您的园艺地点，根据适合您所在位置和附近种植的植物进行过滤。
+      nearby: 由附近的园丁种植
+      no_climate: 我们还没有您所在地的天气信息，所以我们无法判断什么适合您的所在地。我们会根据会员设置的地点收集这些信息，因此请尽快回来查看。
+      parent: 过滤裁剪
+      parent_placeholder: 开始输入作物名称，然后选择一个
+      remove: 消除
+      season: 生长于
+      seeds: 我有种子
+      set_location: 设置您的位置。
+      sign_in: 登录。
+      sign_in_for_more: 登录后还可以按您所在的位置、季节、附近的人和您关注的人种植的作物以及您种植的作物进行过滤。
+      suits: 在我的地方生长得很好
+      suits_at: 在%{place}中生长良好
+    time_to_harvest:
+      about_html: 如果现在播种，预计第一次收获将在 %{days} 左右。
+      hint:
+        no_climate: 我们还没有您所在地的天气信息，因此我们无法计算到达那里需要多长时间。我们会根据会员设置的地点收集这些信息，因此请尽快回来查看。
+        set_location: 在您的个人资料中设置一个位置，以获得对该作物的更准确的预测。
+        sign_in: 登录并设置位置以获得该作物的更准确预测。
+      set_location: 设置您的位置。
+      sign_in: 登录。
+      source:
+        degree_days: 根据该作物所需的生长期天数和您所在地的通常天气计算出。
+        ecocrop: 根据粮农组织生态作物数据库中的生长周期，无论在哪里种植，其生长周期都是相同的。
+        median: 从成员种植这种作物到第一次收获的平均时间。
+      title: 收获时间
+    growing_degree_days:
+      cycle_html: 对于 %{crop}，FAO EcoCrop 数据库给出的最低生长温度为 %{tmin}，最佳温度下的最短生长周期为 %{gmin} 天，距第一次收获大约 %{degree_days} 个生长度天。
+      example: 假设最低温度为 10°C。一天的平均气温为 17°C，有 7 个生长度日。一天平均气温 8°C 却没有任何效果，因为天气太冷，不适合农作物生长。这就是为什么同样的生菜在夏天需要大约 50 天，在秋天需要 90 天：无论哪种方式，它都需要相同的总热量。
+      intro: 植物是靠温暖生长的，而不是靠日子生长的。生度日是一天的有用温暖值：当天的平均温度比作物生长的最低温度高出多少度。将播种后的时间加起来，无论日历上如何显示，您都可以知道农作物的生长情况。
+      needs_html: "%{crop} 需要大约 %{degree_days} 生长度天数。"
+      summary: 什么是生学位日？
+      usage: 当您告诉我们您的花园在哪里时，我们会使用该信息和那里的天气来预测您的 %{crop} 何时可以收获。我们不会用它来判断植物的寿命或何时结束：我们根据成员的记录来判断。
+    hardiness:
+      from_packets: 从会员的种子包中算出来
+      help: 作物需要多少霜冻。无论种子包上有什么说明，请选择一个级别来保留它。
+      label: 坚韧
+      sources:
+        manual: 由作物管理员设置
+        seed_packets: 来自会员的种子包
+      title: 坚韧
   edit_crop: 编辑裁剪
+  flash:
+    photo_associations:
+      destroy:
+        notice: 已从该 %{kind} 中移除照片。该照片仍保留在 Growstuff 上。
+  follows:
+    followers:
+      title: "%{member} 的关注者"
+    index:
+      title: "%{member} 关注的人"
   forms:
-    optional: （选修的）
+    optional: "（选修的）"
   forums:
+    edit:
+      title: 编辑论坛
+    form:
+      errors:
+        one: "%{count}个错误导致此论坛无法保存："
+        other: "%{count}个错误导致此论坛无法保存："
+      save: 保存
+    new:
+      title: 新建论坛
+    show:
+      moderator_html: "此论坛由%{moderator}管理"
+      edit: 编辑
+      delete: 删除
+      confirm_delete: 您确定吗？
+      posts: 帖子
+      post_something: 发布帖子
+      empty: 暂无帖子。
     created: 论坛创建成功。
     deleted: 论坛已成功删除。
     index:
       title: 论坛
+      new_forum: 新建论坛
+      visit_forum: 访问论坛
+      post: 发帖
     updated: 论坛更新成功。
+  frost:
+    about_estimates: 这些日期是根据25公里分辨率的气象模型数据估算的，并非来自您菜园中气象站的实测数据，因此容易积冷的地方可能更冷。估算可能有误，请先查询国家气象部门的信息并向当地种植者咨询，再决定是否采用。
+    cards:
+      coldest:
+        label: 最冷的夜晚
+        note_above: "比%{threshold} °C的霜冻危险线高%{gap} °C"
+        note_at: 恰好处于%{threshold} °C的霜冻危险线
+        note_below: "比%{threshold} °C的霜冻危险线低%{gap} °C"
+      free:
+        label: 无霜期
+        note: 在典型年份中
+      in_danger:
+        label: 生长期间经历的霜冻风险期
+        note: "从种植到历史最晚降霜日%{latest}"
+      last:
+        label: 通常的终霜日
+        note: "历史上最晚在%{latest}仍有霜冻"
+        planted_after: "在此之后%{days}种植"
+        planted_before: "在此之前%{days}种植"
+        planted_out_after: "在此之后%{days}移至室外"
+        planted_out_before: "在此之前%{days}移至室外"
+      next:
+        label: 下次霜冻风险开始时间
+        note_finishes: "最早在%{earliest}，即这次%{crop}种植结束后%{days}"
+        note_now: "最早在%{earliest}，距今%{days}"
+    days:
+      one: "%{count}天"
+      other: "%{count}天"
+    degrees: "%{degrees} °C"
+    experimental: 实验性功能 · 新功能可能不稳定
+    experimental_heading: 实验性功能：此功能较新，可能不稳定。
+    nights_so_far:
+      one: "目前有1个夜晚的气温不高于%{threshold} °C，最低为%{coldest} °C。"
+      other: "目前有%{count}个夜晚的气温不高于%{threshold} °C，最低为%{coldest} °C。"
+    planted:
+      after: "%{crop}于%{planted}种植，比通常的终霜日（%{usual_end}）晚%{days}。"
+      before: "%{crop}于%{planted}种植，比通常的终霜日（%{usual_end}）早%{days}。"
+    planted_out:
+      after: "%{crop}于%{planted}移至室外，比通常的终霜日（%{usual_end}）晚%{days}。"
+      before: "%{crop}于%{planted}移至室外，比通常的终霜日（%{usual_end}）早%{days}。"
+    timeline:
+      annotation_out_after: "在通常的终霜日之后%{days}移至室外"
+      annotation_out_before: "在通常的终霜日之前%{days}移至室外"
+      description: "从%{from}到%{to}的时间线。通常的霜冻风险期为%{usual_start}至%{usual_end}。历史上最早在%{earliest}、最晚在%{latest}出现过霜冻。%{crop}的种植期为%{planted}至%{ends}。"
+      description_undated: "从%{from}到%{to}的时间线。通常的霜冻风险期为%{usual_start}至%{usual_end}。历史上最早在%{earliest}、最晚在%{latest}出现过霜冻。%{crop}于%{planted}种植。"
+      description_place: "从%{from}到%{to}的时间线。通常的霜冻风险期为%{usual_start}至%{usual_end}。历史上最早在%{earliest}、最晚在%{latest}出现过霜冻。"
+      annotation_after: "在通常的终霜日之后%{days}种植"
+      annotation_before: "在通常的终霜日之前%{days}种植"
+      finish_expected: "预计于%{date}结束"
+      finished: "于%{date}结束"
+      frost_safe: "在%{place}，免受霜冻"
+      legend:
+        finished: 种植已结束
+        frost_safe: 在免受霜冻的地方
+        planted: 已种植，无结束日期
+        possible: 可能范围：历史最早或最晚降霜时间
+        so_far: 已过去的种植期
+        still_to_come: 剩余的种植期
+        usual: 通常的霜冻风险期
+      planted: "于%{date}种植"
+      planted_out: "于%{date}移至室外"
+      row_danger: 霜冻风险
+      row_planting: 这次种植
+      tips:
+        frost_safe: "在%{place}，免受霜冻：%{range}"
+        planting: "%{label}（%{range}）"
+        possible: "历史上在此范围的最早或最晚日期也出现过霜冻：%{range}"
+        usual: "通常的霜冻风险期：%{range}"
+      title: "这次%{crop}种植与霜冻季节的对比"
+      title_place: 霜冻季节
+      today: "今天，%{date}"
+      usual: "%{from} – %{to}"
+      usual_open: "%{from} →"
+    title: 霜冻
+    verdicts:
+      before_season:
+        body: "通常的初霜日为%{usual_start}，还有%{days}。历史上最早在%{earliest}就出现过霜冻。"
+        title: 霜冻风险期即将开始
+        title_far: 尚未进入霜冻风险期
+      finished_clear:
+        body: "直到%{latest}都有可能出现霜冻，而该期间没有夜晚的气温低于%{coldest} °C。"
+        body_no_readings: "直到%{latest}都有可能出现霜冻。我们没有这次%{crop}种植的夜间气温数据。"
+        title: "这次%{crop}种植未遭遇霜冻"
+      finished_hit:
+        body:
+          one: "在可能出现霜冻的期间，有1个夜晚的气温不高于%{threshold} °C。最低气温为%{coldest} °C。"
+          other: "在可能出现霜冻的期间，有%{count}个夜晚的气温不高于%{threshold} °C。最低气温为%{coldest} °C。"
+        title: "这次%{crop}种植可能遭遇过霜冻"
+      finished_undated:
+        body: "那一年通常的终霜日为%{usual_end}，历史上最晚在%{latest}仍有霜冻。我们没有这次%{crop}种植的结束日期，因此无法判断它经历了什么。"
+        title: 无法判断它遭遇过哪些霜冻
+      in_season:
+        body: "通常的终霜日为%{usual_end}，还有%{days}。历史上最晚在%{latest}仍有霜冻。"
+        title: 处于通常的霜冻风险期
+      late_possible:
+        body: "历史上最晚在%{latest}仍有霜冻，距今还有%{days}。请留意天气预报。"
+        title: 已过通常的终霜日，但仍可能有霜冻
+      passed:
+        body: "往年最晚的霜冻出现在%{latest}，距今已过%{days}。"
+        title: "这次%{crop}种植的霜冻风险期已过"
+        title_place: 今年的霜冻风险期已过
+      rare:
+        body: 此地区很少出现霜冻，因此不显示霜冻日期。
+        title: 这里很少出现霜冻
+  garden_collaborators:
+    new:
+      title: 新增花园协作者
+    edit:
+      title: 编辑花园协作者
+    form:
+      errors:
+        one: 1 个错误导致无法保存此花园协作者
+        other: "%{count} 个错误导致无法保存此花园协作者"
+      guidance: 向你的朋友、家人或社区花园成员索取他们的 growstuff 用户名，以便将他们添加为你花园的协作者。
+      save: 保存协作者
+    index:
+      add_collaborator: 添加花园协作者
+      breadcrumbs_gardens: 花园
+      heading: "%{garden} 协作者"
+      joined: 加入于 %{time} 前。
+      no_collaborators: 没有可显示的协作者。
+      remove_access: 移除权限
+      sidebar_blurb: "%{site_name} 帮助你追踪家庭花园的收成，并了解其产量表现。"
+      title: "%{garden} 协作者"
+      view_all_gardens: 查看 %{name} 的所有花园
+  garden_types:
+    edit:
+      title: 编辑花园类型
+    form:
+      basic_information: 基本信息
+      errors:
+        one: '有 1 个错误，无法保存此花园类型：'
+        other: '有 %{count} 个错误，无法保存此花园类型：'
+      name_help: 花园类型的英文名称，例如“organic”（必填）。
+      save: 保存
+    index:
+      title: 花园类型
+      description: "%{site_name} 记录谁在何处种植什么。查看任意花园类型页面，即可了解哪些成员使用了该类型。"
+      new_garden_type: 新建花园类型
+    new:
+      title: 新建花园类型
+    show:
+      empty: 没有可显示的花园。
   gardens:
+    breadcrumbs:
+      gardens: 花园
+      owner_gardens: "%{owner}的花园"
+    edit:
+      title: 编辑花园
+    image_alt: "%{name}的图片"
+    index:
+      title: 所有人的花园
+      profile: 个人资料
+    layout:
+      title: "%{owner}的%{garden}布局"
+      breadcrumb: 布局
+    new:
+      title: 新建花园
     about:
       collaborators: 合作者
-      fetch_wikidata: 获取维基数据信息
       heading: 关于这个花园
       leave: 离开花园
       leave_confirm: 你确定要离开这个花园吗？
       location: 地点
       manage: 管理
       owner: 所有者
-      temperature_unknown: 未知
-      temperatures_html: '%{source} 的当地气温：最热的 %{hottest}，最冷的 %{coldest}。'
-      wikidata_missing: 该位置缺少维基数据信息。
-      you: （你）
+      you: "（你）"
     actions:
       add_photo: 添加来自 Flickr 的照片
       make_nursery: 把这里变成托儿所
       new_job: 新工作
+    archived_jobs:
+      by: 由 %{owner}
+      done: 已完成
+      due: 截止日期 %{date}
+      empty: 这里没有安排任何任务。
+      on_planting_html: 针对 %{planting}
+      photos:
+        one: 1 张照片
+        other: "%{count} 张照片"
+      title: 此花园中的任务
+      view_all_jobs: 查看全部 %{total} 项任务
+    card:
+      layout: 布局
+      no_annuals: 无一年生植物
+      no_perennials: 无多年生植物
+      of: 的
+      owner: '所有者:'
+      perennials: '多年生:'
     companions:
       heading: 推荐同伴
     confirm_deactivate: 与该花园相关的所有植物都将标记为已完成。你确定吗？
@@ -313,25 +1171,43 @@ zh:
       unknown: 未知
     form:
       location_helper: 如果您在个人资料中设置了位置，则在创建新花园时将使用该位置。
-    card:
-      layout: 布局
-      no_annuals: 无一年生植物
-      no_perennials: 无多年生植物
-      of: 的
-      owner: '所有者:'
-      perennials: '多年生:'
-    inactive_card:
-      grown_here: 在此种植
-      image_alt: "%{name}的照片"
-      more_crops: "以及其他 %{count} 种"
+      active_label: 使用中？
+      active_help: 如果您不再使用某个花园，可以将其标记为停用。请注意：这会将花园中的所有种植标记为“已结束”。
+      description_placeholder: 请介绍一下这个花园——它在哪里？是什么样子的？有照片链接吗？有灌溉设施吗？您有什么计划？
+      errors:
+        one: 有 1 个错误，无法保存此花园
+        other: 有 %{count} 个错误，无法保存此花园
+      save: 保存花园
+      frost_safe:
+        help: 对于植物没有霜冻危险的温室、室内或加热长凳，请勾选此选项。从这里开始种植的植物，其霜冻部分从它移到户外的那天就开始了。托儿所开始打勾；如果霜冻影响到你的幼苗，请取消勾选它。
+        label: 这个花园不受霜冻影响
     header:
-      all_gardens: '%{owner} 的所有花园'
+      nursery: 苗圃
+      nursery_hint: 这里培育的幼苗可以移植到您的花园中。
+      all_gardens: "%{owner} 的所有花园"
       garden_of: 的花园
       hero_caption:
         one: 花园照片·%{count} 照片
         other: 花园照片·%{count} 照片
-      hero_label: '%{garden}的照片'
+      hero_label: "%{garden}的照片"
       season_title: 这个花园的季节
+      frost_protected: 防冻保护
+      frost_protected_title: 免受霜冻，例如室内或温室中
+    inactive:
+      current_gardens: 当前花园
+      empty_body: 没有可显示的休止花园。
+      empty_owner_hint: 您标记为休止的花园将在此显示。
+      explanation: 当花园被标记为休止且其种植被标记为完成时，花园就会进入休止状态。它们保留在这里作为种植历史记录。
+      inactive_gardens: 休止花园
+      lead: 不再使用的花园以及曾在其中种植的作物。
+      owner_gardens: "%{owner}的花园"
+      owner_reactivate_hint: 您可以重新将花园标记为活跃以继续进行编辑。
+      skip_to_content: 跳至主要内容
+      title: "%{owner}的休止花园"
+    inactive_card:
+      grown_here: 在此种植
+      image_alt: "%{name}的照片"
+      more_crops: 以及其他 %{count} 种
     jobs_section:
       public: 民众
     join_banner:
@@ -349,12 +1225,17 @@ zh:
       map_out_text: 将你的植物拖到床上的图片上，看看什么适合哪里。
       new: 新的
       plants_placed:
-        one: '%{count} 植物放置在床上'
-        other: '%{count} 植物放置在床上'
+        one: "%{count} 植物放置在床上"
+        other: "%{count} 植物放置在床上"
       view_layout: 查看布局
       view_layout_label: 查看床位布局
       where_each: 花园里每种植物生长的地方，都在床的地图上。
-    location: '%{owner} 的 %{garden}'
+    location:
+      change: 更改
+      heading: 地点
+      not_set: 未设置
+      remove: 删除
+    string: "%{owner} 的 %{garden}"
     nursery_declined: 好吧，我们不会再问托儿所的事了。您可以稍后从您的花园页面进行设置。
     nursery_made: 这个花园现在是你的苗圃。
     nursery_name: 苗圃
@@ -365,12 +1246,12 @@ zh:
       no_plantings: 没有种植
       plantingsthumbnail: 种植/缩略图
     owner_gardens:
-      growing_count: '%{count} 成长'
-      heading: '%{owner} 的花园'
+      growing_count: "%{count} 成长"
+      heading: "%{owner} 的花园"
       inactive_gardens:
-        one: '%{count} 闲置花园'
-        other: '%{count} 不活跃的花园'
-      new_garden: + 新花园
+        one: "%{count} 闲置花园"
+        other: "%{count} 不活跃的花园"
+      new_garden: "+ 新花园"
       nursery: 苗圃
     photos_section:
       add: 添加
@@ -386,11 +1267,14 @@ zh:
       previously_planted: 以前在这个花园里种植过的植物
       unknown_year: 年份未知
     show:
+      inactive_notice: 该花园处于休眠状态。
       km_from_you: 距您约 %{km} 公里
+      set_active: 将其设置为有效
       suggested_plantings:
         one: 我们有 %{count} 建议种植添加到这里
         other: 我们在这里添加了 %{count} 建议的种植
       suggested_plantings_go: 看到他们 →
+      to_plant: 以在此花园中种植作物。
     sign_in: 登入
     sign_up: 免费加入
     start:
@@ -398,11 +1282,68 @@ zh:
       heading: 开始你自己的花园
       text: 在一处种植、收割和保存种子，看看您附近有什么生长得很好。
     updated: 花园已成功更新。
+  hardiness:
+    levels:
+      half_hardy:
+        meaning: 能耐受轻微霜冻
+        name: 半耐寒
+      hardy:
+        meaning: 不怕霜冻
+        name: 耐寒
+      tender:
+        meaning: 霜冻会造成伤害
+        name: 不耐寒
+      unknown:
+        name: 未知
   harvests:
+    attribution: "%{owner}收获的%{crop}"
+    breadcrumbs:
+      harvests: 收获
+      owner_harvests: "%{owner}的收获"
+      plantings: 种植
+    description:
+      activity_html: 收获了%{harvest}
+    edit:
+      title: 编辑收获
+      show: 查看
+      back: 返回
+    feed:
+      title: "%{owner}的近期收获（%{site_name}）"
+      all_members: 所有成员
+    form:
+      errors:
+        one: '有 1 个错误，无法保存此次收获：'
+        other: '有 %{count} 个错误，无法保存此次收获：'
+      crop: 您收获了什么？
+      crop_from_html: 来自%{garden}的%{crop}
+      crop_help_html: 找不到您要的作物？%{link}
+      request_crops: 请求添加新作物。
+      when: 何时？
+      plant_part: 收获的植物部位
+      quantity: 数量是多少？
+      weight_quantity: 总重量
+      notes: 备注
+      leave_blank: 留空
+      rating: 种植总体评分
+      rating_help: 种植情况如何？
+      poor: 差
+      great: 很好
+      save: 保存
+    listing:
+      meta_description: 浏览和搜索收获记录。
+    owner:
+      harvested_by_html: 由%{owner}收获
+      view_all: 查看%{owner}的所有收获
+      harvested_from_html: 收获自%{planting}
+      nearby_html: 查看%{location}附近的其他收获、成员等
+    thumbnail:
+      heading:
+        one: "%{crop}收获"
+        other: "%{crop}收获"
     card:
-      by: "由"
-      harvested: "已收获"
-      picked_at: "采摘于 %{date}"
+      by: 由
+      harvested: 已收获
+      picked_at: 采摘于 %{date}
       title: "%{crop}收获"
     created: 收获成功创建。
     edit_modal:
@@ -415,10 +1356,16 @@ zh:
       weight_quantity: 重量（总计）
       weight_unit: 称重单位
     harvest_something: 收获一些东西
+    index:
+      title:
+        crop_harvests: 大家的收获%{crop}
+        default: 大家的收获
+        owner_harvests: "%{owner}的收获"
+        planting_harvests: "%{planting} 的收获"
     modal:
       all_plant_parts: 所有植物部位
       close: 关闭
-      recommended_plant_parts: "建议收获的植物部位："
+      recommended_plant_parts: 建议收获的植物部位：
       record_harvest: 记录收获
       select_plant_part: 选择您收获的植物部位
       title: 记录%{crop}收获
@@ -427,37 +1374,100 @@ zh:
       rate_planting: 评价该种植
       save: 保存
       unrated_notice: 此收获来自尚未评分的种植。
-    index:
-      title:
-        crop_harvests: 大家的收获%{crop}
-        default: 大家的收获
-        owner_harvests: '%{owner}的收获'
-        planting_harvests: '%{planting} 的收获'
     show:
-      heading: '%{crop}收获'
+      add: 添加
+      breadcrumb: 收获
+      crop: 作物
+      harvested: 已收获
+      harvested_by: 收获者：
+      heading: "%{crop}收获"
+      no_photos: 暂无照片。
+      photos: 照片
+      picked_from: 采摘自
+      plant_part: 植物部位
+      quantity: 数量
+      see_how: 查看 %{owner} 的 %{crop} 生长情况。
+      the_planting_this_came_from: 此收获来源的种植
     updated: 收获已成功更新。
   home:
+    community_description: Growstuff 是一个种植食物的园艺爱好者社区。让我们一起学习种植食物。
+    planting_image_alt: "%{owner}的%{planting}图片"
+    weather_invitation:
+      add_location: 添加您的位置
+      change_location: 更改您的位置
+      intro:
+        loading: "正在加载您在%{place}的菜园的历史天气数据。这可能需要一两天。请稍后再来查看，届时数据就会准备好。"
+        no_location: 添加菜园的位置，我们就能显示该地的霜冻、降雨和气温信息。
+        ready: "查看您在%{place}的菜园的霜冻、降雨和气温状况。"
+      labels:
+        air: 气温
+        frost: 霜冻
+        rain: 降雨量
+      loading:
+        air:
+          note: 加载中
+          title: 尚未就绪
+        frost:
+          note: 加载中
+          title: 尚未就绪
+        rain:
+          note: 加载中
+          title: 尚未就绪
+      no_location:
+        air:
+          note: 过去30年的记录
+          title: 气温和土温及其历史记录
+        frost:
+          note: 针对您的菜园
+          title: 霜冻风险何时开始和结束
+        rain:
+          note: 与常年相比
+          title: 今年以来的降雨情况
+      ready:
+        air:
+          a_little_cooler: 比常年稍凉
+          a_little_warmer: 比常年稍暖
+          close: 今年接近常年水平
+          cooler: 比常年凉
+          note_above: "今年比常年高%{difference} °C"
+          note_below: "今年比常年低%{difference} °C"
+          note_close: "今年与常年相差%{difference} °C"
+          warmer: 比常年暖
+        frost:
+          before_season: "通常的霜冻风险期从%{date}开始"
+          in_season: "通常的霜冻风险期到%{date}结束"
+          late_possible: "历史上最晚在%{date}仍有霜冻"
+          passed: "下次霜冻风险期从%{date}开始"
+          rare: 这里很少出现霜冻
+        rain:
+          close: 今年接近常年水平
+          drier: 今年比常年干燥
+          note: "为常年截至此日降雨量的%{percent}%"
+          wetter: 今年比常年多雨
+      see: 查看您的地区
+      title: 您所在地区的天气
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
     blurb:
       badge: 开源 · 开放数据 · 自 2012 年
       headline_html: 知道<strong>种植什么</strong>，<br>现在，在您居住的地方
-      intro: '%{site_name} 是一个食品园丁社区。跟踪您的花园，从邻居那里寻找种子，看看您附近的园丁本月正在种植什么。'
+      intro: "%{site_name} 是一个食品园丁社区。跟踪您的花园，从邻居那里寻找种子，看看您附近的园丁本月正在种植什么。"
       photo_by: 通过 %{login}
       public_note: 您记录的所有内容都是公开的开放数据，包括您所在的城市。
-      sign_in_linktext: 登入
       sign_in_bluesky: 使用 Bluesky 登入
+      sign_in_linktext: 登入
+      sign_in_mastodon: 使用 Mastodon 登入
       sign_up: 免费加入
     dashboard:
-      add_bed: + 床
-      add_seeds: + 种子
+      add_bed: "+ 床"
+      add_seeds: "+ 种子"
       all_gardens: 所有花园
       all_plants: 所有植物
       all_varieties:
-        one: '%{count}品种'
+        one: "%{count}品种"
         other: 所有 %{count} 品种
       at_latitude: 在你的纬度
-      at_latitude_note: '%{band} 园丁的顶级种植'
-      bed_counts: '%{plantings} 种植 · %{ready} 准备就绪'
+      at_latitude_note: "%{band} 园丁的顶级种植"
+      bed_counts: "%{plantings} 种植 · %{ready} 准备就绪"
       beds: 床位
       chip_growing: 生长
       chip_ready: 准备好
@@ -470,8 +1480,8 @@ zh:
       compared_empty: 种植与去年相同的作物，我们将在这里进行比较。
       compared_note: 今年和去年的作物相同
       days:
-        one: '%{count} 天'
-        other: '%{count} 天'
+        one: "%{count} 天"
+        other: "%{count} 天"
       do_it: 做吧
       done: 完毕
       easy_to_sow: 在您附近的 %{month} 轻松播种
@@ -481,7 +1491,7 @@ zh:
       friends: 我的朋友和邻居
       friends_empty: 跟随一些园丁看看他们正在种植什么。
       friends_note: 首先关注您的人，然后是您附近的人
-      garden_title_html: <strong>%{name}</strong>花园
+      garden_title_html: "<strong>%{name}</strong>花园"
       get_started: 开始使用
       growing_now: 现在正在成长
       harvest_by_month: 按月收获
@@ -503,23 +1513,23 @@ zh:
       nothing_ready: 一切还没有准备好。
       nothing_to_show: 没有任何匹配。
       novice_lede:
-        one: '%{count} 植物生长。很好的开始。'
-        other: '%{count} 植物正在生长。很好的开始。'
+        one: "%{count} 植物生长。很好的开始。"
+        other: "%{count} 植物正在生长。很好的开始。"
       plant_crop: 植物 %{crop}
       plant_this: 种这个
       planted_when: 种植 %{when}
       planting: 种植
-      plus_harvest: + 收获
-      plus_job: + 规划工作
-      plus_plant: + 植物
+      plus_harvest: "+ 收获"
+      plus_job: "+ 规划工作"
+      plus_plant: "+ 植物"
       ready: 准备好
       ready_now: 现在准备好了
       ready_title:
-        one: '%{count} 播种准备收获'
-        other: '%{count} 作物已准备好收获'
+        one: "%{count} 播种准备收获"
+        other: "%{count} 作物已准备好收获"
       record_harvests: 创纪录的收成
       relative:
-        ago: '%{time} 前'
+        ago: "%{time} 前"
         today: 今天
         yesterday: 昨天
       see_all: 查看全部
@@ -556,6 +1566,10 @@ zh:
       this_week: 本星期
       tile_harvest: 记录你选择的内容
       tile_job: 为你的花园计划一项任务
+      jobs_today:
+        one: 即将有 1 项任务
+        other: 即将有 %{count} 项任务
+      jobs_today_go: 我的任务 →
       tile_job_title: 添加职位
       tile_photo: 花园的
       tile_photo_title: 添加照片
@@ -567,8 +1581,25 @@ zh:
       view_seed_library: 查看您的种子库
       vs_last_year: 与去年相比
       years_growing:
-        one: '%{count} 年增长'
-        other: '%{count} 年成长'
+        one: "%{count} 年增长"
+        other: "%{count} 年成长"
+      todo: 要做的事
+      todo_confirm: 确认您的电子邮件地址
+      todo_confirm_note: 我们发送了一个链接到%{email}。关注它，这样我们就知道它是你的了。
+      todo_confirm_resend: 再发送一次
+      todo_confirm_waiting: 添加电子邮件地址后，我们将向您发送一个链接以进行确认。
+      todo_email: 添加您的电子邮件地址
+      todo_email_add: 添加电子邮件
+      todo_email_changed_mind: 改变主意了吗？
+      todo_email_decline: 不，谢谢
+      todo_email_declined: 您选择不添加，因此我们不会向您发送通知或种植提醒。
+      todo_email_error: 我们现在无法保存它。请再试一次。
+      todo_email_note: 如果没有，我们就无法向您发送通知或种植提醒，也无法让您重置密码。我们将通过电子邮件发送一个链接进行确认。
+      todo_email_save: 保存电子邮件
+      todo_email_skipped: 跳过
+      todo_name: 确认您的姓名
+      todo_name_note: 这是网站上显示的名称。我们建议了一种，您可以更改它。
+      todo_name_save: 保存名称
     index:
       harvest: 收成
       plant: 植物
@@ -582,7 +1613,7 @@ zh:
       by: 经过
       comments:
         one: 1 条评论
-        other: '%{count} 评论'
+        other: "%{count} 评论"
       title: 最近的帖子
     releases:
       find_out_more: 了解更多»
@@ -625,7 +1656,7 @@ zh:
         title: 大约从2012年开始
       title: 为什么要登录
   job_ideas:
-    add: + 添加
+    add: "+ 添加"
     add_all: 添加所有 %{count}
     added: 将“%{name}”添加到您的作业中。
     added_to_jobs:
@@ -653,7 +1684,7 @@ zh:
       plant: 植物 %{crop}
     more:
       one: 还有 1 个想法等待。
-      other: '%{count} 更多想法等待。'
+      other: "%{count} 更多想法等待。"
     none: 目前没什么可建议的。随着季节的变化回来查看。
     preview:
       one: 查看职位
@@ -662,26 +1693,26 @@ zh:
       community:
         earlier:
           one: 一位种植 %{crop} 的园丁在每年的这个时候就这样做过。
-          other: '%{count} 种植 %{crop} 的园丁在每年的这个时候就这样做过。'
+          other: "%{count} 种植 %{crop} 的园丁在每年的这个时候就这样做过。"
         now:
           one: 种植 %{crop} 的 1 名园丁本月已计划这样做。
-          other: '%{count} 种植 %{crop} 的园丁本月有这个计划。'
+          other: "%{count} 种植 %{crop} 的园丁本月有这个计划。"
       community_of:
         earlier:
           one: 每年的这个时候，种植 %{crop} 的 %{of} 园丁中的一位就这样做了。
-          other: '%{of} 的 %{count} 种植 %{crop} 的园丁在每年的这个时候就这样做了。'
+          other: "%{of} 的 %{count} 种植 %{crop} 的园丁在每年的这个时候就这样做了。"
         now:
           one: 种植 %{crop} 的 %{of} 园丁中的 1 名本月计划了此操作。
-          other: '%{count} 的 %{of} 种植 %{crop} 的园丁本月有这个计划。'
+          other: "%{count} 的 %{of} 种植 %{crop} 的园丁本月有这个计划。"
       harvest_harvested: 您上次收获的时间是 %{day}。
       harvest_predicted: 在 %{day} 左右准备好，看看通常需要多长时间。
       nearby:
         earlier:
           one: 每年的这个时候，附近的一位园丁就这样做过。
-          other: '%{count} 附近的园丁每年的这个时候都会这样做。'
+          other: "%{count} 附近的园丁每年的这个时候都会这样做。"
         now:
           one: 附近的一位园丁本月计划了这个。
-          other: '%{count} 附近的园丁本月有这个计划。'
+          other: "%{count} 附近的园丁本月有这个计划。"
       past_job:
         one: 您在 %{day} 上执行了此操作。
         other: 您在 %{count} 年中的这个时候执行了此操作，最后一次是在 %{day} 上。
@@ -690,21 +1721,21 @@ zh:
         other: 您在 %{count} 年的这个时候种植了此树，最后一次在 %{day} 年种植。
       template:
         one: 1 份工作：%{steps}。为了你的%{crop}种植在%{day}上。
-        other: '%{count} 职位：%{steps}。为了你的%{crop}种植在%{day}上。'
+        other: "%{count} 职位：%{steps}。为了你的%{crop}种植在%{day}上。"
       world:
         earlier:
           one: 每年的这个时候，您所在纬度的一位园丁都会这样做。
-          other: '%{count} 在你所在纬度的园丁在每年的这个时候都会这样做。'
+          other: "%{count} 在你所在纬度的园丁在每年的这个时候都会这样做。"
         now:
           one: 您所在纬度的 1 位园丁本月已计划这样做。
-          other: '%{count} 你所在纬度的园丁本月有这个计划。'
+          other: "%{count} 你所在纬度的园丁本月有这个计划。"
     section:
       community: 人们种植你种植的东西
       community_note: 公共职位
       harvest: 准备收获
       harvest_note: 在你的花园里
       nearby: 在你附近
-      nearby_note: '%{place} 及周边'
+      nearby_note: "%{place} 及周边"
       templates: 模板
       templates_note: 对于你拥有的植物
       this_time: 每年的这个时候
@@ -721,7 +1752,7 @@ zh:
       crossed_off: 划掉“%{name}”
       done:
         one: 本周完成 1 项工作。
-        other: '%{count} 本周完成的工作。'
+        other: "%{count} 本周完成的工作。"
       many:
         lead: 滚滚而来！
         note: 蜗牛已经叫了其他蜗牛。
@@ -735,14 +1766,55 @@ zh:
         lead: 连续两个！
         note: 蜗牛的速度正在加快。
       undo: 撤消
+    description:
+      due: "(截止日期：%{due})"
+      in_garden_html: 在 %{link} 中
+      on_planting_html: 针对 %{link}
+      planned: 计划做“%{name}”
+      plans: 计划做“%{name}”
     due:
       last: 最后%{day}
+    edit:
+      title: 编辑任务
+    finished_description:
+      did: 完成了“%{name}”
+      in_garden_html: 在 %{link} 中
+      on_planting_html: 针对 %{link}
     form:
+      add_garden: 添加花园。
+      add_planting: 添加种植。
+      description_label: 详细说明
+      errors:
+        one: 1 个错误导致无法保存此任务：
+        other: "%{count} 个错误导致无法保存此任务："
       finish_helper: 当你完成一项工作时，它就完成了，否则它就不再可能了。
+      garden_label: 这是针对特定花园的吗？
+      name_label: 需要做什么？
+      planting_label: 这是针对特定种植的吗？
+      repeat_times_label: 重复多少次？
+      repeat_weeks_label: 每隔几周？
+      save: 保存
+      when_label: 什么时候？
     index:
+      all_members: 所有成员
+      api_methods: API 方法
+      breadcrumbs_jobs: 任务
+      due_date_html: 截止日期：%{date}
+      garden_html: 花园：%{garden}
+      ics_description: "%{owner} 的任务"
+      ics_garden: 花园：%{garden}
+      ics_planting: 种植：%{planting}
+      include_finished_jobs: 包含已完成的任务
+      not_applicable: 无
+      open_data: 开放数据
+      owner_jobs: "%{owner} 的任务"
+      planting_html: 种植：%{planting}
+      rss_title: 来自 %{owner} 的最新任务 (%{site})
+      sidebar_heading: 任务
       title:
         default: 每个人的工作
-        owner_jobs: '%{owner} 的职位'
+        owner_jobs: "%{owner} 的职位"
+      unknown: 未知
     pad:
       add: 添加职位
       add_button: 添加
@@ -793,7 +1865,7 @@ zh:
       slow: 缓慢而稳定。
       someday: 有一天
       someday_note: 一个愿望清单，没有任何承诺
-      title: '%{owner} 的职位'
+      title: "%{owner} 的职位"
       today: 今天
       uncross: 放回到列表中：%{job}
       week: 本星期
@@ -802,21 +1874,127 @@ zh:
     suggestions:
       planted: 种植 %{date}
       saved: 已保存 %{year}
-      seeds: '%{crop} 种子'
+      seeds: "%{crop} 种子"
       the_crop: 作物
   label:
     data: 此页面上的数据有以下格式：
-    days_until_finished: '%{number} 天'
-    days_until_harvest: '%{number} 天'
+    days_until_finished: "%{number} 天"
+    days_until_harvest: "%{number} 天"
     harvesting_now: 现在收获
-    weeks_until_finished: '%{number}周'
-    weeks_until_harvest: '%{number} 收获前几周'
+    weeks_until_finished: "%{number}周"
+    weeks_until_harvest: "%{number} 收获前几周"
+  devise_views:
+    resend_confirmation: 重新发送确认邮件
+    confirmation_help: 输入您的登录名或电子邮箱地址，以重新发送确认邮件。
+    login: 登录名或电子邮箱
+    change_password: 更改密码
+    new_password: 新密码
+    confirm_password: 确认新密码
+    current_password: 当前密码
+    change_my_password: 更改我的密码
+    forgot_password: 忘记密码？
+    password_help: 输入您的电子邮箱地址，我们会发送一个链接，供您设置新密码。
+    email: 电子邮箱
+    send_reset: 发送密码重置邮件
+    sign_in: 登录
+    password: 密码
+    remember_me: 保持登录状态
+    resend_unlock: 重新发送解锁邮件
+    join_free: 免费注册
+    missing_confirmation: 没有收到确认邮件？
+    missing_unlock: 没有收到解锁邮件？
+    continue_with: 使用%{provider}继续
+    delete_help: 删除您在%{site_name}的账户。
+    delete_password: 删除账户需要输入密码
+    delete: 删除
+    save: 保存
+    reconfirm_email: 更改电子邮箱地址后，您需要重新确认。
+    show_email: 在个人资料页面公开显示电子邮箱。
+    notification_email: 通过邮件接收收件箱通知（例如私信）的副本。
+    planting_reminders: 定期接收记录种植和收获的提醒。
+    harvest_reminders: 定期接收即将收获的提醒。
+    join_site: 加入%{site_name}
+    signup_help: 注册%{site_name}账户，记录您的菜园，并与当地其他种植者交流。
+    captcha_help: 如果您在使用验证码时遇到无障碍访问问题，请通过页脚中的链接联系我们，我们会提供帮助。
+    login_name: 登录名
+    login_help: 这是将在网站上显示的名称。
+    email_help: 我们将使用此地址联系您（绝不发送垃圾邮件！）。
+    agreement_html: 我同意%{link}
+    terms: 服务条款
+    sign_up: 注册
+    greeting: 您好，%{name}：
+    confirmation_body: 您在%{site_name}的账户已创建。请通过以下链接确认您的电子邮箱地址：
+    confirm_account: 确认我的账户
+    confirmed_help: 确认后，您可以使用登录名（%{login}）或电子邮箱地址（%{email}）以及注册时设置的密码登录。请注意，登录名和密码区分大小写。
+    welcome_html: 欢迎加入我们！希望您喜欢%{site_name}。您可以浏览网站、%{plant_link}，如有任何问题或建议，也欢迎到%{forums_link}交流。
+    plant_things: 种些植物
+    forums: 论坛
+    guidelines_help_html: 也请您阅读并遵守我们的%{link}。我们希望%{site_name}是一个对所有人都友好、热情的环境，期待您与我们共同维护。
+    guidelines: 社区准则
+    looking_forward: 期待与您见面！
+    team: "%{site_name}团队。"
+    reset_body: 有人请求重置您在%{site_name}的密码。如果这是您本人的操作，请通过以下链接重置密码：
+    reset_ignore: 如果不是您本人的操作，可能是有人输入错误或进行了不当尝试。您可以放心忽略此邮件，您的密码不会更改。
+    see_you: 期待再见，
+    unlock_body: 由于登录失败次数过多，您的%{site_name}账户已被锁定。这是为了防止他人非法访问您的账户，也可能是因为您忘记了密码。请通过以下链接解锁账户：
+    unlock_account: 解锁我的账户
+    unlock_help_html: 如果您忘记了密码，可以在解锁账户后%{link}。
+    reset_password: 重置密码
+    settings: "%{name}的设置"
+    my_profile: 我的个人资料
+    profile: 个人资料
+    apps: 应用
+    delete_account: 删除账户
+    location: 您的位置
+    not_set: 未设置
+    change: 更改
+    remove: 移除
+    location_help: 请从搜索到的地点中选择，以便在地图上正确显示您的位置。选择一个地区即可。
+    bio_placeholder: 我是一位对A、B、C感兴趣的园艺爱好者
+    website: 网站
+    handle_placeholder: 您的用户名
+    other_url: 其他网址
+    linked_accounts_help: 此处只能查看已关联的账户。请在“应用”选项卡中管理。
+    language: 语言
+    profile_picture: 头像
+    avatar_help_html: 如需更改头像，请访问%{link}。
+    provider_logo: "%{provider}标志"
+    connected_html: 您已使用%{account}连接到%{provider}
+    disconnect: 断开连接
+    disconnect_confirm: 确定要移除此连接吗？
+    connect_provider: 连接到%{provider}
+    mastodon_accounts: 已连接的Mastodon账户：
+    mastodon_help: 连接您的Mastodon账户，以便使用它登录并在个人资料中显示。
+    mastodon_address: 您的Mastodon地址
+    connect_another: 连接其他账户
+    api_token: 您的API令牌是
+    regenerate: 重新生成
+    regenerate_confirm: 确定吗？您的旧令牌将立即失效。
+    delete_token: 删除API令牌
+    delete_token_confirm: 确定要删除您的API令牌吗？
+    generate_token: 生成API令牌
   layouts:
+    application:
+      breadcrumbs: 面包屑导航
+      home: 首页
+    head:
+      social_image_alt: Growstuff是一个种植食物的社区。图中有一个梨，以及向日葵、蜗牛、瓢虫、洒水壶和猫。
+      description: Growstuff是一个种植食物的社区。让我们一起学习种植食物。我们的所有数据都是开放数据。
+      member_feed: "%{site_name} – %{member}的帖子"
+      posts_feed: "%{site_name} – 所有成员的最新帖子"
+      crops_feed: "%{site_name} – 最近添加的作物"
+      plantings_feed: "%{site_name} – 所有成员最近的种植记录"
+    mailer:
+      description_html: 此邮件由%{site_name}（%{link}）发送，这是一个面向食物种植者的开源社区。
+    modal:
+      close: 关闭
     footer:
+      open_service: 开放服务
       about: 关于
       community_guidelines: 社区准则
       contact: 接触
       data_use_policy: 数据使用政策
+      donate: 捐赠 - 请我们喝杯咖啡
       get_involved: 介入
       growstuff_team: 成长团队
       open_source: 开源
@@ -824,6 +2002,7 @@ zh:
       support: 支持
       terms_of_service: 服务条款
     header:
+      logo_alt: Growstuff标志（梨的插画）
       account: 帐户
       admin: 行政
       browse_crops: 浏览农作物
@@ -833,7 +2012,7 @@ zh:
       community_map: 社区地图
       crop_wrangling: 作物争论
       crops: 农作物
-      current_memberlogin_name: '%{current_memberlogin_name}'
+      current_memberlogin_name: "%{current_memberlogin_name}"
       forums: 论坛
       garden_type: 花园式
       garden_types: 花园类型
@@ -853,10 +2032,11 @@ zh:
       toggle_navigation: 切换导航
       your_stuff: 你的东西
     menu:
+      label: 菜单
       about: 关于
       activities: 活动
       add: 添加
-      add_button: + 添加
+      add_button: "+ 添加"
       admin: 行政
       all_crops: 所有农作物
       browse_members: 浏览会员
@@ -878,6 +2058,7 @@ zh:
       my_garden: 我的花园
       my_harvests: 我的收获
       my_jobs: 我的职位
+      my_place: 我所在地的天气
       my_plantings: 我的种植
       my_seeds: 我的种子
       new_badge: 新的
@@ -893,6 +2074,11 @@ zh:
       sign_out: 登出
       sign_up: 免费加入
     nav:
+      my_records: "我的%{records}"
+      everyone_records: "所有成员的%{records}"
+      add_record: "添加%{record}"
+      record_purpose: "记录您的%{records}"
+      description: "%{site_name}帮助您记录家庭菜园的收获，了解菜园的产量。"
       my_drafts: 我的草稿
       suggest_something: 建议一些东西
   links:
@@ -900,7 +2086,59 @@ zh:
   member_dismissals:
     create:
       dismissed: 我们不会再建议 %{name}。
+  member_emails:
+    decline:
+      declined: 好的。我们不会再询问，但在您于账户设置中添加电子邮箱之前，您将不会收到我们的通知。
+    resend:
+      sent: 我们已重新发送链接。
+      wait: 我们刚刚发送了链接。请稍等片刻，并检查您的垃圾邮件文件夹。
+    update:
+      blank: 请输入电子邮箱地址。
+      sent: 我们已向您的电子邮箱发送了确认链接。请访问该链接以进行确认。
+  member_names:
+    update:
+      saved: 谢谢，您的姓名已设置。
   members:
+    avatar:
+      alt: "%{name}的头像"
+    bio:
+      heading: "关于 %{name}"
+    finish_signup:
+      agree_to_tos_html: "我同意%{tos_link}"
+      continue: 继续
+      email_help: 我们将使用此地址与您联系（绝不发送垃圾邮件！）
+      email_missing_help: 如果您希望收到种植提醒，请添加一个。我们会发送确认链接，绝不发送垃圾邮件。
+      email_optional: 电子邮箱（选填）
+      instructions: 即将完成。请选择将在网站上显示的名称。
+      name_help: 这是将在网站上显示的名称。您可以稍后更改。
+      terms_of_service: 服务条款
+      title: "加入 %{site_name}"
+      welcome: "欢迎来到 %{site_name}"
+    harvests:
+      none: "%{name} 还没有收获任何作物。"
+    member:
+      joined: "加入于 %{time} 前。"
+      view_all_gardens: "查看 %{name} 的所有花园"
+    nearby:
+      edit_location: 编辑您的位置
+      find_within: 查找成员范围：
+      km: 公里
+      miles: 英里
+      no_results: 未找到结果
+      of: 以内，地点：
+      results_found: 找到的结果
+      search: 搜索
+      title_find: 寻找附近的成员
+      title_near: "%{location} 附近的成员"
+    show:
+      add_bio_prompt: 添加个人简介以完善您的个人资料。
+      breadcrumbs_members: 成员
+      no_bio: "%{name} 还没有填写个人简介。"
+      rss_item_title: "%{title}（作者：%{author}）"
+      skip_to_content: 跳至主要内容
+    thumbnail:
+      joined: "加入于 %{time} 前。"
+    confirm_email: "我们已向您的电子邮箱发送了一个链接。请访问该链接以开始接收提醒。"
     card:
       not_interested: 停止建议 %{name}
       visit: 参观 %{name} 的花园
@@ -921,15 +2159,49 @@ zh:
       follow_named: 关注 %{name}
       following: 下列的
       following_named: 您关注 %{name}
+    follow_buttons:
+      block: 屏蔽
+      follow: 关注
+      unblock: 取消屏蔽
+      unfollow: 取消关注
+    location:
+      unknown_location: 未知位置
+    map:
+      cant_show_nearby: 我们无法向您显示附近的内容
+      not_known: 位置未知或无法进行地理编码
+      see_nearby_html: 查看 %{location} 附近的其他成员、种植、种子等
     index:
-      title: '%{site_name} 成员'
+      show: 显示
+      sort_alphabetically: 按字母顺序
+      sort_by: 排序方式
+      sort_recently_joined: 最新加入
+      title: "%{site_name} 成员"
     signup:
       error: 无法完成注册
+    stats:
+      followers:
+        other: "%{count} 位关注者"
+        one: "%{count} 关注者"
+      heading: 统计
+      toggle: 显示/隐藏
     unsubscribe:
+      instructions_html: "如果您希望取消订阅其他 Growstuff 邮件，可以通过%{link}进行设置"
+      settings_page: 您的设置页面
+      title: "取消订阅 %{member}"
       error: 很抱歉，更新您的设置时出错。
     unsubscribed: 您已取消订阅 %{email_type} 电子邮件。
     welcome: 欢迎
   messages:
+    form:
+      about: 关于
+      cancel: 取消
+      crop_seeds: "%{crop} 种子"
+      send: 发送
+      to: 发送给
+      type_your_message: 在此处输入您的消息
+    new:
+      breadcrumb_messages: 消息
+      title: "给 %{recipient} 发送消息"
     auth_failed: 认证失败。
     auth_success: 认证成功。
     crops_waiting: 有庄稼等待着收割。
@@ -943,6 +2215,19 @@ zh:
     unable_to_like: 无法喜欢
     unable_to_unlike: 无法不喜欢
     unfollowed: 已取消关注 %{name}
+    auth_already_linked: 该帐户已连接到另一个 Growstuff 成员。
+    auth_last_sign_in: 这是您登录的唯一方式。首先添加电子邮件地址和密码。
+    auth_taken: 该帐户已连接到另一个成员。
+    bluesky_declined: Bluesky 未批准该登录。请重试。
+    mastodon_declined: Mastodon 未批准该登录。请重试。
+    mastodon_failed: 我们无法让您登录 Mastodon。请再试一次。
+    bluesky_expired: 这花了太长时间，所以 Bluesky 让登录过期。请重试，并在几分钟内完成。
+    bluesky_failed: 我们无法让您登录 Bluesky。检查您的手柄并重试。
+    mastodon_instance_invalid: 我们无法连接到 Mastodon 服务器。检查地址（看起来像 you@mastodon.social），然后重试。
+    mastodon_needs_account: 我们还不知道 Mastodon 的账户。加入 Growstuff 或登录，然后从您的帐户设置连接 Mastodon。
+    location_cleared: 位置已删除。
+    location_unplaced_html: 我们在地图上找不到“%{location}”。 <a href="%{link}">从列表中选择您的位置</a>，以便我们向您展示您附近正在生长的植物。
+    tos_required: 请同意服务条款才能加入，然后重试。
   neighbours:
     audience:
       all:
@@ -997,15 +2282,15 @@ zh:
       transplant_html: 将 %{things} 移植到 %{garden}
       weighing: 称重%{weight}
     layout:
-      crop: '%{crop} ×%{count}'
-      label: '%{garden}：它的布局'
+      crop: "%{crop} ×%{count}"
+      label: "%{garden}：它的布局"
     photos:
       added:
         one: 添加了照片
         other: 添加了 %{count} 照片
       of_html:
-        one: '%{subject}的照片'
-        other: '%{count} %{subject} 的照片'
+        one: "%{subject}的照片"
+        other: "%{count} %{subject} 的照片"
     posts:
       activity: 最近的活动
       comments: 评论
@@ -1014,24 +2299,24 @@ zh:
       title: 最近的帖子
     reach:
       few:
-        one: '%{place} 附近只有 %{count} 园丁。'
+        one: "%{place} 附近只有 %{count} 园丁。"
         other: 只有 %{place} 附近的 %{count} 园丁。
       looked_further: 所以我们也看得更远。
-      none: '%{place} 附近还没有园丁。'
+      none: "%{place} 附近还没有园丁。"
       ring:
         anywhere: 任何地方
-        near: '%{place}'
-        region: '%{km} 公里内'
+        near: "%{place}"
+        region: "%{km} 公里内"
       widened: 我们扩大了搜索范围，直到找到一些。
       you: 你
     season:
-      in_hemisphere: '%{hemisphere} 半球中的 %{season}'
+      in_hemisphere: "%{hemisphere} 半球中的 %{season}"
       northern: 北方
       southern: 南部
     show:
-      add_location_html: '%{link} 查看您附近的园丁。'
+      add_location_html: "%{link} 查看您附近的园丁。"
       add_location_link: 添加您居住的地方
-      heading_html: <strong>我的</strong>朋友和邻居
+      heading_html: "<strong>我的</strong>朋友和邻居"
       lede:
         few: 你跟着几个人。首先向他们展示，然后向您身边的人展示。
         following: 你跟随的园丁以及你附近的园丁在做什么。
@@ -1051,54 +2336,688 @@ zh:
         title: 欢迎来到您的朋友和邻居的动态
     subject:
       garden: 花园 %{name}
-      harvest: '%{crop}的收获'
+      harvest: "%{crop}的收获"
       job: 工作 %{name}
-      planting: '%{crop} 种植'
-      seed: '%{crop} 种子'
+      planting: "%{crop} 种植"
+      seed: "%{crop} 种子"
     suggestions:
       followed_by: 随后是 %{people}
       privacy: 我们只使用您的城市，而不使用您的确切位置。按 × 停止建议某人。
       title: 关注谁
       why: 种植相同的作物：%{crops}
   notifier_mailer:
+    crop_request:
+      approve_or_reject: 批准或拒绝此请求
+      approved_intro: 您关于新作物 %{link} 的请求已获批准！感谢您帮助我们完善作物列表！
+      approved_subject: "%{crop_name} 已获批准"
+      harvest_crop: 收获 %{crop_name}
+      name: 名称：%{name}
+      new_intro: "%{login_name} 在 %{sitename} 上请求添加新作物"
+      new_subject: "%{login_name} 请求添加新作物 %{crop_name}"
+      not_specified: 未指定
+      notes: 备注：%{notes}
+      plant_crop: 种植 %{crop_name}
+      rejected_intro: 很抱歉，您关于新作物 %{link} 的请求因以下原因被拒绝：%{reason}
+      rejected_subject: "%{crop_name} 已被拒绝"
+      stash_crop: 为 %{crop_name} 储存种子
+      thanks: 感谢您的支持！
+      wikipedia_url: 维基百科链接：%{url}
+      wrangler_prompt: 作为作物管理员，您可以 %{link}。
     harvest_reminder:
       heading: 您的花园即将迎来收获
       intro: 根据我们的预测，您花园中的以下植物可能会在下周内收获：
+      predicted_date: （预计收获日期：%{date}）
       subject: 您花园即将迎来的收获 - %{sitename}
       unsubscribe: 取消订阅收获提醒
+      unsubscribe_prompt: 不想再收到此类电子邮件？
+    outlook:
+      expected_weather: 如果未来两周与去年相仿，预计为 %{figures}。
+      heading: 您花园的当前状况
+      planting_at_latitude: 您同纬度的园艺爱好者目前正在播种：
+      recent_weather: 从 %{from} 到 %{to}：%{figures}。
+      season_intro: 现在是%{season}
+      season_place: （位于 %{place}）。
+      set_location: 设置您的位置
+      soil_temp: "%{date} 的土壤温度为 %{soil}。"
+      unlocated_prompt: 告诉我们您的花园所在地，此邮件将为您呈现当地季节、天气及播种建议。
+      worth_sowing: 当下适播作物
+    planting_reminder:
+      add_planting: 打开仪表板添加种植。
+      by_planting: 种植您的第一批作物。
+      congratulations: 恭喜，您有作物已可以收获
+      empty_intro: "%{sitename} 可让您记录花园中种植的食物，并了解附近的其他人在种植什么。"
+      get_started: 立即开始
+      heading: 您的每周 %{sitename} 进度报告
+      late: 已逾期
+      late_intro: 这些植物已接近其生命周期的尾声。%{login_link} 告诉我们您是否不再种植它们，我们将停止跟踪。
+      log_in: 登录
+      planted_on: 种植于 %{date}
+      planting_question: 想要跟踪并预测花园中的植物吗？
+      progress_report: 进度报告
+      progress_status: 已生长 %{percentage}%，还有 %{days} 天。
+      ready_to_harvest: 准备收获
+      subject: 您在 %{sitename} 的 %{month_year} 进度报告
+      super_late: 严重逾期
+      super_late_intro: 我们推测以下作物很早就已结束生长，不再需要跟踪。您可以将其标记为已完成。
+      unsubscribe: 取消订阅种植提醒
+      unsubscribe_prompt: 不想再收到此类电子邮件？
+    shared:
+      garden_overview: 您的花园概览
+      garden_overview_intro: 跟踪并预测整个花园的动态，随时更新您的花园记录：
+      greeting: 您好 %{login_name}，
+      harvest_question: 最近有什么收获吗？
+      or_on: 或者在
+      profile_page: 您的个人资料页面
+      record_harvest: 打开您的仪表板以记录收获。
+      see_you_soon: 期待很快在 %{sitename} 与您相见！
+      signature: "%{sitename} 团队。"
+    whats_new:
+      feature_count: 我们有 %{count} 项新功能向您介绍：
+      heading: 自上次发送邮件以来的新功能
   nurseries:
-    what_is_a_nursery:
-      description_html: <strong>苗圃</strong>是您培育幼苗的地方：种子在进入花园之前先播种在托盘或盆中。将种子播种在苗圃中，然后将它们移植到一个花园中，或者在种子准备好后将一批种子分成几批。
     show:
-      title: 你的托儿所
-      use_existing: 使用您拥有的花园
-      which_garden: 哪个花园？
-      use_this_garden: 用这个花园作为我的苗圃
-      no_other_garden: 你没有另一个花园可以使用。
-      make_new: 制作一个新的
-      make_new_text: 我们将为您的幼苗建造一个名为“苗圃”的花园。
-      make_a_nursery: 做一个托儿所
       dont_need: 我不需要一个
       dont_need_text: 跳过在 Growstuff 上育苗。我们不会再询问，您可以从花园页面改变主意。
+      make_a_nursery: 做一个托儿所
+      make_new: 制作一个新的
+      make_new_text: 我们将为您的幼苗建造一个名为“苗圃”的花园。
       no_nursery_for_me: 没有适合我的托儿所
+      no_other_garden: 你没有另一个花园可以使用。
+      title: 你的托儿所
+      use_existing: 使用您拥有的花园
+      use_this_garden: 用这个花园作为我的苗圃
+      which_garden: 哪个花园？
+    what_is_a_nursery:
+      description_html: "<strong>苗圃</strong>是您培育幼苗的地方：种子在进入花园之前先播种在托盘或盆中。将种子播种在苗圃中，然后将它们移植到一个花园中，或者在种子准备好后将一批种子分成几批。"
+  pages:
+    community_guidelines:
+      title: "Growstuff 社区准则"
+      body_html: |
+        <p>Growstuff 是一个由食品园丁创建并为食品园丁服务的社区。我们正在共同建立一个网站，在这里我们可以分享我们的经验、知识和我们收获的产品。 Growstuff 最重要的是人。为了让 Growstuff 蓬勃发展，我们需要人们添加他们的作物，分享他们的知识，并帮助建立网站本身。</p>
+        <p>无论您对 Growstuff 有什么兴趣，这里都欢迎您，并将受到尊重。特别是：</p>
+        <ul>
+        <li>
+        <p>我们欢迎任何年龄、性别认同或表达、种族、国籍、宗教或无宗教信仰、政治观点、性取向、婚姻状况、家庭结构、能力或残疾、外表、亚文化或其他身份或自我认同的人。</p>
+        </li>
+        <li>
+        <p>虽然Growstuff主要专注于食品园艺，但我们欢迎各种园丁，包括有机和传统种植者；在田地、阳台或水培系统中种植作物的人；从事商业或非商业园艺的人；那些靠农作物维生的人和那些出于其他原因从事园艺的人。</p>
+        </li>
+        <li>
+        <p>我们欢迎各种技能和经验水平的人，我们不认为仅仅因为您是新手或正在学习而轻蔑或粗鲁地发表评论。</p>
+        </li>
+        <li>
+        <p>我们社区中的每个角色都很重要，包括为我们的网站贡献技能、知识和信息的园丁；帮助构建它的编码员、设计师和其他技术人员；版主和其他帮助我们社区蓬勃发展的人；或任何其他形式的参与。我们相信共同努力，并优先考虑沟通和相互理解。</p>
+        </li>
+        </ul>
+        <p>如果您想参与 Growstuff 社区（包括我们的网站和任何辅助论坛，例如我们的邮件列表、IRC 频道等），您需要同意我们对包容性和相互尊重的总体承诺，以及以下具体政策：</p>
+        <ul>
+        <li>
+        <p>禁止骚扰任何 Growstuff 社区成员。骚扰包括针对个人或团体的诽谤；针对任何个人或团体的不受欢迎的性言论；公共场所露骨的色情评论或图像；跟踪或其他重复的、不必要的接触；或任何重复或持续的行为，扰乱他人享受 Growstuff 网站或社区的乐趣。</p>
+        </li>
+        <li>
+        <p>我们社区成员的隐私非常重要。未经会员明确同意，您不得披露任何会员的个人详细信息（包括在 Growstuff 之外为人所知的姓名、位置、就业详细信息、家庭详细信息、Growstuff 之外的联系方式或任何其他身份信息或个人信息）。</p>
+        </li>
+        <li>
+        <p>虽然我们让您在我们的网站上选择自己的名字，并且不坚持要求您在我们的网站上使用与钱包中卡上的名字相同的名字，但您不得创建或使用假名帐户来误导他人、逃避责任或以其他方式造成麻烦。 （这通常称为“sockpuppet”帐户。）</p>
+        </li>
+        </ul>
+        <p>如果您经历或目睹了违反这些社区准则的行为，您可以向support@growstuff.org举报。我们将认真听取并认真对待您的报告。一旦我们调查了情况，我们可能会采取我们认为必要的任何行动。例如，我们可能会发出警告，或者在严重的情况下，我们可能会暂停或禁止人们进入我们的社区。如果发生这种情况，我们将始终参考我们的政策文件，告诉受影响的人我们采取行动的原因。</p>
+        <p>我们不想让这些指南太长或过于墨守成规，所以除了最后一条指南外，我们将其留在那里。正如比尔和泰德所说：<em>彼此优秀</em>。并种植东西。</p>
+        <h2>知识共享许可证</h2>
+        <p>这些社区准则根据<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">知识共享署名-相同方式共享 (CC-BY-SA) 3.0 未移植许可证</a> 获得许可。</p>
+    copyright:
+      title: "版权侵权政策"
+      body_html: |
+        <p>我们讨厌法律术语，因此我们努力使本政策易于阅读。如果您有任何疑问，请随时<a href="mailto:support@growstuff.org">询问我们</a>，我们会尽力解答。</p>
+        <p>本版权侵权政策涵盖 Growstuff 维护者（“Growstuff”、“我们”、“我们的”、“我们的”）拥有和运营的所有网站（例如 <a href="http://www.growstuff.org">growstuff.org</a>）以及所有相关服务，统称为“服务”。它描述了您如何举报侵犯服务版权的行为。</p>
+        <p>Growstuff 尊重他人的知识产权，我们也要求我们的用户也这样做。 Growstuff 会员需要根据<a href="http://www.growstuff.org/policy/tos">服务条款</a>确保他们拥有向服务发布内容的合法权利。</p>
+        <p>Growstuff 总部位于澳大利亚墨尔本，不受美国数字千年版权法案 (DMCA) 的规定约束。但是，我们制定了与 DMCA 要求类似的政策和程序，因为我们相信它们构成了在澳大利亚运营的网络服务的最佳实践。</p>
+        <h2>1。通知我们侵权行为</h2>
+        <p>如果您认为 Growstuff 会员在服务中发布内容侵犯了您的知识产权，您可以按照以下步骤通知我们并要求删除该内容。</p>
+        <p>通知可通过电子邮件提交至<a href="mailto:support@growstuff.org">support@growstuff.org</a></p>
+        <p>我们更喜欢通过电子邮件接收通知。</p>
+        <p>通过任何其他机制或论坛发送的版权侵权通知将不会被采取行动。</p>
+        <p>您必须提供以下信息：</p>
+        <ul>
+        <li>足够的信息来识别被侵权的版权作品。例如，如果作品是出版的书籍，请提供标题、作者和 ISBN；如果作品是杂志文章，请提供标题、作者、杂志名称和杂志期；如果该作品可在互联网上找到，请提供该作品的 URL。</li>
+        <li>Growstuff 上未经许可复制您作品的特定页面的 URL。一般性描述或非特定链接（例如 Growstuff 的主页）无法执行。</li>
+        <li>您的邮寄地址、电话号码和电子邮件地址。</li>
+        <li>您声明上述信息准确无误，并且您是版权或知识产权所有者或被授权代表版权或知识产权所有者行事。</li>
+        <li>版权或知识产权所有者或授权代表其行事的人采用公认的行业标准格式（例如 PGP）的物理签名或数字签名。未签名的通知将不会被处理。</li>
+        </ul>
+        <h2>2。回复通知</h2>
+        <p>我们将在两个工作日内回复版权侵权通知。</p>
+        <p>如果我们没有提供足够的信息来对通知采取行动，包括上一节中列出的所有项目，我们将拒绝该通知并通知提交者无法采取行动。</p>
+        <p>如果内容未托管在我们的服务器上（例如，如果通知涉及托管在其他网站上的图像，而该图像仅显示在我们的网站上或从我们的网站链接），我们将做出回应，通知提交者该内容不是由我们托管，并将他们转至托管网站。</p>
+        <p>如果我们能够根据通知采取行动，我们将联系发布内容的会员并向他们告知通知和知识产权主张。</p>
+        <p>会员将有两个工作日的时间回复。他们可能会做出如下回应：</p>
+        <ul>
+        <li>承认他们发布了不拥有知识产权的内容。在这种情况下，会员可以从服务中删除内容，或者我们可能使其无法访问。</li>
+        <li>提交反通知，声明他们有权发布内容，并准备在法庭上支持这一主张。下面概述了此过程。</li>
+        <li>回应称他们不认为自己侵犯了任何知识产权，但他们不希望正式提交反通知。在这种情况下，会员可以从服务中删除内容，或者我们可以使内容无法访问。</li>
+        <li>如果会员未能回复，我们将导致内容无法访问。</li>
+        </ul>
+        <p>当内容被删除或变得无法访问时，我们将采取合理的努力确保无法通过服务访问该内容。但是，缓存或外部引用可能意味着内容在一段时间内仍可访问，包括在第三方网站或应用程序上。第三方网站和应用程序不受 Growstuff 的控制。如果侵权内容已被删除或无法通过服务访问，但仍可通过第三方网站和应用程序获得，版权或知识产权持有人可以联系这些网站/应用程序的运营商，通知他们侵权情况。</p>
+        <h2>3。反通知和恢复流程</h2>
+        <p>反通知是一种声明，表明您不认为您的内容侵犯了他人的权利，或者您对他人受版权保护的材料的使用属于法律保护类别。</p>
+        <p>通过提交反通知，您表明如果版权所有者选择因您使用该材料而对您提起诉讼，您愿意在法庭上为您对该材料的使用进行辩护。这可能涉及民事和/或刑事处罚。我们强烈建议您在执行此操作之前联系在您所在司法管辖区获得执业资格的知识产权律师，以便您了解法律规定的权利和义务。</p>
+        <p>反通知必须包含以下内容：</p>
+        <ul>
+        <li>你的签名。签名可以是物理签名或采用公认的行业标准格式（例如 PGP）的数字签名。</li>
+        <li>受到质疑的内容的 URL（这将在原始通知中提供）。</li>
+        <li>一份声明，表明您真诚地相信版权侵权通知是由于材料错误或错误识别而发送的。这应包括您认为您对该材料的使用不侵权的任何理由。</li>
+        <li>您的姓名、地址和电话号码。</li>
+        </ul>
+        <p>我们会将您的反通知完整转发给原始通知的提交者。然后他们将有 14 天的时间提起法律诉讼并通知我们他们已采取行动。</p>
+        <p>同时，我们将使内容无法访问。</p>
+        <p>如果 14 天后我们仍未收到已启动法律诉讼的通知，我们将恢复内容。</p>
+        <p>如果您已提交反通知，则在我们通知您等待期已过之前，您不得重新发布涉嫌侵权的材料。</p>
+        <h2>4。重复犯罪</h2>
+        <p>收到三份或三份以上有效版权侵权通知的会员将被终止其帐户。</p>
+        <p>如果提出反通知，或者会员声明不接受侵犯版权的指控但不希望正式提出反通知，则该通知将不会计入终止。</p>
+        <p>我们还保留终止那些我们认为滥用或滥用针对其他会员的版权侵权通知流程的人的帐户的权利。</p>
+        <h2>5。变化</h2>
+        <p>我们可能会不时更改我们的版权侵权政策。可通过我们的公共源代码存储库<a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a>获取本政策的变更历史记录。我们将采取合理措施通知您本政策的任何重大变更；但是，您有责任定期检查本政策是否有变更。本政策发生任何变更后，您继续使用本网站即表示您接受此类变更。</p>
+        <h2>6。知识共享许可</h2>
+        <p>本版权侵权政策基于 Dreamwidth (<a href="http://www.dreamwidth.org/legal/dmca">http://www.dreamwidth.org/legal/dmca</a>) 制定的政策，并根据<a href="http://creativecommons.org/licenses/by-sa/2.5/">知识共享署名-相同方式共享 2.5 许可证</a> 获得许可。</p>
+    data_use:
+      title: "API和数据使用政策"
+      body_html: |
+        <p>我们讨厌法律术语，因此我们努力使本政策易于阅读。如果您有任何疑问，请随时<a href="mailto:support@growstuff.org">询问我们</a>，我们会尽力解答。</p>
+        <p>本 API 和数据使用政策涵盖 Growstuff 维护者（“Growstuff”、“我们”、“我们的”）拥有和运营的所有网站（例如 <a href="http://www.growstuff.org">growstuff.org</a>）以及所有相关服务，统称为“服务”。</p>
+        <p>特别是，本政策涵盖通过任何应用程序编程接口、提要、蜘蛛抓取、抓取对服务的任何访问，或对通过服务提供的结构化数据或内容（统称为“API”）的任何其他自动或编程访问。本政策适用于任何使用 API 的人（“您”、“开发者”）。</p>
+        <h2>1。 API 按原样提供，可能会发生变化</h2>
+        <p>Growstuff 按原样提供其 API，如我们的<a href="http://www.growstuff.org/policy/tos">服务条款</a>中的“免责声明”所述。</p>
+        <p>Growstuff 的 API 可能会发生变化。我们将尽合理努力通知开发人员任何 API 功能的更改和发布状态。您应该做出合理的努力，通过我们的论坛、邮件列表或其他渠道了解 Growstuff 技术新闻。</p>
+        <h2>2。不要让我们的服务器超载</h2>
+        <p>您同意限制您对 API 的访问，以防止服务负载过大。 Growstuff 保留在必要时限制对 API 访问或速率限制的权利，以维持服务的性能。</p>
+        <h2>3。 Growstuff 数据和内容的使用</h2>
+        <p>您同意遵守<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">知识共享署名-相同方式共享 (CC-BY-SA) 3.0 未移植许可证</a>，根据该条款我们的结构化数据可用。您同意遵守 Growstuff 会员在服务上发布的内容（包括但不限于帖子、评论、图像等）的版权和知识产权。</p>
+        <p>您同意尊重与您通过 API 访问的结构化数据或内容相关的任何隐私设置。您同意不会重新发布任何具有比发布者最初意图更宽松的访问权限的结构化数据或内容。</p>
+        <p>Growstuff 承认 API 下提供的结构化数据和内容可能会被第三方缓存或保留任意时间。但是，我们要求，如果您使用当前的结构化数据和内容构建应用程序，您将做出合理的努力定期更新它，包括删除从服务中删除的任何结构化数据或内容，并反映与其相关的隐私设置的任何更改。</p>
+        <p>Growstuff 包含<a href="https://www.foodstandards.gov.au/science-data/food-nutrient-databases/afcd">澳大利亚食品成分数据库</a>，由<a href="https://www.foodstandards.gov.au/legal-policies/copyright">澳大利亚新西兰食品标准</a>根据 CC-BY-4.0 许可证提供。</p>
+        <h2>4。认证</h2>
+        <p>Growstuff 保留要求身份验证和/或应用程序注册作为使用 API 和数据的条件的权利。</p>
+        <p>如果您为用户提供登录 Growstuff 的功能，则必须通过 OAuth 进行。您可能不要求用户提供其 Growstuff 登录名和密码。</p>
+        <h2>5。处罚</h2>
+        <p>如果您违反本政策的条款，Growstuff 可能会限制您对 API 的访问。</p>
+        <h2>6。变化</h2>
+        <p>我们可能会不时更改我们的 API 和数据使用政策。可通过我们的公共源代码存储库<a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a>获取本政策的变更历史记录。我们将采取合理措施通知您本政策的任何重大变更；但是，您有责任定期检查本政策是否有变更。本政策发生任何变更后，您继续使用本网站即表示您接受此类变更。</p>
+        <h2>7。知识共享许可</h2>
+        <p>本 API 和数据使用政策根据 <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">知识共享署名-相同方式共享 (CC-BY-SA) 3.0 未移植许可证</a> 获得许可。</p>
+    privacy:
+      title: "隐私政策"
+      body_html: |
+        <p>我们讨厌法律术语，因此我们努力使本政策易于阅读。如果您有任何疑问，请随时<a href="mailto:support@growstuff.org">询问我们</a>，我们会尽力解答。</p>
+        <p>本隐私声明（“隐私政策”）涵盖 Growstuff 维护者（“Growstuff”、“我们”、“我们的”）拥有和运营的所有网站（例如 <a href="http://www.growstuff.org/">growstuff.org</a>）以及所有相关服务，统称为“服务”。</p>
+        <p>我们将您与我们分享的信息用于我们的内部业务目的。我们不会出售您的信息。本通知告诉您我们收集哪些信息、我们如何使用这些信息以及我们为保护这些信息而采取的步骤。</p>
+        <h2>1。我们收集的信息</h2>
+        <h3>1.1 非个人数据</h3>
+        <p>与大多数网站运营商一样，我们收集非个人数据，例如浏览器类型、语言偏好、推荐网站以及每个访问者请求的日期和时间。</p>
+        <p>我们收集这些信息是为了了解我们的访客和会员如何使用我们的服务，并用它来做出有关如何更改和调整服务的决策。</p>
+        <p>我们可能会不时以汇总形式发布非个人数据（例如，通过发布网站使用趋势）来解释我们做出决策的理由。我们不会发布个人信息，只会发布汇总信息。</p>
+        <h3>1.2 个人数据</h3>
+        <p>个人数据是可用于识别或联系您的任何信息，例如您的法定姓名、电子邮件地址、IP 地址或物理位置。</p>
+        <h4>1.2.1 自动收集的个人数据</h4>
+        <p>每当您访问我们的网站时，我们都会自动收集您的浏览器和计算机提供的一些个人数据，例如 IP 地址。</p>
+        <p>我们收集这些信息有几个目的：</p>
+        <ul>
+        <li>诊断和修复您使用网站时的网络问题；</li>
+        <li>估计特定地理区域访问该服务的用户数量；</li>
+        <li>帮助防止欺诈和滥用。</li>
+        </ul>
+        <h4>1.2.2 电子邮件地址</h4>
+        <p>为了注册该服务，您必须向我们提供您的电子邮件地址。我们将使用您的电子邮件地址发送某些操作的确认信息，例如当您更改密码时。当需要完成您发起的请求，或者存在影响您使用服务的关键或管理问题时，我们将与您联系。</p>
+        <p>创建帐户后，您可以选择订阅某些活动并通过电子邮件向您发送这些活动的通知。您可以随时改变主意并选择不再通过电子邮件接收通知。</p>
+        <p>我们绝不会出于营销目的或出于任何其他原因向任何第三方出售或提供您的电子邮件地址，下文所述除外。</p>
+        <h4>1.2.3 您向我们提供的可选个人数据</h4>
+        <p>当您使用该服务时，您可以选择通过您的个人资料和网站上的其他活动提供更多个人数据。提供此信息完全是可选的。</p>
+        <p>您可以选择向我们提供您的位置。您可以按照您希望的任何详细程度提供此信息。例如，您可以提供您的街道地址、您的居住国家/地区，或者什么也不提供。我们使用此位置为您提供相关内容。</p>
+        <p>您在服务上的许多活动可能允许您发布个人数据或直接或间接披露有关您自己的个人数据。例如，您可以在网站上的帖子或评论中、通过上传图片、链接到您使用的其他网站或详细记录您的园艺活动来披露个人数据。所有这些活动都是可选的。通过您在服务上的活动披露个人数据时，您应谨慎行事。</p>
+        <p>我们将根据您选择的隐私选项向浏览该网站的其他人展示您提供的信息，包括其中可能包含的任何个人数据。</p>
+        <p>您提供的信息也会根据您选择的隐私选项并遵守我们的 API 和数据使用政策的条款（可在<a href="http://www.growstuff.org/policy/api">http://www.growstuff.org/policy/api</a>）通过我们的 API 和 Feed 向第三方提供。</p>
+        <p>您提供的一些信息被归类为结构化数据，我们的<a href="/policy/tos">服务条款</a>对此进行了更完整的定义。我们根据 Creative Commons Attribution ShareAlike (CC-BY-SA) 3.0 Unported 许可证免费提供结构化数据，供第三方根据您选择的隐私选项使用。</p>
+        <p>我们还可能使用您提供的任何个人数据来共同决定如何更改和调整服务。我们可能会不时以汇总形式发布信息（例如，通过发布网站使用趋势）来解释我们做出决策的理由。我们不会发布个人信息，只会发布汇总信息。</p>
+        <h2>2。个人资料的披露</h2>
+        <p>我们披露个人数据，包括您提供的可选个人信息，但其他网站用户通常无法获得这些信息，仅披露给我们的员工、承包商和志愿者，他们 (i) 需要了解该信息以运营服务，并且 (ii) 已同意不向其他人披露该信息。需要这样做的情况包括但不限于：故障排除和诊断技术问题、调查可能的服务条款违规行为以及法律合规性问题。</p>
+        <p>我们与第三方供应商签约以提供一些网站功能。我们只会在第三方供应商提供这些网站功能所需的范围内与他们共享个人信息。我们要求我们的第三方供应商提供与我们相同级别的隐私保护，并且他们无权出于提供这些网站功能以外的任何目的共享或使用个人信息。</p>
+        <p>当法律或法院命令要求披露个人数据或潜在的个人身份数据时，或者当我们真诚地认为披露对于保护我们、第三方或广大公众的安全或权利是合理必要的时，我们可能会披露个人数据或潜在的个人身份数据。</p>
+        <p>在出售、合并、清算、接管或转让我们公司的全部或大部分资产时，我们保留将您的个人数据转移给第三方的权利，前提是第三方同意遵守 Growstuff 隐私政策的条款，并且第三方仅将您的个人数据用于您向我们提供的目的。如果发生任何此类转让，您将收到通知，并且您将有机会选择退出。</p>
+        <h2>3。饼干</h2>
+        <p>Cookie 是网站存储在访问者计算机上的一串信息，并且每次访问者返回时访问者的浏览器都会向网站提供该信息。我们使用 cookie 来帮助我们识别和跟踪访问者、他们对网站的使用情况以及他们的网站访问偏好。我们还使用 cookie 来管理您帐户的登录。</p>
+        <p>不希望在计算机上放置 Cookie 的访问者应在使用网站之前将浏览器设置为拒绝 Cookie，但缺点是，如果没有 Cookie 的帮助，网站的某些功能可能无法正常运行。</p>
+        <h2>4。保密和安全</h2>
+        <p>互联网上的数据传输无法保证 100% 安全。您使用此服务的风险由您自行承担。但是，我们将采取一切合理措施（包括适当的技术和组织措施）来保护您的个人数据。</p>
+        <p>您的帐户信息受密码保护。我们建议您选择一个强且安全的密码。我们使用行业标准加密来保护您在我们服务器上的密码。</p>
+        <p>如果我们发现系统安全漏洞，我们将以电子方式通知您，以便您采取适当的措施来保护自己。</p>
+        <h2>5。删除您的信息</h2>
+        <p>您可以随时更改或删除您向我们提供的任何可选信息。如果您更改或删除您提供的任何可选信息，更改将立即在服务上发生。但是，对数据的缓存或引用（包括在基于服务的第三方应用程序中）可能意味着以前可用的数据在一段时间内仍然可用。</p>
+        <p>作为服务日常运营的一部分，我们将定期复制数据库中包含的数据以进行备份。这些备份可能包含几周或几个月内已删除的数据。这些备份也将受个人数据披露规则的约束。</p>
+        <h2>6。变化</h2>
+        <p>我们可能会不时更改我们的隐私政策。可通过我们的公共源代码存储库<a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a>获取本政策的变更历史记录。我们将采取合理措施通知您本政策的任何重大变更；但是，您有责任定期检查本政策是否有变更。本隐私政策发生任何变更后，您继续使用本网站即表示您接受此类变更。</p>
+        <h2>7。联系我们</h2>
+        <p>如果您对此政策有疑问，可以通过<a href="mailto:support@growstuff.org">support@growstuff.org</a>联系我们。</p>
+        <h2>8。知识共享</h2>
+        <p>本隐私政策基于 Automattic (<a href="http://automattic.com/privacy/">http://automattic.com/privacy/</a>) 制定并由 Dreamwidth (<a href="http://dreamwidth.org/legal/privacy">http://dreamwidth.org/legal/privacy</a>) 修订，并根据 <a href="http://creativecommons.org/licenses/by-sa/2.5/">知识共享署名-相同方式共享 2.5 获得许可许可证</a>。</p>
+    support:
+      title: "支持 - 常见问题"
+      body_html: |
+        <h2>关于Growstuff</h2>
+        <h3>Growstuff 是谁运营的？</h3>
+        <p>Growstuff 由 Alex Bayley (<a href="/members/skud">Skud</a>) 创立，他是一位来自澳大利亚墨尔本的开源软件开发人员和热心的蔬菜园丁。现在由社区维护。</p>
+        <h3>Growstuff 是如何开始的？</h3>
+        <p>Growstuff 的想法源于 2012 年在西班牙举行的一次开源会议上的讨论。我们想要一个关于种植和种植农作物的免费、开源信息，并意识到实现这一目标的最佳方法是从世界各地的园丁那里众包。</p>
+        <p>我们于2012年8月首次将Growstuff设立为开源项目，并于2013年3月悄然推出。</p>
+        <h3>Growstuff 是非营利组织吗？</h3>
+        <p>Growstuff 是一个社区运行的项目。您还应该知道，有关农作物以及种植者的软件和汇总数据可以在开放许可下免费获得。</p>
+        <h3>我可以在 Growstuff 上做广告吗？</h3>
+        <p>抱歉，我们100%无广告！</p>
+        <p>如果您是会员，您可以在我们的交易站区域发布要交易或出售的东西，但我们没有也永远不会有横幅广告等。我们认为，通过外部广告支持网站会给我们的会员和访问者带来不太愉快的体验，并且不是可持续的商业模式。</p>
+        <h3>Growstuff 的状况如何？它处于测试阶段吗？</h3>
+        <p>我们不太喜欢“beta”这个词或其代表的想法。 Growstuff 处于不断变化和改进的状态，我们希望我们能够始终添加新功能并为我们的会员提供更好的服务。</p>
+        <p>如果您发现任何错误或问题，请通过我们的支持论坛告知我们。如果您想要的功能尚不可用，请尽快回来查看！</p>
+        <h2>会员资格</h2>
+        <h3>我可以免费使用Growstuff吗？</h3>
+        <p>绝对！如果您喜欢该网站，我们将不胜感激您考虑捐赠（请参阅页脚中的链接）。</p>
+        <h3>我可以为我的家庭、学校或社区团体申请会员资格吗？</h3>
+        <p>是的！请随意注册为“JonesFamily”或“SmithfieldCommunity”或任何您感兴趣的账户。</p>
+        <p>请记住，您对该帐户下发生的任何事情负责，因此请小心您允许的使用者。在适当的时候，我们希望开发一些功能来帮助社区花园与其成员/园丁共享，以便他们可以跟踪社区花园中种植的植物，而无需以社区花园帐户登录。准备就绪后，我们将广泛宣传这一点，因此请密切关注。</p>
+        <h2>个人资料、设置和隐私</h2>
+        <h3>如何将图片添加到我的个人资料中？</h3>
+        <p>个人资料图片由<a href="https://gravatar.com">Gravatar</a>提供，该服务提供“全球认可的头像”，由运营WordPress博客平台的人员运营。</p>
+        <p>如果您过去曾使用与注册 Growstuff 相同的地址注册过 Gravatar，那么您的个人资料中已经有一张照片。</p>
+        <p>如果您使用与 Gravatar 地址不同的电子邮件地址注册 Growstuff，则需要将其添加到 Gravatar 上。</p>
+        <p>如果您以前从未注册过 Gravatar，您可以创建一个帐户并上传图片，该图片不仅会出现在 Growstuff 上，还会出现在任何其他支持 Gravatar 且您使用相同电子邮件地址的网站上。</p>
+        <h3>我必须填写所有这些个人资料吗？</h3>
+        <p>您的个人资料会询问几个有关您的问题，您可以根据需要选择回答（或不回答）。我们不需要您的法定姓名、性别或年龄等个人信息来进行跟踪或人口统计目的——这是我们网站上没有广告的好处之一！</p>
+        <p>说到位置，如果您可以将其提供给 Growstuff，那真的很有帮助，因为我们用它来建议植物的生长。但是，您可以按照您喜欢的任何详细程度进行操作：也许是您的城镇名称，或者您的州或省，甚至您的国家（如果该国家足够小并且气候相当一致）。只需选择足够接近的内容即可为您提供准确的成长建议，同时又足够模糊以让您感到安全。</p>
+        <p>您可以在我们的<a href="http://growstuff.org/policy/privacy">隐私政策</a>中阅读有关您信息隐私的更多信息。</p>
+        <h2>农作物、花园和种植</h2>
+        <h3>如何添加新作物？</h3>
+        <p>目前，请在我们的<a href="http://www.growstuff.org/forums/growstuff-feedback-support">反馈&amp;支持论坛</a>上的<a href="http://www.growstuff.org/posts/skud-20130319-requests-for-new-crops">新作物请求</a>留言。</p>
+        <h3>你会添加非食用植物吗？</h3>
+        <p>我们目前没有计划添加不可食用或在粮食种植或可持续发展背景下“无用”的植物——这些可能包括伴生植物、绿肥作物、用于防治害虫或疾病的植物等。如果您考虑的是纯粹的观赏植物，我们可能不会很快添加它们。</p>
+        <p>但是，我们希望将来能够支持任何成员种植不在我们作物数据库中的“非官方”植物。</p>
+        <h2>发帖、评论和论坛</h2>
+        <h3>我可以在帖子和评论中使用什么格式？</h3>
+        <p>我们使用<a href="http://daringfireball.net/projects/markdown/syntax/">Markdown</a>语法，它提供了相当广泛的选项，从简单的强调（粗体和斜体）到链接、图片等。我们希望安装一个工具栏来帮助您生成正确的语法，但与此同时，恐怕我们所能提供的只是上面链接的相当技术性的文档。</p>
+        <h2>即将推出的功能</h2>
+        <h3>在哪里可以看到计划的功能？</h3>
+        <p>我们的软件开发人员使用名为 Pivotal Tracker 的跟踪工具，您可以在 <a href="http://tracker.growstuff.org">http://tracker.growstuff.org/</a> 看到我们的。这告诉您我们当前正在开发和计划很快开发哪些功能。</p>
+        <p>Pivotal Tracker 界面显示三栏信息：</p>
+        <ul>
+        <li>“当前”部分显示了我们目前正在开发的功能（称为“故事”）</li>
+        <li>“Backlog”向您展示我们计划在不久的将来处理的故事</li>
+        <li>“冰箱”包含我们已确定为我们想做的事情的故事，但尚未设定时间范围。</li>
+        </ul>
+        <h3>在哪里可以推荐我想看的功能？</h3>
+        <p>我们建议首先检查<a href="http://tracker.growstuff.org/">tracker</a>（见上文），看看这是否是我们已经在计划或讨论的事情。完成此操作后，如果尚未计划或您还有其他意见要提出，您可以在<a href="/forums/growstuff-feedback-support">反馈&amp;支持论坛</a>中发布您的建议。</p>
+        <h2>开发者和API</h2>
+        <h3>有Growstuff API吗？</h3>
+        <p>目前还没有官方API，因为我们的网站还在快速变化。不过，我们确实通过 JSON 和/或 RSS 源公开了一些数据，欢迎您使用它，但您要理解它可能会发生变化。您可以在我们的 wiki</a> 上找到<a href="https://github.com/Growstuff/growstuff/wiki/API">API 文档。</p>
+        <p>使用我们的API和数据须遵守<a href="http://www.growstuff.org/policy/api">API和数据使用政策</a>。</p>
+        <h3>您的数据使用什么许可证？</h3>
+        <p>Growstuff 的数据可根据<a href="http://creativecommons.org/licenses/by-sa/3.0/">知识共享署名-相同方式共享 (CC-BY-SA) 3.0 未移植许可证</a> 获取。这意味着您可以重复使用它，只要您将其归属于 Growstuff（通过链接回我们的网站），并且只要您自己的应用程序/网站/项目在 CC-BY-SA 下共享其自己的内容或数据。</p>
+        <p>请参阅我们的<a href="http://growstuff.org/policy/api">API 和数据使用政策</a> 了解更多信息。</p>
+        <h2>志愿服务和工作</h2>
+        <h3>你们招人吗？</h3>
+        <p>遗憾的是，没有。我们是一个自筹资金/自力更生的社区团体。</p>
+        <p>如果你想参与，请参阅下文。</p>
+        <h3>我如何志愿帮助 Growstuff？</h3>
+        <p>首先，通过成为该网站的活跃会员——种植农作物、跟踪您的收成、在我们的论坛上发帖、了解其他成员——您可以帮助建立我们的数据库和社区，没有这些，Growstuff 将完全毫无意义。所以，谢谢你！</p>
+        <p>其次，如果您能向自己种植食物或想尝试的朋友传播有关 Growstuff 的信息，我们将非常高兴。您可以在下面查看一些有关如何执行此操作的提示。</p>
+        <p>Growstuff 的软件也是在志愿者开发人员的帮助下构建的。如果您是一名编码员或想学习如何编码，您可以加入我们。欢迎所有人，无论经验如何。</p>
+        <p>我们还有志愿者作物管理员，负责管理我们的作物数据库，还有版主，帮助保持论坛顺利运行。这些成员通常是从我们最活跃和最乐于助人的成员中选出的。</p>
+        <h3>我如何参与成为一名编码员？</h3>
+        <p>首先查看我们的<a href="https://github.com/Growstuff/growstuff/wiki/">wiki</a>、<a href="http://github.com/Growstuff/growstuff">GitHub</a>和<a href="http://tracker.growstuff.org">tracker</a>，了解我们的工作方式。</p>
+        <p>如果您想参与，您应该加入我们的<a href="http://lists.growstuff.org/mailman/listinfo/discuss">讨论邮件列表</a>。</p>
+        <h3>我的编码技能已经生疏或根本不存在。我还能参与吗？</h3>
+        <p>当然！我们喜欢指导新编码员、一段时间没有编码的人或刚刚第一次学习我们的平台（Ruby on Rails）的人。我们通过结对编程的方式工作，可以帮助您开始编写简单的故事，从修复拼写错误或 HTML 标签等简单的事情开始（查看我们的 <a href="http://tracker.growstuff.org">tracker</a> 中的“简单”标签以获取一些示例）。</p>
+        <h3>我如何帮助传播有关 Growstuff 的信息？</h3>
+        <p>首先，也是最重要的，告诉你的朋友并邀请他们加入并成为其中的一部分。我们不想发送垃圾邮件，因此我们绝不会要求抓取您的地址簿或代表您自动发布 Facebook 更新或推文。但如果您能用自己的话告诉人们，我们真的会很高兴。</p>
+        <p>网上传播信息的地方：Facebook、Twitter 和其他社交媒体；您自己的博客或网站；您参加的园艺或可持续发展论坛。</p>
+        <p>或离线：告诉朋友、家人和邻居；通过当地社区花园、农贸市场或农产品交换进行宣传；联系您当地的可持续发展或过渡小组；或您认为粮食种植者可能在的任何其他地方。</p>
+        <h2>服务条款、版权和其他滥用</h2>
+        <h3>我可以在哪里举报违反服务条款或社区准则的行为？</h3>
+        <p>您可以在我们的<a href="http://www.growstuff.org/forums/growstuff-feedback-support">反馈&amp;支持论坛</a>发帖或发送邮件至<a href="mailto:support@growstuff.org">support@growstuff.org</a>。</p>
+        <h3>您认为什么是垃圾邮件？我该如何举报？</h3>
+        <p>垃圾邮件有很多种。最明显的是重复的、不需要的商业广告。许多垃圾邮件发送者还会在论坛上发布不相关、无意义或低价值的内容，试图让您点击链接，或者只是为了看看他们能逃脱什么惩罚。</p>
+        <p>请举报所有此类垃圾邮件！</p>
+        <p>目前，因为我们还很新，所以我们还没有建立良好的垃圾邮件报告机制。但是，您可以在我们的<a href="http://www.growstuff.org/forums/growstuff-feedback-support">反馈&amp;支持论坛</a>中添加链接，我们会尽力而为。</p>
+        <h3>有人发布了一些我认为侵犯版权的内容。我可以在哪里举报？</h3>
+        <p>如果您是版权所有者，您可以按照我们的<a href="http://growstuff.org/policy/copyright">版权侵权政策</a>中概述的程序提交投诉。</p>
+        <h3>Growstuff 儿童使用安全吗？</h3>
+        <p>作为一个专注于种植食物的网站，我们希望 Growstuff 能够成为一个非常安全和友好的环境。然而，网站的某些部分（例如会员发布的帖子）可能包含成熟的概念、粗俗的语言等。如果您不希望您的孩子接触这些物质，我们强烈建议您监督他们使用 Growstuff。我们还建议您谨慎对待您的孩子在 Growstuff 上分享的个人信息。</p>
+        <h2>进一步支持</h2>
+        <h3>在哪里可以找到该网站的已知问题列表？</h3>
+        <p>在我们的 GitHub <a href="https://github.com/Growstuff/growstuff/issues">已知问题</a>。</p>
+        <h3>我的问题没有在这里得到解答。我可以在哪里寻求进一步的支持？</h3>
+        <p>在我们的<a href="http://www.growstuff.org/forums/growstuff-feedback-support">反馈&amp;支持论坛</a>。请在发布前检查已知问题列表。</p>
+        <h3>我可以在哪里发布反馈/荣誉？</h3>
+        <p>我们喜欢反馈！请在我们的<a href="http://www.growstuff.org/forums/growstuff-feedback-support">反馈&amp;支持论坛</a>中给我们留言。 （这里有回声吗？）</p>
+        <h3>我还能怎样联系你？</h3>
+        <p>如果您需要此处未涵盖的帮助，那么您可以发送电子邮件至<a href="mailto:support@growstuff.org">support@growstuff.org</a>。</p>
+        <p>媒体/媒体查询可前往<a href="mailto:media@growstuff.org">media@growstuff.org</a>。</p>
+        <p>如果您对网站有一般疑问（例如，商业问题，或者只是想以非支持方式与官方取得联系），您可以发送电子邮件至<a href="mailto:info@growstuff.org">info@growstuff.org</a>。</p>
+    tos:
+      title: "Growstuff 服务条款"
+      body_html: |
+        <p>我们讨厌法律术语，因此我们努力使我们的服务条款易于阅读。如果您有任何疑问，请随时<a href="mailto:support@growstuff.org">询问我们</a>，我们会尽力解答。</p>
+        <p>Growstuff 维护者（“我们”、“我们的”、“Growstuff”）提出以下条款和条件，用于管理您对 Growstuff 网站（<a href="http://www.growstuff.org">growstuff.org</a>）的使用，以及在网站上或通过网站提供的所有内容、服务和产品，我们统称为“服务”。</p>
+        <p>要使用本服务，您需要同意这些服务条款以及我们发布的所有其他政策（包括但不限于 Growstuff 的隐私政策、API 和数据使用政策、版权侵权政策和社区准则）。我们将此称为“协议”。</p>
+        <p>请您在访问或使用本服务前仔细阅读本协议。通过访问或使用服务的任何部分，您同意受本协议的条款和条件的约束。如果您不同意本协议的所有条款和条件，则您不得访问服务。</p>
+        <h2>1。您的帐户</h2>
+        <p>如果您在服务上创建帐户，您有责任维护帐户的安全。您应对该帐户下发生的所有活动负责。您必须采取合理的措施来保护您帐户的安全。如果您因未能保护帐户安全而导致帐户安全遭到破坏，我们将不承担任何责任。</p>
+        <h2>2。账户结构</h2>
+        <p>Growstuff 有一种类型的帐户，而且是免费的。</p>
+        <p>使用本服务，即表示您同意 Growstuff 有权随时更改、修改或终止您帐户可用的功能。</p>
+        <h2>3。内容政策</h2>
+        <p>我们的内容政策涉及您可能在 Growstuff 网站或通过服务发布的任何材料，我们称之为“内容”。这包括个人资料信息、帖子和评论、有关您的粮食种植活动的信息，以及您可以在 Growstuff 上发布或从 Growstuff 链接到的任何其他材料，无论是文本、图形还是任何其他格式。</p>
+        <p>以任何方式发布到服务的所有内容均由所有者负责。如果对您有管辖权的任何法律认为内容非法，您同意我们可以向有关当局提交任何必要的信息。</p>
+        <p>我们对您发布到服务的任何内容不拥有任何所有权或控制权。根据适用法律，您保留您发布的内容的任何知识产权。通过发布内容，您声明您有权复制该内容（以及允许我们提供此类内容的权利），而不会侵犯任何第三方的权利。您同意您将承担因发布您无权发布的任何内容而产生的任何责任。</p>
+        <p>您授予我们全球范围内的、免版税的、非排他性的许可，以复制、修改、改编和发布内容，仅用于通过服务的任何部分（包括通过我们的 API、源和外部客户端）展示、分发和推广您帐户的内容。</p>
+        <p>如果您删除内容，我们将尽合理努力将其从服务中删除，但您承认对内容的缓存或引用可能不会立即变得不可用。</p>
+        <h3>3.1 结构化数据</h3>
+        <p>内容有一个子集，我们将其称为“结构化数据”。结构化数据是代表简单事实的内容，而不是创造性的努力。例如，位置、日期或您种植的农作物的类型和数量都是结构化数据。结构化数据可能由您显式创建，也可能由网站隐式创建，以响应您的活动。</p>
+        <p>使用本服务，即表示您承认 Growstuff 将收集和存储结构化数据，并且与您或您的活动有关的任何结构化数据可以根据知识共享署名相同方式共享 (CC-BY-SA) 许可提供给第三方使用。您还同意，根据知识共享许可条款，结构化数据的归属将归属于 Growstuff。</p>
+        <h3>3.2 其他网站发布的内容</h3>
+        <p>我们尚未审查也无法审查通过我们、任何用户或任何内容链接提供商或链接到我们的网站和网页提供的所有材料，包括计算机软件。我们对这些网站和网页没有任何控制权，也不对其内容或使用负责。通过链接到外部网站或网页，我们并不代表或暗示我们认可此类网站或网页。您有责任采取必要的预防措施，保护您自己和您的计算机系统免受病毒、蠕虫、特洛伊木马和其他有害或破坏性内容的侵害。对于因您使用外部网站和网页而造成的任何损害，无论该链接是由我们还是由服务内容的任何提供商提供，我们均不承担任何责任。</p>
+        <h3>3.3 我们如何处理问题 内容</h3>
+        <p>您同意，通过使用服务，您可能会接触到您认为令人反感或令人反感的内容。</p>
+        <p>我们不会预先筛选内容。但是，您承认我们有权（但没有义务）自行决定删除或拒绝删除服务中的任何内容。如果向我们报告此类内容，我们将自行决定应采取什么行动（如果有）。</p>
+        <p>如果您提交的任何内容被报告给我们违反本协议，您同意我们可以要求您在我们定义的合理时间内更改、修改或删除该内容。如果您不遵守此指令，我们可能会终止您的帐户。</p>
+        <h2>4。会员行为</h2>
+        <p>您同意您不会使用本服务来：</p>
+        <ol>
+        <li>上传、发布或以其他方式传输任何有害、威胁、辱骂、仇恨、侵犯任何人的隐私和公开权的内容，或违反任何适用的地方、州、国家或国际法律（包括任何具有法律效力的法规）的内容；</li>
+        <li>上传、发布或以其他方式传输任何垃圾内容，或包含不道德或不需要的商业内容，旨在增加第三方网站的流量或提高第三方网站的搜索引擎排名，或进一步实施非法行为（例如网络钓鱼）或误导收件人了解材料的来源（例如欺骗）；</li>
+        <li>恶意冒充任何真实的个人或实体，包括但不限于 Growstuff 工作人员或志愿者，或以其他方式歪曲您与任何个人或实体的关系；</li>
+        <li>上传、发布或以其他方式传输您根据任何法律或合同或信托关系无权传输的任何内容（例如作为雇佣关系的一部分或根据保密协议了解到或披露的内幕信息、专有和机密信息）；</li>
+        <li>上传、发布或以其他方式传输侵犯任何一方的任何专利、商标、商业秘密、版权或其他专有权的任何内容；</li>
+        <li>干扰或破坏本服务或与本服务连接的服务器或网络，或违反与本服务连接的网络的任何要求、程序、政策或规定；</li>
+        <li>出于非预期、商业或非法目的向其他用户索取密码或个人识别信息；</li>
+        <li>上传、发布或以其他方式传输任何包含病毒、蠕虫、恶意软件、特洛伊木马或其他有害或破坏性内容的内容；</li>
+        <li>允许他人以违反本协议的方式使用；</li>
+        <li>过度或以其他方式有害地自动使用服务；</li>
+        <li>访问任何他人的账户，或超出您所注册的服务范围；例如，访问和使用您无权使用的功能。</li>
+        </ol>
+        <p>您同意遵守社区准则，目前可在<a href="http://www.growstuff.org/policy/community">http://www.growstuff.org/policy/community</a>获取。</p>
+        <h2>5。志愿者</h2>
+        <p>我们感谢志愿者在 Growstuff 运营的许多方面提供的服务。志愿者活动包括但不限于开发软件、提供技术支持、编写文档、履行站点管理职责、提供专家建议、研究、技术写作、审查、分类以及支持服务运营所需的其他职责。</p>
+        <p>所有志愿者均应达到法定年龄，或在法定父母或监护人同意的情况下参与志愿活动。</p>
+        <p>通过志愿服务，您同意在法律允许的范围内，您因志愿活动而创作的任何作品均应在全球范围内永久、不可撤销地授权给 Growstuff。您同意 Growstuff 可以确定将您的志愿者工作许可给他人的基础，包括根据可能允许进一步更改或传播您的工作的开源或知识共享许可。如果法律禁止此类许可，您同意永远不会因使用上述作品而起诉 Growstuff。</p>
+        <p>通过志愿服务，您同意您提供工作，Growstuff 不期望报酬或未来考虑。您还同意您已尽合理努力确保工作正确、准确且无缺陷。您同意不会披露或分享您在志愿工作过程中获得的任何专有或机密信息。</p>
+        <p>不要求用户自愿，不自愿的用户将得到同等的关心、支持和关注。</p>
+        <h2>6。隐私政策</h2>
+        <p>您对本网站的使用受隐私政策的约束，当前位于<a href="http://www.growstuff.org/policy/privacy">http://www.growstuff.org/policy/privacy</a>。</p>
+        <h2>7。 API 和数据使用政策</h2>
+        <p>您对我们的 API 和/或数据的使用受我们的 API 和数据使用政策的约束，目前位于 <a href="http://www.growstuff.org/policy/api">http://www.growstuff.org/policy/api</a>。</p>
+        <h2>8。版权侵权</h2>
+        <p>如果您认为本网站上的材料侵犯了您的版权，您可以根据我们的版权侵权政策通知我们，目前位于<a href="http://www.growstuff.org/policy/copyright">http://www.growstuff.org/policy/copyright</a>。</p>
+        <h2>9。服务转售</h2>
+        <p>您同意不复制、复制、复制、出售、转售或利用本服务的任何部分、本服务的使用或对本服务的访问，除非我们的 API 和数据使用政策、与本服务源代码相关的开源许可证或与本服务上发布的内容或其他材料相关的知识共享许可证允许。</p>
+        <h2>10。赔偿</h2>
+        <p>您同意赔偿 Growstuff、其承包商、其许可方及其各自的董事、管理人员、员工和代理人，使其免受因您使用本服务（包括但不限于您违反本协议）而产生的任何及所有索赔和费用，包括律师费。</p>
+        <h2>11。终止
+
+        如果我们认为您违反了本协议，</h2>
+        <p>Growstuff 可以随时终止您的帐户或以其他方式限制您使用服务。如果发生这种情况，您将收到电子邮件通知，我们将告诉您我们认为您违反了协议的哪一部分。我们可以自行决定选择发出警告而不是终止您的帐户，在这种情况下，您还将收到电子邮件通知，并被告知我们认为您违反了协议的哪一部分。我们还将向您提供联系地址，您可以对我们的决定提出上诉；但是，我们不保证我们会改变主意。</p>
+        <p>您同意，终止您对服务的访问可能涉及删除或丢弃您提供的任何内容。</p>
+        <p>我们可以自行决定随时停止提供服务，无论是否发出通知。</p>
+        <p>如果您希望终止本协议，您可以删除您的帐户并停止使用服务。您同意，在删除您的帐户后，我们可以（但不是必须）在删除您的帐户后的任何时间删除您提供的任何内容。</p>
+        <p>本协议中本质上应在终止后继续有效的所有条款，包括但不限于所有权条款、保证免责声明、赔偿和责任限制。</p>
+        <h2>12。变化</h2>
+        <p>我们保留自行决定随时修改或替换本协议任何部分的权利。可通过我们的公共源代码存储库<a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a>获取本协议的变更历史记录。我们将采取合理措施通知您本协议的任何重大变更；但是，您有责任定期检查本协议是否有变更。您在发布本协议的任何更改后继续使用服务即表示您接受这些更改。</p>
+        <p>我们将来还可能通过本服务提供新的功能或服务。此类新功能和/或服务应遵守本协议的条款和条件。</p>
+        <h2>13。免责声明</h2>
+        <p>本服务“按原样”提供。 Growstuff 维护者及其供应商和许可方特此否认任何形式的明示或暗示的保证，包括但不限于适销性、特定用途的适用性和不侵权的保证。 Growstuff 维护者及其供应商和许可方均不保证服务不会出现错误，或者对服务的访问将连续或不间断。您同意任何服务中断都没有资格获得报销或赔偿。您了解，您自行决定从本服务下载内容或通过本服务获取内容或服务，并自行承担风险。</p>
+        <p>您以任何方式获得的任何口头或书面建议或信息均不构成本协议中未明确规定的任何保证。</p>
+        <h2>14。责任限制</h2>
+        <p>您明确理解并同意，在任何情况下，Growstuff 维护者或其供应商或许可方均不对本协议的任何标的物根据任何合同、疏忽、严格责任或其他法律或衡平理论承担以下责任： (i) 任何特殊、偶然或后果性损害； (ii) 采购或替代产品或服务的成本； (iii) 使用中断或数据丢失或损坏； (iv) 任何第三方在服务上的任何声明或行为； (v) 对您的内容进行任何未经授权的访问或更改。对于因超出我们合理控制范围的情况而导致的任何失败或延误，我们不承担任何责任。</p>
+        <p>前述规定不适用于适用法律禁止的范围。</p>
+        <h2>15。一般信息</h2>
+        <p>本协议构成我们与您之间关于您使用服务的完整协议。本协议只能通过 Growstuff 维护者授权代表签署的书面修订或通过将修订版本发布到此位置来进行修改。除非适用法律（如有）另有规定，您与 Growstuff 维护者之间就本服务条款和/或您使用或访问本服务而产生的任何争议将受维多利亚州法律和澳大利亚联邦法律管辖，不包括任何法律冲突条款。您同意对于因您使用本服务或接受本协议而引起的或与之相关的任何争议，接受位于澳大利亚墨尔本的州法院和联邦法院的管辖。</p>
+        <p>如果本协议的任何部分被视为无效或不可执行，该部分将被解释为反映双方的原始意图，其余部分将仍然具有完全效力。在任何一种情况下，任何一方放弃本协议的任何条款或条件或任何违反行为，并不放弃该条款或条件或随后的任何违反行为。</p>
+        <p>本协议中的章节标题仅为方便起见，不具有法律或合同效力。</p>
+        <h2>16。举报违规行为</h2>
+        <p>要举报违反本协议的行为，请发送电子邮件至<a href="mailto:support@growstuff.org">support@growstuff.org</a>。</p>
+        <h2>17。知识共享</h2>
+        <p>本服务条款文档基于 Automattic (<a href="http://wordpress.com/tos/">http://wordpress.com/tos/</a>) 开发的文档，并由 Dreamwidth (<a href="http://www.dreamwidth.org/legal/tos">http://www.dreamwidth.org/legal/tos</a>) 修订，并根据 <a href="http://creativecommons.org/licenses/by-sa/2.5/">知识共享署名-相同方式共享 2.5 获得许可许可证</a>。</p>
+    about:
+      title: 关于
+      description_html: 有关 Growstuff 的更多信息，请参阅我们的 %{github_link}。
+      github_page: GitHub 页面
+    contact:
+      title: 联系方式
+      general_email: 一般联系邮箱
+      support_enquiries_html: 支持和账户咨询（%{faq_link}中未提及的内容）
+      faq: 常见问题
+      media_enquiries: 媒体/新闻咨询
+      twitter: Twitter
+    policies:
+      title: 政策
+      terms_of_service: 服务条款
+      privacy_policy: 隐私政策
+      data_use_policy: 数据使用政策
+      community_guidelines: 社区准则
+      copyright_infringement_policy: 版权侵权政策
   photo_associations:
     update:
       updated: 照片已更新。
   photos:
+    by_html: "摄影：%{photographer}"
+    description:
+      activity_html: "拍摄了照片%{photo}"
+    edit:
+      title: 编辑照片
+      save: 保存
+    edit_modal:
+      title: 编辑照片
+    fields:
+      title_placeholder: 标题
+    hero:
+      taken_on: "拍摄于%{date}"
+    index:
+      photos_of: "%{subject}的照片"
+      recent: "最近添加到%{site}的照片。"
+      photos: 照片
+    new:
+      title: 新建照片
+      sources_html: "从Flickr中为%{item}选择照片，或通过应用向%{inaturalist}或%{plantnet}贡献独特作物的信息。"
+      reconnect_heading: 请重新连接您的Flickr账户
+      token_expired: 令牌已过期或被撤销。
+      reconnect: 重新连接Flickr
+      connected_html: "已以%{account}的身份连接到Flickr。"
+      select_photo: 请从最近上传的照片中选择一张。
+      album: 选择相册
+      tag: 或按标签搜索
+      search: 搜索
+      connect_required: 您必须将账户连接到Flickr才能添加照片。
+      connect: 连接到Flickr
     show:
-      crop: '%{crop}'
-      garden: '%{owner} 命名为“%{garden}”的花园'
-      harvest: '%{crop} %{owner} 收获'
-      planting: '%{planting}'
-      seed: '%{seed}'
-      thing_by: '%{owner} 的 %{thing}'
+      crop: "%{crop}"
+      garden: "%{owner} 命名为“%{garden}”的花园"
+      harvest: "%{crop} %{owner} 收获"
+      planting: "%{planting}"
+      seed: "%{seed}"
+      thing_by: "%{owner} 的 %{thing}"
+      heading: "%{subject}的照片"
+      photo_by: 摄影：%{name}
+      photos: 照片
+      taken: 已拍摄 %{date}
+    actions:
+      delete: 从 Growstuff 中删除照片
+      delete_confirm: 完全从 Growstuff 中删除这张照片吗？它所附着的一切都被取下了。它保留在 Flickr 上。
+      refresh: 从 Flickr 刷新照片数据
+      unlink:
+        crop: 从作物中移除：%{name}
+        garden: 从花园中移除：%{name}
+        harvest: 从收获中移除：%{name}
+        job: 从工作中删除：%{name}
+        planting: 从种植中移除：%{name}
+        post: 从帖子中删除：%{name}
+        seed: 从种子中移除：%{name}
+      unlink_confirm: 从该记录中删除这张照片吗？照片本身保留在 Growstuff 上。
+    comment:
+      ago: "%{time} 前"
+      delete: 删除
+      delete_confirm: 删除这条评论？
+      deleted_member: 会员已删除
+      edit: 编辑
+      edited: 已编辑
+      photographer: 摄影师
+      you: 你
+    comments:
+      add_comment: 添加评论
+      empty: 还没有评论。成为第一个对这张照片发表评论的人。
+      guidelines: 社区准则
+      heading: 评论
+      join: 免费加入
+      placeholder: 说说这张照片
+      post: 发表评论
+      public_note_html: 评论是公开的。请关注%{guidelines}。
+      sign_in: 登入
+      sign_in_prompt: 登录以加入对话
+    credit:
+      by: 摄影：%{name}
+      'on': 上 %{site}
+    licence:
+      copied: 已复制
+      copy_credit: 复制信用证
+      credit_label: 像这样信用它
+      heading: 执照
+      public_domain: 公共领域
+      read_licence: 阅读完整的许可证
+      summary:
+        by: 您可以分享和改编这张照片，甚至是商业用途，只要您注明 %{name} 并链接到许可证。
+        by-nc: 您可以共享和改编此照片以用于非商业用途，只要您注明 %{name} 并链接到许可证。
+        by-nc-nd: 您可以分享这张照片用于非商业用途，只要您注明%{name}、链接到许可证并且不要更改它。
+        by-nc-sa: 您可以共享和改编此照片以用于非商业用途，只要您注明 %{name}、链接到许可证并分享您在同一许可证下制作的内容即可。
+        by-nd: 您可以分享这张照片，甚至是商业用途，只要您注明 %{name}、链接到许可证并且不更改它。
+        by-sa: 您可以共享和改编这张照片，甚至是商业用途，只要您注明%{name}、链接到许可证并共享您在同一许可证下制作的内容。
+        mark: 这张照片属于公共领域。您可以随心所欲地使用它。
+        other: 请参阅许可证以了解如何使用此照片。
+        reserved: "%{name}保留这张照片的所有权利。在其他地方使用之前先询问。"
+        zero: "%{name}已放弃这张照片的所有权利。您可以随心所欲地使用它。"
+    photographer:
+      gardens: 参观%{name}的花园
+      harvests: 收获
+      heading: 摄影师
+      joined: 加入 %{time} 前
+      plantings: 种植
+      seeds: 种子
+    photographer_outsider:
+      heading: 摄影师
+      not_a_member: 不是 Growstuff 会员。这张照片根据知识共享许可在 %{site} 上共享。
+      photographer: "%{site} 摄影师"
+      see_photos: 在 %{site} 上查看他们的照片
+    polaroid:
+      view_on: 查看 %{site}
+    refresh:
+      not_found: Flickr 找不到那张照片。它可能是私人的或已删除。
+      not_public: 该照片不再在 Flickr 上公开，因此无法刷新。
+      refreshed: 从 Flickr 刷新了照片的详细信息。
+      unavailable: 无法访问 Flickr。请稍后重试。
+    records:
+      harvest: "%{crop}收获"
+      planting: "%{crop}种植"
+      seed: "%{crop} 种子"
+    shows:
+      crop:
+        about: 好奇如何种植它？了解何时种植、您附近还有哪些人种植以及他们收获了什么。
+        go: 探索%{crop}
+        harvests:
+          one: "%{count}收获"
+          other: "%{count} 收获"
+        image_alt: "%{crop} 的图像"
+        kind: 庄稼
+        on_growstuff: 关于生长物
+        plantings:
+          one: "%{count}种植"
+          other: "%{count} 种植面积"
+        seeds:
+          one: "%{count}种子包"
+          other: "%{count}种子包"
+      garden:
+        by: "%{owner}的花园"
+        kind: 花园
+      harvest:
+        about: 看看从地里长出了什么，以及种植后需要多长时间。
+        by: 收获者：%{owner}
+        go: 看到这个收获
+        kind: 收成
+        picked: 已选%{date}
+        title: "%{crop}收获"
+      heading: 这张照片显示了什么
+      intro: 沿着照片回到它来自的花园记录。
+      job:
+        by: "%{owner} 的工作"
+        kind: 工作
+      outsider_intro: 该作物的知识共享照片，分享自 %{site}。
+      planting:
+        about: 看看它是什么时候进入的，它是如何生长的以及它是否被收获。
+        by: 由%{owner}种植
+        go: 看看这个种植
+        kind: 种植
+        planted: 已种植 %{date}
+        plants:
+          one: "%{count} 工厂"
+          other: "%{count} 植物"
+      post:
+        by: 发帖者 %{owner}
+        kind: 邮政
+      seed:
+        about: 看看它是什么品种、来自哪里以及是否可以进行贸易。
+        by: 由 %{owner} 保存
+        go: 看看这些种子
+        kind: 种子
+        saved: 已保存 %{date}
+        seeds:
+          one: "%{count} 种子"
+          other: "%{count} 种子"
+        title: "%{crop} 种子"
   places:
     index:
-      title: '%{site_name} 社区地图'
+      title: "%{site_name} 社区地图"
     search_form:
-      change_location: "更改地点："
+      change_location: 更改地点：
       placeholder: 搜索城市、郊区或州...
       search: 搜索
+    show:
+      community_near: "%{place} 附近的 %{site_name} 社区"
+      nearby_members: 附近的会员
+      no_nearby_members: 附近没有会员
+      no_nearby_plantings: 未找到附近的种植
+      no_nearby_seeds: 未找到附近的种子
+      recent_plantings: "%{place} 附近的最近种植"
+      seeds_available: "%{place} 附近可供交易的种子"
+      view_all_members: "查看所有会员 \u00bb"
+      view_all_plantings: "查看所有种植 \u00bb"
+      view_all_seeds: "查看所有种子 \u00bb"
+  plant_parts:
+    edit:
+      back: 返回
+      show: 显示
+      title: 编辑植物部位
+    form:
+      errors:
+        other: "%{count} 个错误导致此植物部位无法保存："
+        one: 1 个错误禁止保存该植物部分：
+      name: 名称
+      save: 保存
+    index:
+      new_plant_part: 新建植物部位
+      no_crops: （目前）还没有为此植物部位收获任何作物。
+      title: 植物部位
+    new:
+      back: 返回
+      title: 新建植物部位
+    show:
+      delete: 删除
+      edit: 编辑
+      harvested_crops: 以下作物因其%{plant_part}而被收获。
+      no_crops: （目前）还没有为此植物部位收获任何作物。
+      view_other_plant_parts: 查看其他植物部位
   planting:
     status:
       finished: 完成的
@@ -1111,6 +3030,8 @@ zh:
       unknown: 未知
   plantings:
     badges:
+      harvest_prediction: 预计距离收获的周数
+      harvest_ready: 这次种植现在可以收获了
       days_until_finished: 距离完成的天数
       days_until_harvest: 距收获天数
       harvesting_now: 现在收获
@@ -1120,7 +3041,7 @@ zh:
     card:
       planted_by_in_html: 由 %{owner} 种植在 %{garden} 中
     facts:
-      day_progress: "第 %{age} 天，共 %{lifespan} 天"
+      day_progress: 第 %{age} 天，共 %{lifespan} 天
       done: 已完成
       failed: 失败
       finished: 已结束
@@ -1136,47 +3057,112 @@ zh:
       packets_of_seed:
         one: 1 包种子
         other: "%{count} 包种子"
-      parent_seed: 母株种子
       perennial: 多年生
       perennial_description: 年复一年持续生长
       planned: 已计划
-      planned_for: "计划于 %{date}"
+      planned_for: 计划于 %{date}
       planted: 已种植
       planting_failed: 该种植已失败
+      short_code: 短代码
+      short_code_description: 用于植物标签和标记
       progress: 进度
       quantity: 数量
       rating: 评分
       rating_of_5: "%{rating} / 5 分"
       seeds_saved: 已留种
-      sown_from_expired: "使用过期种子播种（请在 %{year} 年前种植）"
+      sown_from_expired: 使用过期种子播种（请在 %{year} 年前种植）
       unknown: 未知
+      heat: "积温"
+      heat_help_html: "这不是日历上的天数。积温（度日）是一天中有用的热量：当天平均气温高出这种作物生长所需最低温度的度数。寒冷的日子不会累加，所以作物在秋天比夏天需要更多天。%{link}。"
+      heat_help_label: "什么是积温（度日）？"
+      heat_help_link: "在维基百科上了解更多"
+      heat_help_title: "积温（度日）"
+      heat_needed_unknown: "目前为止；所需积温未知"
+      heat_of_needed: "共需约 %{needed}"
+      short_code_help: "把这个代码写在植物标签或标记上，以后即使有很多同一作物，也能在这里找到这株植物。"
+      short_code_help_label: "短代码有什么用？"
+      sun_semi_shade: "半阴"
+      sun_shade: "阴处"
+      sun_sun: "全日照"
+      variety: "品种"
+      variety_from_packet: "来自种子包"
     form:
+      save: 保存
+      optional: 可选
+      finished_date: 结束日期
+      description: 请提供更多信息
+      great: 很好
+      poor: 差
+      rating_help: 种植情况如何？
+      rating: 总体评价
+      leave_blank: 留空
+      how_many: 多少？
+      sun_label: 向阳还是背阴？
+      planted_from: 种植材料
+      date_help: 使用未来日期规划种植，并订阅您的iCalendar日历以接收种植提醒
+      when: 何时？
+      add_garden: 添加菜园。
+      garden_label: 您种在哪里？
+      choose_garden: 选择其他菜园
+      planting_in_html: 种植于%{garden}
+      alternate_help: 可选。您的种植记录将显示此名称，而不是作物的主要名称。
+      alternate_name: 您怎么称呼它？
+      request_crops: 申请添加新作物。
+      cannot_find: 找不到您想要的作物？
+      crop_label: 您种了什么？
+      errors:
+        one: '%{count}个错误导致此种植记录无法保存：'
+        other: '%{count}个错误导致此种植记录无法保存：'
       failed_helper: 如果该种植死亡或在没有任何收获的情况下被移除，则将其标记为失败。
       finish_helper: 当你收获了所有的作物，或者它死了，或者它不再在你的花园里生长时，种植就完成了。
     garden_card:
       by: 经过
     index:
+      feed_item: '%{location}的%{planting}'
+      all_members: 所有成员
+      feed_title: '%{owner}最近的种植记录（%{site}）'
+      calendar_description: '%{owner}的种植记录'
+      no_plantings: 暂无种植记录
+      api_methods: API方法
+      open_data: 开放数据
+      include_finished: 包含已结束的种植
+      owner_plantings: '%{owner}的种植记录'
+      plantings: 种植记录
+      browse: 浏览和搜索种植记录。
       title:
         crop_plantings: 大家的%{crop}种植
         default: 大家的种植
-        owner_plantings: '%{owner} 的种植'
+        owner_plantings: "%{owner} 的种植"
       view_owners_profile: 查看%{owner}的个人资料>>
+    modal:
+      add_new_garden: 添加新花园
+      add_to_my_garden: 添加到我的花园
+      close: 关闭
+      title: 将 %{crop} 添加到您的花园
+      which_garden: 要放进哪个花园？
     plant_something: 种点东西
     progress:
       progress_0_not_planted_yet: 进度：0% - 尚未种植
     show:
+      cultivate: 翻耕土壤
+      cultivate_prompt: 这是这块种植床最近的最后一次种植。您想近期翻耕土壤吗？
+      in_garden_html: 种植地点：%{garden}
+      grown_by_html: 种植者：%{owner}
+      grower_photo: '%{owner}种植的%{planting}'
+      plantings: 种植记录
+      add: 添加
       crop: 庄稼
       grower: 种植者
-      harvest_month_yes: '%{month}，通常收获'
+      harvest_month_yes: "%{month}，通常收获"
       harvest_months: 收获月
       harvest_months_legend: 突出显示的月份是通常在这里收获这种作物的月份。
       harvest_months_unknown: 在这个纬度，这种作物还没有收获月份。
       harvests: 收获
-      heading: '%{crop} 种植'
+      heading: "%{crop} 种植"
       jobs: 工作机会
       jobs_current: 计划
       jobs_finished: 完成的
-      meta_description: '%{crop} 由 %{owner} 种植在 %{garden} 中。'
+      meta_description: "%{crop} 由 %{owner} 种植在 %{garden} 中。"
       more_photos: 更多照片
       neighbours: 世界邻居
       neighbours_explanation: 同纬度的其他 %{crop} 种植。
@@ -1190,10 +3176,10 @@ zh:
       notes: 笔记
       photos: 照片
       seeds_saved: 已保存种子
-      title: '%{crop} 由 %{owner} 种植'
-      view_all_plantings: '%{owner} 的所有种植'
+      title: "%{crop} 由 %{owner} 种植"
+      view_all_plantings: "%{owner} 的所有种植"
       weather_coldest: 最冷的夜晚
-      weather_credit_html: '%{open_meteo} (%{licence})。包含修改后的哥白尼气候变化服务信息。天气是根据花园周围的区域建模的，而不是在花园中测量的，并且会晚几天。总计、图表和预期天气是我们根据这些数据改编的。'
+      weather_credit_html: "%{open_meteo} (%{licence})。包含修改后的哥白尼气候变化服务信息。天气是根据花园周围的区域建模的，而不是在花园中测量的，并且会晚几天。总计、图表和预期天气是我们根据这些数据改编的。"
       weather_credit_licence: 抄送4.0
       weather_credit_source: 天气数据由 Open-Meteo.com 提供
       weather_days: 天
@@ -1210,41 +3196,611 @@ zh:
       weather_soil_temp: 土壤温度
       weather_temperature_chart: 每日高点和低点
       weather_temperature_chart_alt: 每日高低温，从%{low}到%{high}。
+      frost_line: "%{degrees}°C霜线"
+      weather_kill_line: 在 %{degrees} °C 下死亡
+      no_observations: 还没有注意到什么。注意它何时开花、结果、枯萎或生病。
+      observations: 观察结果
+      weather: 天气
+      weather_abandoned_note: 没有人将这次种植标记为完成，而且已经过了很久才应该完成，因此显示的天气在 %{date} 结束，也就是预计完成的时间。
+      weather_absolute_range: 增长至 %{range}
+      weather_best_days: 处于最佳范围的天数
+      weather_best_days_value: "%{count} 共 %{total}"
+      weather_days_count:
+        one: "%{count} 天"
+        other: "%{count} 天"
+      weather_in: 天气 %{place}
+      weather_note_cold: "%{days} 太冷（最低点低于 %{limit}）"
+      weather_note_above: 高于 %{days} 的最佳范围
+      weather_note_below: 低于 %{days} 的最佳范围
+      weather_note_future_best: 根据去年的天气情况，从%{from}到%{to}的%{total}天中的%{best}天应该在%{range}的最佳范围内具有较高的值。
+      weather_note_future_caution: 预计混合为%{crop}
+      weather_note_future_danger: 预计超出范围 %{crop} 增长
+      weather_note_future_killed: 低温可在%{days}达到%{limit}的致死温度。
+      weather_note_future_neutral: 预计将保持在 %{crop} 增长范围内
+      weather_note_future_outside: 最高点可能是 %{outside}。
+      weather_note_future_problems: 可能是%{problems}。
+      weather_note_future_slow: 预计会增长，尽管不是最快，为 %{crop}
+      weather_note_future_success: 预计适合%{crop}
+      weather_note_future_too_both: 预计 %{crop} 的天气太热或太冷
+      weather_note_future_too_cold: 预计 %{crop} 太冷
+      weather_note_future_too_hot: 预计 %{crop} 太热
+      weather_note_future_survives: 根据去年的天气，它应该保持在从%{from}到%{to}增长的%{crop}范围内。
+      weather_note_hot: "%{days} 太热（高于 %{limit} 的高点）"
+      weather_note_past_best: 从%{from}到%{to}，%{total}天内的%{best}天在%{range}的最佳范围内出现了较高的值。
+      weather_note_past_caution: 到目前为止 %{crop} 的混合条件
+      weather_note_past_danger: 到目前为止，超出范围 %{crop} 增长
+      weather_note_past_killed: 低温在%{days}达到了%{limit}的致死温度。
+      weather_note_past_neutral: 到目前为止 %{crop} 范围内增长
+      weather_note_past_outside: 最高点为%{outside}。
+      weather_note_past_problems: 天气是%{problems}。
+      weather_note_past_slow: 到目前为止，增长速度虽然不是最快，但为 %{crop}
+      weather_note_past_success: 到目前为止%{crop}的良好条件
+      weather_note_past_too_both: 到目前为止 %{crop} 太热和太冷
+      weather_note_past_too_cold: 到目前为止 %{crop} 太冷了
+      weather_note_past_too_hot: 到目前为止 %{crop} 太热了
+      weather_note_past_survives: 从%{from}到%{to}，天气一直在%{crop}范围内增长。
+      weather_now_rain: 最新，%{date}：%{rain}
+      weather_now_temperature: 最新，%{date}：%{high} / %{low}
+      weather_optimal_range: 成长最好%{range}
     string: '%{crop} 在 %{garden} 中种植 %{owner}'
+    timeline:
+      failed: 失败
+      finish_expected: 预计于 %{date} 结束
+      finished: 于 %{date} 结束
+      first_harvest_expected: 预计于 %{date} 第一次收获
+      harvest_started: 于 %{date} 开始收获
+      legend: (一个表情符号 = 1周)
+      planted: 种植于 %{date}
+      events:
+        failed: "失败"
+        finished: "结束"
+        first_harvest: "首次收获"
+        last_harvest: "最后收获"
+        planted: "种植"
+        sown: "播种"
+        transplanted: "移至 %{garden}"
+      expected: "预计"
+      today: "今天"
     transplant:
       cancel: 取消
       close: 关闭
-      move_to: "将此植株移至："
+      move_to: 将此植株移至：
       submit: 移植
-      title: "移植 %{crop}"
+      title: 移植 %{crop}
+    descendants:
+      add: 添加
+    harvests:
+      add: 添加
+    photos:
+      add: 添加
+    description:
+      activity_html: 种植了%{crop}
+    menu:
+      actions: '%{planting}的操作'
+    popover:
+      planted: 种植日期：
+      quantity: 数量：
+    progress_list:
+      insufficient_data: '%{crop}的数据不足，无法预测'
+      set_date: 请设置种植日期以启用预测
+    edit:
+      title: 编辑种植记录
+    crop:
+      days: {one: '%{count}天', other: '%{count}天'}
+      more: 了解更多关于%{crop}的信息
+      usual_sun_html: 通常在%{sun}下种植
+      last_harvest_html: 最后收获约在种植%{days}后
+      first_harvest_html: 首次收获约在种植%{days}后
+      perennial: 多年生植物
+      annual: 一年生植物
+      annual_lifespan_html: 一年生植物，生长期约%{days}
+      variety_html: '%{crop}的一个品种'
+      crop_photo: '%{crop}的照片'
+    sun: {sun: 全日照, semi-shade: 半阴, shade: 阴处}
+    units:
+      plant: {one: 株植物, other: 株植物}
+      planting: {one: 次种植, other: 次种植}
+      harvest: {one: 次收获, other: 次收获}
+      seed: {one: 种子, other: 种子}
+      seedling: {one: 幼苗, other: 幼苗}
+      cutting: {one: 插条, other: 插条}
+      volunteer: {one: 自生苗, other: 自生苗}
+      root division: {one: 分株, other: 分株}
+      runner: {one: 匍匐茎, other: 匍匐茎}
+      bulb: {one: 鳞茎, other: 鳞茎}
+      root/tuber: {one: 根或块茎, other: 根或块茎}
+      bare root plant: {one: 裸根苗, other: 裸根苗}
+      advanced plant: {one: 大苗, other: 大苗}
+      graft: {one: 嫁接苗, other: 嫁接苗}
+      layering: {one: 压条苗, other: 压条苗}
+    frost:
+      cards:
+        free:
+          label: 无霜期
+          note: 在典型的一年里
+        in_danger:
+          label: 它经历了霜冻危险
+          note: 从种植到最晚已经来了，%{latest}
+        last:
+          label: 通常最后一次霜冻
+          note: 已晚至 %{latest}
+          planted_after: 在它之后种植了%{days}
+          planted_before: 在它之前种植了%{days}
+        margin:
+          label: 霜冻以上边缘
+          note: 最冷夜晚为%{coldest}°C；霜线为 %{threshold} °C
+        next:
+          label: 下一次霜冻危险开始
+          note_finished: 早在%{earliest}、%{days}种植完成后
+          note_finishes: 早在本次种植完成后的%{earliest}、%{days}
+          note_now: 最早%{earliest}，从现在开始%{days}
+      days:
+        one: "%{count} 天"
+        other: "%{count} 天"
+      degrees: "%{degrees}°C"
+      nights_so_far:
+        one: 迄今为止一晚的气温为 %{threshold} °C 或以下，即最冷的 %{coldest} °C。
+        other: 迄今为止，%{count} 个夜晚的气温为 %{threshold} °C 或以下，即最冷的 %{coldest} °C。
+      planted:
+        after: 播种于通常的最后一次霜冻（%{usual_end}）后的%{planted}、%{days}进行。
+        before: 播种于通常的最后一次霜冻 (%{usual_end}) 之前的 %{planted}、%{days} 进行。
+      timeline:
+        annotation_after: 通常在最后一次霜冻后种植%{days}
+        annotation_before: 在通常的最后一次霜冻之前种植%{days}
+        description: 时间线从%{from}到%{to}。通常的霜冻危险范围为 %{usual_start} 至 %{usual_end}。霜冻最早出现在%{earliest}，最晚出现在%{latest}。种植范围从 %{planted} 到 %{ends}。
+        finish_expected: 预计完成 %{date}
+        finished: 已完成%{date}
+        legend:
+          finished: 种植完毕
+          possible: 可能：早或晚来就来
+          so_far: 种植至今
+          still_to_come: 播种仍待进行
+          usual: 常见的霜冻危险
+        planted: 已种植 %{date}
+        row_danger: 霜冻危险
+        row_planting: 这种种植
+        title: 这种种植对抗霜冻季节
+        today: 今天，%{date}
+        usual: "%{from} – %{to}"
+        usual_open: "%{from} →"
+      title: 霜
+      verdicts:
+        before_season:
+          body: 通常的初霜是%{usual_start}，在%{days}。早在%{earliest}就已经到来了。
+          title: 霜冻危险即将来临
+          title_far: 目前还没有霜冻危险
+        finished_clear:
+          body: 霜冻可能持续到 %{latest}，并且在那段时间没有哪个夜晚的温度低于 %{coldest} °C。
+          body_no_readings: 霜冻可能持续到 %{latest}。我们没有适合这种种植的夜间温度。
+          title: 该种植区没有霜冻
+        finished_hit:
+          body:
+            one: 可能出现霜冻的一晚温度为 %{threshold} °C 或以下。最冷为%{coldest}°C。
+            other: 可能出现霜冻的 %{count} 个夜晚温度为 %{threshold} °C 或以下。最冷为%{coldest}°C。
+          title: 霜冻可能已到达该种植区
+        in_season:
+          body: 通常最后一次霜冻是%{usual_end}，在%{days}。最晚才到%{latest}。
+          title: 在通常的霜冻危险中
+        late_possible:
+          body: 从现在起已经晚了%{latest}、%{days}。密切关注天气预报。
+          title: 过去了通常的最后一次霜冻，但它仍然会到来
+        passed:
+          body: 过去几年中最近一次霜冻是在%{latest}、%{days}之前。
+          title: 该种植区的霜冻危险已经过去
+        rare:
+          body: 该地区很少出现霜冻，因此我们没有显示霜冻日期。
+          title: 这里很少有霜冻
+    hardiness:
+      help: 让种子未知，然后是作物。
+      label: 需要多少霜？
+      sources:
+        crop: 通常用于作物
+        parent_crop: 通常用于亲本作物
+        planting: 为这次种植设置
+        seed: 来自种子包
+      title: 坚韧
+    observations:
+      add: 添加
+      day: 日 %{count}
+      delete: 删除观察
+      destroy:
+        deleted: 观察已删除。
+      edit: 编辑观察结果
+      logged_by: "%{author}注意到"
+      planted: 种植
+    origin:
+      change: 改变
+      crop_changed: 该种植现在为 %{crop}，以匹配您的数据包。这是%{was}。
+      dialog:
+        another_way: 开始了另一种方式
+        back: 后退
+        cancel: 取消
+        change_hint: 种植的作物遵循包装。选择一个品种就可以种植该品种。
+        change_link: 改变
+        change_title: 改变这%{crop}株植物的来源
+        choose: 选择
+        choose_another: 选择另一个
+        choose_different: 选择不同的数据包
+        confirm_other_crop: "%{seed} 是与%{crop} 种植的不同作物。你确定它是从这个包里长出来的吗？"
+        label_hint: 幼苗通常带有标签或标签。复制任何有用的东西，这样你就可以在下个赛季找到它。
+        label_text: 标签文本（可选）
+        label_text_hint: 供应商、种植建议、收获天数、上面印有的任何内容
+        label_title: 标签上写着什么
+        link_anyway: 无论如何链接
+        linked_now: 现已链接
+        no_match: 在 %{crop} 种子中找不到“%{query}”。
+        not_my_packet: 我的包裹中没有一个
+        next: 下一个
+        not_this_packet: 或者不是这个数据包
+        other_crops: 其他作物
+        other_seeds: 其他种子
+        other_seeds_hint: 其他种子会转到它们的来源地，并让您添加数据包的详细信息。另一种方式提供育苗、切割等。
+        other_ways: 另一种方式
+        remove_link: 删除链接
+        remove_link_hint: 删除链接会将其恢复为未记录状态。数据包的种植列表会立即更新。
+        right_now: 现在
+        save: 节省
+        search: 搜索你的种子
+        search_placeholder: 任何作物或品种
+        seed_list: "%{crop} 种子，包括品种"
+        seed_list_hint: 选择品种也会将这种种植的作物改变为该品种。
+        seed_source_title: 种子从哪里来？
+        seed_title: 这是你的种子之一吗？
+        seedling_source_title: 你从哪里得到的？
+        seedling_title: 关于幼苗
+        skip: 只需保存“%{kind}”
+        some_other_seeds: 不，还有其他种子
+        some_other_seeds_hint: 不在你的图书馆里，或者你没有。
+        started_title: 这个%{crop}种植是如何开始的？
+        step: "%{total} 的步骤 %{step}"
+        step_how: 它是如何开始的
+        step_source: 从哪里来
+        supplier: 来自哪里（可选）
+        supplier_placeholder: 商店、托儿所、摊位或个人
+        unsaved: 那没有保存。请再试一次。
+      grown_from: 成长自
+      kind_hints:
+        cutting: 另一种植物的一部分
+        seed: 来自数据包或保存的种子
+        seedling: 购买或赠送的幼苗
+        volunteer: 自己长出来的，来自你没有播下的种子
+      kinds:
+        advanced_plant: 先进厂房
+        bare_root_plant: 裸根植物
+        bulb: 电灯泡
+        cutting: 切割
+        graft: 接枝
+        layering: 分层
+        root_division: 根部分裂
+        root_tuber: 根/块茎
+        runner: 跑步者
+        seed: 种子
+        seedling: 幼苗
+        volunteer: 志愿者
+      link_a_seed: 链接种子
+      not_recorded: 未记录
+      packet: 你的%{seed}包
+      saved_in: 已保存 %{year}
+      seed_sources:
+        my own seed saving: 我之前保存的
+        other/unknown: 没有把握
+        retail outlet: 商店或花园中心
+        seed bank or similar institution: 种子库或种子库
+        seed catalogue: 种子目录
+        traded from another person: 由某人交易或给予
+      seedling_sources:
+        gift: 由某人给予
+        market: 市场或摊位
+        nursery: 苗圃
+        shop: 商店或花园中心
+        unknown: 没有把握
+      undo: 撤消
   posts:
+    draft: 草稿
+    description:
+      activity_html: "撰写了一篇关于%{post}的帖子"
+    edit:
+      title: 编辑帖子
+    form:
+      draft_visibility: 发布之前，只有您能看到此草稿。
+      advanced_options: 高级选项
+      language: 帖子语言
+      unknown_language: 未知语言
+      errors:
+        one: "%{count}个错误导致此帖子无法保存："
+        other: "%{count}个错误导致此帖子无法保存："
+      forum_body: 最近有什么新鲜事？
+      garden_body: 您的菜园最近怎么样？
+      editor_instructions_html: 使用上方的按钮设置文字格式。输入<strong>@</strong>可链接到作物、成员或您的一次种植。其他情况下，可在<strong>Markdown</strong>选项卡中查看原始文本。
+      forum_notice_html: "此帖子将发布到%{forum}论坛"
+      photos: 照片
+      photo_instructions_html: 使用工具栏中的<strong>+ Flickr photo</strong>将照片插入帖子。下次打开草稿时，封面照片和其他照片将显示在这里。
+      card_photo: 封面照片
+      card_photo_help: 显示在帖子列表、您的页面和分享的链接中。
+      card_photo_empty: 添加照片，然后选择一张代表此帖子的照片。
+      photos_in_post: 此帖子中的照片
+      pick_from_flickr: 从Flickr中选择
+      flickr_photos: 这些照片来自您的Flickr账户。
+      autosave_help: 编辑时会自动保存。您可以关闭此页面，稍后从您的帖子中继续编辑。
+      discard_draft: 丢弃草稿
+      confirm_discard: 您确定吗？
+      close: 关闭
+      save_draft: 保存草稿
+      publish_post: 发布帖子
+      save_changes: 保存更改
+    new:
+      forum_title: "在%{forum}中发帖"
+    preview:
+      photo_alt: 与此帖子相关的照片
+      author_html: "作者：%{author}，"
+      read_more: 阅读更多
+    single:
+      attribution_html: "由%{author}发表于%{date}"
+      forum_attribution_html: "由%{author}于%{date}发布在%{forum}中"
+      deleted_member: 已删除的成员
+      edited_at: "编辑于%{date}"
+      permalink: 永久链接
+    summary:
+      subject: 主题
+      posted_by: 发布者
+      recent_activity: 最近活动
+      comments: 评论
+    show:
+      visitor_intro_html: "%{author}正在使用%{site}与来自世界各地的食用作物种植者讨论%{subject}。我们提供%{crops}的种植建议，并拥有遍布全球的社区。"
+      different_crops: 数百种不同作物
+      join_html: "%{sign_in}或%{sign_up}，开始使用%{site}记录您的种植和收获。"
+      sign_in: 登录
+      sign_up: 注册
+      comment: 评论
+      crops_mentioned: 此帖子中提到的作物
+      feed_title: "%{subject}的最新评论（%{site}）"
+      comment_title: "%{author}于%{date}发表的评论"
+      comment_description_html: "对%{post}的评论"
     created: 帖子创建成功。
     deleted: 帖子已被删除。
     draft_saved: 草稿已保存。
     index:
+      posts: 帖子
+      subscribe_author_html: "订阅%{feed}。"
+      author_feed: "%{author}的帖子RSS订阅源"
+      subscribe_html: "订阅%{site}的%{posts}或%{comments}。"
+      posts_feed: 帖子RSS订阅源
+      comments_feed: 评论RSS订阅源
+      feed_title: "%{author}的最新帖子（%{site}）"
+      all_members: 所有成员
+      item_title: "%{subject}，作者：%{author}"
       title:
-        author_posts: '%{author} 帖子'
+        author_posts: "%{author} 帖子"
         default: 大家的帖子
     more_from: 更多来自 %{author}
     read_time:
       one: 1 分钟阅读
-      other: '%{count} 最小读取值'
+      other: "%{count} 最小读取值"
     untitled: 无标题帖子
     updated: 帖子已成功更新。
     write_blog_post: 写博客文章
+  rack_attack:
+    blocked:
+      contact: 告诉我们
+      mistake: 如果您认为这是误判，
+      reason_configured: 该地址已被阻止，因为它对网站造成了过多负载。
+      reason_honeypot: 该地址请求了只有爬虫才会查找的页面。
+      reason_other: 该地址已被阻止。
+      reason_pentesters: 该地址不断请求扫描器查找的页面，例如 WordPress 或 PHP 文件。
+      reason_semrush: 此爬虫在此不受欢迎。
+      title: 我们目前无法让您进入
+    reference: "参考编号：%{rule}"
+    throttled:
+      intro: 您在短时间内加载了过多页面，因此我们暂时暂停了请求。
+      sign_in: 登录
+      title: 请慢一点
+      wait:
+        one: 请在 1 分钟后重试。已登录会员不会受到速率限制，因此您可以
+        other: 请在大约 %{count} 分钟后重试。已登录会员不会受到速率限制，因此您可以
   scientific_names:
     deleted: 学名已成功删除。
+    edit:
+      added_by_html: 由 %{creator_link} 在 %{time_ago} 前添加。
+      title: 编辑学名
+    form:
+      crop: 作物
+      crop_wrangling_guide: 作物管理指南
+      crop_wrangling_guide_intro_html: 有关详细的作物整理指南，请参阅 Growstuff wiki 上的%{guide_link}。
+      errors:
+        one: "1 个错误导致此学名无法保存："
+        other: "%{count} 个错误导致此学名无法保存："
+      name: 名称
+      save: 保存
+      wikidata_id: 维基数据 ID
+    index:
+      crop: 作物
+      new_scientific_name: 新建学名
+      scientific_name: 学名
+      show: 显示
+      title: 学名列表
+    new:
+      title: 新建学名
+    show:
+      back: 返回
+      crop_label: "作物："
+      scientific_name_label: "学名："
   seasons:
     autumn: 秋天
     spring: 春天
     summer: 夏天
     winter: 冬天
-  stalls:
-    about_growstuff:
-      join: 免费加入
-      sign_in: 登录
-      text: 一个种植食物的社区。记录您种植和收获的内容，并与其他园丁交换种子和经验心得。免费加入或登录，即可联系 %{name} 了解摊位上的物品。
+    in_place: "%{place}的%{season}"
   seeds:
+    ui:
+      request_prompt_html: "%{sign_in}或%{sign_up}以申请种子。"
+      month_abbreviations: [1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
+      unknown_quiet: 未知
+      plant_seeds: 播种
+      saved_year: "%{year}年留种"
+      seeds_saved_by: 由%{owner}留种
+      approx_seeds:
+        one: 约%{count}粒种子
+        other: 约%{count}粒种子
+      sow_before_year: 在%{year}年之前播种
+      will_trade: 可在%{trade_scope}交换
+      organic_fact: 有机
+      gmo_fact: 转基因
+      save_crop_seeds_sentence: 保存%{crop}种子。
+      unknown: 未知
+      no_descendants: 这些种子还没有种出任何植物。
+      activity_html: 保存了%{crop}的种子
+      change_crop: 更改作物
+      saved_at: 何时留种？
+      seed_quantity: 有多少粒种子？
+      plant_before_year: 播种期限（年份）
+      trade_label: 交换范围
+      variety: 品种
+      batch_number: 批次编号
+      maturity_min: 成熟天数（最少）
+      maturity_max: 成熟天数（最多）
+      row_spacing_cm: 行距（厘米）
+      organic: 有机？
+      gmo: 转基因？
+      heirloom: 传统品种？
+      source_question: 种子来自哪里？
+      notes: 备注
+      errors:
+        one: '有 1 个错误，无法保存这些种子：'
+        other: '有 %{count} 个错误，无法保存这些种子：'
+      crop: 作物
+      crop_help_html: 找不到您要的作物？%{link}
+      request_crops: 请求添加新作物。
+      harvested_saved_at: 种子何时采收或留存？
+      quantity: 数量
+      minimum: 最小
+      maximum: 最大
+      maturity: 成熟天数
+      range_to: 至
+      days: 天
+      row_spacing: 行距
+      cm: 厘米
+      set_location_html: 别忘了%{link}。
+      set_location: 设置您的位置
+      from_location_html: 来自%{location}。
+      change_location: 更改您的位置。
+      save: 保存
+      image_alt: "%{owner}留存的%{crop}种子"
+      saved_by_html: 由%{owner}留种
+      saved_from: 留种来源
+      request_subject: 对您的%{crop}种子感兴趣
+      request_seeds: 申请种子
+      request_seeds_purpose: 申请种子
+      sow_before: 播种期限
+      seeds: 种子
+      where_from: 来源
+      type: 类型
+      shared_with: 分享范围
+      packet_count:
+        one: "%{count}包"
+        other: "%{count}包"
+      saved_date: "%{date}留种"
+      packet: 种子包
+      nobody: 不分享
+      save_crop_seeds: 保存%{crop}种子
+      close: 关闭
+      adding_seeds: 您正在向库存添加种子
+      offer_trade: 您愿意用这些种子交换吗？
+      trade_from: 是的，我愿意从%{location}提供这些种子进行交换
+      no_trade: 不，我不想交换。
+      save_seeds: 保存种子
+      view_all: 查看%{owner}的所有种子
+      nearby_html: 查看%{location}附近的其他种子、成员等
+      you_have_it: 您已拥有
+      past_sow_by: 已过播种期限
+      not_specified: 未指定
+      seed_unit:
+        one: 粒种子
+        other: 粒种子
+      when_to_sow: 播种时间
+      how_to_sow: 播种方法
+      germination: 发芽
+      plant_before: 播种期限
+      heirloom_or_hybrid: 传统品种或杂交品种
+      crop_image_alt: "%{crop}的图片"
+      owner_library_html: "%{owner}的种子库"
+      crop_seeds: "%{crop}种子"
+      shared_seeds: 园艺爱好者选择分享的种子
+      auth_prompt_html: "%{sign_in}或%{sign_up}，查看您附近的种子交换者。"
+      sign_in: 登录
+      sign_up: 注册
+      sorted_by_distance: 按距您位置的远近排序。
+      shared_summary: 来自%{gardeners}的%{packets}种子。
+      gardener_count:
+        one: "%{count}位园艺爱好者"
+        other: "%{count}位园艺爱好者"
+      privacy_explanation: 只有园艺爱好者选择分享的种子才会显示在这里。我们显示其所在城市，绝不显示详细地址。每包种子旁都有分享者的头像。打开种子包即可查看种子详情并申请一些。
+      whose_seeds: 谁的种子
+      mine: 我的
+      following: 我关注的人
+      near_me: 我附近
+      everyone: 所有人
+      add_seeds: + 添加种子
+      search_summary:
+        one: "%{count}包%{crop}种子。"
+        other: "%{count}包%{crop}种子。"
+      variety_count:
+        one: "%{count}个品种"
+        other: "%{count}个品种"
+      open_shelf: ▸ 展开架子
+      tick_season: 选择季节：
+      germination_min: 发芽（最少天数）
+      germination_max: 发芽（最多天数）
+      in_stock: 有库存
+      finished: 已用完
+      edit_title: 编辑种子
+      owner_seeds: "%{owner}的种子"
+      meta_description: 浏览和搜索种子。
+      open_data: 开放数据
+      api_methods: API 方法
+      feed_title: "%{owner}的近期种子（%{site_name}）"
+      all_members: 所有成员
+      record_title: "%{owner}的%{crop}种子"
+      feed_field: '%{label}：%{value}'
+      feed_trade: 可从%{location}向%{trade_scope}交换
+      unknown_location: 未知位置
+      record_description: "%{owner}分享的%{crop}种子。"
+      plantings: 种植
+      edit: 编辑
+      no_notes: 暂无备注。
+      descendants_heading: 由这些种子培育的植物
+      add: 添加
+      photos: 照片
+      no_photos: 暂无照片。
+      all_year: 全年
+      seasons:
+        spring: 春季
+        summer: 夏季
+        autumn: 秋季
+        winter: 冬季
+      trade_scopes:
+        nowhere: 不交换
+        locally: 本地
+        nationally: 国内
+        internationally: 国际
+      stats:
+        packets:
+          one: 包
+          other: 包
+        varieties:
+          one: 个品种
+          other: 个品种
+        crops:
+          one: 种作物
+          other: 种作物
+        own:
+          one: 自留种
+          other: 自留种
+    hardiness:
+      half_hardy: 半耐寒（能耐受轻微霜冻）
+      hardy: 耐寒（不怕霜冻）
+      label: 耐寒性？
+      tender: 不耐寒（霜冻会造成伤害）
+      unknown: 未知
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
     facts:
       cancel: 取消
@@ -1258,6 +3814,11 @@ zh:
       unknown: 未知
       will_trade: 可交换
       year_saved: 保存年份
+    empty:
+      no_finished: 还没有已用完的种子。
+      no_match: 没有符合这些筛选条件的种子。
+      none_recorded: 尚未记录种子
+      show_all: 显示所有种子
     form:
       finish_helper: 当你把它们全部种下或者全部卖掉时，种子就完成了。
       trade_help: 您有兴趣与其他 %{site_name} 会员交易或交换种子吗？  如果您将种子列为可交易，其他成员可以联系您索取种子。  您可以在上面的描述中列出任何条件或其他信息。
@@ -1265,7 +3826,21 @@ zh:
       title:
         crop_seeds: 每个人的%{crop}种子
         default: 大家的种子
-        owner_seeds: '%{owner} 种子'
+        owner_seeds: "%{owner} 种子"
+    none:
+      add_seeds: 添加 %{crop} 种子
+      looked_everywhere: 我们查看了现有库存和已用完的种子包。
+      see_everyone: 查看所有人的 %{crop} 种子
+      title_from_owner: 没有来自 %{owner} 的 %{crop} 种子
+      title_here: 这里没有 %{crop} 种子
+    other_tab:
+      more_finished:
+        one: 还有 1 包已用完。
+        other: 还有 %{count} 包已用完。
+      more_in_stock:
+        one: 还有 1 包有库存。
+        other: 还有 %{count} 包有库存。
+      show_them: 显示它们
     packet:
       choice_back: 后退
       choice_front: 正面
@@ -1275,20 +3850,286 @@ zh:
       label_front: 数据包正面
       photo_back: 添加包裹背面的照片
       photo_front: 添加包裹正面的照片
+    packet_panel:
+      heading: 来自包装袋
+      hide_ocr: 隐藏文字识别结果
+      ocr_label: 包装袋文字识别结果
+      ocr_note: 从照片中自动读取，可能存在误差。请与实物包装核对。
+      show_ocr: 显示文字识别结果
+    past_sow_by:
+      count:
+        one: 有 %{count} 包种子已过播种期限。
+        other: 有 %{count} 包种子已过播种期限。
+      hint: 旧种子往往仍能发芽。可以密播几颗试试。
+      show_all: 显示全部
+      show_those:
+        one: 显示这 %{count} 包
+        other: 显示这 %{count} 包
+      showing: 正在显示已过播种期限的种子包。
     save_seeds: 保存种子
     show:
-      heading: '%{crop} 种子'
-    string: '%{crop} 属于 %{owner} 的种子'
+      heading: "%{crop} 种子"
+    string: "%{crop} 属于 %{owner} 的种子"
     updated: 种子已成功更新。
+    crop_changes:
+      show:
+        confirm: 是的，改变它们
+        decline: 不，离开他们
+        harvests:
+          one: 1 收获
+          other: "%{count} 收获"
+        intro: 您将此种子从 %{from} 更改为 %{to}。这些都是从它开始的，并且仍然是%{from}。把它们也改成%{to}？
+        plantings:
+          one: 1 种植
+          other: "%{count} 种植面积"
+        seeds:
+          one: 1包种子
+          other: "%{count}包种子"
+        title: 也改成%{crop}吗？
+      update:
+        changed: 换成新作物。
+  stalls:
+    about_growstuff:
+      join: 免费加入
+      sign_in: 登录
+      text: 一个种植食物的社区。记录您种植和收获的内容，并与其他园丁交换种子和经验心得。免费加入或登录，即可联系 %{name} 了解摊位上的物品。
+    card:
+      go: 去你的摊位
+      heading: 花园摊位
+      open: 开个花园摊
+      open_text: 您的花园摊位向朋友开放。
+      text: 与朋友分享多余的树苗和种子。您可以选择内容和对象，报价将在 4 周后关闭，并且不会保留任何地址。
+    claim:
+      claim: 宣称
+      claimed: 声称
+      confirm: 领取它
+      here: 我在%{place}
+      note: 注：%{note}
+      note_label: 给园丁的注释（可选）
+      note_placeholder: 说声谢谢，以及你可以提供什么回报
+      outside: 仅限 %{place} 附近的人
+      owner_unplaced: 园丁还没说他们在哪里
+      postage: "%{owner}可能会要求您支付邮费。"
+      set_place: 不对吗？设置您花园的位置。
+      set_place_ask: 或者在您的个人资料中设置您园艺的位置，以便为您检查。
+      sign_in: 登录领取
+      undo: 撤销我的索赔
+    claims:
+      create:
+        claimed: 已声明%{crop}。这是你的；向园丁发送消息以安排取货或邮寄。
+      destroy:
+        undone: 你已经归还了%{crop}。
+    offers:
+      free: 自由的
+      free_text: 您的要求
+      swap: 交换
+      swap_text: 带上自己的种子
+    openings:
+      create:
+        opened: 你的花园摊开放了。
+      destroy:
+        closed: 你的花园摊位已关闭。
+    owner:
+      garden_of: 花园
+      link: 链接到你的摊位
+      profile: 查看%{name}的个人资料
+    seed_tin:
+      add: "+ 添加"
+      heading: 在种子罐中
+      legend: 每个数据包都会说明它是免费的还是交换的。
+      packets:
+        one: 1包
+        other: "%{count} 数据包"
+      take_off: 脱掉摊位
+    seeds:
+      choice:
+        not_trading: 尚未交易
+        quantity:
+          one: 约。 1 粒种子
+          other: 约。 %{count} 种子
+        saved: 已保存 %{year}
+        sow_before: 在 %{year} 之前播种
+      create:
+        added:
+          one: 你的摊位上有 1 包。
+          other: 你的摊位上有 %{count} 个数据包。
+        none: 勾选您想要放在摊位上的数据包。
+      destroy:
+        removed: 从摊位上取下来了。它仍然在您的种子库中。
+      new:
+        add: 添加到摊位
+        breadcrumb: 添加种子
+        cancel: 取消
+        cant_find: 找不到作物？
+        crop: 庄稼
+        intro: 从种子库中挑选种子放在摊位上。
+        new_note: 它也保存在您的种子库中，并与您勾选的包一起放在摊位上。
+        no_matches: 没有种子匹配“%{query}”。
+        none_left: 你拥有的每一包都已经在摊位上了。
+        offer: 您将它们作为什么提供？
+        offers:
+          free: 送
+          swap: 互换或交易
+        others:
+          one: 您图书馆中的其他种子 (1)
+          other: 您图书馆中的其他种子 (%{count})
+        quantity: 大约。有多少种子
+        ready:
+          one: 标记为“将进行交易”(1)
+          other: 标记为“将进行交易”(%{count})
+        record_new: 添加您尚未录制的种子包
+        request_crop: 请求新作物。
+        search: 搜索你的种子
+        search_button: 搜索
+        search_placeholder: 农作物或品种，例如番茄
+        title: 将种子添加到您的摊位
+        variety: 种类
+        will_mark: 将未标记为“将交易”的包放在摊位上会在您的种子库中标记它“将交易”，因此朋友也可以在那里看到它。把它从摊位上拿下来会留下标记。
+        your_seeds: 你的种子
+    settings:
+      areas:
+        anywhere: 任何地方
+        region: 仅限 %{place} 附近的人
+      heading: 谁可以索赔
+      postage: 我可能会要求朋友支付邮费
+      save: 节省
+      set_place: 设置您花园的位置。
+      unplaced: 说出您在哪里园艺，以便附近的朋友可以认领。在你做到之前，没有人能做到。
+      where: 朋友可以在的地方
+      where_help: 基于您的 Growstuff 个人资料中的地点，并且仅显示为地名。蓝天朋友在认领时会说出他们所在的位置。没有显示或询问街道地址。
+      your_place: 你在哪里园艺
+    show:
+      add_seeds: 添加种子
+      breadcrumb: 花园摊位
+      close: 关闭摊位
+      coming_soon: 即将推出
+      description:
+        one: 从 Growstuff 上的 %{name} 花园里获取备用种子。 1 包可供免费获取或交换。
+        other: 从 Growstuff 上的 %{name} 花园里获取备用种子。 %{count} 数据包可供免费或交换。
+        zero: Growstuff 上 %{name} 花园的备用幼苗和种子，免费或交换。
+      first_heading: 你的摊位已经开张了。首先发生什么？
+      first_intro: 您可以随时添加更多内容。在有东西摆上桌面之前，不会向朋友展示任何内容。
+      open: 开我的摊位
+      open_heading: 开个花园摊
+      open_intro: 有多余的幼苗或种子吗？将它们放在摊位上并与您的朋友分享链接。把它们送走或交换。
+      points:
+        choose_what: 您可以选择桌面上的内容。
+        choose_where: 您可以选择朋友所在的位置：您附近或任何地方。
+        choose_who: 您可以选择谁可以声明：任何登录的人，或仅您关注的人。
+        expiry: 优惠在 4 周后截止，因此摊位永远不会过时。
+        privacy: Growstuff 不保留地址。朋友给您发消息安排取货或邮寄。
+      seedlings: 苗木
+      seedlings_text: 您种植的植物需要一个家。
+      seeds: 种子
+      seeds_text: 您已保存并将要进行交易的数据包。
+      title: "%{name}的花园摊位"
+    stall:
+      closed: 暂时关闭
+      sign: "%{name}的花园摊位"
+      spots:
+        more: 还要别的吗
+        seedlings: 这里的幼苗
+        seeds: 种子在这里
+      tagline: 给朋友的幼苗和种子。免费，或者交换。
+    terms:
+      anywhere: 任何登录的人都可以领取。
+      heading: 谁可以索赔
+      manners: 它是免费的，但提供一些东西作为回报是有礼貌的，比如你自己的一些种子，或者只是表示感谢。
+      no_money: Growstuff 不处理任何资金或地址。向园丁发送消息以安排取货或邮寄。
+      postage: "%{owner}可能会要求您支付邮费。"
+      region: 领取仅适用于 %{place} 附近的人。
+      unplaced: "%{owner}还没有透露他们在哪里，所以目前没有人可以认领。"
+    update:
+      updated: 已保存。
+  suggested_jobs:
+    create:
+      added: 已将“%{name}”添加到您的计划工作中。
+      already_planned: 届时您已经有一项种植 %{crop} 的工作了。
+    plant_for_season: 在 %{year} 年%{season}种植 %{crop}
   suggestions:
     index:
-      lede: '%{band} 的园丁本月正在种植什么，大部分先种植。'
+      lede: "%{band} 的园丁本月正在种植什么，大部分先种植。"
       none: 目前没什么可建议的。下个月再回来看看。
       not_located: 告诉我们您在哪里园艺，我们可以建议播种什么。
-      title: 在您附近的 %{month} 轻松播种
+      title: 您附近适合种植什么
     update:
-      'off': 我们已经停止建议农作物。
-      'on': 作物建议又回来了。
+      disabled: 我们已经停止建议农作物。
+      enabled: 作物建议又回来了。
+    climate:
+      add_failed: 我们无法添加它。再试一次。
+      add_to_jobs: 添加到计划的作业
+      average: 平均的
+      best_range: 最佳范围为 %{low}–%{high}°
+      choose: 打开一个季节，看看适合它的农作物。
+      collecting_html: 我们目前没有 %{place} 的任何气候数据。我们很快就会取来。
+      days: 有记录以来最热的一天
+      degrees: "%{value}°"
+      duration:
+        one: 1天
+        other: "%{count} 天"
+      duration_range: "%{low} 至 %{high} 天"
+      followed_grow: 您关注的人正在种植这个：%{names}
+      grown_before: 你在%{years}种植了这个
+      growing: 你已经在种植这个了
+      heading: 你全年的气候
+      intro_html: 过去 %{years} 年以来，%{place} 左右的天气通常如何。
+      load_failed: 我们无法装载农作物。再试一次。
+      loading: 正在加载农作物...
+      millimetres: "%{value} 毫米"
+      months: "%{first} 至 %{last}"
+      nights: 有记录以来最冷的夜晚
+      no_crops: 我们一无所知。
+      no_data: 我们还没有这个季节的天气。
+      now: 现在
+      part_early: 早期的
+      part_late: 晚的
+      part_mid: 中
+      planned: 在你计划的工作中
+      planting: "%{place} 附近的园丁在 %{season} 种植什么，大多数先种植。"
+      rain: 雨
+      ready_in: 准备就绪 %{part} %{season}
+      retry: 再试一次
+      still_grows: 在%{place}中也在%{season}中增长，但不是最好的
+      suits: 在%{place}中的%{season}中生长良好
+      timing: "%{days}, %{ready}"
+      usual_day: 典型的最热日
+      usual_night: 典型的最冷的夜晚
+      your_location: 你的位置
+    introduction:
+      climate: 告诉我们您的花园在哪里，我们将向您展示那里一年四季的气候，包括降雨、温暖的白天和寒冷的夜晚。
+      crops: 对于每个季节，我们都会根据每种植物的喜好以及您附近的园丁已经种植的作物来建议种植的作物。
+      far_html: 这是我们与您最接近的天气，因此可能与您的花园不同。 %{sign_up} 并告诉我们您在哪里园艺，我们将包括您确切位置的天气。
+      features:
+        closer_weather: 为您自己的花园获取天气，而不仅仅是我们拥有的最近的地方
+        following: 查看您关注的人的成长情况
+        garden_climate: 根据您自己花园的气候，逐季种植作物的建议
+        harvest_predictions: 预测您的收获何时准备就绪
+        not_for_me: 隐藏不适合你的农作物
+        planned_jobs: 将建议的作物添加到您的计划工作中
+        record: 记录您种植和种植的内容
+      finding: 寻找您的位置...
+      location_denied: 您的浏览器不允许与此网站共享您的位置。通过地址旁边的图标允许它，然后重试。
+      location_failed: 我们无法获取您的位置。检查您的浏览器是否允许共享它，然后重试。
+      location_timeout: 找到您的位置花了太长时间。请再试一次。
+      location_unavailable: 您的设备无法确定它所在的位置。检查其定位服务是否已开启，然后重试。
+      location_unsupported: 您的浏览器无法共享其位置。
+      no_weather: 我们还没有任何天气数据。
+      retrieving: 正在检索 %{place} 的数据...
+      showing: 显示过去 %{years} 年以来，距您约 %{distance} 公里的 %{place} 的天气。
+      sign_in: 登入
+      sign_up: 免费注册
+      signup_heading: 注册并获取有关您自己的花园的建议
+      summary: 根据您花园的气候以及每个季节的每种植物的喜好，获取有关种植什么的建议。
+      title: 你附近种植什么
+      unnamed_place: 我们掌握的最近的天气区域
+      use_my_location: 使用我的位置
+      waiting:
+      - 收集庄稼……
+      - 望向窗外……
+      - 考虑天气……
+      - 咨询堆肥堆……
+      - 网状样条…
+      - 问虫子...
   unauthorized:
     create:
       all: 请登录或注册以创建 %{subject}。
@@ -1301,3 +4142,140 @@ zh:
       all: 未授权 %{action} %{subject}。
     read:
       notification: 您必须登录才能查看通知。
+  auto_suggest:
+    choose: 从列表中选择一个。使用向上和向下箭头键，然后按 Enter。
+    chosen: 选择：%{name}
+    none: 没有农作物匹配。检查拼写，或尝试使用更短的名称。
+    searching: 正在寻找...
+    unchosen: 还没有选好。从列表中选择一个，否则不会被使用。
+  climate:
+    about_estimates: 这些数字来自 25 公里的天气模型数据，而不是来自您花园的站点的读数，因此您自己的降雨量和温度可能会有所不同。在依赖国家气象服务之前，请检查它们。
+    air:
+      body_above: 自 1 月 1 日以来的平均气温为 %{air} °C，比该日期通常的 %{usual} °C 高出 %{difference} °C。
+      body_below: 自 1 月 1 日以来的平均气温为 %{air} °C，比该日期通常的 %{usual} °C 低 %{difference} °C。
+      body_close: 自 1 月 1 日以来的平均气温为 %{air} °C，接近该日期通常的 %{usual} °C。
+      cards:
+        coldest: 最冷的月份
+        soil: 本月土壤
+        soil_note: 本月平均最高7厘米
+        warmest: 最热月份
+      chart: 每月、今年和平时的气温
+      records: 过去 %{count} 年的记录
+      soil_chart: 每月、今年和平时的土壤温度
+      title: 温度
+      verdicts:
+        a_little_cooler: 今年比往年稍微凉一点
+        a_little_warmer: 今年比平常暖和一些
+        close: 今年与往常接近
+        cooler: 今年比往常凉爽
+        warmer: 今年比往常温暖
+    chart:
+      bar: "%{month}, %{kind}: %{value}"
+      description: 月均值柱形图%{measure}。通常：%{usual}。今年到目前为止：%{year}。
+      legend:
+        usual: 该月通常
+        year: 今年
+      measures:
+        air: 气温（摄氏度）
+        rain: 降雨量（毫米）
+        soil: 土壤温度，顶部 7 厘米，摄氏度
+    month_year: "%{month} %{year}"
+    on_average: 平均 %{value}
+    rain:
+      body: 自 1 月 1 日以来，%{rain} 已下降。到此日期，这是通常 %{usual} 的 %{percent}%。
+      cards:
+        driest: 有记录以来最干旱的月份
+        wettest: 有记录以来最潮湿的月份
+        year: 平常年份
+      chart: 每月、今年和平常都会下雨
+      records_note:
+        one: 最潮湿和最干燥的月份是我们持有的一年数据中最高和最低的月份，不一定是有史以来最高或最低的。
+        other: 最潮湿和最干燥的月份是我们持有的 %{count} 年数据中最高和最低的月份，不一定是有史以来最高或最低的。
+      title: 雨量
+      verdicts:
+        close: 今年的降雨量接近常年
+        drier: 今年的降雨量比往年干燥
+        wetter: 今年的降雨量比往年多
+    records:
+      coldest_night: 最冷的夜晚
+      coldest_soil: 最冷的土壤
+      hottest_day: 最热的一天
+      this_year: 今年：%{value}
+      warmest_soil: 最温暖的土壤
+    table:
+      air: 空气
+      details: 显示每月数据
+      month: 月
+      none: "–"
+      rain: 雨
+      soil: 土壤
+      this_year: 今年
+      usual: 通常
+    units:
+      celsius: "%{value}°C"
+      mm: "%{value} 毫米"
+    years_average:
+      one: 1年平均
+      other: "%{count}年平均"
+  crop_jobs:
+    add: 将 %{crop} 个不断增长的工作岗位添加到我的工作岗位中
+    add_to_planting: 添加到%{garden}中的%{crop}，种植%{date}
+    added:
+      one: 在您的职位中添加了 1 个 %{crop} 职位。
+      other: 将 %{count} %{crop} 职位添加到您的职位中。
+    already_added: 你的工作岗位已经有%{crop}个不断增长的工作岗位。
+    new:
+      add_anyway: 无论如何添加它们
+      cancel: 取消
+      intro: 工作岗位从您种植之日起计算。本来已经过去的事情今天就要到期了。
+      out_of_season: "%{template} 代表 %{season}，%{date} 位于您所在位置之外。"
+      planting_on: 你想什么时候种植%{crop}？
+      submit: 添加这些职位
+      title: 新增 %{crop} 个不断增长的就业岗位
+    new_planting: 我要做一个新的%{crop}种植
+    see_jobs: 查看您的工作。
+  crop_photos:
+    create:
+      added: 添加了一张照片到%{crop}。
+      kind_missing: 说明照片是否显示了种植、收获或种子。
+      not_creative_commons: 该照片未获得知识共享许可，因此不能在此处使用。
+      not_flickr: 这看起来不像 Flickr 上的照片地址。
+      not_found: Flickr 找不到那张照片。它可能是私人的或已删除。
+      not_public: 该照片不公开，因此不能在这里使用。
+      unavailable: 无法访问 Flickr。请稍后重试。
+    kinds:
+      harvest: 有所收获
+      harvest_hint: 采摘的农产品，例如一篮子西红柿。
+      legend: 照片显示什么？
+      planting: 植物生长
+      planting_hint: 生长在花园、花坛或盆中的植物。
+      seed: 种子
+      seed_hint: 种子本身，或种子头和豆荚。
+    pager:
+      label: 照片页数
+      next: 下一页
+      page: 第 %{page} 页，共 %{pages} 页
+      previous: 上一页
+    source:
+      view_on_flickr: 在 Flickr 上查看
+    new:
+      add: 添加这张照片
+      attribution: 通过 %{owner}
+      back: 返回%{crop}
+      cancel: 取消
+      close: 关闭
+      empty: 没有公开的知识共享照片与该搜索匹配。
+      intro: 根据知识共享许可在 Flickr 上公开照片。在添加之前检查照片是否显示了裁剪内容。
+      modal_title: 添加%{crop}的这张照片
+      save: 节省
+      search: 搜索
+      taken: 已拍摄 %{date}
+      title: 查找 %{crop} 的照片
+  observations:
+    kinds:
+      disease_observed: 观察到的疾病
+      flowering: 开花
+      fruiting: 挂果
+      germination: 发芽
+      other: 其他
+      wilting: 枯萎

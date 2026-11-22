@@ -1,1 +1,1 @@
-#{link_to 'commented', event_model} on #{link_to event_model.commentable, event_model.commentable}
+= t('.activity_html', comment: link_to(t('.commented'), event_model), subject: link_to(event_model.commentable, event_model.commentable))

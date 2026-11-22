@@ -7,7 +7,18 @@ class RegistrationsController < Devise::RegistrationsController
 
   def edit
     @flickr_auth = current_member.auth('flickr')
+    @mastodon_auths = current_member.authentications.where(provider: 'mastodon')
     render "edit"
+  end
+
+  # Remember which browser signed up, so following the confirmation link in the
+  # same one signs them straight in (see ConfirmationsController).
+  def create
+    super do |member|
+      next unless member.persisted? && !member.confirmed?
+
+      session[ConfirmationsController::SIGNED_UP_KEY] = { 'id' => member.id, 'at' => Time.current.to_i }
+    end
   end
 
   # we need this subclassed method so that Devise doesn't force people to
@@ -86,7 +97,7 @@ class RegistrationsController < Devise::RegistrationsController
     if request.format.json?
       resource.errors.add(:base, flash[:recaptcha_error].presence || 'Please confirm that you are not a robot')
       flash.discard(:recaptcha_error)
-      return render json: { errors: resource.errors }, status: :unprocessable_entity
+      return render json: { errors: resource.errors }, status: :unprocessable_content
     end
 
     respond_with_navigational(resource) do

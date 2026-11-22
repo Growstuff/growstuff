@@ -15,6 +15,17 @@ describe 'Post a post' do
       expect(page).to have_content "Posted by"
     end
 
+    context 'with advanced options' do
+      it 'hides the language selector initially' do
+        expect(page).to have_no_select('post_language')
+      end
+
+      it 'reveals the language selector when expanded' do
+        find('.post-advanced-options summary').click
+        expect(page).to have_select('post_language')
+      end
+    end
+
     context "linking to a crop" do
       let!(:crop) { create(:crop, name: 'pumpkin') }
 
@@ -34,16 +45,16 @@ describe 'Post a post' do
       end
     end
 
-    context "adding a Flickr photo" do
+    context 'when adding a photo' do
       it "opens the photo dialog for a draft with a title and text" do
         fill_in "post_subject", with: "Photos"
         find(".post-editor-content").send_keys("Some words")
-        click_button "Flickr photo"
+        click_button I18n.t('photos.import_picker.add')
         expect(page).to have_css "[role=dialog]", text: "Add photo"
       end
 
       it "opens the photo dialog even before anything is written" do
-        click_button "Flickr photo"
+        click_button I18n.t('photos.import_picker.add')
         expect(page).to have_css "[role=dialog]", text: "Add photo"
       end
     end

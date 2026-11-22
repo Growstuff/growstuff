@@ -33,6 +33,12 @@ class Post < ApplicationRecord
   # default) publishes a new post and leaves an existing one as it is.
   attribute :draft, :boolean
 
+  # Only new posts default to the writing locale; older posts have an unknown
+  # language rather than inheriting whichever locale a reader uses.
+  attribute :language, :string, default: -> { I18n.locale.to_s.split(/[-_]/).first }
+
+  LANGUAGES = I18nData.languages.keys.map(&:downcase).freeze
+
   #
   # Validations
   # A draft can be saved blank (a photo needs a saved post to go on); a post
@@ -40,6 +46,7 @@ class Post < ApplicationRecord
   validates :subject, presence: true, if: :publishing?
   validates :subject, length: { maximum: 255 }
   validates :body, presence: true, if: :publishing?
+  validates :language, inclusion: { in: LANGUAGES }, allow_blank: true
   validate :card_photo_is_in_post, if: :card_photo_id?
 
   WORDS_PER_MINUTE = 200

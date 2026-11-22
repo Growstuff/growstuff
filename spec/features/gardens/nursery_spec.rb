@@ -209,7 +209,7 @@ describe "Nursery" do
     end
 
     it "offers to place it on the garden layout" do
-      expect(page).to have_link 'Place on the garden layout', href: "/gardens/#{garden.slug}/layout"
+      expect(page).to have_link 'Place on the garden layout', href: layout_member_garden_path(member, garden)
     end
 
     it "plants it in the garden" do

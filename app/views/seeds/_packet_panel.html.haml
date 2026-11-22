@@ -9,7 +9,7 @@
   - text_id = "seed-packet-text-#{seed.id}"
   %section.seed-packet-panel
     .section-header
-      %h2 From the packet
+      %h2= t('.heading')
     - if sides.any?
       -# Front and back take turns, so each can be as big as the panel; a click zooms to
       -# full size to read the small print.
@@ -34,11 +34,11 @@
                                                                                  'aria-expanded': 'false',
                                                                                  'aria-controls': text_id,
                                                                                  data: { 'bs-toggle': 'collapse', 'bs-target': "##{text_id}" } }
-        %span.when-hidden Show our attempt to read the packet
-        %span.when-shown Hide our attempt to read the packet
+        %span.when-hidden= t('.show_ocr')
+        %span.when-shown= t('.hide_ocr')
       .collapse{ id: text_id }
-        %h3.seed-packet-text-label{ id: "#{text_id}-label" } Our attempt to read the packet
-        %p.seed-packet-text-note Read automatically from the photos, so it makes mistakes. Check it against the packet.
+        %h3.seed-packet-text-label{ id: "#{text_id}-label" }= t('.ocr_label')
+        %p.seed-packet-text-note= t('.ocr_note')
         - texts.each do |side, text|
           - if texts.size > 1
             %h4.seed-packet-text-side{ id: "#{text_id}-#{side}" }= t("seeds.packet.choice_#{side}")

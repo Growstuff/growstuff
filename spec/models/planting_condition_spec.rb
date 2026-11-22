@@ -1,0 +1,72 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+describe PlantingCondition do
+  describe '.refresh' do
+    subject(:refresh) { described_class.refresh(planting) }
+
+    let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
+    let(:crop) { create(:crop, ecocrop_record: create(:ecocrop_data, ktmp: -1, tmax: 30)) }
+    let(:planting) { create(:planting, garden:, owner: garden.owner, crop:, planted_at: Date.new(2026, 8, 18)) }
+    let(:cell) { planting.weather_cell }
+    let(:kept) { planting.conditions.pluck(:kind, :occurred_on, :value, :threshold) }
+
+    def reading(date, low, high = 12.0)
+      create(:weather_reading, latitude: cell.first, longitude: cell.last, date:, temp_min_c: low, temp_max_c: high)
+    end
+
+    before do
+      reading(Date.new(2026, 8, 20), -1.5)
+      reading(Date.new(2026, 8, 21), 6.0)
+      reading(Date.new(2026, 8, 22), 1.0, 33.0)
+    end
+
+    it 'keeps the days colder than the crop is killed at' do
+      refresh
+      expect(kept).to include(['killing_cold', Date.new(2026, 8, 20), -1.5, -1.0])
+    end
+
+    it 'keeps the days hotter than the crop takes' do
+      refresh
+      expect(kept).to include(['killing_heat', Date.new(2026, 8, 22), 33.0, 30.0])
+    end
+
+    it 'keeps nothing else' do
+      refresh
+      expect(kept.size).to eq 2
+    end
+
+    it 'does not duplicate a day when run again' do
+      2.times { described_class.refresh(planting) }
+      expect(planting.conditions.count).to eq 2
+    end
+
+    context 'when a day kept earlier no longer counts' do
+      before { create(:planting_condition, planting:, kind: 'killing_heat', occurred_on: Date.new(2026, 8, 25)) }
+
+      it 'drops it' do
+        refresh
+        expect(planting.conditions.killing_heat.pluck(:occurred_on)).to eq [Date.new(2026, 8, 22)]
+      end
+    end
+
+    context 'when the crop has no EcoCrop figures' do
+      let(:crop) { create(:crop) }
+
+      it 'keeps nothing' do
+        refresh
+        expect(planting.conditions).to be_empty
+      end
+    end
+
+    context 'when the garden is somewhere safe from frost' do
+      before { garden.update_columns(frost_safe: true) } # rubocop:disable Rails/SkipsModelValidations
+
+      it 'keeps nothing' do
+        refresh
+        expect(planting.conditions).to be_empty
+      end
+    end
+  end
+end

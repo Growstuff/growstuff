@@ -1,57 +1,12 @@
-- content_for :title, "New Photo"
+- content_for :title, t('.title')
 
-%h1 New Photo
-%h2 Choose photo for #{link_to @item, @item} from Flickr, or contribute to unique crops to <a href="https://inaturalist.org/" target="_blank">iNaturalist</a> or <a href="https://identify.plantnet.org/" target="_blank">Pl@ntNet</a> via the app.
+%h1= t('.title')
+%nav.mb-3{ aria: { label: t('photos.import_picker.source') } }
+  - @sources.each do |source|
+    - path = new_photo_path(type: @type, id: @id, label: @label, source: source)
+    = link_to t("photos.import_picker.#{source}"), path, class: 'btn btn-outline-secondary'
 
-- if @please_reconnect_flickr
-  %h2.alert Please reconnect your flickr account
-
-  %p the token has expired or been revoked.
-
-  = button_to '/members/auth/flickr', class: "btn btn-lg" do
-    = icon 'fab', 'flickr'
-    Reconnect Flickr
-
-
-- elsif @flickr_auth
-  %p
-    Connected to Flickr as
-    = succeed "." do
-      = link_to @flickr_auth.name, "http://flickr.com/photos/#{@flickr_auth.uid}"
-    Please select a photo from your recent uploads.
-
-
-  %p
-    = bootstrap_form_tag(url: new_photo_path, method: :get, layout: :inline) do |f|
-      - if @sets && !@sets.empty?
-        = f.select :set, options_for_select(@sets, @current_set), label: "Choose a photo album", include_blank: true
-      = f.text_field :tag, value: @current_tag, label: "or search by tag"
-      = hidden_field_tag :type, @type
-      = hidden_field_tag :id, @id
-      = hidden_field_tag :label, @label if @label.present?
-      = f.submit "Search", class: "btn btn-success"
-
-  - if @sets && @current_set
-    %h2= @sets.key(@current_set)
-
-  .row.pagination
-    .col-md-12= page_entries_info @photos
-    .col-md-12= will_paginate @photos
-
-  .row
-    - @photos.each do |photo|
-      .col-md-2.col-6
-        .card
-          = link_to photos_path(photo: { source_id: photo.id, source: 'flickr' }, id: @id, type: @type, label: @label.presence), method: :post do
-            = image_tag(FlickRaw.url_z(photo), alt: photo.title, class: 'img img-card')
-          .card-body= photo.title
-
-  .row.pagination
-    .col-md-12= will_paginate @photos
+- if @source == 'mastodon'
+  = render 'mastodon_picker'
 - else
-  %h2.alert You must connect your account to Flickr to add photos.
-
-  %p
-    = button_to '/members/auth/flickr', class: :btn do
-      = icon 'fab', 'flickr'
-      connect to Flickr
+  = render 'flickr_picker'

@@ -1,6 +1,5 @@
-= content_for :title, "Send a message to #{@recipient}"
+- content_for :title, t('.title', recipient: @recipient)
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Messages', conversations_path
+  %li.breadcrumb-item= link_to t('.breadcrumb_messages'), conversations_path
 
 = render 'form'
-

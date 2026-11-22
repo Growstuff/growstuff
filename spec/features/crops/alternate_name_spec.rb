@@ -56,6 +56,7 @@ describe "Alternate names", :js do
       click_on "Add another name"
       within('[role=dialog]') do
         fill_in 'Name', with: "not an aubergine"
+        select 'English', from: 'Language'
         click_on "Save"
       end
       expect(page).to have_content "not an aubergine"

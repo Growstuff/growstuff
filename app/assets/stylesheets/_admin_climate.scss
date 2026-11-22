@@ -1,0 +1,8 @@
+// The climate coverage admin screens. Bootstrap's tab and pill links use the link green, which is 4.1:1 on the beige
+// page, under the 4.5:1 minimum for text. Brown is 9.4:1., and the active pill is white on green (4.6:1).
+.climate-coverage {
+  .nav {
+    --bs-nav-link-color: #{$brown};
+    --bs-nav-link-hover-color: #{$black};
+  }
+}

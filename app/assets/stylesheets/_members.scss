@@ -1,35 +1,8 @@
-.member-thumbnail {
-  border-radius: 12px;
-  height: 200px;
-  margin: 1em;
-  padding: 0.25em;
-
-  div {
-    display: inline-block;
-    vertical-align: top;
-    width: 5em;
-  }
-}
-
-.member-thumbnail div ~ div {
-  padding-left: 1em;
-  width: 15em;
-}
-
 .member-chip {
   background-color: lighten($green, 30%);
 
   a {
     color: $black;
-  }
-}
-
-.member-location {
-  font-size: small;
-  font-style: italic;
-
-  a {
-    color: $brown;
   }
 }
 
@@ -50,5 +23,54 @@
     align-items: end;
     max-height: 1rlh;
     -webkit-line-clamp: 1;
+  }
+}
+// The Apps tab of the settings: one section per service, each with its icon beside its name.
+.app-service {
+  display: flex;
+  gap: 1rem;
+  max-width: 44rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 0.5rem;
+
+  .app-service-icon {
+    flex: 0 0 2.5rem;
+    padding-top: 0.25rem;
+    text-align: center;
+  }
+
+  .app-service-body {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .app-service-title {
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+  }
+
+  .app-service-account {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  .app-service-token {
+    overflow-wrap: anywhere;
+  }
+
+  .api-token-copy {
+    display: inline-flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-left: 0.5rem;
+  }
+
+  form {
+    margin-bottom: 0;
   }
 }

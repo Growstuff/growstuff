@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# A planting as a chip with a menu, for the React cards: its crop's name and icon,
-# where it is, and the menu items you may use on it. The server decides the
-# links and permissions, and React just draws them.
+# A planting as a chip with a menu, for the React cards: its crop's name and icon, what the chip says (the member's
+# own name for the crop, if they gave one, and the variety), where it is, and the menu items you may use on it. The
+# server decides the links and permissions, and React just draws them.
 class PlantingChipSerializer
   include CardActions
 
@@ -13,8 +13,8 @@ class PlantingChipSerializer
 
   def as_json(*)
     {
-      id: @planting.id, url: routes.planting_path(@planting), crop: crop_chip, can_edit: can?(:edit, @planting),
-      actions: planting_actions
+      id: @planting.id, url: routes.planting_path(@planting), crop: crop_chip, label: @planting.with_variety(@planting.display_name),
+      can_edit: can?(:edit, @planting), actions: planting_actions
     }
   end
 
@@ -33,7 +33,8 @@ class PlantingChipSerializer
     actions = [
       action(:view, I18n.t('buttons.view'), routes.planting_path(@planting)),
       action(:edit, I18n.t('buttons.edit'), routes.edit_planting_path(@planting)),
-      photo_action(@planting)
+      photo_action(@planting),
+      action(:observation, I18n.t('buttons.add_observation'), routes.planting_path(@planting, anchor: 'observations'))
     ]
     actions.concat(active_planting_actions) if @planting.active
     actions.compact

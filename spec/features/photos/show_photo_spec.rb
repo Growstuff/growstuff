@@ -3,6 +3,27 @@
 require 'rails_helper'
 
 describe "show photo page" do
+  context 'with an imported GBIF photo' do
+    let(:photo) do
+      create(:photo, source: 'gbif', owner: create(:cropbot), author_name: 'Original photographer',
+                     license_name: 'CC BY-NC 4.0', license_url: 'https://creativecommons.org/licenses/by-nc/4.0/')
+    end
+
+    before { visit photo_path(photo) }
+
+    it 'shows the original photographer' do
+      expect(page).to have_css('.photo-photographer-name', text: photo.author_name)
+    end
+
+    it 'does not present cropbot as the photographer' do
+      expect(page).to have_no_css('.photo-photographer-name', text: 'cropbot')
+    end
+
+    it 'links to the original media licence' do
+      expect(page).to have_link(href: photo.license_url)
+    end
+  end
+
   context "signed in member" do
     include_context 'signed in member'
     context "linked to planting" do
@@ -15,10 +36,7 @@ describe "show photo page" do
           visit photo_path(photo)
         end
 
-        it {
-          expect(page).to have_link "#{planting.crop.name} planting in #{planting.garden.name} by #{planting.owner}",
-                                    href: planting_path(planting)
-        }
+        it { expect(page).to have_link href: planting_path(planting) }
 
         it { expect(page).to have_link planting.crop.name }
       end
@@ -34,7 +52,7 @@ describe "show photo page" do
           visit photo_path(photo)
         end
 
-        it { expect(page).to have_link "#{harvest.crop.name} harvest by #{harvest.owner}", href: harvest_path(harvest) }
+        it { expect(page).to have_link href: harvest_path(harvest) }
         it { expect(page).to have_link harvest.crop.name }
       end
     end
@@ -50,7 +68,7 @@ describe "show photo page" do
           page.percy_snapshot(page, name: 'Show photo of a garden')
         end
 
-        it { expect(page).to have_link "garden named \"#{garden.name}\" by #{garden.owner}", href: garden_path(garden) }
+        it { expect(page).to have_link href: garden_path(garden) }
       end
     end
 
@@ -64,7 +82,7 @@ describe "show photo page" do
           visit photo_path(photo)
         end
 
-        it { expect(page).to have_link "#{seed.crop.name} seeds belonging to #{seed.owner}", href: seed_path(seed) }
+        it { expect(page).to have_link href: seed_path(seed) }
         it { expect(page).to have_link seed.crop.name }
       end
     end

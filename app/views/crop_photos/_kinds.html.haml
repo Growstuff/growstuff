@@ -1,0 +1,11 @@
+-# What a photo added to a crop shows, which is where the crop page puts it.
+-# `prefix` keeps the ids apart where there are several on a page.
+- prefix = local_assigns.fetch(:prefix, 'kind')
+%fieldset.mb-3
+  %legend.form-label.fs-6= t('crop_photos.kinds.legend')
+  - PhotoAssociation::CROP_KINDS.each do |kind|
+    .form-check
+      = radio_button_tag :kind, kind, false, class: 'form-check-input', id: "#{prefix}-#{kind}", required: true
+      %label.form-check-label{ for: "#{prefix}-#{kind}" }
+        = t("crop_photos.kinds.#{kind}")
+        %small.d-block.text-muted= t("crop_photos.kinds.#{kind}_hint")

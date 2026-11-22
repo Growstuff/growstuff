@@ -1,0 +1,29 @@
+-# What happened to this planting, newest first: one partial in plantings/observations for each kind of entry.
+-# The add link opens the same dialog as the actions menu item (see PlantingActions).
+:ruby
+  can_manage = can?(:create, Observation.new(planting:))
+  can_harvest = can?(:edit, planting) && !planting.failed && can?(:create, Harvest)
+  timeline = observation_timeline(planting, observations, conditions:, harvests:, jobs:, frost_passed_on:, histories:)
+.section-header
+  %h2= t('plantings.show.timeline')
+  - if can_manage || can_harvest
+    .section-actions
+      - if can_manage
+        - add_options = { class: 'btn btn-sm section-add', data: { planting_dialog: 'observation' } }
+        = link_to planting_path(planting, anchor: 'observations'), add_options do
+          = icon 'fas', 'plus'
+          = t('.add')
+      -# Recording a harvest is in the page's actions menu too; this is the link behind that menu item.
+      - if can_harvest
+        - harvest_options = { class: 'btn btn-sm section-add', data: { planting_dialog: 'harvest' } }
+        = link_to new_planting_harvest_path(planting_slug: planting.slug), harvest_options do
+          = icon 'fas', 'plus'
+          = t('.add_harvest')
+-# Only for those who can log one: a prompt for the first, in the yellow box the job ideas use.
+- if observations.empty? && can_manage
+  = render 'jobs/ideas_banner', href: planting_path(planting, anchor: 'observations'), open: false,
+                                data: { planting_dialog: 'observation' }, text: t('.idea'), go: t('.idea_go')
+- if timeline.any?
+  %ol.observation-timeline.list-unstyled
+    - timeline.each do |entry|
+      = render "plantings/observations/#{timeline_partial(entry.type)}", entry:, planting:, can_manage:

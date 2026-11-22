@@ -1,29 +1,18 @@
 const placesMapElement = document.getElementById("placesmap");
 if (placesMapElement !== null) {
   var places_base_path = "/places";
-  var nominatim_base_url = 'https://nominatim.openstreetmap.org/search/';
-  var nominatim_user_agent_email = placesMapElement.dataset.userAgentEmail;
 
   var placesmap;
 
-  if (location.pathname === places_base_path || location.pathname === '/') { //places index page
+  // The page of a place knows where it is, from the server; any other page, and a place we couldn't find, shows the world.
+  var latitude = parseFloat(placesMapElement.dataset.latitude);
+  var longitude = parseFloat(placesMapElement.dataset.longitude);
+  if (location.pathname !== places_base_path && location.pathname !== '/' && !isNaN(latitude) && !isNaN(longitude)) {
+    placesmap = L.map('placesmap').setView([latitude, longitude], 5);
+  } else {
     placesmap = L.map('placesmap').setView([0.0, -0.0], 2);
-    showMap(placesmap);
   }
-  else { // specific place page
-    var place = location.pathname.replace(places_base_path + "/", '');
-    var nominatim_query_url = nominatim_base_url + place;
-    var nominatim_options = {
-      format: "json",
-      callback: "placeholder",
-      limit: 1,
-      email: nominatim_user_agent_email
-    };
-    $.getJSON(nominatim_query_url, nominatim_options, function(data) {
-      placesmap = L.map('placesmap').setView([data[0].lat, data[0].lon], 5);
-      showMap(placesmap);
-    })
-  }
+  showMap(placesmap);
 }
 
 function showMap(placesmap) {
@@ -56,8 +45,7 @@ function showMap(placesmap) {
     });
   });
 
-  function fetchCropsForMap(url) {
-    var n = 0;
+  function fetchCropsForMap(url, page = 1) {
     $.getJSON(url, function(crop_data) {
       $.each(crop_data['data'], function(i, p) {
         if (p.attributes.latitude && p.attributes.longitude) {
@@ -78,13 +66,13 @@ function showMap(placesmap) {
           markers.addLayer(marker);
         }
       });
-      // We fetch pages of 10 at a time. Stop after 200 crops; so we are showing only 'active' plantings.
-      if (crop_data['links']['next'] && n++ < 20) {
-        fetchCropsForMap(crop_data['links']['next'])
+      // Fetch at most two pages of 100 active plantings.
+      if (crop_data['links']['next'] && page < 2) {
+        fetchCropsForMap(crop_data['links']['next'], page + 1);
       }
       return crop_data;
     });
   }
-  fetchCropsForMap('/api/v1/plantings.json?filter[finished]=false&sort=-planted-at');
+  fetchCropsForMap('/api/v1/plantings.json?filter[finished]=false&filter[failed]=false&sort=-planted-at&page[size]=100');
   placesmap.addLayer(markers);
 }

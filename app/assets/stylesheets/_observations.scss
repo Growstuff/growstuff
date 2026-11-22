@@ -1,0 +1,118 @@
+$observation-frost-tint: #eef5fb;
+$observation-harvest-tint: #fff9e6;
+$observation-heat-tint: #fdf0f2;
+
+// A planting's observations, newest first, down a line with a dot for each.
+.observations .section-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.5rem;
+}
+
+// The prompt to log a first observation: room to breathe above the timeline.
+.observations .notepad-ideas {
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.observation-timeline {
+  margin: 0;
+  padding-left: 1.5rem;
+  border-left: 2px solid rgba($brown, 0.2);
+
+  .observation {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+    // The same room on every row, tinted or not, so the dates, titles and buttons line up down the list.
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+
+    // What was seen, as an icon on the line.
+    .observation-icon {
+      position: absolute;
+      top: 0.5rem;
+      left: calc(-1.5rem - 15px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      color: $white;
+      background: $green;
+      box-shadow: 0 0 0 3px $white;
+    }
+
+    &.observation-problem .observation-icon {
+      background: $danger-text;
+    }
+
+    // Frost, harvests and days too hot come from the weather and the harvest records, not from the grower's notes, so they
+    // sit on a faint tint of their own: pale blue for frost, pale yellow for a harvest, pale pink for heat.
+    &.observation-frost {
+      background: $observation-frost-tint;
+    }
+
+    &.observation-harvest {
+      background: $observation-harvest-tint;
+    }
+
+    &.observation-hot {
+      background: $observation-heat-tint;
+    }
+  }
+
+  .observation-when {
+    flex: 0 0 7.5rem;
+    padding-top: 0.15rem;
+    font-size: 0.875rem;
+    color: $ink-muted;
+
+    .observation-day {
+      display: block;
+    }
+  }
+
+  .observation-body {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .observation-problem .observation-kind {
+    color: $danger-text;
+  }
+
+  .observation-note {
+    white-space: pre-line;
+  }
+
+  .observation-actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-self: flex-start;
+    gap: 0.25rem;
+    margin-left: auto;
+
+    // Keep icon controls compact despite mobile.scss's full-width section buttons.
+    .btn {
+      width: auto;
+    }
+  }
+}
+
+@media (max-width: 575.98px) {
+  .observation-timeline .observation {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    min-height: 28px;
+    padding-left: 0.75rem;
+
+    .observation-when,
+    .observation-body {
+      flex-basis: 100%;
+    }
+  }
+}

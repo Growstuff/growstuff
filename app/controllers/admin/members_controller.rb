@@ -45,9 +45,9 @@ module Admin
         # Prevent admins from self-banning via bulk ban
         members_to_ban = members_to_ban.where.not(id: current_member.id)
         members_to_ban.find_each(&:discard)
-        flash[:notice] = "Selected members have been banned."
+        flash[:notice] = t('.banned')
       else
-        flash[:alert] = "No members were selected."
+        flash[:alert] = t('.none_selected')
       end
       redirect_to admin_members_path
     end

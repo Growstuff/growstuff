@@ -5,10 +5,10 @@ import {describe, expect, it, vi} from 'vitest';
 import GardenFormModal from './GardenFormModal';
 
 const form = {
-  garden: {id: 1, url: '/gardens/back-yard', name: 'Back yard', description: '', location: 'Wellington', area: 12, area_unit: 'square metre', garden_type_id: 2, active: true},
+  garden: {id: 1, url: '/gardens/back-yard', name: 'Back yard', description: '', location: 'Wellington', area: 12, area_unit: 'square metre', garden_type_id: 2, active: true, frost_safe: false},
   area_units: [{value: 'square metre', label: 'square metres'}, {value: 'acre', label: 'acres'}],
   garden_types: [{id: 1, name: 'Allotment'}, {id: 2, name: 'Balcony'}],
-  location_help: 'Where is it?', settings_url: '/settings', member_has_location: true,
+  location_help: 'Where is it?', frost_safe_label: 'This garden is safe from frost', frost_safe_help: 'Greenhouse or indoors.', settings_url: '/settings', member_has_location: true,
 };
 
 function stubFetch(...replies) {
@@ -88,6 +88,20 @@ describe('GardenFormModal', () => {
       await userEvent.type(name, 'Front yard');
       await userEvent.click(screen.getByRole('button', {name: 'Save garden'}));
       expect(JSON.parse(fetch.mock.calls[1][1].body).garden.name).toBe('Front yard');
+    });
+
+    it('shows whether the garden is safe from frost', async () => {
+      stubFetch({data: form});
+      setup(garden);
+      expect(await screen.findByRole('checkbox', {name: 'This garden is safe from frost'})).not.toBeChecked();
+    });
+
+    it('patches the frost flag', async () => {
+      const fetch = stubFetch({data: form}, {data: {garden: {id: 1}}});
+      setup(garden);
+      await userEvent.click(await screen.findByRole('checkbox', {name: 'This garden is safe from frost'}));
+      await userEvent.click(screen.getByRole('button', {name: 'Save garden'}));
+      expect(JSON.parse(fetch.mock.calls[1][1].body).garden.frost_safe).toBe(true);
     });
 
     it('hands the saved garden to onSaved', async () => {

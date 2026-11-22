@@ -2,6 +2,8 @@
 
 require './lib/actions/oauth_signup_action'
 class AuthenticationsController < ApplicationController
+  include BackToSettings
+
   before_action :authenticate_member!
   load_and_authorize_resource
   skip_load_and_authorize_resource only: :connected
@@ -29,7 +31,7 @@ class AuthenticationsController < ApplicationController
     else
       flash[:notice] = t('messages.auth_failed')
     end
-    redirect_to request.env['omniauth.origin'] || edit_member_registration_path
+    redirect_to back_to_origin(apps_tab_path)
   end
 
   # Where the pop-up that connects an account from a dialog ends up (see
@@ -43,13 +45,13 @@ class AuthenticationsController < ApplicationController
   # DELETE /authentications/1
   def destroy
     if current_member.last_sign_in_method?(@authentication)
-      return redirect_to edit_member_registration_path, alert: t('messages.auth_last_sign_in')
+      return redirect_to apps_tab_path, alert: t('messages.auth_last_sign_in')
     end
 
     @authentication.destroy
 
     respond_to do |format|
-      format.html { redirect_to edit_member_registration_path }
+      format.html { redirect_to apps_tab_path }
     end
   end
 end

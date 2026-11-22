@@ -84,7 +84,7 @@ describe Admin::CropJobTemplatesController do
       end
 
       it 'shows the form again' do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'creates nothing' do
@@ -114,7 +114,7 @@ describe Admin::CropJobTemplatesController do
       before { post admin_crop_crop_job_templates_path(crop), params: { crop_job_template: { name: '' } } }
 
       it 'shows the form again' do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'creates nothing' do
@@ -189,7 +189,7 @@ describe Admin::CropJobTemplatesController do
       before { patch admin_crop_crop_job_template_path(crop, template), params: { crop_job_template: { name: '' } } }
 
       it 'shows the form again' do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

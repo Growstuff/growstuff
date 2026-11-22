@@ -5,10 +5,10 @@
   = t(".title", site_name: ENV['GROWSTUFF_SITE_NAME'])
 = bootstrap_form_tag(url: members_path, method: :get, layout: :inline) do |f|
   = f.select "sort",
-        options_for_select({ "alphabetically": 'alpha', "recently joined": "recently_joined" },
+        options_for_select({ t('.sort_alphabetically') => 'alpha', t('.sort_recently_joined') => "recently_joined" },
                                       @sort || 'alpha'),
-        label: 'Sort by'
-  = f.submit "Show"
+        label: t('.sort_by')
+  = f.submit t('.show')
 
 .pagination
   = page_entries_info @members

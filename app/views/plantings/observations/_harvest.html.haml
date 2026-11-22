@@ -1,0 +1,18 @@
+-# A harvest of the planting, with a menu to change or remove it for whoever may.
+- harvest = entry.record
+%li.observation.observation-harvest
+  %span.observation-icon= icon 'fas', 'basket-shopping'
+  = timeline_when(entry.at, planting)
+  .observation-body
+    %strong.observation-kind= link_to t('.harvested'), harvest_path(slug: harvest.slug)
+    - if harvest.plant_part_name.present?
+      %span.text-muted.small= harvest.plant_part_name
+    %p.observation-note.mb-0= harvest.to_s
+  - if can?(:update, harvest)
+    .observation-actions
+      = actions_menu('harvest', id: harvest.id, label: t('plantings.observations.actions')) do
+        - edit_data = { planting_dialog: 'harvest', harvest: harvest_edit_data(harvest) }
+        = menu_link_to :edit, t('.edit'), edit_harvest_path(slug: harvest.slug), class: 'harvest-edit', data: edit_data
+        - if can?(:destroy, harvest)
+          .dropdown-divider
+          = menu_delete_button(harvest)

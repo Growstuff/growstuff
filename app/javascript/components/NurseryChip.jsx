@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {refreshNursery, showSaved} from '../nurseryPanel';
 import AddPhotoModal from './AddPhotoModal';
 import EditPlantingModal from './EditPlantingModal';
+import ObservationModal from './ObservationModal';
 import PlantingChip from './PlantingChip';
 import TransplantModal from './TransplantModal';
 
@@ -10,13 +11,15 @@ import TransplantModal from './TransplantModal';
 // garden card, then how many there are, all in one pill. "Add photo" and
 // "Edit" and "Transplant" open their dialogs over the page, as on a card. What
 // is saved shows without leaving the page: the nursery is fetched afresh.
-export default function NurseryChip({planting, default_icon_url: defaultIconUrl, photo_icon_url: photoIconUrl, gardens, detail}) {
+export default function NurseryChip({planting, default_icon_url: defaultIconUrl, photo_icon_url: photoIconUrl, observation_kinds: observationKinds, gardens, detail}) {
   const [addingPhoto, setAddingPhoto] = useState(null); // {label, href}
   const [editing, setEditing] = useState(false);
+  const [observing, setObserving] = useState(false);
   const [transplanting, setTransplanting] = useState(false);
   const handlers = {
     photo: (chosen, action) => setAddingPhoto({label: `${chosen.crop.name} planting`, href: action.href}),
     edit: () => setEditing(true),
+    observation: () => setObserving(true),
     transplant: () => setTransplanting(true),
   };
 
@@ -26,6 +29,9 @@ export default function NurseryChip({planting, default_icon_url: defaultIconUrl,
       {detail && <small className="nursery-chip-detail">{detail}</small>}
       {editing && (
         <EditPlantingModal planting={planting} onClose={() => setEditing(false)} onSaved={refreshNursery} />
+      )}
+      {observing && (
+        <ObservationModal planting={planting} kinds={observationKinds} onClose={() => setObserving(false)} onSaved={refreshNursery} />
       )}
       {transplanting && (
         <TransplantModal

@@ -1,5 +1,5 @@
 -# Where a member opens their garden stall, or goes to it. Only they see it.
-- if member == current_member && Feature.enabled?(:garden_stall)
+- if member == current_member && Feature.enabled?(:garden_stall, current_member)
   .stall-card.mb-3
     %h2.h5= t('.heading')
     - if member.stall&.open?

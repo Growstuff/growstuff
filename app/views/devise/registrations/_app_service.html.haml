@@ -1,0 +1,9 @@
+-# One service on the Apps tab: its icon beside its name, then whatever the block shows.
+-# Locals: title, icon (markup for a 32px icon), and optionally note (what the service is used for).
+%section.app-service{ 'aria-labelledby' => "app-#{title.parameterize}" }
+  .app-service-icon= icon
+  .app-service-body
+    %h2.app-service-title{ id: "app-#{title.parameterize}" }= title
+    - if local_assigns[:note]
+      %p.text-muted= note
+    = yield

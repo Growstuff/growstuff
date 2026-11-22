@@ -1,4 +1,4 @@
-= content_for :title, "New comment"
+= content_for :title, t('.title')
 - if @commentable.is_a?(Post)
   %section.blog-post
     .card.post{ id: "post-#{@commentable.id}" }
@@ -17,6 +17,12 @@
       .card-header
         %h2.display-3= @commentable.subject
       .card-body= render "plantings/card", planting: @commentable || @comment.commentable
+- elsif @commentable.is_a?(Harvest)
+  %section.blog-post
+    .card.harvest{ id: "harvest-#{@commentable.id}" }
+      .card-header
+        %h2.display-3= @commentable.subject
+      .card-body= render "harvests/card", harvest: @commentable || @comment.commentable
 
 = render partial: "comments/comments", locals: { commentable: @commentable || @comment.commentable }
 

@@ -69,7 +69,7 @@ describe 'Editing a garden as JSON' do
     it 'returns validation errors as 422 and keeps the old values' do
       update_garden({ name: '' })
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.parsed_body['errors']).to have_key('name')
       expect(garden.reload.name).to eq 'Orchard'
     end

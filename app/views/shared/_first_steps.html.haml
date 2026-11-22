@@ -1,0 +1,16 @@
+-# A slim bar that follows a new member round the site until they have planted
+-# something or planned a job (see HomeHelper#first_steps_bar?). The same shape as
+-# the jobs bar: an icon, a line saying what to do, and the ways to do it as links.
+.first-steps{ role: 'status' }
+  = render 'jobs/snail', css_class: 'first-steps-snail'
+  %span.first-steps-text
+    %strong= t('first_steps.title', name: current_member.login_name)
+    = t('first_steps.intro')
+  .first-steps-actions
+    -# The sow seeds dialog from the nursery, for a first planting; with no garden to put it in, the planting form.
+    - planter = first_steps_planter_props(current_member, label: t('first_steps.log_planting'), button_class: 'first-steps-go')
+    - if planter[:gardens].any?
+      = react_component 'FirstStepsPlanter', planter
+    - else
+      = link_to t('first_steps.log_planting'), new_planting_path, class: 'first-steps-go'
+    = link_to t('first_steps.see_suggestions'), suggestions_path, class: 'first-steps-go'

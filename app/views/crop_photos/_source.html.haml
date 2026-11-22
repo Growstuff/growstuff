@@ -1,0 +1,6 @@
+-# Where a search result is from: its licence, and its page on Flickr in a new tab.
+- if result[:licence]
+  %span.badge.text-bg-light.border= result[:licence]
+= link_to result[:url], target: '_blank', rel: 'noopener', class: 'small' do
+  = t('crop_photos.source.view_on_flickr')
+  = icon 'fas', 'arrow-up-right-from-square'

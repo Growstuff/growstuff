@@ -5,10 +5,10 @@
   .modal-dialog{ role: "document" }
     .modal-content
       .modal-header
-        %h4#planting-modal-title.modal-title Add #{planting.crop.name} to your garden
-        %button.btn-close{ "aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button" }
+        %h4#planting-modal-title.modal-title= t('.title', crop: planting.crop.name)
+        %button.btn-close{ "aria-label" => t('.close'), "data-bs-dismiss" => "modal", type: "button" }
       .modal-body.plant-dialog-body
-        %p.garden-picker-prompt Which garden is it going in?
+        %p.garden-picker-prompt= t('.which_garden')
         .list-group.garden-picker
           - planting.owner.gardens.active.order_by_name.each do |garden|
             = link_to plantings_path(planting: { crop_id: planting.crop_id, garden_id: garden.id }),
@@ -22,8 +22,8 @@
       .modal-footer.justify-content-start
         = link_to new_garden_path, class: 'btn btn-outline-secondary btn-sm' do
           = menu_icon(:add)
-          Add a new garden
+          = t('.add_new_garden')
 
 %a.btn{ "data-bs-target" => "#modelPlantingForm", "data-bs-toggle" => "modal", href: "", id: 'planting-button' }
   = planting_icon
-  Add to my garden
+  = t('.add_to_my_garden')

@@ -1,0 +1,29 @@
+-# The invitation at the top of the front page to see the weather at your own place: frost, rain and temperature headlines
+-# that lead to the place's page. See WeatherInvitation.
+- state = invitation.state
+.record-page.weather-invitation
+  %section
+    .section-header
+      %h2= t('home.weather_invitation.title')
+    .weather-invitation-body
+      %p.weather-invitation-intro
+        - if state == :loading
+          = frost_icon(:late_possible)
+        = weather_invitation_intro(invitation)
+      .weather-invitation-cards
+        - weather_invitation_cards(invitation).each do |card|
+          .weather-invitation-card
+            .weather-invitation-icon{ class: "weather-invitation-icon--#{state == :ready ? card[:measure] : 'none'}" }
+              = weather_invitation_icon(card[:measure])
+            %div
+              .weather-invitation-label= card[:label]
+              .weather-invitation-title= card[:title]
+              .weather-invitation-note= card[:note]
+      .weather-invitation-actions
+        - case state
+        - when :ready
+          = link_to t('home.weather_invitation.see'), place_path(current_member.location), class: 'btn btn-success'
+        - when :no_location
+          = render 'home/dashboard/location_picker', label: t('home.weather_invitation.add_location'), button_class: 'btn btn-success'
+        - else
+          = render 'home/dashboard/location_picker', label: t('home.weather_invitation.change_location'), button_class: 'btn btn-link p-0'

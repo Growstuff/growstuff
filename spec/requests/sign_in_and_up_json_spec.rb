@@ -50,7 +50,7 @@ describe 'Signing in and joining as JSON' do
 
       before { join }
 
-      it { expect(response).to have_http_status(:unprocessable_entity) }
+      it { expect(response).to have_http_status(:unprocessable_content) }
       it { expect(response.parsed_body['errors']).to have_key('tos_agreement') }
     end
 
@@ -60,7 +60,7 @@ describe 'Signing in and joining as JSON' do
         join
       end
 
-      it { expect(response).to have_http_status(:unprocessable_entity) }
+      it { expect(response).to have_http_status(:unprocessable_content) }
       it { expect { join }.not_to change(Member, :count) }
     end
   end

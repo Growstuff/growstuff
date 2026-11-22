@@ -5,14 +5,14 @@
   = javascript_include_tag 'react_islands', defer: true
 
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Jobs', jobs_path
+  %li.breadcrumb-item= link_to t('jobs.index.breadcrumbs_jobs'), jobs_path
   %li.breadcrumb-item.active= link_to t('job_ideas.title'), job_ideas_path
 
 .row
   .col-12
     %h1.h2
       = job_icon
-      Jobs
+      = t('jobs.index.breadcrumbs_jobs')
     .row
       -# First when the columns stack, so the ideas are not left below a long notepad.
       .col-xl-6.mb-4.order-first.order-xl-last

@@ -5,6 +5,7 @@ class Garden < ApplicationRecord
   include Geocodable
   include PhotoCapable
   include Ownable
+  include WeatherLocated
 
   friendly_id :garden_slug, use: %i(slugged finders)
 
@@ -23,11 +24,12 @@ class Garden < ApplicationRecord
   after_validation :cleanup_area
   after_validation :geocode, if: :will_save_change_to_location?
   after_validation :empty_unwanted_geocodes, if: :will_save_change_to_location?
-  after_validation :populate_wikidata_info, if: :will_save_change_to_location?
   after_save :mark_inactive_garden_plantings_as_finished
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  # Gardens with a place on the weather grid. A nursery has no climate of its own to show.
+  scope :located_for_weather, -> { where.not(latitude: nil).where.not(longitude: nil).where(nursery: false) }
   scope :nurseries, -> { where(nursery: true) }
   scope :not_nurseries, -> { where(nursery: false) }
   scope :order_by_name, -> { order(Arel.sql("lower(name) asc")) }
@@ -109,7 +111,8 @@ class Garden < ApplicationRecord
   def make_nursery!
     transaction do
       self.class.where(owner_id:, nursery: true).where.not(id:).update_all(nursery: false) # rubocop:disable Rails/SkipsModelValidations
-      update!(nursery: true)
+      # Most nurseries are indoors or under cover, so it starts as safe from frost. The member can say otherwise.
+      update!(nursery: true, frost_safe: true)
       owner.accept_nursery!
     end
   end
@@ -124,19 +127,6 @@ class Garden < ApplicationRecord
     end
   end
 
-  def populate_wikidata_info
-    return false if location.blank?
-
-    wd_id = WikidataService.find_wikidata_id(location)
-    return false if wd_id.blank?
-
-    self.location_wikidata_id = wd_id
-    temps = WikidataService.fetch_temps(wd_id)
-    self.highest_temp_c = temps[:highest_temp_c]
-    self.lowest_temp_c = temps[:lowest_temp_c]
-    true
-  end
-
   # How many cells the bed's layout grid has, for callers that just want the size.
   def grid_cells
     grid_columns * grid_rows
@@ -149,6 +139,14 @@ class Garden < ApplicationRecord
   # Where each plant stands on the bed, as [x, y, diameter], to draw the map.
   def placed_plant_positions
     placed_plants.pluck(:bed_x, :bed_y, :diameter)
+  end
+
+  # How big the garden is, such as "24 square metres", when it has been measured.
+  def area_text
+    return if area.blank?
+
+    size = ActiveSupport::NumberHelper.number_to_rounded(area, precision: 2, strip_insignificant_zeros: true)
+    "#{size} #{area_unit.to_s.pluralize(area)}"
   end
 
   def has_layout?

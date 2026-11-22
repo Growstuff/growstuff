@@ -1,9 +1,6 @@
-- content_for :title, "Edit alternate name"
+- content_for :title, t('.title')
 
 %p
-  Added by
-  = link_to @alternate_name.creator, @alternate_name.creator
-  = distance_of_time_in_words(@alternate_name.created_at, Time.zone.now)
-  ago.
+  = t('.added_by_html', creator_link: link_to(@alternate_name.creator, @alternate_name.creator), time_ago: distance_of_time_in_words(@alternate_name.created_at, Time.zone.now))
 
 = render 'form'

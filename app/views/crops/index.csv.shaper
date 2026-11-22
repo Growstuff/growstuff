@@ -60,8 +60,8 @@ csv.headers *all_headers
     end
 
     csv.cell :plantings_count, c.plantings_count || 0
-    csv.cell :seeds_count, c.seeds.size
-    csv.cell :harvests_count, c.harvests.size
+    csv.cell :seeds_count, @seed_counts.fetch(c.id, 0)
+    csv.cell :harvests_count, c.harvests_count
 
     # Sunniness
 

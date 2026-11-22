@@ -3,36 +3,6 @@
 require 'rails_helper'
 
 describe SeedsHelper do
-  describe "seed description" do
-    it "is missing" do
-      seed = create(:seed,
-                    description: nil)
-      result = helper.display_seed_description(seed)
-      expect(result).to eq ""
-    end
-
-    it "is less than 130 characters long" do
-      seed = create(:seed,
-                    description: 'a' * 20)
-      result = helper.display_seed_description(seed)
-      expect(result).to eq 'a' * 20
-    end
-
-    it "is 130 characters long" do
-      seed = create(:seed,
-                    description: 'a' * 130)
-      result = helper.display_seed_description(seed)
-      expect(result).to eq 'a' * 130
-    end
-
-    it "is more than 130 characters long" do
-      seed = create(:seed,
-                    description: 'a' * 140)
-      result = helper.display_seed_description(seed)
-      expect(result).to eq ('a' * 126) + '...' + ' ' + link_to("Read more", seed_path(seed))
-    end
-  end
-
   describe '#seed_source_label' do
     it { expect(helper.seed_source_label('my own seed saving')).to eq 'own saving' }
     it { expect(helper.seed_source_label('seed bank or similar institution')).to eq 'seed bank' }
@@ -235,6 +205,33 @@ describe SeedsHelper do
       let(:search_crop) { build(:crop, name: 'tomato', slug: 'tomato') }
 
       it { expect(props[:crop]).to eq(name: 'tomato', slug: 'tomato') }
+    end
+  end
+
+  describe '#seed_code_visible?', flipper: :planting_codes do
+    let(:seed) { create(:seed, short_code: 'T2B3') }
+
+    context 'when the owner is signed in' do
+      before { allow(helper).to receive(:current_member).and_return(seed.owner) }
+
+      it { expect(helper.seed_code_visible?(seed)).to be true }
+
+      it 'is false for a packet without a code' do
+        seed.update_column(:short_code, nil) # rubocop:disable Rails/SkipsModelValidations
+        expect(helper.seed_code_visible?(seed)).to be false
+      end
+    end
+
+    context 'when another member is signed in' do
+      before { allow(helper).to receive(:current_member).and_return(create(:member)) }
+
+      it { expect(helper.seed_code_visible?(seed)).to be false }
+    end
+
+    context 'when nobody is signed in' do
+      before { allow(helper).to receive(:current_member).and_return(nil) }
+
+      it { expect(helper.seed_code_visible?(seed)).to be false }
     end
   end
 end

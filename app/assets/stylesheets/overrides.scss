@@ -186,11 +186,6 @@ section {
   }
 }
 
-.layout-actions {
-  border: 1px solid lighten($green, 20%);
-  float: right;
-}
-
 .index-cards {
   display: flex;
   flex: none;
@@ -355,8 +350,55 @@ footer {
 
 // Autosuggest
 .ui-autocomplete {
+  max-height: 20rem;
+  overflow-y: auto;
+  padding: 0;
+  border: 1px solid $gray-500;
+  border-radius: 4px;
   background: $white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .15);
+  font-size: 1.1rem;
   z-index: $highest-level;
+
+  .ui-menu-item-wrapper {
+    padding: .5rem .75rem;
+    border-left: 4px solid transparent;
+    cursor: pointer;
+  }
+
+  // The one Enter would choose: solid colour and white text, so it can't be missed.
+  .ui-menu-item-wrapper.ui-state-active {
+    border-left-color: darken($primary, 10%);
+    background: $primary;
+    color: $white;
+    font-weight: 600;
+
+    small {
+      color: inherit;
+    }
+  }
+}
+
+// What the autosuggest field says about where you are: searching, choose one, none match, or what was chosen.
+.auto-suggest-hint {
+  min-height: 1.5rem;
+  margin-top: .25rem;
+  font-size: .9rem;
+  color: $gray-700;
+
+  &[data-state='chosen'] {
+    color: $success;
+    font-weight: 600;
+  }
+
+  &[data-state='unchosen'],
+  &[data-state='none'] {
+    color: $danger;
+  }
+}
+
+.auto-suggest.is-chosen {
+  border-color: $success;
 }
 
 .flash-messages {
@@ -390,13 +432,6 @@ $state-success-bg: lighten($green, 50%);
   display: none;
 }
 
-.panel {
-  .dl-horizontal {
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-}
-
 label.required:after {
   color: red;
   content: " *";
@@ -412,29 +447,21 @@ ul.plantings {
   list-style-type: none;
 }
 
-ul.thumbnail-buttons {
-  list-style-type: none;
-  text-align: right;
-}
-
-.hover-wrapper .text {
-  position: absolute;
-  visibility: hidden;
-}
-
-.hover-wrapper:hover .text {
-  visibility: visible;
-}
-
+// Devise pages: one white card, raised off the page, that stays a readable
+// width on a large screen.
 .form-page {
+  margin: 1rem auto 2rem;
+  max-width: 30rem;
   text-align: center;
 
   .form-card {
-    display: inline-block;
-    margin-top: 0.5em;
-    max-width: 800px;
-    padding: 1em;
+    width: 100%;
+    padding: 1.5rem;
     text-align: center;
+    background: #fff;
+    border: 0;
+    border-radius: 4px;
+    box-shadow: $material-shadow-raised;
   }
 
   // A checkbox sits next to its label, in the middle, as the rest of the form does
@@ -451,6 +478,85 @@ ul.thumbnail-buttons {
     }
   }
 }
+.finish-signup {
+  margin: 2rem auto 3rem;
+  max-width: 38rem;
+
+  .form-page .form-card {
+    width: 100%;
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    text-align: left;
+    border: 1px solid rgba($green, 0.2);
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 2rem rgba($green, 0.08);
+  }
+
+  .modal-header {
+    justify-content: center;
+    padding: 0 0 1rem;
+    border: 0;
+  }
+
+  .modal-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .modal-body {
+    padding: 0;
+  }
+
+  .finish-signup-intro {
+    margin-bottom: 1.75rem;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .finish-signup-icon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    background: rgba($green, 0.1);
+    color: $green;
+    font-size: 1.5rem;
+  }
+
+  .form-label {
+    font-weight: 600;
+  }
+
+  .form-control {
+    padding: 0.75rem;
+  }
+
+  .form-text {
+    margin-top: 0.5rem;
+    line-height: 1.5;
+  }
+
+  .finish-signup-terms {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border: 1px solid rgba($green, 0.2);
+    border-radius: 0.5rem;
+    background: rgba($green, 0.04);
+
+    .form-check {
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-bottom: 0;
+    }
+
+    .form-check-input {
+      flex-shrink: 0;
+    }
+  }
+}
+
 .text-muted {
   color: $blue;
 }
@@ -512,29 +618,6 @@ ul.thumbnail-buttons {
   }
 }
 
-.progress-fade {
-  cursor: pointer;
-  float: left;
-  position: relative;
-}
-
-.progress-fade::before {
-  background: $beige;
-  bottom: 0;
-  content: "";
-  display: block;
-  left: 0;
-  opacity: 0.7;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transition: background 0.3s linear;
-}
-
-.progress-fade:hover::before {
-  background: none;
-}
-
 // Bootstrap 5 dropped text-justify.
 .text-justify {
   text-align: justify;
@@ -584,26 +667,56 @@ ul.thumbnail-buttons {
   --bs-btn-active-bg: rgba(0, 0, 0, 0.12);
 }
 
-// Progress bar colours by state (Planting#progress_state).
-.progress-bar--growing {
-  background-color: var(--bs-info);
+// Colours by how a planting is getting on (Planting#progress_state): the fill of a progress bar or timeline, and the
+// arc of the progress ring. Finished is grey, not --bs-secondary: the site's secondary colour is its dark blue.
+$progress-state-colours: (
+  growing: var(--bs-info),
+  harvesting: var(--bs-success),
+  late: var(--bs-warning),
+  super_late: var(--bs-danger),
+  finished: var(--bs-gray-600)
+);
+
+@each $state, $colour in $progress-state-colours {
+  .progress-bar--#{$state} {
+    background-color: $colour;
+  }
+
+  .progress-ring--#{$state} {
+    stroke: $colour;
+  }
 }
 
-.progress-bar--harvesting {
-  background-color: var(--bs-success);
-}
+// The ring on a planting's progress card.
+.progress-ring {
+  position: relative;
+  width: 6.5rem;
+  margin: 0 auto;
 
-.progress-bar--late {
-  background-color: var(--bs-warning);
-}
+  svg {
+    display: block;
+    transform: rotate(-90deg);
+  }
 
-.progress-bar--super_late {
-  background-color: var(--bs-danger);
-}
+  circle {
+    fill: none;
+    stroke-width: 9;
+  }
 
-// Grey, not --bs-secondary: the site's secondary colour is its dark blue.
-.progress-bar--finished {
-  background-color: var(--bs-gray-600);
+  .progress-ring__track {
+    stroke: var(--bs-gray-200);
+  }
+
+  .progress-ring__arc {
+    stroke-linecap: round;
+  }
+
+  strong {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 // The card variables drop the card's border, which also drew the line under a

@@ -15,6 +15,7 @@ describe "crops/index.html.haml" do
       pager.replace([@tomato, @maize])
     end
     assign(:crops, crops)
+    assign(:filter, CropFilter.new(nil, ActionController::Parameters.new))
   end
 
   it "shows photos where available" do

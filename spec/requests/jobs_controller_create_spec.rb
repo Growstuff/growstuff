@@ -41,7 +41,7 @@ describe JobsController, '#create' do
     before { post jobs_path, params: { job: { name: 'Plant tomato', action: 'plant' } }, headers: }
 
     it 'responds with unprocessable entity' do
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 
@@ -101,7 +101,7 @@ describe JobsController, '#create' do
     end
 
     it 'rejects it' do
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 
@@ -109,7 +109,7 @@ describe JobsController, '#create' do
     before { post jobs_path, params: { job: { name: '' } }, headers: }
 
     it 'rejects it' do
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'creates nothing' do

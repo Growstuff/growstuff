@@ -1,0 +1,11 @@
+-# What the photo shows: a card for each record it is attached to.
+%section.photo-shows
+  %h2.photo-section-heading= t('.heading')
+  %p.text-muted
+    = photo_by_outsider?(photo) ? t('.outsider_intro', site: photo_source_name(photo)) : t('.intro')
+  .photo-shows-cards
+    - photo_records(photo).each do |type, thing|
+      - if type == 'crop'
+        = render 'photos/shows/crop', crop: thing, outsider: photo_by_outsider?(photo)
+      - else
+        = render 'photos/shows/record', type: type, thing: thing

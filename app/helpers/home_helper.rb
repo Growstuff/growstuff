@@ -79,6 +79,23 @@ module HomeHelper
     react_component('PlantPicker', props, class: options[:wrapper_class])
   end
 
+  # The first-steps bar follows a signed-in member round the site until they
+  # have planted something or planned a job. It stays off the home page, which
+  # has the same steps in full, and off the forms where they are doing it.
+  def first_steps_bar?
+    return @first_steps_bar if defined?(@first_steps_bar)
+
+    @first_steps_bar = first_steps_bar_wanted?
+  end
+
+  def first_steps_bar_wanted?
+    return false unless member_signed_in? && current_member.tos_agreement?
+    return false if controller_name == 'home' && action_name == 'index'
+    return false if %w(plantings jobs).include?(controller_name) && %w(new create).include?(action_name)
+
+    current_member.first_steps_todo?
+  end
+
   # A green-headed white box on the home page: a title, an optional link or
   # button on the right of the header, and whatever the block holds. Pass id:
   # to make the section a target for in-page links.
@@ -95,7 +112,7 @@ module HomeHelper
 
   def growing_rows(plantings, ready)
     plantings.map do |planting|
-      days = planting.crop.median_days_to_first_harvest
+      days = planting.predicted_days_to_first_harvest
       { id: planting.id, name: planting.crop_name, url: planting_path(slug: planting.slug), garden: planting.garden_name,
         garden_id: planting.garden_id, plant_id: (planting.crop.parent || planting.crop).id, ready: ready.include?(planting),
         image_url: planting.thumbnail_url || image_path(placeholder_image),

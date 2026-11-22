@@ -1,0 +1,7 @@
+-# A connected account, with the way to disconnect it.
+-# Locals: authentication, and name (what to call the account, as markup).
+.app-service-account
+  %span= t('devise_views.connected_as_html', account: name)
+  = link_to t('devise_views.disconnect'), authentication,
+            data: { confirm: t('devise_views.disconnect_confirm') },
+            method: :delete, class: 'remove btn btn-outline-danger btn-sm'
