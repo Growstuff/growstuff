@@ -42,7 +42,7 @@
   "devDependencies": {
     "@percy/cli": "^1.32.12",
     "@testing-library/dom": "^10.4.2",
-    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.12",
     "@vitest/coverage-v8": "^5.1.0",
