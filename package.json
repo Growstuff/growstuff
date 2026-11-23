@@ -25,7 +25,7 @@
     "chart.js": "^4.6.1",
     "chartkick": "^5.0.1",
     "esbuild": "^0.28.2",
-    "jquery": "^4.0.0",
+    "jquery": "^4.1.0",
     "jquery-ui": "^1.14.2",
     "jquery-ujs": "^1.2.3",
     "leaflet": "^1.9.4",
@@ -40,18 +40,18 @@
     "yarn": ">=0.25.2"
   },
   "devDependencies": {
-    "@percy/cli": "^1.32.12",
+    "@percy/cli": "^1.33.1",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/react": "^16.3.3",
-    "@testing-library/user-event": "^14.6.12",
-    "@vitest/coverage-v8": "^5.1.0",
+    "@testing-library/user-event": "^14.6.13",
+    "@vitest/coverage-v8": "^5.1.1",
     "csslint": "^1.0.5",
     "eslint": "^10.15.0",
     "eslint-config-google": "^0.14.0",
     "jsdom": "^31.0.1",
     "vite": "^8.3.8",
-    "vitest": "^5.1.0"
+    "vitest": "^5.1.1"
   },
   "repository": {
     "type": "git",
