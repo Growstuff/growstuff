@@ -11,6 +11,16 @@ class RegistrationsController < Devise::RegistrationsController
     render "edit"
   end
 
+  # Remember which browser signed up, so following the confirmation link in the
+  # same one signs them straight in (see ConfirmationsController).
+  def create
+    super do |member|
+      next unless member.persisted? && !member.confirmed?
+
+      session[ConfirmationsController::SIGNED_UP_KEY] = { 'id' => member.id, 'at' => Time.current.to_i }
+    end
+  end
+
   # we need this subclassed method so that Devise doesn't force people to
   # change their password every time they want to edit their settings.
   # we also check that they give their current password to change their password.

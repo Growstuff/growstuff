@@ -3,18 +3,23 @@
 # What the frost section of a planting page says and draws, from a PlantingFrost. The working out is in PlantingFrost
 # and the words are in the locale files; this puts the two together.
 module FrostSectionHelper
-  # Outline icons, 24 by 24, one for each verdict.
+  include DateTextHelper
+
+  # Outline icons, 24 by 24, for the home page's weather invitation: the cold ahead, and the season to watch for.
   FROST_ICONS = {
-    snow:    'M12 2v20M4.2 7l15.6 10M4.2 17L19.8 7',
-    warning: 'M12 3L2.5 20h19L12 3zM12 10v4M12 17v.5',
-    clock:   'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2',
-    check:   'M5 12.5l4.5 4.5L19 7.5',
-    sun:     'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4' \
-             'M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4'
+    before_season: 'M12 2v20M4.2 7l15.6 10M4.2 17L19.8 7',
+    late_possible: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2'
   }.freeze
-  FROST_VERDICT_ICONS = {
-    before_season: :snow, in_season: :warning, late_possible: :clock, passed: :check,
-    finished_clear: :check, finished_hit: :warning, finished_undated: :clock, rare: :sun
+  # Each verdict as a weather note: the level that tints it and the icon.
+  FROST_VERDICT_NOTES = {
+    before_season:    { level: :cold, icon: 'snowflake' },
+    in_season:        { level: :caution, icon: 'exclamation-circle' },
+    late_possible:    { level: :caution, icon: 'exclamation-circle' },
+    passed:           { level: :success, icon: 'check-circle' },
+    finished_clear:   { level: :success, icon: 'check-circle' },
+    finished_hit:     { level: :caution, icon: 'exclamation-circle' },
+    finished_undated: { level: :neutral, icon: 'info-circle' },
+    rare:             { level: :neutral, icon: 'info-circle' }
   }.freeze
   # Which count of days each verdict's sentence is about.
   FROST_VERDICT_DAYS = {
@@ -23,7 +28,12 @@ module FrostSectionHelper
   }.freeze
 
   def frost_icon(verdict)
-    outline_icon(FROST_ICONS.fetch(FROST_VERDICT_ICONS.fetch(verdict)))
+    outline_icon(FROST_ICONS.fetch(verdict))
+  end
+
+  # How the verdict note looks, in the weather notes' terms: { level:, icon: } for a Font Awesome icon.
+  def frost_verdict_note(verdict)
+    FROST_VERDICT_NOTES.fetch(verdict)
   end
 
   def frost_planting?(frost)
@@ -67,7 +77,7 @@ module FrostSectionHelper
   end
 
   def frost_date_text(date)
-    l(date, format: '%-d %b')
+    date_text(date, '%-d %b', '%-d %b %Y')
   end
 
   def frost_days(count)
@@ -89,7 +99,7 @@ module FrostSectionHelper
   # The title that fits: one for a verdict that is still far off, and one for a place rather than a planting.
   def frost_title_key(frost, key)
     if key == :before_season && !frost.starts_soon? then 'title_far'
-    elsif key == :passed && !frost_planting?(frost) then 'title_place'
+    elsif %i(passed in_season).include?(key) && !frost_planting?(frost) then 'title_place'
     else 'title'
     end
   end

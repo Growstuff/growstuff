@@ -90,7 +90,13 @@ module GardensHelper
 
   # The member's gardens that things can be sown or transplanted into.
   def nursery_gardens(nursery)
-    nursery.owner.gardens.active.not_nurseries.order_by_name.map { |g| { id: g.id, name: g.name, slug: g.slug } }
+    sowing_gardens(nursery.owner)
+  end
+
+  def sowing_gardens(owner)
+    owner.gardens.active.not_nurseries.order_by_name.map do |g|
+      { id: g.id, name: g.name, slug: g.slug, layout_path: layout_member_garden_path(owner, g) }
+    end
   end
 
   # A batch's chip and menu, for the NurseryChip island, and how many there are.
@@ -123,11 +129,21 @@ module GardensHelper
     owner = nursery.owner
     {
       garden:      { id: nursery.id, name: nursery.name },
-      gardens:     nursery_gardens(nursery),
-      seeds:       owner.seeds.active.includes(:crop, :photos).order(created_at: :desc).limit(200).map { |seed| seed_packet_props(seed) },
+      gardens:     sowing_gardens(owner),
+      seeds:       sowing_seeds(owner),
       label:       'Sow seeds',
       buttonClass: 'btn btn-primary'
     }
+  end
+
+  # The same dialog for a member with no nursery, who sows straight into a
+  # garden: the first-steps notice's button.
+  def first_steps_planter_props(member, label:, button_class:)
+    { gardens: sowing_gardens(member), seeds: sowing_seeds(member), label:, buttonClass: button_class }
+  end
+
+  def sowing_seeds(owner)
+    owner.seeds.active.includes(:crop, :photos).order(created_at: :desc).limit(200).map { |seed| seed_packet_props(seed) }
   end
 
   # A seed packet for the sow dialog, with the photo of it if there is one, as

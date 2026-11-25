@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 
 import ActionsMenu from './ActionsMenu';
 import AddPhotoModal from './AddPhotoModal';
+import EditHarvestModal from './EditHarvestModal';
 import EditPlantingModal from './EditPlantingModal';
 import MarkFinishedModal from './MarkFinishedModal';
 import ObservationModal from './ObservationModal';
@@ -33,9 +34,10 @@ function useSectionTriggers(onTrigger) {
       const trigger = event.target.closest('[data-planting-dialog]');
       if (!trigger) return;
       event.preventDefault();
-      // The edit links for an observation carry what it says, to start the dialog from.
+      // The edit links for an observation or a harvest carry what it says, to start the dialog from.
       const observation = trigger.dataset.observation && JSON.parse(trigger.dataset.observation);
-      latest.current(trigger.dataset.plantingDialog, trigger.getAttribute('href'), observation);
+      const harvest = trigger.dataset.harvest && JSON.parse(trigger.dataset.harvest);
+      latest.current(trigger.dataset.plantingDialog, trigger.getAttribute('href'), observation, harvest);
     }
 
     document.addEventListener('click', onClick);
@@ -58,11 +60,11 @@ export default function PlantingActions({
   harvest_icon_url: harvestIconUrl, seed_icon_url: seedIconUrl,
   photo_icon_url: photoIconUrl, finish_icon_url: finishIconUrl, observation_kinds: observationKinds
 }) {
-  // {kind, href, observation}: which dialog is open, and the link it was opened from, which
-  // the add-photo dialog needs, and the observation being edited, if it is one.
+  // {kind, href, observation, harvest}: which dialog is open, and the link it was opened from, which
+  // the add-photo dialog needs, and the observation or harvest being edited, if it is one.
   const [dialog, setDialog] = useState(null);
 
-  const open = (kind, href, observation) => setDialog({kind, href, observation});
+  const open = (kind, href, observation, harvest) => setDialog({kind, href, observation, harvest});
   const close = () => setDialog(null);
 
   // Close the dialog, then reload on the next tick. Reloading straight from the
@@ -104,7 +106,10 @@ export default function PlantingActions({
       {kind === 'edit' && (
         <EditPlantingModal planting={planting} onClose={close} onSaved={saved} />
       )}
-      {kind === 'harvest' && (
+      {kind === 'harvest' && dialog.harvest && (
+        <EditHarvestModal planting={planting} harvest={dialog.harvest} onClose={close} onSaved={saved} />
+      )}
+      {kind === 'harvest' && !dialog.harvest && (
         <RecordHarvestModal planting={planting} iconUrl={harvestIconUrl} onClose={close} onSaved={saved} />
       )}
       {kind === 'seeds' && (

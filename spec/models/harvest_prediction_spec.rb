@@ -122,8 +122,8 @@ describe "Harvest prediction logic" do
 
         before { add_weather(planted_at..(planted_at + 9)) }
 
-        it "is the median days after planting" do
-          expect(predicted_at).to eq planted_at + 2
+        it "is the day the heat adds up" do
+          expect(predicted_at).to eq planted_at + 4
         end
       end
 
@@ -134,6 +134,63 @@ describe "Harvest prediction logic" do
 
         it "is the day the heat adds up" do
           expect(predicted_at).to eq planted_at + 4
+        end
+      end
+
+      describe "#finish_predicted_at" do
+        subject(:finish_at) { planting.finish_predicted_at }
+
+        before { add_weather(planted_at..(planted_at + 9)) }
+
+        context "when the median lifespan ends before the heat adds up" do
+          let(:crop) { create(:crop, median_lifespan: 3) }
+
+          it "is the day the heat adds up" do
+            expect(finish_at).to eq planted_at + 4
+          end
+        end
+
+        context "when the median lifespan ends after the heat adds up" do
+          let(:crop) { create(:crop, median_lifespan: 10) }
+
+          it "is the median lifespan after planting" do
+            expect(finish_at).to eq planted_at + 10
+          end
+        end
+
+        context "when the crop has no median lifespan" do
+          let(:crop) { create(:crop, median_lifespan: nil) }
+
+          it "has no finish to predict" do
+            expect(finish_at).to be_nil
+          end
+        end
+
+        context "when the planting has failed" do
+          let(:crop) { create(:crop, median_lifespan: 3) }
+          let(:planting) { create(:planting, crop:, garden:, owner: garden.owner, planted_at:, failed: true) }
+
+          it "has no finish to predict" do
+            expect(finish_at).to be_nil
+          end
+        end
+      end
+
+      describe "progress through a heat-extended lifespan" do
+        let(:crop) { create(:crop, median_lifespan: 3) }
+        let(:planted_at) { today - 2 }
+
+        before do
+          add_weather(planted_at..(planted_at + 1))
+          add_weather(((planted_at + 2)..(planted_at + 6)).map(&:prev_year))
+        end
+
+        it "counts the days it is expected to last as those until the heat adds up" do
+          expect(planting.expected_lifespan).to eq 4
+        end
+
+        it "is part way along" do
+          expect(planting.percentage_grown).to eq 50
         end
       end
 

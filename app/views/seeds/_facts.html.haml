@@ -21,6 +21,15 @@
                            edit: [:date, :saved_at] } do
           %strong= seed.saved_at.present? ? seed.saved_at.year : t('seeds.facts.unknown')
 
+        -# Only the owner's, and only once the packet has one.
+        - if seed_code_visible?(seed)
+          - code_help = render 'plantings/help', css: 'seedshortcode--help', label: t('.short_code_help_label'),
+                                                 title: t('.short_code'), content: t('.short_code_help')
+          - code_label = safe_join([t('.short_code'), code_help])
+          = render layout: 'seeds/fact_row', locals: { seed:, label: code_label, display: 'shortcode' } do
+            %strong= seed.short_code
+            %span= t('seeds.facts.short_code_description')
+
         = render layout: 'seeds/fact_row',
                  locals: { seed:, label: t('.will_trade'), display: 'tradableto',
                            edit: [:select, :tradable_to], values: Seed::TRADABLE_TO_VALUES } do

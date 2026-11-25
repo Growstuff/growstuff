@@ -244,7 +244,7 @@ en:
         print_labels: Download printable QR-code labels for gardens and plantings, with saved label-size preferences.
         job_ideas: Suggested jobs for members, from their past jobs and plantings, crop templates and what gardeners nearby are doing.
         planting_weather: Temperature and rainfall charts on each planting, from daily weather for the garden's area.
-        planting_codes: Shows planting codes to the planting owner and collaborators in its garden.
+        planting_codes: Shows planting codes to the planting owner and collaborators in its garden, and seed packet codes to the packet's owner.
       index:
         disabled: 'Off'
         enabled: 'On'
@@ -265,7 +265,7 @@ en:
         print_labels: Print labels
         job_ideas: Job ideas
         planting_weather: Planting weather
-        planting_codes: Planting codes
+        planting_codes: Planting and seed packet codes
       update:
         disabled: "%{feature} is now off."
         enabled: "%{feature} is now on."
@@ -316,6 +316,13 @@ en:
       not_connected_help: You can close this window and try again.
       close_window: Close this window
     sign_in:
+      github:
+        title: Sign in with GitHub
+        continue: Continue with GitHub
+        agree_to_terms: I agree to the
+        agree_to_tos_html: I agree to the %{tos_link}
+        terms_of_service: Terms of Service
+        cancel: Cancel
       bluesky:
         agree_to_tos_html: I agree to the %{tos_link}
         contacting: Contacting Bluesky…
@@ -324,8 +331,9 @@ en:
         terms_of_service: Terms of Service
       mastodon:
         agree_to_tos_html: I agree to the %{tos_link}
-        identifier_label: Mastodon address
-        identifier_placeholder: alice@mastodon.social
+        identifier_hint: The address of your Mastodon server. You'll log in there, so we don't need your username.
+        identifier_label: Mastodon server
+        identifier_placeholder: mastodon.social
         permission_note: "We only ask who you are. We can't post for you."
         terms_of_service: Terms of Service
   auto_suggest:
@@ -380,6 +388,9 @@ en:
         soil_note: mean this month, top 7 cm
         warmest: Warmest month
       chart: Air temperature each month, this year and usually
+      recent_above: "In the 30 days from %{from} to %{to} the average was %{air} °C, which is %{difference} °C above the usual %{usual} °C for those dates."
+      recent_below: "In the 30 days from %{from} to %{to} the average was %{air} °C, which is %{difference} °C below the usual %{usual} °C for those dates."
+      recent_close: "In the 30 days from %{from} to %{to} the average was %{air} °C, close to the usual %{usual} °C for those dates."
       records: Records in the last %{count} years
       soil_chart: Soil temperature each month, this year and usually
       title: Temperature
@@ -1059,6 +1070,11 @@ en:
       top_level_crops: Top level crops
       yes: 'Yes'
   edit_crop: Edit crop
+  first_steps:
+    intro: Record what you have growing in your garden, or have a look at our suggestions for what grows in your climate.
+    log_planting: Record a planting in my garden
+    see_suggestions: See suggestions →
+    title: Welcome to Growstuff, %{name}.
   flash:
     photo_associations:
       destroy:
@@ -1136,6 +1152,7 @@ en:
     planted_out:
       after: The %{crop} planting went outdoors on %{planted}, %{days} after the usual last frost (%{usual_end}).
       before: The %{crop} planting went outdoors on %{planted}, %{days} before the usual last frost (%{usual_end}).
+    show_details: Show the dates and details
     timeline:
       annotation_out_after: Went outdoors %{days} after the usual last frost
       annotation_out_before: Went outdoors %{days} before the usual last frost
@@ -1189,7 +1206,8 @@ en:
         title: We can't say what frost it met
       in_season:
         body: The usual last frost is %{usual_end}, in %{days}. It has come as late as %{latest}.
-        title: In the usual frost danger
+        title: Planting is in frost danger
+        title_place: In the usual frost danger
       late_possible:
         body: It has come as late as %{latest}, %{days} from now. Keep an eye on the forecast.
         title: Past the usual last frost, but it can still come
@@ -1264,7 +1282,7 @@ en:
       owner: Owner
       you: "(you)"
     actions:
-      add_photo: Add photo from Flickr
+      add_photo: Add photo
       make_nursery: Make this a nursery
       new_job: New job
     archived_jobs:
@@ -1569,7 +1587,7 @@ en:
       do_it: Do it
       done: Done
       easy_to_sow: Easy to sow in %{month} near you
-      first_plant: Let's get your first plant in. It takes about a minute.
+      first_plant: Let's get your first plant in. Pick a crop from the suggestions, or log what is already in your garden. It takes about a minute.
       first_year: Your first year
       following: following
       friends: My friends & neighbours
@@ -1648,7 +1666,9 @@ en:
       step_photo_note: Optional, but it makes your garden yours
       step_plant: Add your first plant
       step_plant_button: Plant something
-      step_plant_note: Pick from what suits this month
+      step_job: Or plan a job
+      step_job_note: Something you want to do in the garden, like sowing, watering or pruning
+      step_plant_note: Pick from the suggestions below, or log what is already in your garden
       stop_suggesting: Stop suggesting
       suggestions_off: Crop suggestions are off.
       this_week: This week
@@ -1745,15 +1765,6 @@ en:
           note: compared with usual
           title: How wet this year has been
       ready:
-        air:
-          a_little_cooler: A little cooler than usual
-          a_little_warmer: A little warmer than usual
-          close: Close to usual this year
-          cooler: Cooler than usual
-          note_above: "%{difference} °C above the usual this year"
-          note_below: "%{difference} °C below the usual this year"
-          note_close: "%{difference} °C from the usual this year"
-          warmer: Warmer than usual
         frost:
           before_season: Usual frost danger starts %{date}
           in_season: Usual frost danger ends %{date}
@@ -1765,6 +1776,15 @@ en:
           drier: Drier than usual this year
           note: "%{percent}% of the usual by this date"
           wetter: Wetter than usual this year
+        recent_air:
+          a_little_cooler: A little cooler than usual lately
+          a_little_warmer: A little warmer than usual lately
+          close: Close to usual lately
+          cooler: Cooler than usual lately
+          note_above: "%{difference} °C above the usual over the last 30 days"
+          note_below: "%{difference} °C below the usual over the last 30 days"
+          note_close: "%{difference} °C from the usual over the last 30 days"
+          warmer: Warmer than usual lately
       see: See your place
       title: Weather at your place
     why_join:
@@ -2100,15 +2120,26 @@ en:
     profile_picture: Profile picture
     avatar_help_html: To change your profile picture, visit %{link}.
     provider_logo: "%{provider} logo"
-    connected_html: You are connected to %{provider} as %{account}
+    connected_as_html: Connected as %{account}
     disconnect: Disconnect
     disconnect_confirm: Are you sure you want to remove this connection?
     connect_provider: Connect to %{provider}
-    mastodon_accounts: 'Connected Mastodon accounts:'
-    mastodon_help: Connect your Mastodon account to sign in with it and show it on your profile.
-    mastodon_address: Your Mastodon address
-    connect_another: Connect another account
+    fedi_heading: Mastodon and Fediverse accounts
+    fedi_use: Mastodon, Pixelfed and other Fedi accounts are used for both signing in and adding photos.
+    flickr_use: Flickr is used only for adding photos.
+    bluesky_use: Bluesky is used only for signing in.
+    fedi_add: Add Mastodon, Fedi or Pixelfed
+    fedi_connect:
+      title: Add a Fedi account
+      label: Server address
+      placeholder: mastodon.social
+      hint: The address of the server your account is on, such as mastodon.social. You'll log in there, so we don't need your username. We only ask who you are. We can't post for you.
+      submit: Connect
+      busy: Contacting your server, one moment…
+    api_heading: API token access
     api_token: Your API token is
+    copy: Copy
+    copied: Copied
     regenerate: Regenerate
     regenerate_confirm: Are you sure? Your old token will stop working immediately.
     delete_token: Delete API Token
@@ -2357,7 +2388,7 @@ en:
     follow_error: Already following or error while following.
     followed: Followed %{name}
     invalid_location: Please enter a valid location
-    mastodon_instance_invalid: We couldn't connect to that Mastodon server. Check the address, which looks like you@mastodon.social, and try again.
+    mastodon_instance_invalid: We couldn't connect to that Mastodon server. Check the server address, which looks like mastodon.social, and try again.
     mastodon_needs_account: We don't know that Mastodon account yet. Join Growstuff or sign in, then connect Mastodon from your account settings.
     location_cleared: Location removed.
     location_unplaced_html: We can't find "%{location}" on the map. <a href="%{link}">Choose your location from the list</a> so we can show you what's growing near you.
@@ -3639,6 +3670,15 @@ en:
       community_guidelines: Community Guidelines
       copyright_infringement_policy: Copyright Infringement Policy
   observations:
+    compass:
+      east: east
+      north: north
+      north_east: north-east
+      north_west: north-west
+      south: south
+      south_east: south-east
+      south_west: south-west
+      west: west
     kinds:
       disease_observed: Disease observed
       flowering: Flowering
@@ -3646,10 +3686,41 @@ en:
       germination: Germination
       other: Other
       wilting: Wilting
+    wind:
+      from: from the %{direction}
+      gusts: Gusts up to %{speed} km/h
+      temperature: "%{low} to %{high} °C that day"
   photo_associations:
     update:
       updated: Photo updated.
   photos:
+    import_picker:
+      source: Photo source
+      flickr: Flickr
+      mastodon: Mastodon
+      account: Mastodon account
+      connect: Connect a Mastodon account
+      connect_hint: Connect your account in settings, then return here to choose a photo.
+      public_only: Only your public images without content warnings are shown. Boosts, private posts, videos and audio are not imported.
+      hosted: The image stays on your Mastodon server. Growstuff displays it and links back to your post.
+      license_consent: I license this image as Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0).
+      license_hint: Confirm that you own this image and can grant this licence. Others may share and adapt it, including commercially, with attribution and the same licence.
+      license_link: Read the CC BY-SA 4.0 licence
+      license_needed: Tick the licence box above, then you can add this photo.
+      license_required: You must agree to license this image as CC BY-SA 4.0 before importing it.
+      invalid_photo: This image is not an eligible public photo from your linked account.
+      unavailable: The Mastodon server could not be reached or does not allow public API access. Please try again later.
+      untitled: Untitled photo
+      more: Load more
+      recent: Recent photos
+      add: Add photo
+      card_hint: 'Photos come from your Flickr or Mastodon account. This photo stands for your post wherever it appears as a card: the posts list, your page and links shared elsewhere.'
+      card_empty: Add a photo to this post first, then you can choose it here.
+      pick_different: Pick a different photo
+      back: Back
+      tag: Hashtag
+      search: Search
+      empty: No eligible photos found on this page.
     by_html: "by %{photographer}"
     description:
       activity_html: "took a photo %{photo}"
@@ -3677,11 +3748,11 @@ en:
       album: Choose a photo album
       tag: or search by tag
       search: Search
-      connect_required: You must connect your account to Flickr to add photos.
+      connect_required: Connect your Flickr account to choose photos from Flickr.
       connect: Connect to Flickr
     actions:
       delete: Delete photo from Growstuff
-      delete_confirm: Delete this photo from Growstuff altogether? It is taken off everything it is attached to. It stays on Flickr.
+      delete_confirm: Delete this photo from Growstuff altogether? It is taken off everything it is attached to. It stays on its original hosting service.
       refresh: Refresh photo data from Flickr
       unlink:
         crop: "Remove from the crop: %{name}"
@@ -4079,14 +4150,68 @@ en:
       which_garden: Which garden is it going in?
     plant_something: Plant something
     observations:
-      add: add
+      actions: Actions
+      add: Log observation
+      add_harvest: harvest
       day: Day %{count}
-      delete: Delete observation
       destroy:
         deleted: Observation deleted.
-      edit: Edit observation
-      logged_by: "%{author} noticed"
-      planted: Planted
+      frost_passed:
+        note: In 9 years out of 10 the last frost here has come by this day.
+        title: Frost danger passed
+      harvest:
+        edit: Edit harvest
+        harvested: Harvested
+      idea: Seen it flowering, wilting or with a disease? Log it to keep a record.
+      idea_go: Log it
+      job:
+        done: Job done
+      observation:
+        edit: Edit observation
+        logged_by: "%{author} noticed"
+      planted:
+        from_packet_html: From %{packet}.
+        in: Started in %{garden}.
+        in_nursery: Sown in the nursery.
+        packet_link: a seed packet we've recorded
+        started_as: "Started as: %{kind}."
+        title: Planted
+      transplanted:
+        note_html: Moved from the nursery into %{garden}.
+        title: Transplanted
+      weather:
+        damaging_wind:
+          title:
+            one: Damaging wind
+            other: Damaging wind for %{count} days in a row
+        extreme_heat:
+          note: A high of %{degrees} °C.
+          title:
+            one: Extreme heat
+            other: Extreme heat for %{count} days in a row
+        first_snow:
+          note: "%{amount} cm of snow fell."
+          title: First snow of the winter
+        frost:
+          note: Overnight temperature fell to %{degrees} °C
+          title:
+            one: Frost detected
+            other: Frost detected for %{count} nights in a row
+        heavy_rain:
+          note: "%{amount} mm of rain in a day."
+          title:
+            one: Heavy rain
+            other: Heavy rain for %{count} days in a row
+        killing_cold:
+          note: Down to %{degrees} °C, at or below the %{limit} °C that kills %{crop}.
+          title:
+            one: Too cold
+            other: Too cold for %{count} days in a row
+        killing_heat:
+          note: Up to %{degrees} °C, above the %{limit} °C that %{crop} takes.
+          title:
+            one: Too hot
+            other: Too hot for %{count} days in a row
     origin:
       change: change
       crop_changed: This planting is now %{crop}, to match your packet. It was %{was}.
@@ -4193,29 +4318,27 @@ en:
       harvest_months: Harvest months
       harvest_months_legend: Highlighted months are when this crop is usually harvested here.
       harvest_months_unknown: No harvest months for this crop at this latitude yet.
-      harvests: Harvests
       heading: "%{crop} planting"
+      in_nursery: This is a seedling, still in the nursery.
       jobs: Jobs
       jobs_current: Planned
-      jobs_finished: Finished
       meta_description: "%{crop} planted by %{owner} in %{garden}."
       more_photos: More photos
       neighbours: World neighbours
       neighbours_explanation: Other %{crop} plantings at the same latitude.
-      no_harvests: No harvests recorded yet.
       no_harvests_prompt: 'Record your harvests here to improve crop predictions, and you''ll be able to compare with your garden next season.
 
         '
       no_jobs: Nothing is planned here.
-      no_observations: Nothing noticed yet. Note when it flowers, fruits, wilts or falls ill.
       no_photos: No photos yet.
-      no_photos_prompt: Photos come from your Flickr account. Add one to track how this planting grows.
+      no_photos_prompt: Photos come from your Flickr or Mastodon account. Add one to track how this planting grows.
       no_seeds: No seeds saved yet.
       no_seeds_prompt: Save seeds from this planting to sow next season, or to trade with other members.
       notes: Notes
-      observations: Observations
       photos: Photos
       seeds_saved: Seeds saved
+      show_details: Show the dates and details
+      timeline: Timeline
       title: "%{crop} planting by %{owner}"
       view_all_plantings: All of %{owner}'s plantings
       weather: Weather
@@ -4269,6 +4392,7 @@ en:
       weather_note_past_survives: From %{from} to %{to}, the weather stayed within the range %{crop} grows in.
       weather_now_rain: 'Latest, %{date}: %{rain}'
       weather_now_temperature: 'Latest, %{date}: %{high} / %{low}'
+      weather_nursery: We don't show weather for plants that are still in the nursery.
       weather_optimal_range: Grows best %{range}
       weather_pending: We're fetching and calculating the weather history for this planting. It's collected overnight and runs about five days behind, so the first days of a new planting appear a few days after it's planted.
       weather_rain: Rain
@@ -4300,8 +4424,6 @@ en:
       submit: Transplant
       title: Transplant %{crop}
     descendants:
-      add: add
-    harvests:
       add: add
     photos:
       add: add
@@ -4364,13 +4486,13 @@ en:
       editor_instructions_html: Use the buttons above to format your text. Type <strong>@</strong> to link to a crop, a member or one of your plantings. For anything else, the <strong>Markdown</strong> tab shows the raw text.
       forum_notice_html: "This post will be posted in the forum %{forum}"
       photos: Photos
-      photo_instructions_html: Use <strong>+ Flickr photo</strong> in the toolbar to put a photo in your post. Its card photo and photos appear here when you next open the draft.
+      photo_instructions_html: Use <strong>+ Add photo</strong> in the toolbar to put a photo in your post. Its card photo and photos appear here when you next open the draft.
       card_photo: Card photo
       card_photo_help: Shown on the posts list, your page and shared links.
       card_photo_empty: Add a photo, then choose which one stands for this post.
       photos_in_post: Photos in this post
-      pick_from_flickr: pick from flickr
-      flickr_photos: These are photos from your Flickr account.
+      pick_from_flickr: choose a photo
+      flickr_photos: These photos are hosted on your Flickr or Mastodon server.
       autosave_help: Saved automatically as you work. Close this page and pick it up later from your posts.
       discard_draft: Discard draft
       confirm_discard: Are you sure?
@@ -4672,6 +4794,10 @@ en:
       heading: The packet
       save: Save
       set_location: Set Location
+      short_code: Short code
+      short_code_description: for your seed packet
+      short_code_help: Write this code on your seed packet, and you can find this exact packet here later, even in a large collection. If you give seeds or seedlings to someone else, write it on theirs too, so you can keep track of where they went.
+      short_code_help_label: What is the short code for?
       unknown: Unknown
       will_trade: Will trade
       year_saved: Year saved

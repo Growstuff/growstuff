@@ -6,7 +6,11 @@ describe 'Weather on a planting', flipper: :planting_weather do
   let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78, location: 'Wellington, New Zealand') } } # rubocop:disable Rails/SkipsModelValidations
   let(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: Date.new(2026, 10, 1)) }
 
-  before { visit planting_path(planting) }
+  # The charts, figures and credit are behind "show the dates and details".
+  before do
+    visit planting_path(planting)
+    all('#weather summary').first&.click
+  end
 
   context 'with readings for the garden' do
     let(:planting) do
@@ -154,6 +158,7 @@ describe 'Weather on a planting', flipper: :planting_weather do
     end
 
     it { expect(page).to have_no_css '#weather' }
+    it { expect(page).to have_css '.planting-weather .weather-nursery-note' }
   end
 
   context 'when a nursery has no location and the viewer owns it' do

@@ -207,4 +207,31 @@ describe SeedsHelper do
       it { expect(props[:crop]).to eq(name: 'tomato', slug: 'tomato') }
     end
   end
+
+  describe '#seed_code_visible?', flipper: :planting_codes do
+    let(:seed) { create(:seed, short_code: 'T2B3') }
+
+    context 'when the owner is signed in' do
+      before { allow(helper).to receive(:current_member).and_return(seed.owner) }
+
+      it { expect(helper.seed_code_visible?(seed)).to be true }
+
+      it 'is false for a packet without a code' do
+        seed.update_column(:short_code, nil) # rubocop:disable Rails/SkipsModelValidations
+        expect(helper.seed_code_visible?(seed)).to be false
+      end
+    end
+
+    context 'when another member is signed in' do
+      before { allow(helper).to receive(:current_member).and_return(create(:member)) }
+
+      it { expect(helper.seed_code_visible?(seed)).to be false }
+    end
+
+    context 'when nobody is signed in' do
+      before { allow(helper).to receive(:current_member).and_return(nil) }
+
+      it { expect(helper.seed_code_visible?(seed)).to be false }
+    end
+  end
 end

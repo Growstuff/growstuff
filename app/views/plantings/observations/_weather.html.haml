@@ -1,0 +1,8 @@
+-# A run of days of weather worth noting, from the weather and the crop's EcoCrop figures: not something to edit.
+- weather = weather_entry(entry.type, entry.record, planting)
+%li.observation{ class: weather[:classes] }
+  %span.observation-icon= icon 'fas', weather[:icon]
+  = timeline_when(entry.at, planting)
+  .observation-body
+    %strong.observation-kind= weather[:title]
+    %p.observation-note.mb-0= weather[:note]

@@ -35,7 +35,16 @@ describe "gardens/show" do
     end
 
     it 'lists the actions in the order the design has them' do
-      expect(rendered).to match(/Edit.*Add photo from Flickr.*Plant something here.*New job.*Make this a nursery.*Mark as inactive/m)
+      actions = Nokogiri::HTML(rendered).css('.garden-actions .dropdown-menu > a.dropdown-item').pluck('href')
+
+      expect(actions.first(6)).to eq([
+        edit_garden_path(@garden),
+        view.new_photo_path_for(@garden),
+        new_planting_path(garden_id: @garden.id),
+        new_job_path(garden_id: @garden.id),
+        make_nursery_garden_path(@garden),
+        garden_path(@garden, garden: { active: 0 })
+      ])
     end
 
     it 'leaves out the sign-up banner' do

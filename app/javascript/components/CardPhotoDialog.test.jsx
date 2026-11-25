@@ -10,7 +10,8 @@ const photos = [
   {id: 2, title: 'Drying on a plate', thumbnail_url: '/plate-thumb.jpg', fullsize_url: '/plate.jpg'},
 ];
 
-const props = {url: '/posts/7', photos, subject: 'Saving tomato seed', excerpt: 'The tomatoes', byline: 'by brenda'};
+const photoLabels = {card_hint: 'Hosted photos', card_empty: 'Add a photo first', pick_different: 'Another photo'};
+const props = {url: '/posts/7', photos, subject: 'Saving tomato seed', excerpt: 'The tomatoes', byline: 'by brenda', photoLabels};
 
 async function openDialog(extra = {}) {
   const user = userEvent.setup();
@@ -65,7 +66,7 @@ describe('CardPhotoDialog', () => {
 
   it('asks for a photo first when the post has none', async () => {
     await openDialog({photos: []});
-    expect(screen.getByText(/Pick a photo from Flickr for this post first/)).toBeInTheDocument();
+    expect(screen.getByText(photoLabels.card_empty)).toBeInTheDocument();
   });
 
   it('closes on Cancel', async () => {
@@ -75,17 +76,17 @@ describe('CardPhotoDialog', () => {
   });
   it('says where the photos come from', async () => {
     await openDialog();
-    expect(screen.getByText(/Photos come from your Flickr account/)).toBeInTheDocument();
+    expect(screen.getByText(photoLabels.card_hint)).toBeInTheDocument();
   });
 
   it('links to the page photo dialog for another photo', async () => {
     await openDialog({addPhotoUrl: '/photos/new?id=7&type=post'});
-    expect(screen.getByRole('link', {name: 'Pick a different photo from Flickr'})).toHaveAttribute('data-photo-dialog');
+    expect(screen.getByRole('link', {name: photoLabels.pick_different})).toHaveAttribute('data-photo-dialog');
   });
 
   it('offers no other photo link without an address', async () => {
     await openDialog();
-    expect(screen.queryByRole('link', {name: /Flickr/})).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', {name: photoLabels.pick_different})).not.toBeInTheDocument();
   });
 
   it('tags the chosen photo as selected', async () => {

@@ -101,6 +101,16 @@ class PlantingFrost < FrostSeason
     nights.count { |temp| temp <= THRESHOLD_C }
   end
 
+  # The day frost danger ended for the planting, the latest it has come in its place that season, or nil when that is
+  # not a day of its life that has come: before it went in, after it ended, or still ahead. Nil too for a place with no
+  # frost danger season.
+  def danger_passed_on
+    return unless @stat.dated?
+
+    day = possible.last
+    day if day.between?(start_on, [age_end, today].min)
+  end
+
   # The planting on the timeline: its days somewhere safe from frost, if it began in one, then the planting outdoors.
   def planting_bands
     bands = [safe_band, *stay_bands]
@@ -167,10 +177,13 @@ class PlantingFrost < FrostSeason
 
   # The minimum temperatures of the planting's nights while frost danger was possible.
   def nights
-    @nights ||= @readings.filter_map do |reading|
-      next unless reading.temp_min_c && reading.date.between?(start_on, lived_until) && reading.date.between?(possible.first, possible.last)
+    @nights ||= night_readings.map(&:temp_min_c)
+  end
 
-      reading.temp_min_c
+  # The readings of the planting's nights while frost danger was possible.
+  def night_readings
+    @night_readings ||= @readings.select do |reading|
+      reading.temp_min_c && reading.date.between?(start_on, lived_until) && reading.date.between?(possible.first, possible.last)
     end
   end
 end

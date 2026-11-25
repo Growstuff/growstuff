@@ -7,7 +7,8 @@
 # Current weather comes first, for every cell. Whatever is left of the run's call budget then goes on
 # history, a year at a time, working backwards. Each planting contributes its own stretch of dates and
 # only stretches that overlap are joined, so an old planting and a new one in the same cell don't pay
-# for the years between them.
+# for the years between them. Once the weather is in, what it did in each place (PlaceCondition) and the killing days of each
+# planting (PlantingCondition) are worked out.
 class WeatherUpdater
   include OpenMeteoBudget
 
@@ -24,7 +25,9 @@ class WeatherUpdater
   def update_all
     cells = cells_by_busiest
     say "#{cells.size} places with plantings to follow, the busiest first"
-    cells.sum { |cell| fetch_current(cell) } + backfill(cells)
+    saved = cells.sum { |cell| fetch_current(cell) } + backfill(cells)
+    refresh_conditions(cells)
+    saved
   end
 
   private
@@ -38,6 +41,13 @@ class WeatherUpdater
   # See Planting.weather_tracked. Nurseries are left out: seedlings there have no climate to show.
   def plantings
     Planting.weather_tracked(@today).includes(:garden, crop: :parent)
+  end
+
+  # What the weather did in each place we follow (once for the place), and the days each planting went through what its crop
+  # can't take, from the weather we now hold, for the planting page to list.
+  def refresh_conditions(cells)
+    cells.each { |cell| PlaceCondition.refresh(cell.latitude, cell.longitude) }
+    plantings.find_each { |planting| PlantingCondition.refresh(planting) }
   end
 
   def build_cell(latitude, longitude, grouped)

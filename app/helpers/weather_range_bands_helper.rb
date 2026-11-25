@@ -142,7 +142,7 @@ module WeatherRangeBandsHelper
 
   # What the note says about the days: how many were in the best range, and which went too hot or too cold.
   def weather_period_detail(period, days, ranges, figures, crop)
-    span = { from: l(days.first.date, format: :short), to: l(days.last.date, format: :short) }
+    span = { from: month_day_text(days.first.date), to: month_day_text(days.last.date) }
     problems = weather_period_problems(figures, ranges[:absolute])
     sentences = []
     if ranges[:optimal]

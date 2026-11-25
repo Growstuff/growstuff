@@ -39,6 +39,8 @@ class Planting < ApplicationRecord
   has_many :harvests, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :observations, dependent: :destroy
+  # What it went through, from its weather: see PlantingCondition.
+  has_many :conditions, class_name: 'PlantingCondition', dependent: :delete_all, inverse_of: :planting
   # One per individual plant, for placing on the garden's layout grid. Made the
   # first time the garden's layout is used (Garden#prepare_layout), not for every
   # planting, as most plantings never go on a layout.
@@ -232,7 +234,7 @@ class Planting < ApplicationRecord
       end
 
       result = dup
-      result.assign_attributes(quantity: amount.to_i, source_planting: self, slug: nil, harvests_count: 0)
+      result.assign_attributes(quantity: amount.to_i, source_planting: self, slug: nil, short_code: nil, harvests_count: 0)
       histories.each do |history|
         result.histories.build(history.attributes.except('id', 'planting_id', 'created_at', 'updated_at'))
       end
@@ -344,17 +346,9 @@ class Planting < ApplicationRecord
   # for the same days a year earlier, moved forward a year. A prediction, not an observation. `after` is the
   # newest day already observed, when the caller has it, and `through` the last day to expect, by default the day it is due.
   def expected_weather_readings(after: weather_readings.maximum(:date), through: weather_due_on)
-    return [] if finished? || failed? || abandoned? || through.nil? || !weather_located?
+    return [] if abandoned?
 
-    from = (after || (weather_first_day - 1)) + 1
-    return [] if from > through
-
-    weather_cell_readings.select(*WeatherReading::CHARTED).between(from.prev_year, through.prev_year).order(:date).map do |reading|
-      reading.tap do
-        reading.date = reading.date.next_year
-        reading.readonly!
-      end
-    end
+    projected_weather_readings(after:, through:)
   end
 
   def nearby_same_crop
@@ -382,6 +376,23 @@ class Planting < ApplicationRecord
   end
 
   private
+
+  # The weather of the same days a year earlier, moved forward a year, for the days after `after` through `through`. It
+  # doesn't ask whether the planting is abandoned, as that depends on when it is due, which depends on its predicted finish,
+  # which depends on the heat these readings give.
+  def projected_weather_readings(after:, through:)
+    return [] if finished? || failed? || through.nil? || !weather_located?
+
+    from = (after || (weather_first_day - 1)) + 1
+    return [] if from > through
+
+    weather_cell_readings.select(*WeatherReading::CHARTED).between(from.prev_year, through.prev_year).order(:date).map do |reading|
+      reading.tap do
+        reading.date = reading.date.next_year
+        reading.readonly!
+      end
+    end
+  end
 
   # How many days the planting is expected to last, for working out when it is due.
   def weather_horizon_days

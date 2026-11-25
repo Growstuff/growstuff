@@ -171,7 +171,7 @@ class MemberDashboard
   end
 
   # The crops gardeners within NEARBY_KM of the member plant in any of the months, in any year, most planted first, leaving
-  # out what the member is growing or has said is not for them. For a season's months.
+  # out what the member is growing or has said is not for them. For a season's months. Without a limit it gives all it holds.
   def sowing_in(months, limit = 12)
     return [] unless suggestions_enabled? && located?
 
@@ -264,7 +264,8 @@ class MemberDashboard
     ids = candidates.pluck(:crop_id) - dismissed_crop_ids
     ids -= growing.map(&:crop_id) if leave_out_growing
     crops = Crop.approved.where(id: ids).index_by(&:id)
-    ids.filter_map { |id| crops[id] }.first(limit)
+    found = ids.filter_map { |id| crops[id] }
+    limit ? found.first(limit) : found
   end
 
   def year_range(years_back)

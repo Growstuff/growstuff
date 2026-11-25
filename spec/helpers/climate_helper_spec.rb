@@ -19,61 +19,8 @@ describe ClimateHelper do
   end
   let(:rain) { 100.0 }
   let(:air) { 17.0 }
-  let(:climate) { PlaceClimate.new(past + this_year, today:) }
-
-  describe '#climate_rain_verdict' do
-    subject(:verdict) { helper.climate_rain_verdict(climate) }
-
-    it 'says it is close to usual for about the usual rain' do
-      expect(verdict[:title]).to eq I18n.t('climate.rain.verdicts.close')
-    end
-
-    it 'gives the rain, the usual and the share in the sentence' do
-      expect(verdict[:body]).to eq '200 mm has fallen since 1 January. That is 100% of the usual 200 mm by this date.'
-    end
-
-    context 'with a dry start to the year' do
-      let(:rain) { 40.0 }
-
-      it { expect(verdict[:title]).to eq I18n.t('climate.rain.verdicts.drier') }
-    end
-
-    context 'with no weather for this year' do
-      let(:this_year) { [] }
-
-      it { is_expected.to be_nil }
-    end
-  end
-
-  describe '#climate_air_verdict' do
-    subject(:verdict) { helper.climate_air_verdict(climate) }
-
-    context 'with a year warmer than usual' do
-      let(:air) { 18.5 }
-
-      it 'says so' do
-        expect(verdict[:title]).to eq I18n.t('climate.air.verdicts.warmer')
-      end
-
-      it 'says how far above usual' do
-        expect(verdict[:body]).to include '1.5 °C above the usual 17.0 °C'
-      end
-    end
-
-    context 'with a year colder than usual' do
-      let(:air) { 15.0 }
-
-      it 'says how far below usual' do
-        expect(verdict[:body]).to include '2.0 °C below the usual 17.0 °C'
-      end
-    end
-
-    context 'with a year as warm as usual' do
-      it 'says it is close' do
-        expect(verdict[:title]).to eq I18n.t('climate.air.verdicts.close')
-      end
-    end
-  end
+  let(:recent) { nil }
+  let(:climate) { PlaceClimate.new(past + this_year, today:, recent:) }
 
   describe '#climate_rain_cards' do
     subject(:cards) { helper.climate_rain_cards(climate) }

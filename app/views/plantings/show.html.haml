@@ -31,6 +31,12 @@
     - @planting.transplanted_plantings.each do |child|
       = link_to child, child
 
+-# Anyone who opens a seedling that is still in the nursery is told so, as it has no weather or frost of its own to show.
+- if @planting.in_nursery?
+  .alert.alert-info.planting-nursery-note{ role: 'status' }
+    = icon 'fas', 'seedling'
+    = t('plantings.show.in_nursery')
+
 .planting-show.record-page
   .row
     .col-md-8.col-12
@@ -94,6 +100,8 @@
               = render 'plantings/weather', planting: @planting, readings: @weather, expected: @expected_weather
             - when :needs_location
               = render 'plantings/weather_location_prompt', garden: @planting.garden
+            - when :nursery
+              %p.weather-nursery-note.small.text-muted.mb-0= t('plantings.show.weather_nursery')
             - when :pending
               .card.weather-pending
                 .card-body.text-center
@@ -110,12 +118,9 @@
 
         %section#photos= render 'plantings/photos', photos: @photos, planting: @planting
 
-        %section#observations.observations= render 'plantings/observations', planting: @planting, observations: @observations
+        %section#observations.observations= render 'plantings/observations', planting: @planting, observations: @observations, conditions: @conditions.to_a, harvests: @harvests.to_a, jobs: @finished_jobs.to_a, frost_passed_on: @frost&.danger_passed_on, histories: @planting.histories.includes(:garden).to_a
 
         = render 'frost/section', frost: @frost if @frost
-
-        %section#harvests.harvests
-          = render 'plantings/harvests', planting: @planting, harvests: @harvests
 
         %section#seeds.descendants
           = render 'plantings/descendants', planting: @planting, child_seeds: @child_seeds
@@ -139,11 +144,6 @@
                 = render "jobs/card", job: job
           - else
             %p.text-muted.mb-0= t('plantings.show.no_jobs')
-          - if @finished_jobs&.size&.positive?
-            %h3= t('plantings.show.jobs_finished')
-            .index-cards
-              - @finished_jobs.each do |job|
-                = render "jobs/card", job: job
 
         %section#comments.comments
           = render "comments/comments", commentable: @planting

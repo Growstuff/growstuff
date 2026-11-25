@@ -31,7 +31,7 @@ function ToolButton({label, active, onClick, children, ...rest}) {
   );
 }
 
-function Toolbar({editor, onAddPhoto}) {
+function Toolbar({editor, onAddPhoto, addPhotoLabel}) {
   const state = useEditorState({
     editor,
     selector: ({editor: e}) => ({
@@ -90,7 +90,7 @@ function Toolbar({editor, onAddPhoto}) {
         ❝ Quote
       </ToolButton>
       {onAddPhoto && (
-        <ToolButton label="Flickr photo" onClick={onAddPhoto}>+ Flickr photo</ToolButton>
+        <ToolButton label={addPhotoLabel} onClick={onAddPhoto}>+ {addPhotoLabel}</ToolButton>
       )}
       {/* Typing @ opens the list of things to link to, so this just types it. */}
       <ToolButton label="Link to…" onClick={() => editor.chain().focus().insertContent('@').run()}>
@@ -115,14 +115,14 @@ function suggestionState(props) {
 // written. With `previewUrl` a Preview tab shows the body as the site will
 // render it.
 //
-// With `canAddPhoto`, the toolbar picks a Flickr photo for the post and places
+// With `canAddPhoto`, the toolbar picks a hosted photo for the post and places
 // it in the text. `photos` are the post's photos so far ({id, title,
 // thumbnail_url, fullsize_url}), `postPath` is where an existing post lives
 // (a draft not yet saved has none: it is saved first), and `cardPhotoId` is the
 // photo that stands for the post.
 export default function PostEditor({
   name, value = '', id = 'post_body', autosave = null, previewUrl = null,
-  canAddPhoto = false, photos = [], postPath = null, cardPhotoId = null,
+  canAddPhoto = false, photos = [], postPath = null, cardPhotoId = null, addPhotoLabel = 'Add photo',
 }) {
   const [markdown, setMarkdown] = useState(value);
   const [tab, setTab] = useState('write');
@@ -264,7 +264,7 @@ export default function PostEditor({
       <div className="post-editor-panel">
         {tab === 'write' && editor && (
           <>
-            <Toolbar editor={editor} onAddPhoto={canAddPhoto ? openPhotoPicker : null} />
+            <Toolbar editor={editor} onAddPhoto={canAddPhoto ? openPhotoPicker : null} addPhotoLabel={addPhotoLabel} />
             <EditorContent editor={editor} id={id} />
             {suggest && (
               <LinkSuggestionList

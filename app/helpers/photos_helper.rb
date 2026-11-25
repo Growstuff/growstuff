@@ -206,6 +206,7 @@ module PhotosHelper
       selectedId:    post.card_photo_id,
       addPhotoUrl:   new_photo_path_for(post),
       addPhotoLabel: photo_label(post),
+      photoLabels:   t('photos.import_picker').slice(:card_hint, :card_empty, :pick_different),
       photos:        post_photo_props(post)
     }
   end

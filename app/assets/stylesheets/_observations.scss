@@ -1,4 +1,20 @@
+$observation-frost-tint: #eef5fb;
+$observation-harvest-tint: #fff9e6;
+$observation-heat-tint: #fdf0f2;
+
 // A planting's observations, newest first, down a line with a dot for each.
+.observations .section-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.5rem;
+}
+
+// The prompt to log a first observation: room to breathe above the timeline.
+.observations .notepad-ideas {
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+}
+
 .observation-timeline {
   margin: 0;
   padding-left: 1.5rem;
@@ -8,12 +24,15 @@
     position: relative;
     display: flex;
     gap: 1rem;
-    padding: 0.25rem 0 1rem;
+    // The same room on every row, tinted or not, so the dates, titles and buttons line up down the list.
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
 
     // What was seen, as an icon on the line.
     .observation-icon {
       position: absolute;
-      top: 0;
+      top: 0.5rem;
       left: calc(-1.5rem - 15px);
       display: flex;
       align-items: center;
@@ -29,6 +48,20 @@
 
     &.observation-problem .observation-icon {
       background: $danger-text;
+    }
+
+    // Frost, harvests and days too hot come from the weather and the harvest records, not from the grower's notes, so they
+    // sit on a faint tint of their own: pale blue for frost, pale yellow for a harvest, pale pink for heat.
+    &.observation-frost {
+      background: $observation-frost-tint;
+    }
+
+    &.observation-harvest {
+      background: $observation-harvest-tint;
+    }
+
+    &.observation-hot {
+      background: $observation-heat-tint;
     }
   }
 
@@ -62,10 +95,6 @@
     align-self: flex-start;
     gap: 0.25rem;
     margin-left: auto;
-
-    form {
-      margin: 0;
-    }
 
     // Keep icon controls compact despite mobile.scss's full-width section buttons.
     .btn {

@@ -24,27 +24,18 @@ module ObservationsHelper
       description: observation.description }
   end
 
+  # What the harvest edit dialog starts from.
+  def harvest_edit_data(harvest)
+    { slug: harvest.slug, plant_part_id: harvest.plant_part_id, quantity: harvest.quantity&.to_f, unit: harvest.unit,
+      weight_quantity: harvest.weight_quantity&.to_f, weight_unit: harvest.weight_unit,
+      harvested_at: (harvest.harvested_at || harvest.created_at.to_date).iso8601, description: harvest.description }
+  end
+
   def observation_icon_name(kind)
     ICONS.fetch(kind, 'circle-question')
   end
 
   def observation_kind_label(kind)
     t("observations.kinds.#{kind || 'other'}")
-  end
-
-  # What the timeline lists, newest first, as [when, observation]: the observations, and the planting itself, which
-  # has no observation, on the day it went in.
-  def observation_timeline(planting, observations)
-    entries = observations.map { |observation| [observation.observed_at, observation] }
-    entries << [planting.planted_at.in_time_zone, nil] if planting.planted_at.present?
-    entries.sort_by(&:first).reverse
-  end
-
-  # How many days into the planting it was noticed, if we know when it was planted.
-  def observation_day(observation, planting)
-    return if planting.planted_at.blank?
-
-    days = (observation.observed_at.to_date - planting.planted_at).to_i
-    days if days >= 0
   end
 end

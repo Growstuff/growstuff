@@ -155,6 +155,37 @@ metadata URL itself, so it only works through a public HTTPS tunnel such as
 If it fails, the generic message hides the reason; look for
 `(bluesky) Authentication failure!` in the server output.
 
+### Sign in with GitHub
+
+1. Register a GitHub **OAuth App** under Settings → Developer settings → OAuth Apps.
+2. Set its authorization callback URL to `https://your-growstuff-host/members/auth/github/callback`
+   (or `http://localhost:3000/members/auth/github/callback` for local development).
+3. Set `GROWSTUFF_GITHUB_CLIENT_ID` and `GROWSTUFF_GITHUB_CLIENT_SECRET` in the
+    environment or your local `.env`, then restart the app. Never commit the secret.
+
+   With Docker Compose, put these settings in the project-root `.env` or export
+   them in your shell, then recreate the web container with
+   `docker compose up -d web`. Compose forwards both settings to the container;
+   `docker compose restart` alone does not apply changed environment settings.
+
+GitHub sign-in is hidden unless both settings are present. Use a separate OAuth
+App for each environment. GitHub provides your public identity for sign-in; we
+do not store GitHub access tokens or request repository access. After signing up,
+Growstuff asks you to add an optional email address for notifications and planting
+reminders, rather than importing an address from GitHub.
+Existing members should connect GitHub from **Settings → Apps** before using it
+to sign in; accounts are not automatically matched by public GitHub email.
+
+If the option is missing, check configuration inside the running app without
+printing credentials:
+
+```bash
+bundle exec rails runner 'puts "GitHub sign-in enabled: #{OmniAuth::Strategies::GrowstuffGithub.enabled?}"'
+```
+
+For Docker Compose, prefix that command with `docker compose exec web`. A `false`
+result means at least one credential is missing or blank in the app's environment.
+
 ### For Home Automation enthusiasts
 
 https://github.com/Growstuff/homeassistant-growstuff/
@@ -185,4 +216,3 @@ Feel free to comment on any of the issues on [Github](https://github.com/Growstu
 For more information about this project, contact [info@growstuff.org](mailto:info@growstuff.org).
 
 Security Issues: If you find an authorization bypass or data breach, please contact our maintainers directly at [maintainers@growstuff.org](mailto:maintainers@growstuff.org).
-

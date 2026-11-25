@@ -266,7 +266,7 @@ describe 'Signing in with Bluesky' do
       create(:authentication, member:, provider: 'bluesky', uid: did, name: 'alice.bsky.social')
       get edit_member_registration_path
 
-      expect(response.body).to include('You are connected to Bluesky as')
+      expect(response.parsed_body.css('a.remove[data-method=delete][href^="/authentications/"]')).to be_present
     end
   end
 end

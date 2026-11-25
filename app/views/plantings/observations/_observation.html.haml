@@ -1,0 +1,21 @@
+-# What the grower noticed, with a menu to change or remove it for whoever can manage the planting.
+- observation = entry.record
+%li.observation{ class: ('observation-problem' if observation.problem?), id: "observation-#{observation.id}" }
+  %span.observation-icon= observation_icon(observation.kind)
+  = timeline_when(entry.at, planting)
+  .observation-body
+    %strong.observation-kind= observation_kind_label(observation.kind)
+    - if observation.author_id != planting.owner_id
+      %span.text-muted.small= t('.logged_by', author: observation.author.login_name)
+    - if observation.description.present?
+      %p.observation-note.mb-0= observation.description
+  - if can_manage
+    .observation-actions
+      = actions_menu('observation', id: observation.id, label: t('plantings.observations.actions')) do
+        - edit_data = { planting_dialog: 'observation', observation: observation_edit_data(observation) }
+        - edit_path = planting_path(planting, anchor: 'observations')
+        = menu_link_to :edit, t('.edit'), edit_path, class: 'observation-edit', data: edit_data
+        .dropdown-divider
+        = link_to planting_observation_path(planting_slug: planting.slug, id: observation.id), method: :delete,
+          class: 'dropdown-item text-danger observation-delete', data: { confirm: t('are_you_sure') } do
+          = menu_icon(:delete) + t('buttons.delete')

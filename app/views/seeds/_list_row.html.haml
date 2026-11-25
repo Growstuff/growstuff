@@ -9,6 +9,8 @@
         %small.text-muted= t('seeds.ui.packet_count', count: packets.size)
     - else
       %small= link_to (seed.saved_at ? t('seeds.ui.saved_date', date: l(seed.saved_at, format: :short)) : t('seeds.ui.packet')), seed_path(slug: seed.slug)
+      - if seed_code_visible?(seed)
+        %small.text-muted.seed-short-code= seed.short_code
   %td= seed.plant_before&.year
   %td= seed.quantity
   %td= seed.source&.capitalize

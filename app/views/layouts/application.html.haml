@@ -1,8 +1,9 @@
 !!! 5
 %html{ lang: "en", prefix: "og: https://ogp.me/ns#" }
   -# The sign in and sign up dialogs need the islands bundle on every page a
-  -# visitor can see, and a page that already asked for it must not load it twice.
-  - unless member_signed_in? || content_for(:scripts).to_s.include?('react_islands')
+  -# visitor can see, and so does the first steps notice for a new member. A page
+  -# that already asked for it must not load it twice.
+  - unless (member_signed_in? && !first_steps_bar?) || content_for(:scripts).to_s.include?('react_islands')
     - content_for :scripts do
       = javascript_include_tag 'react_islands', defer: true
   = yield :scripts
@@ -28,6 +29,7 @@
           %small= yield(:subtitle)
 
         = render "shared/flash_messages", flash: flash
+        = render 'shared/first_steps' if first_steps_bar?
         %main= yield
 
     -# Every "add photo" link opens its dialog over the page (see PhotoDialog), and

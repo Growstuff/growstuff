@@ -47,7 +47,7 @@ describe WeatherInvitationHelper do
 
   context 'when the rain is wetter than usual' do
     let(:state) { :ready }
-    let(:climate) { instance_double(PlaceClimate, rain_comparison: :wetter, rain_share: 1.17, air_comparison: nil) }
+    let(:climate) { instance_double(PlaceClimate, rain_comparison: :wetter, rain_share: 1.17, air_recent_comparison: nil) }
 
     it 'headlines the rain' do
       expect(cards.second.slice(:title, :note)).to eq(title: 'Wetter than usual this year', note: '117% of the usual by this date')
@@ -56,10 +56,25 @@ describe WeatherInvitationHelper do
 
   context 'when the air is a little warmer than usual' do
     let(:state) { :ready }
-    let(:climate) { instance_double(PlaceClimate, rain_comparison: nil, air_comparison: :a_little_warmer, air_difference: 0.4) }
+    let(:climate) do
+      instance_double(PlaceClimate, rain_comparison: nil, air_recent_comparison: :a_little_warmer, air_recent_difference: 0.4)
+    end
 
     it 'headlines the temperature' do
-      expect(cards.third.slice(:title, :note)).to eq(title: 'A little warmer than usual', note: '0.4 °C above the usual this year')
+      expect(cards.third[:title]).to eq 'A little warmer than usual lately'
+    end
+
+    it 'gives the difference over the last 30 days' do
+      expect(cards.third[:note]).to eq '0.4 °C above the usual over the last 30 days'
+    end
+  end
+
+  context 'when the air is colder than usual' do
+    let(:state) { :ready }
+    let(:climate) { instance_double(PlaceClimate, rain_comparison: nil, air_recent_comparison: :cooler, air_recent_difference: -1.4) }
+
+    it 'gives how far below' do
+      expect(cards.third[:note]).to eq '1.4 °C below the usual over the last 30 days'
     end
   end
 end

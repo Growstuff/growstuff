@@ -557,3 +557,23 @@
     max-width: calc(1320px * 2 / 3 - 1rem);
   }
 }
+
+// Everything behind a section's summary, closed until asked for: the frost and weather sections on a planting or garden.
+.section-details {
+  summary {
+    width: fit-content;
+    color: $brown;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  &[open] summary {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.section-details-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

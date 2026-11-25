@@ -19,6 +19,8 @@ services:
       GROWSTUFF_EMAIL: "noreply@test.growstuff.org"
       GROWSTUFF_FLICKR_KEY: secretkey
       GROWSTUFF_FLICKR_SECRET: secretsecret
+      GROWSTUFF_GITHUB_CLIENT_ID: ${GROWSTUFF_GITHUB_CLIENT_ID:-}
+      GROWSTUFF_GITHUB_CLIENT_SECRET: ${GROWSTUFF_GITHUB_CLIENT_SECRET:-}
       GROWSTUFF_SITE_NAME: "Growstuff (local)"
       RAILS_SECRET_TOKEN: supersecret
       SECRET_KEY_BASE: supersecretbase

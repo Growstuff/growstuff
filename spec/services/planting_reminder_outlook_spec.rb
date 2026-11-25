@@ -11,21 +11,20 @@ describe PlantingReminderOutlook do
   describe '#new_features' do
     before { member.update_columns(created_at: Date.new(2025, 1, 1)) }
 
+    let(:last_feature_on) { NewFeatures::ALL.map(&:added_on).max }
+
     it 'lists what was added since the last reminder' do
       member.update_columns(planting_reminder_sent_at: Date.new(2026, 10, 20))
-      expect(outlook.new_features.map(&:title)).to eq [
-        'Seed library', 'Nursery garden', 'Jobs', 'Weather data', 'Frost danger', 'Optimal climate for plantings',
-        'Link plantings to their seeds', 'Seed packet data', 'Volunteer plantings', 'Growing requirements', 'Gardens safe from frost'
-      ]
+      expect(outlook.new_features).to eq NewFeatures.since(Date.new(2026, 10, 20))
     end
 
     it 'is empty when the last reminder came after every feature' do
-      member.update_columns(planting_reminder_sent_at: Date.new(2026, 11, 10))
+      member.update_columns(planting_reminder_sent_at: last_feature_on)
       expect(outlook.new_features).to eq []
     end
 
     it 'counts from when they joined if they never had a reminder' do
-      member.update_columns(created_at: Date.new(2026, 11, 10))
+      member.update_columns(created_at: last_feature_on)
       expect(outlook.new_features).to eq []
     end
   end
@@ -38,6 +37,9 @@ describe PlantingReminderOutlook do
     it { expect(outlook.recent).to eq [] }
     it { expect(outlook.soil).to be_nil }
     it { expect(outlook.crops).to eq [] }
+    it { expect(outlook.climate).to be_nil }
+    it { is_expected.not_to be_warm_spell }
+    it { is_expected.not_to be_cold_spell }
   end
 
   context 'with a location' do
@@ -83,6 +85,49 @@ describe PlantingReminderOutlook do
       create(:planting, crop:, garden: neighbour, owner: neighbour.owner, planted_at: Date.new(2024, 10, 3))
       allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
       expect(outlook.crops).to eq [crop]
+    end
+
+    describe 'a warm or cold spell' do
+      # Two past years of 10 degrees in every month, and the 30 days to 25 October at the cell the member is in.
+      before do
+        [2024, 2025].each do |year|
+          (1..12).each { |month| create(:climate_month, latitude: -41.25, longitude: 174.75, year:, month:, temp_mean_c: 10.0) }
+        end
+        create(:climate_recent, latitude: -41.25, longitude: 174.75, starts_on: today - 30, ends_on: today - 1, temp_mean_c: recent_mean)
+      end
+
+      context 'with the last 30 days more than a degree above usual' do
+        let(:recent_mean) { 11.1 }
+
+        it { is_expected.to be_warm_spell }
+        it { is_expected.not_to be_cold_spell }
+        it { is_expected.to be_spell }
+      end
+
+      context 'with the last 30 days exactly a degree above usual' do
+        let(:recent_mean) { 11.0 }
+
+        it { is_expected.not_to be_warm_spell }
+      end
+
+      context 'with the last 30 days more than a degree colder than usual' do
+        let(:recent_mean) { 8.9 }
+
+        it { is_expected.to be_cold_spell }
+        it { is_expected.not_to be_warm_spell }
+        it { is_expected.to be_spell }
+      end
+
+      context 'with the last 30 days exactly a degree colder than usual' do
+        let(:recent_mean) { 9.0 }
+
+        it { is_expected.not_to be_cold_spell }
+        it { is_expected.not_to be_spell }
+      end
+    end
+
+    context 'without climate data for the place' do
+      it { is_expected.not_to be_spell }
     end
   end
 end

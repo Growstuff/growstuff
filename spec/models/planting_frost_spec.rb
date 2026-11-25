@@ -21,6 +21,37 @@ describe PlantingFrost do
   let(:today) { Date.new(2026, 11, 7) }
   let(:readings) { [reading.new(Date.new(2026, 8, 20), 3.3), reading.new(Date.new(2026, 9, 10), 6.0)] }
 
+  describe '#danger_passed_on' do
+    it 'is the latest the frost has come that season' do
+      expect(frost.danger_passed_on).to eq Date.new(2026, 10, 1)
+    end
+
+    context 'when it is still ahead' do
+      let(:today) { Date.new(2026, 9, 15) }
+
+      it { expect(frost.danger_passed_on).to be_nil }
+    end
+
+    context 'when the planting finished before it' do
+      let(:finished) { true }
+      let(:ends_on) { Date.new(2026, 9, 1) }
+
+      it { expect(frost.danger_passed_on).to be_nil }
+    end
+
+    context 'when the planting went in after it' do
+      let(:planted_on) { Date.new(2026, 10, 20) }
+
+      it { expect(frost.danger_passed_on).to be_nil }
+    end
+
+    context 'with a place with little frost' do
+      before { stat.assign_attributes(status: 'rare', first_frost_median: nil, last_frost_median: nil) }
+
+      it { expect(frost.danger_passed_on).to be_nil }
+    end
+  end
+
   describe '#verdict' do
     it 'is before the season ahead of the usual first frost' do
       expect(described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on:, finished:, readings:,
