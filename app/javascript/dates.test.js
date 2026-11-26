@@ -28,6 +28,11 @@ describe('formatDate', () => {
     vi.useFakeTimers({now: new Date(2026, 5, 1)});
     expect(formatDate('2025-09-12')).toMatch(/2025/);
   });
+
+  it('leaves out the year in short dates even in another year', () => {
+    vi.useFakeTimers({now: new Date(2026, 5, 1)});
+    expect(formatDate('2025-09-12', {short: true})).not.toMatch(/2025/);
+  });
 });
 
 describe('localToday', () => {
