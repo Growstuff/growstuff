@@ -218,7 +218,7 @@ Devise.setup do |config|
   config.omniauth :mastodon,
                    strategy_class: OmniAuth::Strategies::GrowstuffMastodon,
                    scope:          OmniAuth::Strategies::GrowstuffMastodon::SCOPE,
-                   credentials:    ->(domain, callback_url) { MastodonClientService.new.credentials_for(domain, callback_url) } 
+                   credentials:    ->(domain, callback_url) { MastodonClientService.new.credentials_for(domain, callback_url) }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

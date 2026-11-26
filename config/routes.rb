@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  use_doorkeeper
   get '/api-docs/v1/swagger.json', to: 'api/docs#show', defaults: { format: :json }
   mount Rswag::Ui::Engine => '/api-docs'
   get '/robots.txt' => 'robots#robots'
