@@ -4613,6 +4613,8 @@ en:
       trade_label: Will trade
       variety: Variety
       batch_number: Batch number
+      brand: Brand
+      barcode: Barcode
       maturity_min: Days until maturity (min)
       maturity_max: Days until maturity (max)
       row_spacing_cm: Row spacing (cm)
