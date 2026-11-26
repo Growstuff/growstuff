@@ -1,0 +1,38 @@
+- content_for :title, "Community Gardens"
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item.active= link_to 'Community Gardens', admin_community_gardens_path
+
+- if can? :create, CommunityGarden
+  %p= link_to 'New Community Garden', new_admin_community_garden_path, class: 'btn btn-primary'
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Title
+      %th Website
+      %th Coordinates
+      %th OSM ID
+      %th Actions
+
+  %tbody
+    - @community_gardens.each do |garden|
+      %tr
+        %td= link_to garden.title, admin_community_garden_path(garden)
+        %td= link_to_if garden.website.present?, garden.website, garden.website, target: '_blank', rel: 'noopener noreferrer'
+        %td= garden.coordinates
+        %td= garden.osm_id
+        %td
+          - if can? :read, garden
+            = link_to 'Show', admin_community_garden_path(garden), class: 'btn btn-outline-primary btn-sm me-1'
+          - if can? :edit, garden
+            = link_to edit_admin_community_garden_path(garden), class: 'btn btn-outline-secondary btn-sm me-1' do
+              = edit_icon
+              Edit
+          - if can? :destroy, garden
+            = link_to admin_community_garden_path(garden), method: :delete, data: { confirm: t(:are_you_sure?) }, class: 'btn btn-outline-secondary btn-sm text-danger' do
+              = delete_icon
+              Delete
+
+= will_paginate(@community_gardens)

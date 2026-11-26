@@ -1,0 +1,22 @@
+.form-page
+  %section.card.form-card
+    = bootstrap_form_for [:admin, @community_garden] do |f|
+      - if @community_garden.errors.any?
+        #error_explanation
+          %h2
+            = pluralize(@community_garden.errors.size, "error")
+            prohibited this community garden from being saved:
+          %ul
+            - @community_garden.errors.full_messages.each do |msg|
+              %li= msg
+      .card-body
+        = f.text_field :title
+        = f.text_field :website
+        = f.text_field :email
+        = f.text_field :coordinates
+        = f.text_field :wikidata_id, label: 'Wikidata ID'
+        = f.text_field :osm_id, label: 'OSM ID'
+        = f.text_area :description
+      .card-footer
+        = f.submit 'Save', class: 'btn btn-success'
+        = link_to 'Cancel', admin_community_gardens_path, class: 'btn btn-outline-secondary'

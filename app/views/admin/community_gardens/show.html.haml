@@ -1,0 +1,34 @@
+- content_for :title, @community_garden.title
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item= link_to 'Community Gardens', admin_community_gardens_path
+  %li.breadcrumb-item.active= @community_garden.title
+
+.card
+  .card-header.d-flex.justify-content-between.align-items-center
+    %h2= @community_garden.title
+    %div
+      - if can? :edit, @community_garden
+        = link_to 'Edit', edit_admin_community_garden_path(@community_garden), class: 'btn btn-outline-secondary btn-sm me-1'
+      = link_to 'Back', admin_community_gardens_path, class: 'btn btn-outline-secondary btn-sm'
+  .card-body
+    %p
+      %strong Website:
+      = link_to_if @community_garden.website.present?, @community_garden.website, @community_garden.website, target: '_blank', rel: 'noopener noreferrer'
+    %p
+      %strong Email:
+      = @community_garden.email
+    %p
+      %strong Coordinates:
+      = @community_garden.coordinates
+    %p
+      %strong Wikidata ID:
+      - if @community_garden.wikidata_id.present?
+        = link_to @community_garden.wikidata_id, "https://www.wikidata.org/wiki/#{@community_garden.wikidata_id}", target: '_blank', rel: 'noopener noreferrer'
+    %p
+      %strong OSM ID:
+      = @community_garden.osm_id
+    %p
+      %strong Description:
+      = @community_garden.description
