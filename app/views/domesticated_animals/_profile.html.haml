@@ -5,8 +5,10 @@
     .section-header
       %h2= t('domesticated_animals.title')
       - if can_add
-        = link_to t('domesticated_animals.add'), new_domesticated_animal_path,
-                  class: 'btn btn-sm section-add'
+        - content_for :scripts do
+          = javascript_include_tag 'react_islands', defer: true
+        = react_component 'AnimalDialog', { url: new_domesticated_animal_path, label: t('domesticated_animals.add'), title: t('domesticated_animals.new_heading'), loading_label: t('domesticated_animals.loading'), error_label: t('domesticated_animals.save_error') } do
+          = link_to t('domesticated_animals.add'), new_domesticated_animal_path, class: 'btn btn-sm section-add'
     .row
       - animals.each do |animal|
         .col-sm-6.col-lg-4.mb-3

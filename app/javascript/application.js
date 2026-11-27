@@ -9,6 +9,7 @@ import 'leaflet.markercluster';
 import './site/auto_suggest';
 import './site/crop_filters';
 import './site/crop_job_season';
+import './site/domesticated_animals';
 import './site/copy_credit';
 import './site/cropmap';
 import './site/ecocrop_link';

@@ -14,7 +14,7 @@
         = link_to t('domesticated_animals.edit'), edit_domesticated_animal_path(animal),
                   class: 'btn btn-sm section-add'
     %dl
-      - %i(species category biological_sex date_of_birth date_of_death).each do |field|
+      - %i(species category alignment biological_sex date_of_birth date_of_death).each do |field|
         - value = animal.public_send(field)
         - next if value.blank?
 
@@ -22,6 +22,8 @@
         %dd
           - if field == :category
             = t("domesticated_animals.categories.#{value}")
+          - elsif field == :alignment
+            = t("domesticated_animals.alignments.#{value}")
           - elsif field == :biological_sex
             = t("domesticated_animals.sexes.#{value}")
           - elsif value.is_a?(Date)
@@ -37,9 +39,18 @@
           = link_to t('domesticated_animals.add_photo'), new_photo_path_for(animal),
                     class: 'btn btn-sm section-add', data: photo_dialog_data(animal)
       = render 'photos/gallery', photos: animal.photos, item: animal
+    %section#jobs
+      .section-header
+        %h2= t('domesticated_animals.jobs')
+        - if can?(:update, animal) && can?(:create, Job)
+          = link_to t('domesticated_animals.add_job'),
+                    new_job_path(jobbable_type: 'DomesticatedAnimal', jobbable_id: animal.id), class: 'btn btn-sm section-add'
+      - if @jobs.any?
+        .index-cards
+          = render partial: 'jobs/card', collection: @jobs, as: :job
+      - else
+        %p.text-muted.mb-0= t('domesticated_animals.no_jobs')
     - if can?(:update, animal)
-      .d-flex.justify-content-between.mt-3
-        = link_to t('domesticated_animals.add_job'),
-                  new_job_path(jobbable_type: 'DomesticatedAnimal', jobbable_id: animal.id), class: 'btn btn-primary'
+      .d-flex.justify-content-end.mt-3
         = button_to t('domesticated_animals.delete'), animal, method: :delete,
           class: 'btn btn-outline-danger', data: { confirm: t('domesticated_animals.confirm_delete') }

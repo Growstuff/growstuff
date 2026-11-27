@@ -1,16 +1,39 @@
 = bootstrap_form_for(@domesticated_animal) do |f|
+  - if local_assigns[:dialog]
+    = hidden_field_tag :dialog, 'true'
   = f.alert_message t('domesticated_animals.form_errors')
+  %fieldset.mb-3
+    %legend.form-label.fs-6= t('domesticated_animals.fields.category')
+    .d-flex.flex-wrap.gap-2
+      - DomesticatedAnimal.categories.each_key do |category|
+        - id = "domesticated_animal_category_#{category}"
+        = radio_button_tag 'domesticated_animal[category]', category, @domesticated_animal.category == category, id: id, class: 'btn-check', required: true
+        - label = category == 'other' ? t('domesticated_animals.other_category_label') : t("domesticated_animals.categories.#{category}")
+        = label_tag id, label, class: 'btn btn-outline-primary'
+    - @domesticated_animal.errors.full_messages_for(:category).each do |message|
+      .invalid-feedback.d-block= message
   = f.text_field :name, required: true, maxlength: 255, label: t('domesticated_animals.fields.name')
   = f.text_field :species, required: true, maxlength: 255, label: t('domesticated_animals.fields.species')
-  - categories = DomesticatedAnimal.categories.keys.map { |key| [t("domesticated_animals.categories.#{key}"), key] }
-  = f.select :category, categories,
-             { include_blank: true, label: t('domesticated_animals.fields.category') }, required: true
-  = f.text_area :description, maxlength: 255, label: t('domesticated_animals.fields.description')
+  = f.text_area :description, maxlength: 255, label: t('domesticated_animals.fields.description'), placeholder: t('domesticated_animals.bio_placeholder')
+  %fieldset.mb-3.animal-alignment
+    %legend.form-label.fs-6= t('domesticated_animals.fields.alignment')
+    .row.row-cols-3.g-2.mb-2
+      - DomesticatedAnimal.alignments.each_key do |alignment|
+        .col
+          - id = "domesticated_animal_alignment_#{alignment}"
+          = radio_button_tag 'domesticated_animal[alignment]', alignment, @domesticated_animal.alignment == alignment, id: id, class: 'btn-check'
+          = label_tag id, t("domesticated_animals.alignments.#{alignment}"), class: 'btn btn-outline-secondary w-100 h-100'
+    = radio_button_tag 'domesticated_animal[alignment]', '', @domesticated_animal.alignment.blank?, id: 'domesticated_animal_alignment_unrated', class: 'btn-check'
+    = label_tag 'domesticated_animal_alignment_unrated', t('domesticated_animals.alignment_unrated'), class: 'btn btn-outline-secondary btn-sm'
+    - @domesticated_animal.errors.full_messages_for(:alignment).each do |message|
+      .invalid-feedback.d-block= message
   = f.date_field :date_of_birth, label: t('domesticated_animals.fields.date_of_birth')
-  = f.date_field :date_of_death, label: t('domesticated_animals.fields.date_of_death')
   - sexes = DomesticatedAnimal.biological_sexes.keys.map { |key| [t("domesticated_animals.sexes.#{key}"), key] }
   = f.select :biological_sex, sexes, include_blank: true, label: t('domesticated_animals.fields.biological_sex')
+  %details.animal-advanced-options{ open: @domesticated_animal.date_of_death.present? || @domesticated_animal.errors[:date_of_death].any? }
+    %summary.mb-3= t('domesticated_animals.death_details')
+    = f.date_field :date_of_death, label: t('domesticated_animals.fields.date_of_death')
   .d-flex.justify-content-between.mt-3
     - cancel_path = @domesticated_animal.persisted? ? @domesticated_animal : current_member
-    = link_to t('domesticated_animals.cancel'), cancel_path, class: 'btn btn-secondary'
+    = link_to t('domesticated_animals.cancel'), cancel_path, class: 'btn btn-secondary', data: { animal_dialog_cancel: local_assigns[:dialog] }
     = f.submit t('domesticated_animals.save'), class: 'btn btn-primary'

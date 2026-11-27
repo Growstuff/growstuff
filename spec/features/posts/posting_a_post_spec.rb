@@ -40,8 +40,11 @@ describe 'Post a post' do
 
       it "links the chosen crop" do
         find("[role=option]", text: "pumpkin").click
+        find_field('post[body]', type: :hidden, with: "I love [#{crop.name}](crop)", visible: false)
         click_button "Publish post"
-        expect(page).to have_link "pumpkin", href: crop_path(crop)
+        within('.post-content') do
+          expect(page).to have_link crop.name, href: crop_path(crop)
+        end
       end
     end
 

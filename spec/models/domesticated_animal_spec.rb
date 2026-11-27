@@ -21,14 +21,33 @@ describe DomesticatedAnimal do
     expect(animal).not_to be_valid
   end
 
-  it 'accepts guinea pigs' do
-    animal.category = 'guinea_pig'
-    expect(animal).to be_valid
+  %w(guinea_pig sheep horse goat duck goose pig rabbit donkey alpaca llama quail guinea_fowl pigeon ferret other).each do |category|
+    it "accepts the #{category} category" do
+      animal.category = category
+      expect(animal).to be_valid
+    end
   end
 
   it 'allows an unspecified biological sex' do
     animal.biological_sex = ''
     expect(animal).to be_valid
+  end
+
+  described_class.alignments.each_key do |alignment|
+    it "accepts the #{alignment} alignment" do
+      animal.alignment = alignment
+      expect(animal).to be_valid
+    end
+  end
+
+  it 'allows an unrated alignment' do
+    animal.alignment = ''
+    expect(animal).to be_valid
+  end
+
+  it 'rejects an unsupported alignment' do
+    animal.alignment = 'chaos_demon'
+    expect(animal).not_to be_valid
   end
 
   it 'rejects an unsupported biological sex' do

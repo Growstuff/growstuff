@@ -4,29 +4,64 @@ en:
     title: Animals
     singular: Animal
     add: Add an animal
+    new_heading: Add your loved or otherwise animal(s)
     edit: Edit animal
     save: Save animal
     cancel: Cancel
     delete: Delete animal
     confirm_delete: Delete this animal? Its jobs and posts will be kept without the link.
     form_errors: Please check the animal's details.
+    bio_placeholder: Tell us about them, what is their origin story? How do they patrol your garden?
+    death_details: Extras
+    other_category_label: Something even better than all of those
+    loading: Loading animal form…
+    save_error: Your animal could not be saved. Your details are still here. Please try again.
+    alignment_unrated: Not rated
     photos: Photos
     add_photo: Add a photo
     add_job: Plan a job for this animal
+    jobs: Jobs
+    no_jobs: No jobs planned for this animal yet.
     fields:
       name: Name
       species: Species
       category: Category
-      description: Description
+      description: Bio
       date_of_birth: Date of birth
       date_of_death: Date of death
       biological_sex: Biological sex
+      alignment: Alignment
+    alignments:
+      lawful_good: Lawful Good
+      neutral_good: Neutral Good
+      chaotic_good: Chaotic Good
+      lawful_neutral: Lawful Neutral
+      true_neutral: True Neutral
+      chaotic_neutral: Chaotic Neutral
+      lawful_evil: Lawful Evil
+      neutral_evil: Neutral Evil
+      chaotic_evil: Chaotic Evil
     categories:
       dog: Dog
       cat: Cat
       chicken: Chicken
       turkey: Turkey
+      duck: Duck
+      goose: Goose
       guinea_pig: Guinea pig
+      sheep: Sheep
+      horse: Horse
+      goat: Goat
+      pig: Pig
+      rabbit: Rabbit
+      donkey: Donkey
+      alpaca: Alpaca
+      llama: Llama
+      quail: Quail
+      guinea_fowl: Guinea fowl
+      pigeon: Pigeon
+      ferret: Ferret
+      other: Other
     sexes:
       female: Female
       male: Male

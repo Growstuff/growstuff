@@ -54,6 +54,16 @@ describe DomesticatedAnimalsController do
       expect(response).to have_http_status(:ok)
     end
 
+    it 'provides the form without a page layout for the dialog' do
+      get new_domesticated_animal_path, params: { dialog: 'true' }
+      expect(Capybara.string(response.body)).to have_css('form#new_domesticated_animal input[name="dialog"][value="true"]', visible: :all)
+    end
+
+    it 'keeps validation errors in the dialog form' do
+      post domesticated_animals_path, params: { dialog: 'true', domesticated_animal: attributes.merge(name: '') }
+      expect(Capybara.string(response.body)).to have_css('form#new_domesticated_animal .invalid-feedback')
+    end
+
     it 'creates an animal owned by the signed-in member' do
       post domesticated_animals_path, params: { domesticated_animal: attributes.merge(owner_id: create(:member).id) }
       expect(member.domesticated_animals.pluck(:name)).to eq ['Henrietta']
@@ -64,6 +74,54 @@ describe DomesticatedAnimalsController do
       expect(response).to have_http_status(:ok)
     end
 
+    it 'shows an empty jobs section without related jobs' do
+      get domesticated_animal_path(animal)
+      expect(Capybara.string(response.body)).to have_css('#jobs p.text-muted')
+    end
+
+    context 'with jobs linked to the animal' do
+      let(:job) { create(:job, owner: member, jobbable: animal, name: 'Feed Henrietta') }
+
+      it 'shows the related job' do
+        job
+        get domesticated_animal_path(animal)
+        expect(Capybara.string(response.body)).to have_css('#jobs .job', text: job.name)
+      end
+
+      it 'includes completed jobs' do
+        job.update!(finished: true)
+        get domesticated_animal_path(animal)
+        expect(Capybara.string(response.body)).to have_css('#jobs .card-finished', text: job.name)
+      end
+
+      it 'excludes jobs for other animals' do
+        other_animal = create(:domesticated_animal, owner: member)
+        other_job = create(:job, owner: member, jobbable: other_animal, name: 'Walk Fido')
+        get domesticated_animal_path(animal)
+        expect(Capybara.string(response.body)).to have_no_css('#jobs .job', text: other_job.name)
+      end
+
+      it 'excludes unlinked jobs' do
+        other_job = create(:job, owner: member, name: 'Water the garden')
+        get domesticated_animal_path(animal)
+        expect(Capybara.string(response.body)).to have_no_css('#jobs .job', text: other_job.name)
+      end
+
+      it 'offers a job form linked to the animal' do
+        get domesticated_animal_path(animal)
+        expect(Capybara.string(response.body)).to have_link(
+          href: new_job_path(jobbable_type: 'DomesticatedAnimal', jobbable_id: animal.id)
+        )
+      end
+
+      it 'orders dated jobs before undated jobs' do
+        job.update!(due_date: nil)
+        earlier_job = create(:job, owner: member, jobbable: animal, name: 'Check water', due_date: Date.new(2026, 1, 1))
+        get domesticated_animal_path(animal)
+        expect(Capybara.string(response.body).all('#jobs .job h4').map(&:text)).to eq [earlier_job.name, job.name]
+      end
+    end
+
     it 'shows the edit form' do
       get edit_domesticated_animal_path(animal)
       expect(response).to have_http_status(:ok)
@@ -72,6 +130,28 @@ describe DomesticatedAnimalsController do
     it 'updates the animal' do
       patch domesticated_animal_path(animal), params: { domesticated_animal: { name: 'Henny' } }
       expect(animal.reload.name).to eq 'Henny'
+    end
+
+    it 'saves an alignment when creating an animal' do
+      post domesticated_animals_path, params: { domesticated_animal: attributes.merge(alignment: 'chaotic_good') }
+      expect(member.domesticated_animals.last.alignment).to eq 'chaotic_good'
+    end
+
+    it 'updates the alignment' do
+      patch domesticated_animal_path(animal), params: { domesticated_animal: { alignment: 'lawful_evil' } }
+      expect(animal.reload.alignment).to eq 'lawful_evil'
+    end
+
+    it 'clears an alignment' do
+      animal.update!(alignment: 'chaotic_evil')
+      patch domesticated_animal_path(animal), params: { domesticated_animal: { alignment: '' } }
+      expect(animal.reload.alignment).to be_nil
+    end
+
+    it 'shows the saved alignment' do
+      animal.update!(alignment: 'true_neutral')
+      get domesticated_animal_path(animal)
+      expect(Capybara.string(response.body)).to have_css('dd', text: I18n.t('domesticated_animals.alignments.true_neutral'))
     end
 
     it 'renders validation errors' do
@@ -160,6 +240,19 @@ describe DomesticatedAnimalsController do
     it 'shows animals to visitors' do
       get domesticated_animal_path(animal)
       expect(response).to have_http_status(:ok)
+    end
+
+    it 'shows related jobs to visitors' do
+      job = create(:job, owner: member, jobbable: animal)
+      get domesticated_animal_path(animal)
+      expect(Capybara.string(response.body)).to have_css('#jobs .job', text: job.name)
+    end
+
+    it 'does not offer visitors the add job link' do
+      get domesticated_animal_path(animal)
+      expect(Capybara.string(response.body)).to have_no_link(
+        href: new_job_path(jobbable_type: 'DomesticatedAnimal', jobbable_id: animal.id)
+      )
     end
   end
 end

@@ -11,11 +11,15 @@ class DomesticatedAnimalsController < ApplicationController
   responders :flash
 
   def show
+    @jobs = @domesticated_animal.jobs.accessible_by(current_ability)
+      .preload(:owner, :garden, :jobbable).order(:due_date, :id)
     respond_with @domesticated_animal
   end
 
   def new
     @domesticated_animal.owner = current_member
+    return render partial: 'form', locals: { dialog: true } if params[:dialog] == 'true'
+
     respond_with @domesticated_animal
   end
 
@@ -45,14 +49,20 @@ class DomesticatedAnimalsController < ApplicationController
 
   def render_errors(template)
     respond_to do |format|
-      format.html { render template, status: :unprocessable_content }
+      format.html do
+        if params[:dialog] == 'true'
+          render partial: 'form', locals: { dialog: true }, status: :unprocessable_content
+        else
+          render template, status: :unprocessable_content
+        end
+      end
       format.json { render json: @domesticated_animal.errors, status: :unprocessable_content }
     end
   end
 
   def domesticated_animal_params
     params.require(:domesticated_animal).permit(
-      :name, :species, :category, :description, :date_of_birth, :date_of_death, :biological_sex
+      :name, :species, :category, :description, :date_of_birth, :date_of_death, :biological_sex, :alignment
     )
   end
 end
