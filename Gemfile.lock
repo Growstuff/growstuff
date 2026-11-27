@@ -619,7 +619,7 @@ GEM
       ffi (~> 1.12)
       logger
     rubyzip (3.7.0)
-    scout_apm (6.4.0)
+    scout_apm (7.0.0)
       parser
     securerandom (0.4.1)
     selenium-webdriver (4.53.0)
