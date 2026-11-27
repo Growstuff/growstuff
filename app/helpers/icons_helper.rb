@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module IconsHelper
+  def domesticated_animal_icon
+    icon('fas', 'paw')
+  end
+
   # A Font Awesome icon: `icon 'fas', 'heart'`, optionally followed by text and
   # HTML options.
   def icon(style, name, text = nil, html_options = {})

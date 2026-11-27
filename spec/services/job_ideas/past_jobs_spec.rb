@@ -25,6 +25,14 @@ describe JobIdeas::PastJobs do
     expect(ideas.first.crop).to eq crop
   end
 
+  context 'with a job about an animal', flipper: :domesticated_animals do
+    let(:crop) { create(:domesticated_animal, owner: member) }
+
+    it 'offers the job without looking up a crop' do
+      expect(ideas.first.crop).to be_nil
+    end
+  end
+
   it 'dates a job by when it was crossed off, if known' do
     job.update!(due_date: nil)
     job.update!(finished: false)

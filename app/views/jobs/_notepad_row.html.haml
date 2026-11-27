@@ -13,6 +13,11 @@
       %span.kind= t('jobs.pad.garden')
       = job.garden.name
   - case job.jobbable
+  - when DomesticatedAnimal
+    - if domesticated_animals_enabled?
+      = link_to job.jobbable, class: 'notepad-chip' do
+        %span.kind= t('domesticated_animals.singular')
+        = job.jobbable.name
   - when Planting
     = link_to planting_path(job.jobbable), class: 'notepad-chip' do
       %span.kind= t('jobs.pad.planting')

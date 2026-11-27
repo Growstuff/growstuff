@@ -21,6 +21,6 @@ module ButtonsHelper
   # The page (or dialog) for adding a photo of this record.
   # `params` go on the link too, such as the `label` of a seed packet photo.
   def new_photo_path_for(model, **params)
-    new_photo_path(id: model.id, type: ActiveModel::Name.new(model.class).to_s.downcase, **params)
+    new_photo_path(id: model.id, type: model.class.model_name.singular, **params)
   end
 end

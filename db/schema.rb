@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_20_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_27_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -56,6 +56,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_20_000000) do
     t.index ["crop_id"], name: "index_alternate_names_on_crop_id"
     t.index ["language"], name: "index_alternate_names_on_language"
     t.index ["normalised_name"], name: "index_alternate_names_on_normalised_name", opclass: :gin_trgm_ops, using: :gin
+  end
+
+  create_table "animal_tags", force: :cascade do |t|
+    t.bigint "domesticated_animal_id", null: false
+    t.string "taggable_type", null: false
+    t.bigint "taggable_id", null: false
+    t.index ["domesticated_animal_id"], name: "index_animal_tags_on_domesticated_animal_id"
+    t.index ["taggable_type", "taggable_id", "domesticated_animal_id"], name: "index_animal_tags_unique", unique: true
+    t.index ["taggable_type", "taggable_id"], name: "index_animal_tags_on_taggable"
   end
 
   create_table "australian_food_classification_data", force: :cascade do |t|
@@ -671,6 +680,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_20_000000) do
     t.index ["public_food_key"], name: "index_crops_on_public_food_key"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
     t.index ["slug"], name: "index_crops_on_slug", unique: true
+  end
+
+  create_table "domesticated_animals", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "species", null: false
+    t.string "category", null: false
+    t.string "description"
+    t.date "date_of_birth"
+    t.date "date_of_death"
+    t.string "biological_sex"
+    t.bigint "owner_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "alignment"
+    t.index ["owner_id"], name: "index_domesticated_animals_on_owner_id"
   end
 
   create_table "ecocrop_data", force: :cascade do |t|
@@ -1418,6 +1442,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_20_000000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "animal_tags", "domesticated_animals"
   add_foreign_key "blocks", "members", column: "blocked_id"
   add_foreign_key "blocks", "members", column: "blocker_id"
   add_foreign_key "claims", "members"
@@ -1428,6 +1453,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_20_000000) do
   add_foreign_key "crop_job_templates", "crops"
   add_foreign_key "crop_job_templates", "members", column: "creator_id"
   add_foreign_key "crops", "ecocrop_data", column: "ecocrop_data_id", on_delete: :nullify
+  add_foreign_key "domesticated_animals", "members", column: "owner_id"
   add_foreign_key "harvests", "plantings"
   add_foreign_key "job_idea_dismissals", "members"
   add_foreign_key "jobs", "crop_job_steps", on_delete: :nullify

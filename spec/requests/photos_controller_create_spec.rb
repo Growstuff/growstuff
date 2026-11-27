@@ -9,10 +9,11 @@ describe PhotosController, '#create' do
 
   let(:member) { create(:member) }
   let(:job) { create(:job, owner: member) }
+  let(:item) { job }
   let(:json_headers) { { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' } }
 
   def add_photo(label: nil)
-    query = { type: 'job', id: job.id, label: }.compact.to_query
+    query = { type: item.class.model_name.singular, id: item.id, label: }.compact.to_query
     post "/photos.json?#{query}", params: { photo: { source_id: '1234', source: 'flickr' } }.to_json, headers: json_headers
   end
 
@@ -57,6 +58,46 @@ describe PhotosController, '#create' do
 
     it 'says nothing of when it was taken' do
       expect(job.photo_associations.pluck(:label)).to eq [nil]
+    end
+  end
+
+  context 'with an animal', flipper: :domesticated_animals do
+    let(:item) { create(:domesticated_animal, owner: member) }
+
+    it 'links the imported photo' do
+      add_photo
+      expect(item.photos.pluck(:title)).to eq ['Net on']
+    end
+
+    it 'unlinks the photo without deleting it' do
+      add_photo
+      photo = item.photos.first
+      delete photo_association_path(photo_id: photo.id, type: 'domesticated_animal', id: item.id)
+      expect(Photo.find_by(id: photo.id)).to eq photo
+    end
+
+    it 'removes the photo association' do
+      add_photo
+      delete photo_association_path(photo_id: item.photos.first.id, type: 'domesticated_animal', id: item.id)
+      expect(item.photos.reload).to be_empty
+    end
+
+    context 'when the animal belongs to someone else' do
+      let(:item) { create(:domesticated_animal) }
+
+      it 'rejects the import' do
+        add_photo
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    context 'when the feature is disabled' do
+      before { Flipper.disable(:domesticated_animals) }
+
+      it 'rejects the import' do
+        add_photo
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 

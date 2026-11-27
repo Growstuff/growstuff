@@ -33,7 +33,7 @@ class JobIdeas
 
     # The crop of every planting and seed a job is about, in one go.
     def preload_crops(jobs)
-      about = jobs.filter_map(&:jobbable).grep_v(Crop)
+      about = jobs.filter_map(&:jobbable).select { |item| item.is_a?(Planting) || item.is_a?(Seed) }
       ActiveRecord::Associations::Preloader.new(records: about, associations: :crop).call
     end
 

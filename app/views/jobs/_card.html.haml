@@ -1,4 +1,4 @@
-- cache job do
+- cache [job, domesticated_animals_enabled?] do
   .card.job{class: job.active ? '' : 'card-finished'}
     - if member_signed_in? && current_member.id == job.owner_id
       .job-quick-actions= render 'jobs/actions', job:
@@ -10,6 +10,9 @@
       %div
         %small.text-justify{title: job.description}= job.description.to_s.truncate(150)
       %ul.list-unstyled.mb-0
+        - if job.jobbable_type == 'DomesticatedAnimal' && job.jobbable && domesticated_animals_enabled?
+          %li
+            %small= link_to job.jobbable.name, job.jobbable
         - if job.garden
           %li
             %small= link_to job.garden_name, garden_path(job.garden)

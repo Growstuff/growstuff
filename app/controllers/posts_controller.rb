@@ -31,11 +31,13 @@ class PostsController < ApplicationController
   def edit; end
 
   # What the editor's "link to" list offers besides crops (which it gets from
-  # /crops/search.json): members, and the plantings of the member writing.
+  # /crops/search.json): members, and the writer's plantings and animals.
   def link_suggestions
     authorize! :create, Post
     term = params[:term].to_s.strip
-    render json: { members: member_suggestions(term), plantings: planting_suggestions(term) }
+    suggestions = { members: member_suggestions(term), plantings: planting_suggestions(term) }
+    suggestions[:animals] = animal_suggestions(term) if Feature.enabled?(:domesticated_animals, current_member)
+    render json: suggestions
   end
 
   # The body as it will look when posted, for the editor's Preview tab.
@@ -67,6 +69,16 @@ class PostsController < ApplicationController
   private
 
   SUGGESTIONS = 5
+
+  def animal_suggestions(term)
+    return [] if term.blank? || !Feature.enabled?(:domesticated_animals, current_member)
+
+    current_member.domesticated_animals.where('domesticated_animals.name ILIKE ?', "#{DomesticatedAnimal.sanitize_sql_like(term)}%")
+      .order(:name, :id).limit(SUGGESTIONS).map do |animal|
+      { id: animal.id, name: animal.name, group: t('domesticated_animals.title'),
+        category: t("domesticated_animals.categories.#{animal.category}") }
+    end
+  end
 
   def member_suggestions(term)
     return [] if term.blank?

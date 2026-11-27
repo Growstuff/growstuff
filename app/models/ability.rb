@@ -132,6 +132,11 @@ class Ability
     can :destroy, GardenCollaborator, garden: { owner_id: member.id }
     can :destroy, GardenCollaborator, member_id: member.id
 
+    if Feature.enabled?(:domesticated_animals, member)
+      can :create, DomesticatedAnimal
+      can %i(update destroy), DomesticatedAnimal, owner_id: member.id
+    end
+
     can :create,  Job
     can :update,  Job, owner_id: member.id
     can :destroy, Job, owner_id: member.id

@@ -1,4 +1,5 @@
 {
+  "domesticated_animal": "<ellipse cx=\"7\" cy=\"7\" rx=\"2\" ry=\"3\"/><ellipse cx=\"17\" cy=\"7\" rx=\"2\" ry=\"3\"/><ellipse cx=\"3\" cy=\"12\" rx=\"2\" ry=\"2.5\"/><ellipse cx=\"21\" cy=\"12\" rx=\"2\" ry=\"2.5\"/><path d=\"M6 19c0-3 3-7 6-7s6 4 6 7c0 4-4 1-6 1s-6 3-6-1z\"/>",
   "garden": "<path d=\"M3 20h18\"/><path d=\"M6 20V10M12 20V6M18 20v-8\"/><path d=\"M4 10h4M10 6h4M16 12h4\"/>",
   "planting": "<path d=\"M12 21v-8\"/><path d=\"M12 13c0-4-3-6-7-6 0 4 3 6 7 6z\"/><path d=\"M12 15c0-3 2-5 6-5 0 3-2 5-6 5z\"/>",
   "harvest": "<path d=\"M3 10h18l-2 10H5z\"/><path d=\"M8 10l3-6M16 10l-3-6\"/>",

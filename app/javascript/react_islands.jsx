@@ -5,6 +5,7 @@
 //
 // To add a component: create it in ./components and register it below.
 import AlternateNames from './components/AlternateNames';
+import AnimalDialog from './components/AnimalDialog';
 import ApiTokenCopy from './components/ApiTokenCopy';
 import AuthDialog from './components/AuthDialog';
 import CardPhotoDialog from './components/CardPhotoDialog';
@@ -39,7 +40,7 @@ import ScientificNames from './components/ScientificNames';
 import SeedStack from './components/SeedStack';
 import {mountIslands, registerIslands} from './islands';
 
-registerIslands({AlternateNames, ApiTokenCopy, AuthDialog, CardPhotoDialog, CropFilterPicker, EmailStep, FediConnect, FeedMore, FirstStepsPlanter, GardenCards, GardenLayout, GardenPicker, GardenPlanter, GrowingTable, HarvestChart, JobPicker, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingOrigin, PlantingRating, PostEditor, RecordDialog, ScientificNames, SeasonSuggestions, SeedLibrary, SeedStack, UseMyLocation});
+registerIslands({AlternateNames, AnimalDialog, ApiTokenCopy, AuthDialog, CardPhotoDialog, CropFilterPicker, EmailStep, FediConnect, FeedMore, FirstStepsPlanter, GardenCards, GardenLayout, GardenPicker, GardenPlanter, GrowingTable, HarvestChart, JobPicker, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingOrigin, PlantingRating, PostEditor, RecordDialog, ScientificNames, SeasonSuggestions, SeedLibrary, SeedStack, UseMyLocation});
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => mountIslands());

@@ -7,6 +7,7 @@ class Haml::Filters
     MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/
     MEMBER_AT_REGEX = /(?<!\\)(@\w+)/
     PLANTING_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(planting:([\w-]+)\)/
+    ANIMAL_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(animal:(\d+)\)/
     # A Flickr photo placed in a post: ![caption](photo:123) or ![caption](photo:123/half)
     PHOTO_REGEX = /^!\[([^\[\]]*)\]\(photo:(\d+)(?:\/(wide|half|pair))?\)[ \t]*$/
     MEMBER_COMBINED_REGEX = Regexp.union(MEMBER_REGEX, MEMBER_AT_REGEX)
@@ -30,6 +31,15 @@ class Haml::Filters
         link_text = Regexp.last_match(1)
         planting = Planting.find_by(slug: Regexp.last_match(2))
         record_link planting, link_text
+      end
+      text
+    end
+
+    def expand_animals!(text, enabled: false)
+      text.gsub!(ANIMAL_REGEX) do
+        link_text = Regexp.last_match(1)
+        animal = DomesticatedAnimal.find_by(id: Regexp.last_match(2)) if enabled
+        record_link animal, link_text
       end
       text
     end

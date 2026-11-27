@@ -1,5 +1,72 @@
 ---
 en:
+  domesticated_animals:
+    title: Animals
+    singular: Animal
+    add: Add an animal
+    new_heading: Add your loved or otherwise animal(s)
+    edit: Edit animal
+    save: Save animal
+    cancel: Cancel
+    delete: Delete animal
+    confirm_delete: Delete this animal? Its jobs and posts will be kept without the link.
+    form_errors: Please check the animal's details.
+    bio_placeholder: Tell us about them, what is their origin story? How do they patrol your garden?
+    death_details: Extras
+    other_category_label: Something even better than all of those
+    loading: Loading animal form…
+    save_error: Your animal could not be saved. Your details are still here. Please try again.
+    alignment_unrated: Not rated
+    photos: Photos
+    add_photo: Add a photo
+    add_job: Plan a job for this animal
+    jobs: Jobs
+    no_jobs: No jobs planned for this animal yet.
+    fields:
+      name: Name
+      species: Species
+      category: Category
+      description: Bio
+      date_of_birth: Date of birth
+      date_of_death: Date of death
+      biological_sex: Biological sex
+      alignment: Alignment
+    alignments:
+      lawful_good: Lawful Good
+      neutral_good: Neutral Good
+      chaotic_good: Chaotic Good
+      lawful_neutral: Lawful Neutral
+      true_neutral: True Neutral
+      chaotic_neutral: Chaotic Neutral
+      lawful_evil: Lawful Evil
+      neutral_evil: Neutral Evil
+      chaotic_evil: Chaotic Evil
+    categories:
+      dog: Dog
+      cat: Cat
+      chicken: Chicken
+      turkey: Turkey
+      duck: Duck
+      goose: Goose
+      guinea_pig: Guinea pig
+      sheep: Sheep
+      horse: Horse
+      goat: Goat
+      pig: Pig
+      rabbit: Rabbit
+      donkey: Donkey
+      alpaca: Alpaca
+      llama: Llama
+      quail: Quail
+      guinea_fowl: Guinea fowl
+      pigeon: Pigeon
+      ferret: Ferret
+      other: Other
+    sexes:
+      female: Female
+      male: Male
+      intersex: Intersex
+      unknown: Unknown
   likes:
     description_html: '%{member} liked %{item}'
   shared:
@@ -10,6 +77,7 @@ en:
       examples: 'For instance, *italic*, **bold**, or a link [like this](http://to.some.site.com/).'
       crop_links: 'Quick crop links: [sweet potato](crop).'
       member_links: 'Quick member links: @Username or [Username](member).'
+      animal_links: 'Animal links: [name](animal:123), using the ID from the animal page address.'
     record_parent:
       growing_in_html: growing in %{garden}
     signin_signup:
@@ -31,6 +99,7 @@ en:
   activerecord:
     errors:
       messages:
+        before_birth: cannot be before the date of birth
         bed_position_incomplete: must have both a column and a row, or neither
         bed_position_off_grid: would put this plant outside the bed
         calculate_crop_failed: failed to calculate crop
@@ -228,6 +297,7 @@ en:
     features:
       member_not_found: Member not found. Enter an existing username.
       descriptions:
+        domesticated_animals: Animal profiles, photos, and links from jobs, posts and comments.
         enable_harvest_reminders: Sends the weekly harvest reminder emails to members who want them.
         enable_planting_reminders: Sends the weekly planting reminder emails to members who want them.
         garden_stall: A page where members offer spare seedlings and seeds to friends. Switch on once all the parts are deployed.
@@ -248,6 +318,7 @@ en:
         switch_on: Switch on
         title: Features
       names:
+        domesticated_animals: Domesticated animals
         enable_harvest_reminders: Harvest reminders
         enable_planting_reminders: Planting reminders
         garden_stall: Garden stall
@@ -3743,6 +3814,7 @@ en:
       delete_confirm: Delete this photo from Growstuff altogether? It is taken off everything it is attached to. It stays on its original hosting service.
       refresh: Refresh photo data from Flickr
       unlink:
+        domesticated_animal: "Remove from the animal: %{name}"
         crop: "Remove from the crop: %{name}"
         garden: "Remove from the garden: %{name}"
         harvest: "Remove from the harvest: %{name}"
@@ -3827,6 +3899,9 @@ en:
       taken: Taken %{date}
       thing_by: A %{thing} by %{owner}
     shows:
+      domesticated_animal:
+        by: Animal of %{owner}
+        kind: Animal
       crop:
         about: Curious how to grow it? See when to plant, who else grows it near you, and what they harvest.
         go: Explore %{crop}

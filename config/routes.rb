@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   resources :garden_types
   resources :plant_parts
+  resources :domesticated_animals, except: :index
 
   devise_for :members, controllers: {
     confirmations:      "confirmations",

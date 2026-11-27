@@ -30,7 +30,7 @@ const page = () => `
   <meta name="csrf-token" content="token-123">
   <div class="notepad">
     <form class="notepad-add" action="/jobs" method="post"
-          data-kinds='{"planting":"Planting","seed":"Seeds","crop":"Crop"}' data-suggestions-url="/jobs/suggestions">
+          data-kinds='{"planting":"Planting","seed":"Seeds","crop":"Crop","domesticatedanimal":"Animal"}' data-suggestions-url="/jobs/suggestions">
       <input type="text" name="job[name]">
       <input type="submit" value="Add" data-saving-label="Adding…">
       <input type="hidden" id="notepad-jobbable-type" name="job[jobbable_type]">
@@ -642,6 +642,30 @@ describe('@ suggestions', () => {
       await type(addBox(), 'prune the @');
 
       expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    describe('with an animal suggestion', () => {
+      beforeEach(async () => {
+        fetchMock.mockResolvedValue({ok: true, json: async () => [
+          {jobbable_type: 'DomesticatedAnimal', jobbable_id: 7, name: 'Henrietta', label: 'Henrietta', detail: 'Chicken', icon_url: null},
+        ]});
+        await start();
+        await type(addBox(), 'Feed @Hen');
+      });
+
+      it('does not render a broken image without a photo', () => {
+        expect(options().querySelector('img')).toBeNull();
+      });
+
+      it('replaces the mention with the animal name', () => {
+        press(addBox(), 'Enter');
+        expect(addBox().value).toBe('Feed Henrietta ');
+      });
+
+      it('links the selected animal to the job', () => {
+        press(addBox(), 'Enter');
+        expect(document.getElementById('notepad-jobbable-type').value).toBe('DomesticatedAnimal');
+      });
     });
 
     it('asks for the crop name typed', async () => {
