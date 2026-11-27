@@ -1,0 +1,45 @@
+- animal = @domesticated_animal
+- content_for :title, animal.name
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to animal.owner, animal.owner
+  %li.breadcrumb-item.active= animal.name
+
+.record-page
+  .record-panel
+    .section-header
+      %h1= animal.name
+      - if can?(:update, animal)
+        = link_to t('domesticated_animals.edit'), edit_domesticated_animal_path(animal),
+                  class: 'btn btn-sm section-add'
+    %dl
+      - %i(species category biological_sex date_of_birth date_of_death).each do |field|
+        - value = animal.public_send(field)
+        - next if value.blank?
+
+        %dt= t("domesticated_animals.fields.#{field}")
+        %dd
+          - if field == :category
+            = t("domesticated_animals.categories.#{value}")
+          - elsif field == :biological_sex
+            = t("domesticated_animals.sexes.#{value}")
+          - elsif value.is_a?(Date)
+            = l(value)
+          - else
+            = value
+    - if animal.description.present?
+      %p= animal.description
+    %section#photos
+      .section-header
+        %h2= t('domesticated_animals.photos')
+        - if can?(:update, animal)
+          = link_to t('domesticated_animals.add_photo'), new_photo_path_for(animal),
+                    class: 'btn btn-sm section-add', data: photo_dialog_data(animal)
+      = render 'photos/gallery', photos: animal.photos, item: animal
+    - if can?(:update, animal)
+      .d-flex.justify-content-between.mt-3
+        = link_to t('domesticated_animals.add_job'),
+                  new_job_path(jobbable_type: 'DomesticatedAnimal', jobbable_id: animal.id), class: 'btn btn-primary'
+        = button_to t('domesticated_animals.delete'), animal, method: :delete,
+          class: 'btn btn-outline-danger', data: { confirm: t('domesticated_animals.confirm_delete') }

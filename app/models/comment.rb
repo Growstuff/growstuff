@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Comment < ApplicationRecord
+  include AnimalTaggable
+
   belongs_to :author, class_name: 'Member', inverse_of: :comments
   belongs_to :commentable, polymorphic: true, counter_cache: true
   # validates :body, presence: true

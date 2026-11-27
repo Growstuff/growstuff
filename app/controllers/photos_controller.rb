@@ -195,13 +195,19 @@ class PhotosController < ApplicationController
     raise "No item id provided" if params[:id].nil?
     raise "No item type provided" if params[:type].nil?
 
-    item_class = params[:type].capitalize
+    item_class = params[:type].to_s.classify
     raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
+
+    if item_class == 'DomesticatedAnimal' && !Feature.enabled?(:domesticated_animals, current_member)
+      raise ActiveRecord::RecordNotFound
+    end
 
     klass = item_class.constantize
     # A draft post is still its author's to add photos to.
     klass = klass.with_drafts if klass.respond_to?(:with_drafts)
-    klass.find(params[:id])
+    item = klass.find(params[:id])
+    authorize! :update, item if item_class == 'DomesticatedAnimal'
+    item
   end
 
   #

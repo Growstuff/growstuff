@@ -3,6 +3,7 @@
 class Post < ApplicationRecord
   extend FriendlyId
   include Likeable
+  include AnimalTaggable
 
   friendly_id :author_date_subject, use: %i(slugged finders)
   include PhotoCapable

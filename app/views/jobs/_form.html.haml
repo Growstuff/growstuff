@@ -5,6 +5,10 @@
         = planting_icon
         %strong=yield :title
   = bootstrap_form_for(@job) do |f|
+    - if @job.jobbable_type == 'DomesticatedAnimal' && domesticated_animals_enabled?
+      = f.hidden_field :jobbable_type
+      = f.hidden_field :jobbable_id
+      %p= link_to @job.jobbable.name, @job.jobbable if @job.jobbable
     .card-body
       - if @job.errors.any?
         #error_explanation

@@ -52,6 +52,42 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     expect(rendered).to match(/#{output_link(tomato)} #{output_link(maize)}/)
   end
 
+  describe 'animal links' do
+    subject(:expanded) { markdownify(text) }
+
+    let(:animal) { create(:domesticated_animal) }
+    let(:text) { "Meet [Henrietta](animal:#{animal.id})" }
+
+    context 'when the feature is enabled', flipper: :domesticated_animals do
+      it 'links to the animal' do
+        url = Rails.application.routes.url_helpers.domesticated_animal_path(animal)
+        expect(expanded).to eq "Meet [Henrietta](#{url})"
+      end
+
+      context 'with a missing animal' do
+        let(:text) { 'Meet [Missing](animal:0)' }
+
+        it 'keeps the label without a broken link' do
+          expect(expanded).to eq 'Meet Missing'
+        end
+      end
+
+      context 'with an escaped mention' do
+        let(:text) { "Meet \\[Henrietta](animal:#{animal.id})" }
+
+        it 'leaves the mention unchanged' do
+          expect(expanded).to eq text
+        end
+      end
+    end
+
+    context 'when the feature is disabled' do
+      it 'keeps the label without an animal link' do
+        expect(expanded).to eq 'Meet Henrietta'
+      end
+    end
+  end
+
   describe 'planting links' do
     subject { markdownify(text) }
 

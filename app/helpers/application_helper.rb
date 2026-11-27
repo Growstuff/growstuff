@@ -146,8 +146,15 @@ module ApplicationHelper
     translator.expand_photos!(text, figures:)
     translator.expand_crops!(text)
     translator.expand_plantings!(text)
+    translator.expand_animals!(text, enabled: domesticated_animals_enabled?)
     translator.expand_members!(text)
     text
+  end
+
+  def domesticated_animals_enabled?
+    # Markdown is also rendered outside a signed-in request, for example in mail.
+    member = current_member if respond_to?(:request) && request&.env&.[]('warden')
+    Feature.enabled?(:domesticated_animals, member)
   end
 
   # A 1x1 transparent GIF, standing in for a real avatar when

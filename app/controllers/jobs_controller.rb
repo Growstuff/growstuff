@@ -20,7 +20,7 @@ class JobsController < DataController
     @job = Job.new(new_job_params.to_h.reverse_merge(due_date: Time.zone.today))
     @job.owner = current_member
     @job.garden = nil unless @job.garden && current_member.accessible_gardens.exists?(@job.garden.id)
-    @job.planting = nil unless @job.planting && current_member.accessible_gardens.exists?(@job.planting.garden_id)
+    @job.planting = nil if @job.planting && !current_member.accessible_gardens.exists?(@job.planting.garden_id)
 
     respond_with @job
   end
@@ -120,7 +120,7 @@ class JobsController < DataController
 
   # What a link to "new job" can fill in ahead of time, as Copy does.
   def new_job_params
-    params.permit(:name, :description, :due_date, :garden_id, :planting_id)
+    params.permit(:name, :description, :due_date, :garden_id, :planting_id, :jobbable_type, :jobbable_id)
   end
 
   # "Repeat how many times, every how many weeks" on the form: copies of the job

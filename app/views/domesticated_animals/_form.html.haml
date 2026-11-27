@@ -1,0 +1,16 @@
+= bootstrap_form_for(@domesticated_animal) do |f|
+  = f.alert_message t('domesticated_animals.form_errors')
+  = f.text_field :name, required: true, maxlength: 255, label: t('domesticated_animals.fields.name')
+  = f.text_field :species, required: true, maxlength: 255, label: t('domesticated_animals.fields.species')
+  - categories = DomesticatedAnimal.categories.keys.map { |key| [t("domesticated_animals.categories.#{key}"), key] }
+  = f.select :category, categories,
+             { include_blank: true, label: t('domesticated_animals.fields.category') }, required: true
+  = f.text_area :description, maxlength: 255, label: t('domesticated_animals.fields.description')
+  = f.date_field :date_of_birth, label: t('domesticated_animals.fields.date_of_birth')
+  = f.date_field :date_of_death, label: t('domesticated_animals.fields.date_of_death')
+  - sexes = DomesticatedAnimal.biological_sexes.keys.map { |key| [t("domesticated_animals.sexes.#{key}"), key] }
+  = f.select :biological_sex, sexes, include_blank: true, label: t('domesticated_animals.fields.biological_sex')
+  .d-flex.justify-content-between.mt-3
+    - cancel_path = @domesticated_animal.persisted? ? @domesticated_animal : current_member
+    = link_to t('domesticated_animals.cancel'), cancel_path, class: 'btn btn-secondary'
+    = f.submit t('domesticated_animals.save'), class: 'btn btn-primary'

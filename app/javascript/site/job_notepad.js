@@ -450,7 +450,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const found = mention();
       if (found) {
         const rest = box.value.slice(box.selectionStart).replace(/^\s+/, '');
-        const text = box.value.slice(0, found.start) + item.crop_name + ' ';
+        const text = box.value.slice(0, found.start) + (item.name || item.crop_name) + ' ';
         box.value = text + rest;
         box.setSelectionRange(text.length, text.length);
       }
@@ -466,11 +466,13 @@ document.addEventListener('DOMContentLoaded', function () {
         option.id = list.id + '-' + i;
         option.setAttribute('role', 'option');
         option.className = 'notepad-suggestion';
-        const icon = document.createElement('img');
-        icon.className = 'notepad-suggestion-icon';
-        icon.src = item.icon_url;
-        icon.alt = '';
-        option.appendChild(icon);
+        if (item.icon_url) {
+          const icon = document.createElement('img');
+          icon.className = 'notepad-suggestion-icon';
+          icon.src = item.icon_url;
+          icon.alt = '';
+          option.appendChild(icon);
+        }
         [['kind', 'span', kinds[kindOf(item)]], ['', 'span', item.label], ['', 'small', item.detail]].forEach(function (part) {
           if (!part[2]) return;
           const el = document.createElement(part[1]);

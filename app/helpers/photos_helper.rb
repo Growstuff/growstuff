@@ -11,7 +11,8 @@ module PhotosHelper
   # Everything the photo is attached to, as [type, record] pairs: the type is what
   # the photo associations route calls it ('planting', 'seed', 'crop').
   def photo_records(photo)
-    RECORD_KINDS.flat_map { |type| photo.public_send(type.pluralize).map { |thing| [type, thing] } } +
+    kinds = domesticated_animals_enabled? ? RECORD_KINDS + ['domesticated_animal'] : RECORD_KINDS
+    kinds.flat_map { |type| photo.public_send(type.pluralize).map { |thing| [type, thing] } } +
       photo.crops.map { |crop| ['crop', crop] }
   end
 
@@ -135,7 +136,7 @@ module PhotosHelper
     when Garden then "#{model.name} garden"
     when Planting then model.display_name
     when Post then model.subject
-    when Job then model.name
+    when Job, DomesticatedAnimal then model.name
     end
   end
 

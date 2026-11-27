@@ -11,7 +11,7 @@ class Job < ApplicationRecord
   # The template step this job was made from, if it was.
   belongs_to :crop_job_step, optional: true
 
-  JOBBABLE_TYPES = %w(Crop Planting Seed).freeze
+  JOBBABLE_TYPES = %w(Crop Planting Seed DomesticatedAnimal).freeze
   # What each action can be about: plant a crop or the seeds of it, harvest a crop
   # or a planting of it.
   ACTION_JOBBABLES = { 'plant' => %w(Crop Seed), 'harvest' => %w(Crop Planting) }.freeze
@@ -45,6 +45,7 @@ class Job < ApplicationRecord
   validates :jobbable_type, inclusion: { in: JOBBABLE_TYPES }, allow_nil: true
   validate :action_goes_with_jobbable, if: :action
   validate :jobbable_is_the_owners, if: -> { jobbable_id_changed? || jobbable_type_changed? }
+  validate :animal_feature_enabled, if: -> { jobbable_id_changed? || jobbable_type_changed? }
 
   before_validation :set_garden_from_planting
   before_save :stamp_finished_at, if: :finished_changed?
@@ -92,6 +93,13 @@ class Job < ApplicationRecord
 
   private
 
+  def animal_feature_enabled
+    return unless jobbable_type == 'DomesticatedAnimal'
+    return if Feature.enabled?(:domesticated_animals, owner)
+
+    errors.add(:jobbable, :invalid)
+  end
+
   def set_garden_from_planting
     self.garden ||= planting.garden if planting
   end
@@ -104,7 +112,7 @@ class Job < ApplicationRecord
     errors.add(:action, :cannot_be_about_that) unless ACTION_JOBBABLES.fetch(action, []).include?(jobbable_type)
   end
 
-  # A job about something is about something that is there. Plantings and seeds are a member's own: a job can't
+  # A job about something is about something that is there. Plantings, seeds and animals are a member's own: a job can't
   # be about someone else's. Plantings in gardens the member collaborates on or owns are also allowed.
   def jobbable_is_the_owners
     return unless JOBBABLE_TYPES.include?(jobbable_type)

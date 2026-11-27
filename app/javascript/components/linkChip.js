@@ -5,20 +5,21 @@ import Suggestion from '@tiptap/suggestion';
 import {getJson} from '../api';
 
 // How each kind of link is written in a post's markdown. Crops and members are
-// found by name, plantings by slug, as the server expands them (see
+// found by name, plantings by slug and animals by ID, as the server expands them (see
 // Haml::Filters::GrowstuffMarkdown).
 const WRITTEN = {
   crop: () => 'crop',
   member: () => 'member',
   planting: ({slug}) => `planting:${slug}`,
+  animal: ({slug}) => `animal:${slug}`,
 };
 
-const PATTERN = /^\[([^[\]]+)\]\((crop|member|planting:([\w-]+))\)/;
+const PATTERN = /^\[([^[\]]+)\]\((crop|member|planting:([\w-]+)|animal:(\d+))\)/;
 
 const clean = (label) => String(label).replace(/[[\]]/g, '');
 
-// A link to a crop, a member or one of your plantings, shown in the text as a
-// chip, and written as [name](crop), [name](member) or [name](planting:slug).
+// A link to a crop, a member, a planting or an animal, shown in the text as a
+// chip, and written as [name](crop), [name](member), [name](planting:slug) or [name](animal:id).
 // It is added by typing @ and choosing from the list (see `suggestion`).
 export function createLinkChip({suggestion}) {
   return Node.create({
@@ -61,12 +62,12 @@ export function createLinkChip({suggestion}) {
     markdownTokenizer: {
       name: 'linkChip',
       level: 'inline',
-      start: (src) => src.search(/\[[^[\]]+\]\((?:crop|member|planting:[\w-]+)\)/),
+      start: (src) => src.search(/\[[^[\]]+\]\((?:crop|member|planting:[\w-]+|animal:\d+)\)/),
       tokenize(src) {
         const match = PATTERN.exec(src);
         if (!match) return undefined;
         const kind = match[2].split(':')[0];
-        return {type: 'linkChip', raw: match[0], kind, label: match[1], slug: match[3] || null};
+        return {type: 'linkChip', raw: match[0], kind, label: match[1], slug: match[3] || match[4] || null};
       },
     },
 
@@ -106,7 +107,7 @@ export function createLinkChip({suggestion}) {
 const PER_GROUP = 5;
 const SEARCH_DELAY = 200; // ms to wait for typing to pause before searching
 
-// What @ can link to matching `term`: crops, members, and your own plantings.
+// What @ can link to matching `term`: crops, members, and your own plantings and animals.
 // Each is {group, kind, label, slug?, detail?}.
 export async function fetchLinkItems(term, {signal} = {}) {
   const query = encodeURIComponent(term);
@@ -127,6 +128,9 @@ export async function fetchLinkItems(term, {signal} = {}) {
     });
     (others.data.plantings || []).forEach((planting) => {
       items.push({group: 'Yours', kind: 'planting', label: planting.name, slug: planting.slug, detail: 'Planting'});
+    });
+    (others.data.animals || []).forEach((animal) => {
+      items.push({group: animal.group, kind: 'animal', label: animal.name, slug: String(animal.id), detail: animal.category});
     });
   }
   return items;

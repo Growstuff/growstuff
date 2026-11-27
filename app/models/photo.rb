@@ -4,7 +4,7 @@ class Photo < ApplicationRecord
   include Likeable
   include Ownable
 
-  PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop Job).freeze
+  PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop Job DomesticatedAnimal).freeze
 
   # What Flickr says about a photo that may change: the picture, the licence and the date.
   # The title is ours, and stays.
@@ -31,7 +31,7 @@ class Photo < ApplicationRecord
 
   # creates a relationship for each assignee type
   PHOTO_CAPABLE.each do |type|
-    has_many type.downcase.pluralize.to_s.to_sym,
+    has_many type.underscore.pluralize.to_sym,
              through:     :photo_associations,
              source:      :photographable,
              source_type: type

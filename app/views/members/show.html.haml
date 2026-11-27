@@ -86,6 +86,8 @@
         = render "contact", member: @member, flickr_auth: @flickr_auth, mastodon_auths: @mastodon_auths
 
   .col-md-10#content
+    - if domesticated_animals_enabled?
+      = render 'domesticated_animals/profile', member: @member
     = render 'stalls/card', member: @member
     .row
       %section.order-3.order-md-1.col-12= render "map", member: @member

@@ -15,10 +15,22 @@ class JobSuggestionsController < ApplicationController
 
     crops = Crop.popular.where('crops.name ILIKE ?', "#{Crop.sanitize_sql_like(query)}%")
     crops = crops.where(id: plantings.select(:crop_id)) if garden
-    render json: crops.limit(MAX_CROPS).flat_map { |crop| suggestions_for(crop) }.first(MAX_SUGGESTIONS)
+    suggestions = animal_suggestions(query) + crops.limit(MAX_CROPS).flat_map { |crop| suggestions_for(crop) }
+    render json: suggestions.first(MAX_SUGGESTIONS)
   end
 
   private
+
+  def animal_suggestions(query)
+    return [] if garden || !Feature.enabled?(:domesticated_animals, current_member)
+
+    current_member.domesticated_animals.includes(:photos)
+      .where('domesticated_animals.name ILIKE ?', "#{DomesticatedAnimal.sanitize_sql_like(query)}%")
+      .order(:name, :id).limit(MAX_SUGGESTIONS).map do |animal|
+      { jobbable_type: 'DomesticatedAnimal', jobbable_id: animal.id, name: animal.name, label: animal.name,
+        detail: t("domesticated_animals.categories.#{animal.category}"), icon_url: animal.default_photo&.thumbnail_url }
+    end
+  end
 
   # The garden whose to-do list this is for, if it is for one.
   def garden

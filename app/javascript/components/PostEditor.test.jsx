@@ -241,6 +241,15 @@ describe('PostEditor', () => {
       expect(await screen.findByText('@my tomato')).toHaveClass('link-chip-planting');
     });
 
+    it('shows an animal link as a chip', async () => {
+      await setup({value: 'Meet [Henrietta](animal:42)'});
+      expect(await screen.findByText('@Henrietta')).toHaveClass('link-chip-animal');
+    });
+
+    it('keeps an animal link as written', async () => {
+      expect(await roundTrip('Meet [Henrietta](animal:42)')).toHaveValue('Meet [Henrietta](animal:42)');
+    });
+
     it('keeps a member link as written', async () => {
       expect(await roundTrip('Thanks [jane](member)')).toHaveValue('Thanks [jane](member)');
     });

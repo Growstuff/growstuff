@@ -2,7 +2,8 @@
 
 # Features admins can enable globally or grant to individual members in Flipper.
 class Feature
-  NAMES = %i(job_ideas enable_planting_reminders enable_harvest_reminders planting_weather garden_stall planting_codes).freeze
+  NAMES = %i(job_ideas enable_planting_reminders enable_harvest_reminders planting_weather garden_stall planting_codes
+             domesticated_animals).freeze
 
   attr_reader :name
 

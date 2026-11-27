@@ -44,6 +44,10 @@ class PhotoAssociationsController < ApplicationController
   def find_item
     raise ActiveRecord::RecordNotFound unless Photo::PHOTO_CAPABLE.include?(item_class)
 
+    if item_class == 'DomesticatedAnimal' && !Feature.enabled?(:domesticated_animals, current_member)
+      raise ActiveRecord::RecordNotFound
+    end
+
     item_class.constantize.find(params[:id])
   end
 
